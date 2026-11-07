@@ -14,6 +14,11 @@ export default defineConfig(() => {
           'Access-Control-Allow-Origin': '*',
         },
       },
+      preview: {
+        port: 4173,
+        host: '0.0.0.0',
+        allowedHosts: true,
+      },
       plugins: [
         {
           name: 'downloads-header-plugin',
