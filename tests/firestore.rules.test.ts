@@ -157,4 +157,83 @@ describe.skipIf(!hasEmulator)('Firestore Security Rules Unit Tests (Emulator)', 
     await assertFails(user.doc('leaderboard/entry1').set({ uid: 'player_555', score: -1 }));
     await assertSucceeds(user.doc('leaderboard/entry1').set({ uid: 'player_555', score: 450 }));
   });
+
+  // 5. Matchmaking queue security
+  test('matchmaking: create/read/delete (owner vs other user vs signed-out)', async () => {
+    const anon = testEnv.unauthenticatedContext().firestore();
+    const userA = testEnv.authenticatedContext('player_aaa').firestore();
+    const userB = testEnv.authenticatedContext('player_bbb').firestore();
+    const admin = testEnv.authenticatedContext('admin_user', { admin: true }).firestore();
+
+    // Setup a ticket for player_aaa
+    await testEnv.withSecurityRulesDisabled(async (context) => {
+      await context.firestore().doc('matchmaking/ticket_aaa').set({
+        uid: 'player_aaa',
+        status: 'searching',
+        createdAt: Date.now()
+      });
+    });
+
+    // 1. Signed-out (anonymous unauthenticated)
+    await assertFails(anon.doc('matchmaking/ticket_aaa').get());
+    await assertFails(anon.doc('matchmaking/ticket_anon').set({ uid: 'anon', status: 'searching' }));
+    await assertFails(anon.doc('matchmaking/ticket_aaa').delete());
+
+    // 2. Other signed-in user (player_bbb)
+    // - Can read active matchmaking queue tickets
+    await assertSucceeds(userB.doc('matchmaking/ticket_aaa').get());
+    // - Cannot create ticket with another user's uid
+    await assertFails(userB.doc('matchmaking/ticket_fake').set({ uid: 'player_aaa', status: 'searching' }));
+    // - Cannot delete another user's ticket
+    await assertFails(userB.doc('matchmaking/ticket_aaa').delete());
+
+    // 3. Ticket owner (player_aaa)
+    // - Can create their own ticket
+    await assertSucceeds(userA.doc('matchmaking/ticket_new').set({ uid: 'player_aaa', status: 'searching' }));
+    // - Can read their own ticket
+    await assertSucceeds(userA.doc('matchmaking/ticket_aaa').get());
+    // - Can delete their own ticket
+    await assertSucceeds(userA.doc('matchmaking/ticket_aaa').delete());
+
+    // 4. Admin can delete any ticket
+    await testEnv.withSecurityRulesDisabled(async (context) => {
+      await context.firestore().doc('matchmaking/ticket_to_cleanup').set({ uid: 'player_xyz' });
+    });
+    await assertSucceeds(admin.doc('matchmaking/ticket_to_cleanup').delete());
+  });
+
+  // 6. Room deletion permissions
+  test('rooms: delete by host vs non-host vs signed-out vs admin', async () => {
+    const setupRoom = async () => {
+      await testEnv.withSecurityRulesDisabled(async (context) => {
+        await context.firestore().doc('rooms/room_test_del').set({
+          id: 'room_test_del',
+          code: 'DEL999',
+          status: 'finished',
+          hostUid: 'host_actual'
+        });
+      });
+    };
+
+    const anon = testEnv.unauthenticatedContext().firestore();
+    const nonHost = testEnv.authenticatedContext('intruder_user').firestore();
+    const host = testEnv.authenticatedContext('host_actual').firestore();
+    const admin = testEnv.authenticatedContext('admin_user', { admin: true }).firestore();
+
+    // 1. Signed-out cannot delete
+    await setupRoom();
+    await assertFails(anon.doc('rooms/room_test_del').delete());
+
+    // 2. Non-host cannot delete
+    await setupRoom();
+    await assertFails(nonHost.doc('rooms/room_test_del').delete());
+
+    // 3. Host can delete
+    await setupRoom();
+    await assertSucceeds(host.doc('rooms/room_test_del').delete());
+
+    // 4. Admin can delete
+    await setupRoom();
+    await assertSucceeds(admin.doc('rooms/room_test_del').delete());
+  });
 });
