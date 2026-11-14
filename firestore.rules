@@ -1,0 +1,106 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    // Admin authorization: checks verified email or dedicated custom claim
+    function isAdmin() {
+      // ادمین فقط با custom claim تعیین می‌شود؛ هیچ ایمیلی در قواعد نوشته نمی‌شود
+      return isSignedIn() && request.auth.token.admin == true;
+    }
+
+    // User profiles & private game matches
+    match /users/{userId} {
+      function isOwner() {
+        return isSignedIn() && request.auth.uid == userId;
+      }
+
+      function isValidUserCreate() {
+        return (!('isAdmin' in request.resource.data) || request.resource.data.isAdmin == false) &&
+               (!('role' in request.resource.data) || request.resource.data.role == 'user');
+      }
+
+      function doesNotTouchPrivilegedFields() {
+        return !request.resource.data.diff(resource.data).affectedKeys().hasAny(['role', 'isAdmin']);
+      }
+
+      allow read: if isOwner() || isAdmin();
+      allow create: if isAdmin() || (isOwner() && isValidUserCreate());
+      allow update: if isAdmin() || (isOwner() && doesNotTouchPrivilegedFields());
+      allow delete: if isAdmin() || isOwner();
+      
+      match /matches/{matchId} {
+        allow read, write: if (isSignedIn() && request.auth.uid == userId) || isAdmin();
+      }
+
+      match /weak_cards/{cardId} {
+        allow read, write: if (isSignedIn() && request.auth.uid == userId) || isAdmin();
+      }
+    }
+
+    // Global Settings collection: Read-only for players, write strictly for Admin
+    match /settings/{settingId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // Cards collection: Read-only for players, write strictly for Admin
+    match /cards/{cardId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // System Logs & Test Reports: Strictly restricted to Admin only
+    match /logs/{logId} {
+      allow read, write: if isAdmin();
+    }
+
+    match /reports/{reportId} {
+      allow read, write: if isAdmin();
+    }
+
+    // Public Leaderboard: Anyone can read, only signed-in players can post valid scores
+    match /leaderboard/{entryId} {
+      allow read: if true;
+      allow create: if isSignedIn() &&
+        request.resource.data.uid == request.auth.uid &&
+        request.resource.data.score is number &&
+        request.resource.data.score >= 0 &&
+        request.resource.data.score <= 100000;
+      allow update, delete: if isAdmin();
+    }
+
+    // Multiplayer game rooms (Party & 1v1 Online Duel):
+    // Allows both guest and authenticated players with validated status
+    match /rooms/{roomId} {
+      function isValidRoom() {
+        return request.resource.data.status in ['lobby', 'waiting', 'playing', 'round_ended', 'game_over', 'finished'];
+      }
+
+      // اتاق فقط به دست سازنده یا بازیکنان همان اتاق تغییر می‌کند
+      function isRoomMember() {
+        return isSignedIn() && (
+          request.auth.uid == resource.data.hostUid ||
+          (resource.data.playerUids is list && request.auth.uid in resource.data.playerUids)
+        );
+      }
+
+      allow read: if true;
+      allow create: if isSignedIn() && isValidRoom() &&
+        request.resource.data.hostUid == request.auth.uid;
+      allow update: if isValidRoom() && (isRoomMember() || isAdmin());
+      allow delete: if isAdmin() || (isSignedIn() && request.auth.uid == resource.data.hostUid);
+    }
+
+    // Matchmaking queue for quick match finding
+    match /matchmaking/{ticketId} {
+      // هر بازیکن فقط بلیت خودش را می‌سازد و پاک می‌کند؛ خواندن برای جور کردن بازی باز است
+      allow read: if isSignedIn();
+      allow create: if isSignedIn() && request.resource.data.uid == request.auth.uid;
+      allow update, delete: if isAdmin() ||
+        (isSignedIn() && resource.data.uid == request.auth.uid);
+    }
+  }
+}

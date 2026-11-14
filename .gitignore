@@ -1,0 +1,54 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+node_modules
+dist
+dist-ssr
+*.local
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+.env
+.antigravity/
+.agents/
+grok_extracted.txt
+dev-dist/
+vitest_full_run.txt
+
+# Scratch and temporary files
+scripts/__pycache__/
+scripts/scratch_*.json
+data/curatedDatabase_python.json
+
+
+# کلید امضا و رمزهایش — هرگز وارد مخزن نشوند
+*.keystore
+*.jks
+release.key
+release.crt
+key.properties
+
+# خروجی ساخت اندروید
+android/bin/
+android/obj/
+android-studio-project/app/build/
+*.apk
+*.aab
+*.idsig
+
+# صادرات فهرست فایل‌های درایو (شامل نام و نشانی شخصی)
+data/previous_folder_files.json
