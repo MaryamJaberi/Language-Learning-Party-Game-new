@@ -29,8 +29,8 @@ export function normalizeText(str: string): string {
     .replace(/[ةۀ]/g, 'ه')                  // Teh marbuta & heh with hamza
     .replace(/[؟?!\.,;:\-_—\(\)\[\]\{\}\/\\#\*~]/g, ' ')
     // Unify "می " and "نمی " prefixes so "می تونی" -> "میتونی"
-    .replace(/\bمی\s+/g, 'می')
-    .replace(/\bنمی\s+/g, 'نمی')
+    // (\b does not see Persian letters as word characters in JS, so match the word start explicitly)
+    .replace(/(^|\s)(ن?می)\s+/g, '$1$2')
     .replace(/\s+/g, ' ')
     .trim();
 }
