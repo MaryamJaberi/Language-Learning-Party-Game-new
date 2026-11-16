@@ -61,8 +61,8 @@ def sign_and_verify_archive(archive_path: str, keystore_path: str):
     cmd = [
         jarsigner,
         "-keystore", keystore_path,
-        "-storepass", "dorzaban2026",
-        "-keypass", "dorzaban2026",
+        "-storepass", os.environ["KEYSTORE_PASSWORD"],
+        "-keypass", os.environ["KEYSTORE_PASSWORD"],
         "-sigalg", "SHA256withRSA",
         "-digestalg", "SHA-256",
         archive_path,

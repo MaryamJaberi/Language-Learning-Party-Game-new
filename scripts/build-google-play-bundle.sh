@@ -62,9 +62,9 @@ android {
     signingConfigs {
         release {
             storeFile file('../release.keystore')
-            storePassword 'dorzaban2026'
+            storePassword System.getenv('KEYSTORE_PASSWORD')
             keyAlias 'dor-release'
-            keyPassword 'dorzaban2026'
+            keyPassword System.getenv('KEYSTORE_PASSWORD')
         }
     }
 
@@ -169,8 +169,8 @@ cat << 'EOF' > android-studio-project/google_play_metadata/KEYSTORE_CREDENTIALS.
 === Android Signing Keystore Details ===
 File: release.keystore
 Key Alias: dor-release
-Key Password: dorzaban2026
-Store Password: dorzaban2026
+Key Password: (not stored in git; keep it in a password manager)
+Store Password: (not stored in git; keep it in a password manager)
 Key Algorithm: RSA 2048-bit
 Validity: 10,000 days
 
@@ -220,7 +220,7 @@ cat << 'EOF' > android-studio-project/GOOGLE_PLAY_UPLOAD_GUIDE.md
    - دکمه **Create new release** را بزنید.
    - فایل باندل `.aab` ساخته‌شده را درگ کرده و آپلود کنید.
    - نام نسخه: `1.0.1 (10001)`
-   - کلید اختصاصی `release.keystore` با پسورد `dorzaban2026` تنظیم شده است.
+   - کلید اختصاصی `release.keystore` (رمز در گیت نگه‌داری نمی‌شود؛ هنگام build در متغیر `KEYSTORE_PASSWORD` بگذارید) تنظیم شده است.
 6. تایید نهایی و ارسال برای بررسی (Review).
 EOF
 

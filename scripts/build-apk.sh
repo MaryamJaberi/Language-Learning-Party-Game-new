@@ -1,4 +1,5 @@
 #!/bin/bash
+: "${KEYSTORE_PASSWORD:?Set KEYSTORE_PASSWORD (the signing password is not stored in git)}"
 set -e
 
 echo "=== 1. Preparing Directories ==="
@@ -24,14 +25,14 @@ if [ ! -f "release.keystore" ]; then
     -keyalg RSA \
     -keysize 2048 \
     -validity 10000 \
-    -storepass dorzaban2026 \
-    -keypass dorzaban2026 \
+    -storepass "$KEYSTORE_PASSWORD" \
+    -keypass "$KEYSTORE_PASSWORD" \
     -dname "CN=Dor Zaban, OU=Mobile, O=Turn Game, L=Tehran, ST=Tehran, C=IR"
   echo "Keystore created successfully."
 fi
 
 # Extract SHA-256 fingerprint
-SHA256_FINGERPRINT=$(keytool -list -v -keystore release.keystore -storepass dorzaban2026 -alias dor-release | grep -i "SHA256:" | head -n 1 | awk '{print $2}')
+SHA256_FINGERPRINT=$(keytool -list -v -keystore release.keystore -storepass "$KEYSTORE_PASSWORD" -alias dor-release | grep -i "SHA256:" | head -n 1 | awk '{print $2}')
 echo "Certificate SHA-256: $SHA256_FINGERPRINT"
 
 # Write assetlinks.json
@@ -280,9 +281,9 @@ zipalign -f -p 4 android/bin/app-unaligned.apk android/bin/app-aligned.apk
 rm -f public/downloads/dor-zaban-v1.0.apk
 apksigner sign \
   --ks release.keystore \
-  --ks-pass pass:dorzaban2026 \
+  --ks-pass "pass:$KEYSTORE_PASSWORD" \
   --ks-key-alias dor-release \
-  --key-pass pass:dorzaban2026 \
+  --key-pass "pass:$KEYSTORE_PASSWORD" \
   --out public/downloads/dor-zaban-v1.0.apk \
   android/bin/app-aligned.apk
 
