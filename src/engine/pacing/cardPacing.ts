@@ -9,8 +9,10 @@ import {
 
 export interface PacedCard {
   id: string;
-  level: string;
+  level?: string;
   rawLevel?: string;
+  /** Game cards (LanguageCard) carry their level here instead of in `level`. */
+  cefrLevel?: string;
   targetText?: string;
   translations?: Record<string, { text: string; focus?: string }>;
   measured?: Record<string, CardPacingMetrics> | CardPacingMetrics;
@@ -77,6 +79,14 @@ export function measureTextPacing(
 }
 
 /**
+ * The CEFR level of a card, whichever field it is stored in.
+ * Curated cards use `rawLevel`/`level`; in-game LanguageCards use `cefrLevel`.
+ */
+export function cardLevel(card: PacedCard): string {
+  return card.rawLevel || card.level || card.cefrLevel || 'A1';
+}
+
+/**
  * Helper to resolve metrics for a specific card and target language.
  */
 export function getCardMetric(
@@ -95,7 +105,7 @@ export function getCardMetric(
     }
   }
 
-  const lvl = card.rawLevel || card.level || 'A1';
+  const lvl = cardLevel(card);
   const text =
     card.translations?.[targetLang]?.text ||
     card.targetText ||
@@ -129,7 +139,7 @@ export class CardPacingSequencer {
   filterEligibleCards<T extends PacedCard>(cards: T[], turnSec: number, targetLang = 'en'): T[] {
     return cards.filter((card) => {
       const metrics = getCardMetric(card, targetLang, this.config);
-      const isC1OrC1Plus = card.rawLevel === 'C1' || card.rawLevel === 'C1+' || card.level === 'C1' || card.level === 'C1+';
+      const isC1OrC1Plus = ['C1', 'C1+'].includes(cardLevel(card));
       if (turnSec < this.config.sequencerRules.c1LongMinTurnSec && isC1OrC1Plus && metrics.lengthClass === 'long') {
         return false;
       }
@@ -361,7 +371,7 @@ export class CardPacingSequencer {
     if (turnSec < this.config.sequencerRules.c1LongMinTurnSec) {
       for (const card of sequence) {
         const m = getCardMetric(card, targetLang, this.config);
-        const isC1OrC1Plus = card.rawLevel === 'C1' || card.rawLevel === 'C1+' || card.level === 'C1' || card.level === 'C1+';
+        const isC1OrC1Plus = ['C1', 'C1+'].includes(cardLevel(card));
         if (isC1OrC1Plus && m.lengthClass === 'long') {
           errors.push(`Invariant violated: C1/C1+ long card (${card.id}) present when turnSec = ${turnSec} (< 15).`);
         }
