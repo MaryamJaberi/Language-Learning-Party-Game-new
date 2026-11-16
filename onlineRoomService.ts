@@ -975,6 +975,7 @@ export const addAiTeammatesToPartyRoom = async (
       teamId,
       deviceId: `ai_device_${aiId}`,
       isHost: false,
+      isReady: true,
       isAi: true
     });
 
