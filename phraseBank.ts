@@ -127,6 +127,41 @@ const LANG_EN: Record<string, string> = {
   pt: 'Portuguese 🇵🇹',
 };
 
+/** A deck smaller than this gets topped up from the legacy phrase bank. */
+const MIN_DECK_SIZE = 15;
+
+/** The 13 levels of the game, lowest to highest. */
+export const LEVEL_ORDER: Exclude<CEFRLevel, 'all'>[] = [
+  'A0', 'A0+', 'A1', 'A1+', 'A2', 'A2+', 'B1', 'B1+', 'B2', 'B2+', 'C1', 'C1+', 'C2',
+] as Exclude<CEFRLevel, 'all'>[];
+
+function normalizeForDedupe(text: string): string {
+  return (text || '').toLowerCase().replace(/[.!?؟。！？\s]+$/u, '').trim();
+}
+
+/**
+ * Which legacy levels may fill a thin deck, in order of preference:
+ * 1) the selected level, 2) its band (B1 and B1+), 3) the band plus the nearest level on each side.
+ * 'all' accepts every valid level. A level value that is not one of the 13 never matches.
+ */
+export function legacyLevelTiers(selected: CEFRLevel): Set<string>[] {
+  if (selected === 'all') return [new Set<string>(LEVEL_ORDER)];
+
+  const level = (selected as string) === 'Pre-A1' ? 'A0' : (selected as string);
+  const base = level.replace('+', '');
+  const band = new Set<string>([base, `${base}+`].filter((l) => (LEVEL_ORDER as string[]).includes(l)));
+  if (band.size === 0) return [new Set<string>(LEVEL_ORDER)];
+
+  const indexes = [...band].map((l) => (LEVEL_ORDER as string[]).indexOf(l));
+  const neighbours = new Set<string>(band);
+  const below = LEVEL_ORDER[Math.min(...indexes) - 1];
+  const above = LEVEL_ORDER[Math.max(...indexes) + 1];
+  if (below) neighbours.add(below);
+  if (above) neighbours.add(above);
+
+  return [new Set<string>([level]), band, neighbours];
+}
+
 /**
  * Filter matching cards for a requested level according to the CEFR and '+' deck rules
  */
@@ -250,31 +285,44 @@ export function cardsFromPhraseBank(
     });
   });
 
-  // 2. Fallback: Legacy phrases only for items not present in Curated Database
-  if (pool.length < 15) {
-    targetLanguages.forEach((target) => {
-      LEGACY_PHRASES.forEach((p) => {
-        if (CURATED_CONCEPT_SET.has(p.id)) return;
-        const targetText = p.texts[target];
-        const translation = p.texts[nativeLanguage] || p.texts.en;
-        if (!targetText || !translation) return;
+  // 2. Fallback: legacy phrases, only when the curated deck is too thin for this selection.
+  //    The fallback stays on the selected level: same level first, then the same band
+  //    (B1 and B1+), then the two neighbouring levels. It used to add every legacy phrase
+  //    of every level (A0..C2) and label them all with the selected level.
+  if (pool.length < MIN_DECK_SIZE) {
+    const alreadyInPool = new Set(pool.map((c) => `${c.targetLanguage}|${normalizeForDedupe(c.targetText)}`));
 
-        pool.push({
-          id: `${p.id}_${target}_fb`,
-          nativeLanguage,
-          targetLanguage: target,
-          cefrLevel: (cefrLevel === 'all' ? p.level : cefrLevel) as Exclude<CEFRLevel, 'all'>,
-          topic: p.topic,
-          contentType: typeOf(p.type),
-          learningMode: 'Explain',
-          prompt: nativeLanguage === 'fa' ? 'عبارت را برای یارت توضیح بده' : 'Explain this phrase',
-          targetText,
-          translation,
-          difficulty: p.difficulty,
-          points: pointsFor(p.rawLevel || p.level, p.type)
+    for (const allowedLevels of legacyLevelTiers(cefrLevel)) {
+      if (pool.length >= MIN_DECK_SIZE) break;
+      targetLanguages.forEach((target) => {
+        LEGACY_PHRASES.forEach((p) => {
+          if (!allowedLevels.has(p.level)) return;
+          const targetText = p.texts[target];
+          const translation = p.texts[nativeLanguage] || p.texts.en;
+          if (!targetText || !translation) return;
+
+          const dedupeKey = `${target}|${normalizeForDedupe(targetText)}`;
+          if (alreadyInPool.has(dedupeKey)) return;
+          alreadyInPool.add(dedupeKey);
+
+          pool.push({
+            id: `${p.id}_${target}_fb`,
+            nativeLanguage,
+            targetLanguage: target,
+            // The card keeps its own real level, so the badge and the pacing stay honest.
+            cefrLevel: p.level,
+            topic: p.topic,
+            contentType: typeOf(p.type),
+            learningMode: 'Explain',
+            prompt: nativeLanguage === 'fa' ? 'عبارت را برای یارت توضیح بده' : 'Explain this phrase',
+            targetText,
+            translation,
+            difficulty: p.difficulty,
+            points: pointsFor(p.rawLevel || p.level, p.type)
+          });
         });
       });
-    });
+    }
   }
 
   // 3. Apply Card Pacing Sequencer (Invariants: no long at start, max 1 long per rolling 3-card window, C1 exclusion)
