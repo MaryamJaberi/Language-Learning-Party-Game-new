@@ -304,7 +304,7 @@ describe('Setup Screen Comprehensive Requirements Suite', () => {
     expect(onNextMock).toHaveBeenCalled();
   });
 
-  it('11. CEFR Level selection renders all levels (A1, A2, B1, B2, C1, ALL) and updates settings cleanly', () => {
+  it('11. CEFR Level selection renders all 13 levels and updates settings cleanly', () => {
     render(
       <SetupScreen
         settings={{ ...mockDefaultSettings, cefrLevel: 'all' }}
@@ -317,15 +317,13 @@ describe('Setup Screen Comprehensive Requirements Suite', () => {
     const cefrGroup = screen.getByRole('radiogroup', { name: /سطح دشواری/ });
     expect(cefrGroup).toBeInTheDocument();
 
+    // The picker now offers the 13 individual levels (Pre-A1 … C2) and no "ALL" option
     const buttons = cefrGroup.querySelectorAll('button');
-    expect(buttons).toHaveLength(6);
+    expect(buttons).toHaveLength(13);
+    expect(Array.from(buttons).filter(b => b.getAttribute('aria-checked') === 'true')).toHaveLength(1);
 
-    // Initial state 'all'
-    const allBtn = Array.from(buttons).find(b => b.textContent?.includes('ALL'));
-    expect(allBtn).toHaveAttribute('aria-checked', 'true');
-
-    // Switch to B1
-    const b1Btn = Array.from(buttons).find(b => b.textContent?.includes('B1'));
+    // Switch to B1 (exactly B1, not B1+)
+    const b1Btn = Array.from(buttons).find(b => b.textContent?.startsWith('B1') && !b.textContent?.startsWith('B1+'));
     expect(b1Btn).toBeDefined();
     fireEvent.click(b1Btn!);
 

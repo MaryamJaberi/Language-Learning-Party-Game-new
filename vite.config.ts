@@ -116,6 +116,8 @@ export default defineConfig(() => {
         environment: 'jsdom',
         globals: true,
         setupFiles: './tests/setup.ts',
+        // simulate.test.mjs is a standalone node script (node simulate.test.mjs), not a vitest suite
+        exclude: ['**/node_modules/**', '**/dist/**', 'simulate.test.mjs'],
       },
       resolve: {
         alias: {

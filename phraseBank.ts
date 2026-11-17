@@ -154,7 +154,7 @@ function getMatchingCuratedCards(selectedLevel: CEFRLevel): CuratedRawCard[] {
   if (selectedLevel === 'C1') {
     return CURATED_CARDS.filter((c) => {
       const lvl = c.rawLevel || c.level;
-      return (lvl === 'C1') && lvl !== 'C2';
+      return lvl === 'C1';
     });
   }
 

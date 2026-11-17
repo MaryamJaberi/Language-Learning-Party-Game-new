@@ -7,7 +7,8 @@ import fs from 'fs';
  * Run locally with the Firestore Emulator:
  *   firebase emulators:exec "npm run test:rules"
  */
-describe('Firestore Security Rules Unit Tests (Emulator)', () => {
+// Needs the Firestore emulator; skipped in a plain `npm test` run.
+describe.skipIf(!process.env.FIRESTORE_EMULATOR_HOST)('Firestore Security Rules Unit Tests (Emulator)', () => {
   let testEnv: RulesTestEnvironment;
 
   beforeAll(async () => {
