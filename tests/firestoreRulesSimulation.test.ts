@@ -32,7 +32,7 @@ interface RequestContext {
 function evaluateFirestoreRule(req: RequestContext): { allowed: boolean; reason: string } {
   const isSignedIn = req.auth !== null && !!req.auth.uid;
   const isAdmin = isSignedIn && (
-    (req.auth?.email === 'admin@example.test' && req.auth?.email_verified === true) ||
+    (req.auth?.email === 'm.jaberi1212@gmail.com' && req.auth?.email_verified === true) ||
     req.auth?.admin === true
   );
 
@@ -167,8 +167,8 @@ describe('Firestore Security Rules Comprehensive Matrix Audit', () => {
   const anonymousAuth = null;
   const regularUserAuth: AuthToken = { uid: 'user_456', email: 'regular@gmail.com', email_verified: true };
   const nonMemberAuth: AuthToken = { uid: 'user_attacker_999', email: 'attacker@gmail.com', email_verified: true };
-  const unverifiedAdminAuth: AuthToken = { uid: 'unverified_789', email: 'admin@example.test', email_verified: false };
-  const verifiedAdminAuth: AuthToken = { uid: 'admin_1212', email: 'admin@example.test', email_verified: true };
+  const unverifiedAdminAuth: AuthToken = { uid: 'unverified_789', email: 'm.jaberi1212@gmail.com', email_verified: false };
+  const verifiedAdminAuth: AuthToken = { uid: 'admin_1212', email: 'm.jaberi1212@gmail.com', email_verified: true };
 
   // 1. Cards collection: anon/regular/unverified/admin
   test('Cards: read allowed for all; write denied for anon, regular, unverified; allowed for admin', () => {

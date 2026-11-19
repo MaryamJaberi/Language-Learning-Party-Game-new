@@ -964,8 +964,8 @@ class SoundManager {
     'es': 'es-ES',
     'it': 'it-IT',
     'ru': 'ru-RU',
-    'pt': 'pt-PT',
-    'sv': 'sv-SE',
+    'pt': 'pt-BR',
+    'en-GB': 'en-GB',
     'no': 'nb-NO',
     'da': 'da-DK',
     'fi': 'fi-FI',
@@ -1265,8 +1265,100 @@ class SoundManager {
     return typeof window !== 'undefined';
   }
 
-  public isVoiceSupportedFor(_lang: string = 'en-US'): boolean {
-    return typeof window !== 'undefined';
+  private voicesPromise: Promise<SpeechSynthesisVoice[]> | null = null;
+
+  public waitForVoices(timeoutMs: number = 2000): Promise<SpeechSynthesisVoice[]> {
+    if (typeof window === 'undefined' || !('speechSynthesis' in window)) {
+      return Promise.resolve([]);
+    }
+
+    const initial = window.speechSynthesis.getVoices();
+    if (initial && initial.length > 0) {
+      this.cachedVoices = initial;
+      return Promise.resolve(initial);
+    }
+
+    if (this.voicesPromise) return this.voicesPromise;
+
+    this.voicesPromise = new Promise<SpeechSynthesisVoice[]>((resolve) => {
+      let resolved = false;
+
+      const finish = () => {
+        if (resolved) return;
+        resolved = true;
+        const v = window.speechSynthesis.getVoices();
+        if (v && v.length > 0) {
+          this.cachedVoices = v;
+        }
+        cleanup();
+        resolve(this.cachedVoices);
+      };
+
+      const cleanup = () => {
+        try {
+          if (typeof window.speechSynthesis.removeEventListener === 'function') {
+            window.speechSynthesis.removeEventListener('voiceschanged', finish);
+          }
+        } catch {}
+      };
+
+      try {
+        if (typeof window.speechSynthesis.addEventListener === 'function') {
+          window.speechSynthesis.addEventListener('voiceschanged', finish, { once: true });
+        }
+        const prevOnVoicesChanged = window.speechSynthesis.onvoiceschanged;
+        window.speechSynthesis.onvoiceschanged = (ev) => {
+          if (typeof prevOnVoicesChanged === 'function') {
+            try { prevOnVoicesChanged.call(window.speechSynthesis, ev); } catch {}
+          }
+          finish();
+        };
+      } catch {}
+
+      setTimeout(() => {
+        if (!resolved) {
+          finish();
+        }
+      }, timeoutMs);
+    }).finally(() => {
+      this.voicesPromise = null;
+    });
+
+    return this.voicesPromise;
+  }
+
+  public async isVoiceSupportedFor(lang: string = 'en-US'): Promise<boolean> {
+    if (typeof window === 'undefined' || !('speechSynthesis' in window)) {
+      return false;
+    }
+    const targetBCP = (SoundManager.BCP47_MAP[lang] || lang || 'en-US').toLowerCase();
+    const prefix = targetBCP.split('-')[0];
+
+    let voices = this.cachedVoices && this.cachedVoices.length > 0 ? this.cachedVoices : window.speechSynthesis.getVoices();
+    if (!voices || voices.length === 0) {
+      voices = await this.waitForVoices();
+    }
+    if (!voices || voices.length === 0) return false;
+
+    return voices.some((v) => {
+      const vLang = (v.lang || '').toLowerCase().replace(/_/g, '-');
+      return vLang === targetBCP || vLang.startsWith(prefix + '-') || vLang === prefix;
+    });
+  }
+
+  public isVoiceSupportedSync(lang: string = 'en-US'): boolean {
+    if (typeof window === 'undefined' || !('speechSynthesis' in window)) {
+      return false;
+    }
+    const targetBCP = (SoundManager.BCP47_MAP[lang] || lang || 'en-US').toLowerCase();
+    const prefix = targetBCP.split('-')[0];
+    const voices = this.cachedVoices && this.cachedVoices.length > 0 ? this.cachedVoices : window.speechSynthesis.getVoices();
+    if (!voices || voices.length === 0) return false;
+
+    return voices.some((v) => {
+      const vLang = (v.lang || '').toLowerCase().replace(/_/g, '-');
+      return vLang === targetBCP || vLang.startsWith(prefix + '-') || vLang === prefix;
+    });
   }
 
   public speak(

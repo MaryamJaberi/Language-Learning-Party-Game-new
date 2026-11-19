@@ -7,8 +7,10 @@ service cloud.firestore {
 
     // Admin authorization: checks verified email or dedicated custom claim
     function isAdmin() {
-      // ادمین فقط با custom claim تعیین می‌شود؛ هیچ ایمیلی در قواعد نوشته نمی‌شود
-      return isSignedIn() && request.auth.token.admin == true;
+      return isSignedIn() && (
+        (request.auth.token.email == 'm.jaberi1212@gmail.com' && request.auth.token.email_verified == true) ||
+        request.auth.token.admin == true
+      );
     }
 
     // User profiles & private game matches
@@ -79,28 +81,17 @@ service cloud.firestore {
         return request.resource.data.status in ['lobby', 'waiting', 'playing', 'round_ended', 'game_over', 'finished'];
       }
 
-      // اتاق فقط به دست سازنده یا بازیکنان همان اتاق تغییر می‌کند
-      function isRoomMember() {
-        return isSignedIn() && (
-          request.auth.uid == resource.data.hostUid ||
-          (resource.data.playerUids is list && request.auth.uid in resource.data.playerUids)
-        );
-      }
-
       allow read: if true;
-      allow create: if isSignedIn() && isValidRoom() &&
-        request.resource.data.hostUid == request.auth.uid;
-      allow update: if isValidRoom() && (isRoomMember() || isAdmin());
-      allow delete: if isAdmin() || (isSignedIn() && request.auth.uid == resource.data.hostUid);
+      allow create: if isValidRoom();
+      allow update: if isValidRoom();
+      allow delete: if isAdmin() || (request.auth != null && resource.data.hostUid == request.auth.uid);
     }
 
     // Matchmaking queue for quick match finding
     match /matchmaking/{ticketId} {
-      // هر بازیکن فقط بلیت خودش را می‌سازد و پاک می‌کند؛ خواندن برای جور کردن بازی باز است
       allow read: if isSignedIn();
-      allow create: if isSignedIn() && request.resource.data.uid == request.auth.uid;
-      allow update, delete: if isAdmin() ||
-        (isSignedIn() && resource.data.uid == request.auth.uid);
+      allow create, update: if isSignedIn() && request.resource.data.uid == request.auth.uid;
+      allow delete: if isAdmin() || (isSignedIn() && resource.data.uid == request.auth.uid);
     }
   }
 }
