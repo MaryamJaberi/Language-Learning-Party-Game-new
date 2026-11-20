@@ -24,6 +24,7 @@ export function normalizeText(str: string): string {
     .replace(/[\u200c\u200b\ufeff]/g, '')
     .replace(/[\u064b-\u065f]/g, '')        // Arabic/Persian diacritics/tashdid/harakat
     .replace(/\u064a/g, '\u06cc')           // Arabic yeh -> Persian yeh (ي -> ی)
+    .replace(/\u0649/g, '\u06cc')           // Alef maqsura -> Persian yeh (ى -> ی)
     .replace(/\u0643/g, '\u06a9')           // Arabic kaf -> Persian kaf (ك -> ک)
     .replace(/[آأإ]/g, 'ا')                 // Normalize alif with hamza / madda
     .replace(/[ةۀ]/g, 'ه')                  // Teh marbuta & heh with hamza
