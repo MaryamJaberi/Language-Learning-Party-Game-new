@@ -91,6 +91,7 @@
       },
       "pt": {
         "text": "copo",
+        "article": "o",
         "source": "generated",
         "needsNativeReview": true
       }
@@ -285,6 +286,7 @@
       },
       "pt": {
         "text": "prato",
+        "article": "o",
         "source": "generated",
         "needsNativeReview": true
       }
@@ -479,6 +481,7 @@
       },
       "pt": {
         "text": "colher",
+        "article": "a",
         "source": "generated",
         "needsNativeReview": true
       }
@@ -673,6 +676,7 @@
       },
       "pt": {
         "text": "garfo",
+        "article": "o",
         "source": "generated",
         "needsNativeReview": true
       }
@@ -867,6 +871,7 @@
       },
       "pt": {
         "text": "faca",
+        "article": "a",
         "source": "generated",
         "needsNativeReview": true
       }
@@ -1061,6 +1066,7 @@
       },
       "pt": {
         "text": "panela",
+        "article": "a",
         "source": "generated",
         "needsNativeReview": true
       }
@@ -1255,6 +1261,7 @@
       },
       "pt": {
         "text": "frigideira",
+        "article": "a",
         "source": "generated",
         "needsNativeReview": true
       }
@@ -1449,6 +1456,7 @@
       },
       "pt": {
         "text": "geladeira",
+        "article": "a",
         "source": "generated",
         "needsNativeReview": true
       }
@@ -1643,6 +1651,7 @@
       },
       "pt": {
         "text": "congelador",
+        "article": "o",
         "source": "generated",
         "needsNativeReview": true
       }
@@ -1837,6 +1846,7 @@
       },
       "pt": {
         "text": "fogão",
+        "article": "o",
         "source": "generated",
         "needsNativeReview": true
       }
@@ -2031,6 +2041,7 @@
       },
       "pt": {
         "text": "forno",
+        "article": "o",
         "source": "generated",
         "needsNativeReview": true
       }
@@ -2225,6 +2236,7 @@
       },
       "pt": {
         "text": "micro-ondas",
+        "article": "o",
         "source": "generated",
         "needsNativeReview": true
       }
@@ -2419,6 +2431,7 @@
       },
       "pt": {
         "text": "samovar",
+        "article": "o",
         "source": "generated",
         "needsNativeReview": true
       }
@@ -2613,6 +2626,7 @@
       },
       "pt": {
         "text": "chaleira",
+        "article": "a",
         "source": "generated",
         "needsNativeReview": true
       }
@@ -2807,6 +2821,7 @@
       },
       "pt": {
         "text": "cafeteira",
+        "article": "a",
         "source": "generated",
         "needsNativeReview": true
       }
@@ -2943,7 +2958,7 @@
         "needsNativeReview": true
       },
       "fr": {
-        "text": "tassette",
+        "text": "tasse",
         "article": "la",
         "source": "generated",
         "needsNativeReview": true
@@ -3001,6 +3016,7 @@
       },
       "pt": {
         "text": "xícara",
+        "article": "a",
         "source": "generated",
         "needsNativeReview": true
       }
@@ -3195,6 +3211,7 @@
       },
       "pt": {
         "text": "garrafa",
+        "article": "a",
         "source": "generated",
         "needsNativeReview": true
       }
@@ -3319,7 +3336,7 @@
         "text": "قمقمه"
       },
       "nl": {
-        "text": "veldles",
+        "text": "veldfles",
         "article": "de",
         "source": "generated",
         "needsNativeReview": true
@@ -3389,6 +3406,7 @@
       },
       "pt": {
         "text": "frasco",
+        "article": "o",
         "source": "generated",
         "needsNativeReview": true
       }
@@ -3583,6 +3601,7 @@
       },
       "pt": {
         "text": "balde",
+        "article": "o",
         "source": "generated",
         "needsNativeReview": true
       }
@@ -3777,6 +3796,7 @@
       },
       "pt": {
         "text": "vassoura",
+        "article": "a",
         "source": "generated",
         "needsNativeReview": true
       }
@@ -3971,6 +3991,7 @@
       },
       "pt": {
         "text": "sabão",
+        "article": "o",
         "source": "generated",
         "needsNativeReview": true
       }
@@ -4165,6 +4186,7 @@
       },
       "pt": {
         "text": "xampu",
+        "article": "o",
         "source": "generated",
         "needsNativeReview": true
       }
@@ -4359,6 +4381,7 @@
       },
       "pt": {
         "text": "escova de dentes",
+        "article": "a",
         "source": "generated",
         "needsNativeReview": true
       }
@@ -4553,6 +4576,7 @@
       },
       "pt": {
         "text": "toalha",
+        "article": "a",
         "source": "generated",
         "needsNativeReview": true
       }
@@ -4747,6 +4771,7 @@
       },
       "pt": {
         "text": "espelho",
+        "article": "o",
         "source": "generated",
         "needsNativeReview": true
       }
@@ -4941,6 +4966,7 @@
       },
       "pt": {
         "text": "pente",
+        "article": "o",
         "source": "generated",
         "needsNativeReview": true
       }
@@ -5135,6 +5161,7 @@
       },
       "pt": {
         "text": "secador",
+        "article": "o",
         "source": "generated",
         "needsNativeReview": true
       }
@@ -5329,6 +5356,7 @@
       },
       "pt": {
         "text": "armário",
+        "article": "o",
         "source": "generated",
         "needsNativeReview": true
       }
@@ -5459,19 +5487,24 @@
         "text": "میز"
       },
       "nl": {
-        "text": "tafel"
+        "text": "tafel",
+        "article": "de"
       },
       "de": {
-        "text": "Tisch"
+        "text": "Tisch",
+        "article": "der"
       },
       "fr": {
-        "text": "table"
+        "text": "table",
+        "article": "la"
       },
       "es": {
-        "text": "mesa"
+        "text": "mesa",
+        "article": "la"
       },
       "it": {
-        "text": "tavolo"
+        "text": "tavolo",
+        "article": "il"
       },
       "tr": {
         "text": "Masa"
@@ -5495,7 +5528,8 @@
         "text": "मेज़"
       },
       "pt": {
-        "text": "mesa"
+        "text": "mesa",
+        "article": "a"
       }
     },
     "prompt": "",
@@ -5624,19 +5658,24 @@
         "text": "صندلی"
       },
       "nl": {
-        "text": "stoel"
+        "text": "stoel",
+        "article": "de"
       },
       "de": {
-        "text": "Stuhl"
+        "text": "Stuhl",
+        "article": "der"
       },
       "fr": {
-        "text": "chaise"
+        "text": "chaise",
+        "article": "la"
       },
       "es": {
-        "text": "silla"
+        "text": "silla",
+        "article": "la"
       },
       "it": {
-        "text": "sedia"
+        "text": "sedia",
+        "article": "la"
       },
       "tr": {
         "text": "Sandalye"
@@ -5660,7 +5699,8 @@
         "text": "कुर्सी"
       },
       "pt": {
-        "text": "cadeira"
+        "text": "cadeira",
+        "article": "a"
       }
     },
     "prompt": "",
@@ -5792,19 +5832,24 @@
         "text": "مبل"
       },
       "nl": {
-        "text": "bank"
+        "text": "bank",
+        "article": "de"
       },
       "de": {
-        "text": "Sofa"
+        "text": "Sofa",
+        "article": "das"
       },
       "fr": {
-        "text": "canapé"
+        "text": "canapé",
+        "article": "le"
       },
       "es": {
-        "text": "sofá"
+        "text": "sofá",
+        "article": "el"
       },
       "it": {
-        "text": "divano"
+        "text": "divano",
+        "article": "il"
       },
       "tr": {
         "text": "Kanepe"
@@ -5831,7 +5876,8 @@
         "text": "सोफा"
       },
       "pt": {
-        "text": "sofá"
+        "text": "sofá",
+        "article": "o"
       }
     },
     "prompt": "",
@@ -5960,19 +6006,24 @@
         "text": "تخت"
       },
       "nl": {
-        "text": "bed"
+        "text": "bed",
+        "article": "het"
       },
       "de": {
-        "text": "Bett"
+        "text": "Bett",
+        "article": "das"
       },
       "fr": {
-        "text": "lit"
+        "text": "lit",
+        "article": "le"
       },
       "es": {
-        "text": "cama"
+        "text": "cama",
+        "article": "la"
       },
       "it": {
-        "text": "letto"
+        "text": "letto",
+        "article": "il"
       },
       "tr": {
         "text": "Yatak"
@@ -5996,7 +6047,8 @@
         "text": "बिस्तर"
       },
       "pt": {
-        "text": "cama"
+        "text": "cama",
+        "article": "a"
       }
     },
     "prompt": "",
@@ -6189,6 +6241,7 @@
       },
       "pt": {
         "text": "travesseiro",
+        "article": "o",
         "source": "generated",
         "needsNativeReview": true
       }
@@ -6383,6 +6436,7 @@
       },
       "pt": {
         "text": "cobertor",
+        "article": "o",
         "source": "generated",
         "needsNativeReview": true
       }
@@ -6577,6 +6631,7 @@
       },
       "pt": {
         "text": "tapete",
+        "article": "o",
         "source": "generated",
         "needsNativeReview": true
       }
@@ -6707,19 +6762,24 @@
         "text": "کفش"
       },
       "nl": {
-        "text": "schoenen"
+        "text": "schoenen",
+        "article": "de"
       },
       "de": {
-        "text": "Schuhe"
+        "text": "Schuhe",
+        "article": "die"
       },
       "fr": {
-        "text": "chaussures"
+        "text": "chaussures",
+        "article": "les"
       },
       "es": {
-        "text": "zapatos"
+        "text": "zapatos",
+        "article": "los"
       },
       "it": {
-        "text": "scarpe"
+        "text": "scarpe",
+        "article": "le"
       },
       "tr": {
         "text": "Ayakkabı"
@@ -6743,7 +6803,8 @@
         "text": "जूते"
       },
       "pt": {
-        "text": "sapatos"
+        "text": "sapatos",
+        "article": "os"
       }
     },
     "prompt": "",
@@ -6872,19 +6933,24 @@
         "text": "کیف"
       },
       "nl": {
-        "text": "tas"
+        "text": "tas",
+        "article": "de"
       },
       "de": {
-        "text": "Tasche"
+        "text": "Tasche",
+        "article": "die"
       },
       "fr": {
-        "text": "sac"
+        "text": "sac",
+        "article": "le"
       },
       "es": {
-        "text": "bolso"
+        "text": "bolso",
+        "article": "el"
       },
       "it": {
-        "text": "borsa"
+        "text": "borsa",
+        "article": "la"
       },
       "tr": {
         "text": "Çanta"
@@ -6908,7 +6974,8 @@
         "text": "बैग"
       },
       "pt": {
-        "text": "bolsa"
+        "text": "bolsa",
+        "article": "a"
       }
     },
     "prompt": "",
@@ -7037,19 +7104,24 @@
         "text": "چتر"
       },
       "nl": {
-        "text": "paraplu"
+        "text": "paraplu",
+        "article": "de"
       },
       "de": {
-        "text": "Regenschirm"
+        "text": "Regenschirm",
+        "article": "der"
       },
       "fr": {
-        "text": "parapluie"
+        "text": "parapluie",
+        "article": "le"
       },
       "es": {
-        "text": "paraguas"
+        "text": "paraguas",
+        "article": "el"
       },
       "it": {
-        "text": "ombrello"
+        "text": "ombrello",
+        "article": "l'"
       },
       "tr": {
         "text": "Şemsiye"
@@ -7073,7 +7145,8 @@
         "text": "छाता"
       },
       "pt": {
-        "text": "guarda-chuva"
+        "text": "guarda-chuva",
+        "article": "o"
       }
     },
     "prompt": "",
@@ -7205,19 +7278,24 @@
         "text": "عینک"
       },
       "nl": {
-        "text": "bril"
+        "text": "bril",
+        "article": "de"
       },
       "de": {
-        "text": "Brille"
+        "text": "Brille",
+        "article": "die"
       },
       "fr": {
-        "text": "lunettes"
+        "text": "lunettes",
+        "article": "les"
       },
       "es": {
-        "text": "gafas"
+        "text": "gafas",
+        "article": "las"
       },
       "it": {
-        "text": "occhiali"
+        "text": "occhiali",
+        "article": "gli"
       },
       "tr": {
         "text": "Gözlük"
@@ -7241,7 +7319,8 @@
         "text": "चश्मा"
       },
       "pt": {
-        "text": "óculos"
+        "text": "óculos",
+        "article": "os"
       }
     },
     "prompt": "",
@@ -7376,19 +7455,24 @@
         ]
       },
       "nl": {
-        "text": "horloge"
+        "text": "horloge",
+        "article": "het"
       },
       "de": {
-        "text": "Uhr"
+        "text": "Uhr",
+        "article": "die"
       },
       "fr": {
-        "text": "montre"
+        "text": "montre",
+        "article": "la"
       },
       "es": {
-        "text": "reloj"
+        "text": "reloj",
+        "article": "el"
       },
       "it": {
-        "text": "orologio"
+        "text": "orologio",
+        "article": "l'"
       },
       "tr": {
         "text": "Saat"
@@ -7412,7 +7496,8 @@
         "text": "घड़ी"
       },
       "pt": {
-        "text": "relógio"
+        "text": "relógio",
+        "article": "o"
       }
     },
     "prompt": "",
@@ -7605,6 +7690,7 @@
       },
       "pt": {
         "text": "telefone",
+        "article": "o",
         "source": "generated",
         "needsNativeReview": true
       }
@@ -7735,19 +7821,24 @@
         "text": "کلید"
       },
       "nl": {
-        "text": "sleutel"
+        "text": "sleutel",
+        "article": "de"
       },
       "de": {
-        "text": "Schlüssel"
+        "text": "Schlüssel",
+        "article": "der"
       },
       "fr": {
-        "text": "clé"
+        "text": "clé",
+        "article": "la"
       },
       "es": {
-        "text": "llave"
+        "text": "llave",
+        "article": "la"
       },
       "it": {
-        "text": "chiave"
+        "text": "chiave",
+        "article": "la"
       },
       "tr": {
         "text": "Anahtar"
@@ -7771,7 +7862,8 @@
         "text": "चाबी"
       },
       "pt": {
-        "text": "chave"
+        "text": "chave",
+        "article": "a"
       }
     },
     "prompt": "",
@@ -7964,6 +8056,7 @@
       },
       "pt": {
         "text": "fechadura",
+        "article": "a",
         "source": "generated",
         "needsNativeReview": true
       }
@@ -8158,6 +8251,7 @@
       },
       "pt": {
         "text": "lâmpada",
+        "article": "a",
         "source": "generated",
         "needsNativeReview": true
       }
@@ -8352,6 +8446,7 @@
       },
       "pt": {
         "text": "televisão",
+        "article": "a",
         "source": "generated",
         "needsNativeReview": true
       }
@@ -8482,22 +8577,27 @@
         "text": "دفتر"
       },
       "nl": {
-        "text": "schrift"
+        "text": "schrift",
+        "article": "het"
       },
       "de": {
         "text": "Notizbuch",
+        "article": "das",
         "alternatives": [
           "Heft"
         ]
       },
       "fr": {
-        "text": "cahier"
+        "text": "cahier",
+        "article": "le"
       },
       "es": {
-        "text": "cuaderno"
+        "text": "cuaderno",
+        "article": "el"
       },
       "it": {
-        "text": "quaderno"
+        "text": "quaderno",
+        "article": "il"
       },
       "tr": {
         "text": "Defter"
@@ -8521,7 +8621,8 @@
         "text": "नोटबुक"
       },
       "pt": {
-        "text": "caderno"
+        "text": "caderno",
+        "article": "o"
       }
     },
     "prompt": "",
@@ -8650,22 +8751,27 @@
         "text": "خودکار"
       },
       "nl": {
-        "text": "pen"
+        "text": "pen",
+        "article": "de"
       },
       "de": {
         "text": "Kuli",
+        "article": "der",
         "alternatives": [
           "Kugelschreiber"
         ]
       },
       "fr": {
-        "text": "stylo"
+        "text": "stylo",
+        "article": "le"
       },
       "es": {
-        "text": "bolígrafo"
+        "text": "bolígrafo",
+        "article": "el"
       },
       "it": {
-        "text": "penna"
+        "text": "penna",
+        "article": "la"
       },
       "tr": {
         "text": "Kalem"
@@ -8689,7 +8795,8 @@
         "text": "पेन"
       },
       "pt": {
-        "text": "caneta"
+        "text": "caneta",
+        "article": "a"
       }
     },
     "prompt": "",
@@ -8821,19 +8928,24 @@
         "text": "مداد"
       },
       "nl": {
-        "text": "potlood"
+        "text": "potlood",
+        "article": "het"
       },
       "de": {
-        "text": "Bleistift"
+        "text": "Bleistift",
+        "article": "der"
       },
       "fr": {
-        "text": "crayon"
+        "text": "crayon",
+        "article": "le"
       },
       "es": {
-        "text": "lápiz"
+        "text": "lápiz",
+        "article": "el"
       },
       "it": {
-        "text": "matita"
+        "text": "matita",
+        "article": "la"
       },
       "tr": {
         "text": "Kurşun kalem"
@@ -8857,7 +8969,8 @@
         "text": "पेंसिल"
       },
       "pt": {
-        "text": "lápis"
+        "text": "lápis",
+        "article": "o"
       }
     },
     "prompt": "",
@@ -9050,6 +9163,7 @@
       },
       "pt": {
         "text": "borracha",
+        "article": "a",
         "source": "generated",
         "needsNativeReview": true
       }
@@ -9180,19 +9294,24 @@
         "text": "نان"
       },
       "nl": {
-        "text": "brood"
+        "text": "brood",
+        "article": "het"
       },
       "de": {
-        "text": "Brot"
+        "text": "Brot",
+        "article": "das"
       },
       "fr": {
-        "text": "pain"
+        "text": "pain",
+        "article": "le"
       },
       "es": {
-        "text": "pan"
+        "text": "pan",
+        "article": "el"
       },
       "it": {
-        "text": "pane"
+        "text": "pane",
+        "article": "il"
       },
       "tr": {
         "text": "Ekmek"
@@ -9219,7 +9338,8 @@
         ]
       },
       "pt": {
-        "text": "pão"
+        "text": "pão",
+        "article": "o"
       }
     },
     "prompt": "",
@@ -9348,19 +9468,24 @@
         "text": "برنج"
       },
       "nl": {
-        "text": "rijst"
+        "text": "rijst",
+        "article": "de"
       },
       "de": {
-        "text": "Reis"
+        "text": "Reis",
+        "article": "der"
       },
       "fr": {
-        "text": "riz"
+        "text": "riz",
+        "article": "le"
       },
       "es": {
-        "text": "arroz"
+        "text": "arroz",
+        "article": "el"
       },
       "it": {
-        "text": "riso"
+        "text": "riso",
+        "article": "il"
       },
       "tr": {
         "text": "Pirinç"
@@ -9390,7 +9515,8 @@
         "text": "चावल"
       },
       "pt": {
-        "text": "arroz"
+        "text": "arroz",
+        "article": "o"
       }
     },
     "prompt": "",
@@ -9583,6 +9709,7 @@
       },
       "pt": {
         "text": "massa",
+        "article": "a",
         "source": "generated",
         "needsNativeReview": true
       }
@@ -9777,6 +9904,7 @@
       },
       "pt": {
         "text": "batata",
+        "article": "a",
         "source": "generated",
         "needsNativeReview": true
       }
@@ -9971,6 +10099,7 @@
       },
       "pt": {
         "text": "tomate",
+        "article": "o",
         "source": "generated",
         "needsNativeReview": true
       }
@@ -10165,6 +10294,7 @@
       },
       "pt": {
         "text": "pepino",
+        "article": "o",
         "source": "generated",
         "needsNativeReview": true
       }
@@ -10359,6 +10489,7 @@
       },
       "pt": {
         "text": "cebola",
+        "article": "a",
         "source": "generated",
         "needsNativeReview": true
       }
@@ -10553,6 +10684,7 @@
       },
       "pt": {
         "text": "cenoura",
+        "article": "a",
         "source": "generated",
         "needsNativeReview": true
       }
@@ -10747,6 +10879,7 @@
       },
       "pt": {
         "text": "carne",
+        "article": "a",
         "source": "generated",
         "needsNativeReview": true
       }
@@ -10877,22 +11010,27 @@
         "text": "مرغ"
       },
       "nl": {
-        "text": "kip"
+        "text": "kip",
+        "article": "de"
       },
       "de": {
         "text": "Huhn",
+        "article": "das",
         "alternatives": [
           "Hähnchen"
         ]
       },
       "fr": {
-        "text": "poulet"
+        "text": "poulet",
+        "article": "le"
       },
       "es": {
-        "text": "pollo"
+        "text": "pollo",
+        "article": "el"
       },
       "it": {
-        "text": "pollo"
+        "text": "pollo",
+        "article": "il"
       },
       "tr": {
         "text": "Tavuk"
@@ -10916,7 +11054,8 @@
         "text": "चिकन"
       },
       "pt": {
-        "text": "frango"
+        "text": "frango",
+        "article": "o"
       }
     },
     "prompt": "",
@@ -11045,19 +11184,24 @@
         "text": "ماهی"
       },
       "nl": {
-        "text": "vis"
+        "text": "vis",
+        "article": "de"
       },
       "de": {
-        "text": "Fisch"
+        "text": "Fisch",
+        "article": "der"
       },
       "fr": {
-        "text": "poisson"
+        "text": "poisson",
+        "article": "le"
       },
       "es": {
-        "text": "pescado"
+        "text": "pescado",
+        "article": "el"
       },
       "it": {
-        "text": "pesce"
+        "text": "pesce",
+        "article": "il"
       },
       "tr": {
         "text": "Balık"
@@ -11081,7 +11225,8 @@
         "text": "मछली"
       },
       "pt": {
-        "text": "peixe"
+        "text": "peixe",
+        "article": "o"
       }
     },
     "prompt": "",
@@ -11213,19 +11358,24 @@
         "text": "تخم‌مرغ"
       },
       "nl": {
-        "text": "ei"
+        "text": "ei",
+        "article": "het"
       },
       "de": {
-        "text": "Ei"
+        "text": "Ei",
+        "article": "das"
       },
       "fr": {
-        "text": "œuf"
+        "text": "œuf",
+        "article": "l'"
       },
       "es": {
-        "text": "huevo"
+        "text": "huevo",
+        "article": "el"
       },
       "it": {
-        "text": "uovo"
+        "text": "uovo",
+        "article": "l'"
       },
       "tr": {
         "text": "Yumurta"
@@ -11252,7 +11402,8 @@
         "text": "अंडा"
       },
       "pt": {
-        "text": "ovo"
+        "text": "ovo",
+        "article": "o"
       }
     },
     "prompt": "",
@@ -11381,19 +11532,24 @@
         "text": "پنیر"
       },
       "nl": {
-        "text": "kaas"
+        "text": "kaas",
+        "article": "de"
       },
       "de": {
-        "text": "Käse"
+        "text": "Käse",
+        "article": "der"
       },
       "fr": {
-        "text": "fromage"
+        "text": "fromage",
+        "article": "le"
       },
       "es": {
-        "text": "queso"
+        "text": "queso",
+        "article": "el"
       },
       "it": {
-        "text": "formaggio"
+        "text": "formaggio",
+        "article": "il"
       },
       "tr": {
         "text": "Peynir"
@@ -11417,7 +11573,8 @@
         "text": "पनीर"
       },
       "pt": {
-        "text": "queijo"
+        "text": "queijo",
+        "article": "o"
       }
     },
     "prompt": "",
@@ -11610,6 +11767,7 @@
       },
       "pt": {
         "text": "iogurte",
+        "article": "o",
         "source": "generated",
         "needsNativeReview": true
       }
@@ -11740,19 +11898,24 @@
         "text": "شیر"
       },
       "nl": {
-        "text": "melk"
+        "text": "melk",
+        "article": "de"
       },
       "de": {
-        "text": "Milch"
+        "text": "Milch",
+        "article": "die"
       },
       "fr": {
-        "text": "lait"
+        "text": "lait",
+        "article": "le"
       },
       "es": {
-        "text": "leche"
+        "text": "leche",
+        "article": "la"
       },
       "it": {
-        "text": "latte"
+        "text": "latte",
+        "article": "il"
       },
       "tr": {
         "text": "Süt"
@@ -11776,7 +11939,8 @@
         "text": "दूध"
       },
       "pt": {
-        "text": "leite"
+        "text": "leite",
+        "article": "o"
       }
     },
     "prompt": "",
@@ -11969,6 +12133,7 @@
       },
       "pt": {
         "text": "sorvete",
+        "article": "o",
         "source": "generated",
         "needsNativeReview": true
       }
@@ -12163,6 +12328,7 @@
       },
       "pt": {
         "text": "bolo",
+        "article": "o",
         "source": "generated",
         "needsNativeReview": true
       }
@@ -12293,19 +12459,24 @@
         "text": "شکلات"
       },
       "nl": {
-        "text": "chocolade"
+        "text": "chocolade",
+        "article": "de"
       },
       "de": {
-        "text": "Schokolade"
+        "text": "Schokolade",
+        "article": "die"
       },
       "fr": {
-        "text": "chocolat"
+        "text": "chocolat",
+        "article": "le"
       },
       "es": {
-        "text": "chocolate"
+        "text": "chocolate",
+        "article": "el"
       },
       "it": {
-        "text": "cioccolato"
+        "text": "cioccolato",
+        "article": "il"
       },
       "tr": {
         "text": "Çikolata"
@@ -12329,7 +12500,8 @@
         "text": "चॉकलेट"
       },
       "pt": {
-        "text": "chocolate"
+        "text": "chocolate",
+        "article": "o"
       }
     },
     "prompt": "",
@@ -12522,6 +12694,7 @@
       },
       "pt": {
         "text": "banana",
+        "article": "a",
         "source": "generated",
         "needsNativeReview": true
       }
@@ -12652,19 +12825,24 @@
         "text": "سیب"
       },
       "nl": {
-        "text": "appel"
+        "text": "appel",
+        "article": "de"
       },
       "de": {
-        "text": "Apfel"
+        "text": "Apfel",
+        "article": "der"
       },
       "fr": {
-        "text": "pomme"
+        "text": "pomme",
+        "article": "la"
       },
       "es": {
-        "text": "manzana"
+        "text": "manzana",
+        "article": "la"
       },
       "it": {
-        "text": "mela"
+        "text": "mela",
+        "article": "la"
       },
       "tr": {
         "text": "Elma"
@@ -12688,7 +12866,8 @@
         "text": "सेब"
       },
       "pt": {
-        "text": "maçã"
+        "text": "maçã",
+        "article": "a"
       }
     },
     "prompt": "",
@@ -12881,6 +13060,7 @@
       },
       "pt": {
         "text": "laranja",
+        "article": "a",
         "source": "generated",
         "needsNativeReview": true
       }
@@ -13075,6 +13255,7 @@
       },
       "pt": {
         "text": "romã",
+        "article": "a",
         "source": "generated",
         "needsNativeReview": true
       }
@@ -13269,6 +13450,7 @@
       },
       "pt": {
         "text": "uva",
+        "article": "a",
         "source": "generated",
         "needsNativeReview": true
       }
@@ -13463,6 +13645,7 @@
       },
       "pt": {
         "text": "melancia",
+        "article": "a",
         "source": "generated",
         "needsNativeReview": true
       }
@@ -13593,19 +13776,24 @@
         "text": "قهوه"
       },
       "nl": {
-        "text": "koffie"
+        "text": "koffie",
+        "article": "de"
       },
       "de": {
-        "text": "Kaffee"
+        "text": "Kaffee",
+        "article": "der"
       },
       "fr": {
-        "text": "café"
+        "text": "café",
+        "article": "le"
       },
       "es": {
-        "text": "café"
+        "text": "café",
+        "article": "el"
       },
       "it": {
-        "text": "caffè"
+        "text": "caffè",
+        "article": "il"
       },
       "tr": {
         "text": "Kahve"
@@ -13629,7 +13817,8 @@
         "text": "कॉफी"
       },
       "pt": {
-        "text": "café"
+        "text": "café",
+        "article": "o"
       }
     },
     "prompt": "",
@@ -13758,19 +13947,24 @@
         "text": "چای"
       },
       "nl": {
-        "text": "thee"
+        "text": "thee",
+        "article": "de"
       },
       "de": {
-        "text": "Tee"
+        "text": "Tee",
+        "article": "der"
       },
       "fr": {
-        "text": "thé"
+        "text": "thé",
+        "article": "le"
       },
       "es": {
-        "text": "té"
+        "text": "té",
+        "article": "el"
       },
       "it": {
-        "text": "tè"
+        "text": "tè",
+        "article": "il"
       },
       "tr": {
         "text": "Çay"
@@ -13794,7 +13988,8 @@
         "text": "चाय"
       },
       "pt": {
-        "text": "chá"
+        "text": "chá",
+        "article": "o"
       }
     },
     "prompt": "",
@@ -13923,19 +14118,24 @@
         "text": "پیتزا"
       },
       "nl": {
-        "text": "pizza"
+        "text": "pizza",
+        "article": "de"
       },
       "de": {
-        "text": "Pizza"
+        "text": "Pizza",
+        "article": "die"
       },
       "fr": {
-        "text": "pizza"
+        "text": "pizza",
+        "article": "la"
       },
       "es": {
-        "text": "pizza"
+        "text": "pizza",
+        "article": "la"
       },
       "it": {
-        "text": "pizza"
+        "text": "pizza",
+        "article": "la"
       },
       "tr": {
         "text": "Pizza"
@@ -13959,7 +14159,8 @@
         "text": "पिज़्ज़ा"
       },
       "pt": {
-        "text": "pizza"
+        "text": "pizza",
+        "article": "a"
       }
     },
     "prompt": "",
@@ -14152,6 +14353,7 @@
       },
       "pt": {
         "text": "hambúrguer",
+        "article": "o",
         "source": "generated",
         "needsNativeReview": true
       }
@@ -14285,19 +14487,24 @@
         "text": "boterham",
         "alternatives": [
           "sandwich"
-        ]
+        ],
+        "article": "de"
       },
       "de": {
-        "text": "Sandwich"
+        "text": "Sandwich",
+        "article": "das"
       },
       "fr": {
-        "text": "sandwich"
+        "text": "sandwich",
+        "article": "le"
       },
       "es": {
-        "text": "sándwich"
+        "text": "sándwich",
+        "article": "el"
       },
       "it": {
-        "text": "panino"
+        "text": "panino",
+        "article": "il"
       },
       "tr": {
         "text": "Sandviç"
@@ -14321,7 +14528,8 @@
         "text": "सैंडविच"
       },
       "pt": {
-        "text": "sanduíche"
+        "text": "sanduíche",
+        "article": "o"
       }
     },
     "prompt": "",
@@ -14645,19 +14853,24 @@
         "text": "سگ"
       },
       "nl": {
-        "text": "hond"
+        "text": "hond",
+        "article": "de"
       },
       "de": {
-        "text": "Hund"
+        "text": "Hund",
+        "article": "der"
       },
       "fr": {
-        "text": "chien"
+        "text": "chien",
+        "article": "le"
       },
       "es": {
-        "text": "perro"
+        "text": "perro",
+        "article": "el"
       },
       "it": {
-        "text": "cane"
+        "text": "cane",
+        "article": "il"
       },
       "tr": {
         "text": "Köpek"
@@ -14684,7 +14897,8 @@
         "text": "कुत्ता"
       },
       "pt": {
-        "text": "cão"
+        "text": "cão",
+        "article": "o"
       }
     },
     "prompt": "",
@@ -14813,19 +15027,24 @@
         "text": "گربه"
       },
       "nl": {
-        "text": "kat"
+        "text": "kat",
+        "article": "de"
       },
       "de": {
-        "text": "Katze"
+        "text": "Katze",
+        "article": "die"
       },
       "fr": {
-        "text": "chat"
+        "text": "chat",
+        "article": "le"
       },
       "es": {
-        "text": "gato"
+        "text": "gato",
+        "article": "el"
       },
       "it": {
-        "text": "gatto"
+        "text": "gatto",
+        "article": "il"
       },
       "tr": {
         "text": "Kedi"
@@ -14849,7 +15068,8 @@
         "text": "बिल्ली"
       },
       "pt": {
-        "text": "gato"
+        "text": "gato",
+        "article": "o"
       }
     },
     "prompt": "",
@@ -15042,6 +15262,7 @@
       },
       "pt": {
         "text": "cavalo",
+        "article": "o",
         "source": "generated",
         "needsNativeReview": true
       }
@@ -15236,6 +15457,7 @@
       },
       "pt": {
         "text": "vaca",
+        "article": "a",
         "source": "generated",
         "needsNativeReview": true
       }
@@ -15430,6 +15652,7 @@
       },
       "pt": {
         "text": "ovelha",
+        "article": "a",
         "source": "generated",
         "needsNativeReview": true
       }
@@ -15624,6 +15847,7 @@
       },
       "pt": {
         "text": "camelo",
+        "article": "o",
         "source": "generated",
         "needsNativeReview": true
       }
@@ -15755,7 +15979,7 @@
       },
       "de": {
         "text": "Hase",
-        "article": "das",
+        "article": "der",
         "source": "generated",
         "needsNativeReview": true
       },
@@ -15818,6 +16042,7 @@
       },
       "pt": {
         "text": "coelho",
+        "article": "o",
         "source": "generated",
         "needsNativeReview": true
       }
@@ -16012,6 +16237,7 @@
       },
       "pt": {
         "text": "urso",
+        "article": "o",
         "source": "generated",
         "needsNativeReview": true
       }
@@ -16206,6 +16432,7 @@
       },
       "pt": {
         "text": "lobo",
+        "article": "o",
         "source": "generated",
         "needsNativeReview": true
       }
@@ -16400,6 +16627,7 @@
       },
       "pt": {
         "text": "raposa",
+        "article": "a",
         "source": "generated",
         "needsNativeReview": true
       }
@@ -16594,6 +16822,7 @@
       },
       "pt": {
         "text": "leão",
+        "article": "o",
         "source": "generated",
         "needsNativeReview": true
       }
@@ -16788,6 +17017,7 @@
       },
       "pt": {
         "text": "tigre",
+        "article": "o",
         "source": "generated",
         "needsNativeReview": true
       }
@@ -16982,6 +17212,7 @@
       },
       "pt": {
         "text": "leopardo",
+        "article": "o",
         "source": "generated",
         "needsNativeReview": true
       }
@@ -17176,6 +17407,7 @@
       },
       "pt": {
         "text": "elefante",
+        "article": "o",
         "source": "generated",
         "needsNativeReview": true
       }
@@ -17370,6 +17602,7 @@
       },
       "pt": {
         "text": "girafa",
+        "article": "a",
         "source": "generated",
         "needsNativeReview": true
       }
@@ -17564,6 +17797,7 @@
       },
       "pt": {
         "text": "macaco",
+        "article": "o",
         "source": "generated",
         "needsNativeReview": true
       }
@@ -17758,6 +17992,7 @@
       },
       "pt": {
         "text": "crocodilo",
+        "article": "o",
         "source": "generated",
         "needsNativeReview": true
       }
@@ -17952,6 +18187,7 @@
       },
       "pt": {
         "text": "cobra",
+        "article": "a",
         "source": "generated",
         "needsNativeReview": true
       }
@@ -18146,6 +18382,7 @@
       },
       "pt": {
         "text": "tubarão",
+        "article": "o",
         "source": "generated",
         "needsNativeReview": true
       }
@@ -18270,7 +18507,7 @@
         "text": "دلفین"
       },
       "nl": {
-        "text": "delfin",
+        "text": "dolfijn",
         "article": "de",
         "source": "generated",
         "needsNativeReview": true
@@ -18340,6 +18577,7 @@
       },
       "pt": {
         "text": "golfinho",
+        "article": "o",
         "source": "generated",
         "needsNativeReview": true
       }
@@ -18534,6 +18772,7 @@
       },
       "pt": {
         "text": "baleia",
+        "article": "a",
         "source": "generated",
         "needsNativeReview": true
       }
@@ -18728,6 +18967,7 @@
       },
       "pt": {
         "text": "borboleta",
+        "article": "a",
         "source": "generated",
         "needsNativeReview": true
       }
@@ -18922,6 +19162,7 @@
       },
       "pt": {
         "text": "águia",
+        "article": "a",
         "source": "generated",
         "needsNativeReview": true
       }
@@ -19058,22 +19299,27 @@
         "text": "dokter",
         "alternatives": [
           "arts"
-        ]
+        ],
+        "article": "de"
       },
       "de": {
-        "text": "Arzt"
+        "text": "Arzt",
+        "article": "der"
       },
       "fr": {
-        "text": "médecin"
+        "text": "médecin",
+        "article": "le"
       },
       "es": {
         "text": "médico",
+        "article": "el",
         "alternatives": [
           "doctor"
         ]
       },
       "it": {
         "text": "medico",
+        "article": "il",
         "alternatives": [
           "dottore"
         ]
@@ -19103,7 +19349,8 @@
         "text": "डॉक्टर"
       },
       "pt": {
-        "text": "médico"
+        "text": "médico",
+        "article": "o"
       }
     },
     "prompt": "",
@@ -19235,22 +19482,27 @@
         "text": "verpleegkundige",
         "alternatives": [
           "verpleegster"
-        ]
+        ],
+        "article": "de"
       },
       "de": {
         "text": "Krankenschwester",
+        "article": "die",
         "alternatives": [
           "Krankenpflegerin"
         ]
       },
       "fr": {
-        "text": "infirmière"
+        "text": "infirmière",
+        "article": "l'"
       },
       "es": {
-        "text": "enfermera"
+        "text": "enfermera",
+        "article": "la"
       },
       "it": {
-        "text": "infermiera"
+        "text": "infermiera",
+        "article": "l'"
       },
       "tr": {
         "text": "Hemşire"
@@ -19274,7 +19526,8 @@
         "text": "नर्स"
       },
       "pt": {
-        "text": "enfermeira"
+        "text": "enfermeira",
+        "article": "a"
       }
     },
     "prompt": "",
@@ -19403,28 +19656,33 @@
         "text": "معلم"
       },
       "nl": {
-        "text": "leraar"
+        "text": "leraar",
+        "article": "de"
       },
       "de": {
         "text": "Lehrer",
+        "article": "der",
         "alternatives": [
           "Lehrer(in)"
         ]
       },
       "fr": {
         "text": "professeur",
+        "article": "le",
         "alternatives": [
           "enseignant"
         ]
       },
       "es": {
         "text": "profesor",
+        "article": "el",
         "alternatives": [
           "maestro"
         ]
       },
       "it": {
-        "text": "insegnante"
+        "text": "insegnante",
+        "article": "l'"
       },
       "tr": {
         "text": "Öğretmen"
@@ -19451,7 +19709,8 @@
         "text": "शिक्षक"
       },
       "pt": {
-        "text": "professor"
+        "text": "professor",
+        "article": "o"
       }
     },
     "prompt": "",
@@ -19580,19 +19839,24 @@
         "text": "مهندس"
       },
       "nl": {
-        "text": "ingenieur"
+        "text": "ingenieur",
+        "article": "de"
       },
       "de": {
-        "text": "Ingenieur"
+        "text": "Ingenieur",
+        "article": "der"
       },
       "fr": {
-        "text": "ingénieur"
+        "text": "ingénieur",
+        "article": "l'"
       },
       "es": {
-        "text": "ingeniero"
+        "text": "ingeniero",
+        "article": "el"
       },
       "it": {
-        "text": "ingegnere"
+        "text": "ingegnere",
+        "article": "l'"
       },
       "tr": {
         "text": "Mühendis"
@@ -19616,7 +19880,8 @@
         "text": "इंजीनियर"
       },
       "pt": {
-        "text": "engenheiro"
+        "text": "engenheiro",
+        "article": "o"
       }
     },
     "prompt": "",
@@ -19809,6 +20074,7 @@
       },
       "pt": {
         "text": "piloto",
+        "article": "o",
         "source": "generated",
         "needsNativeReview": true
       }
@@ -20003,6 +20269,7 @@
       },
       "pt": {
         "text": "cozinheiro",
+        "article": "o",
         "source": "generated",
         "needsNativeReview": true
       }
@@ -20197,6 +20464,7 @@
       },
       "pt": {
         "text": "polícia",
+        "article": "a",
         "source": "generated",
         "needsNativeReview": true
       }
@@ -20391,6 +20659,7 @@
       },
       "pt": {
         "text": "bombeiro",
+        "article": "o",
         "source": "generated",
         "needsNativeReview": true
       }
@@ -20521,19 +20790,24 @@
         "text": "بیمارستان"
       },
       "nl": {
-        "text": "ziekenhuis"
+        "text": "ziekenhuis",
+        "article": "het"
       },
       "de": {
-        "text": "Krankenhaus"
+        "text": "Krankenhaus",
+        "article": "das"
       },
       "fr": {
-        "text": "hôpital"
+        "text": "hôpital",
+        "article": "l'"
       },
       "es": {
-        "text": "hospital"
+        "text": "hospital",
+        "article": "el"
       },
       "it": {
-        "text": "ospedale"
+        "text": "ospedale",
+        "article": "l'"
       },
       "tr": {
         "text": "Hastane"
@@ -20557,7 +20831,8 @@
         "text": "अस्पताल"
       },
       "pt": {
-        "text": "hospital"
+        "text": "hospital",
+        "article": "o"
       }
     },
     "prompt": "",
@@ -20686,19 +20961,24 @@
         "text": "دانشگاه"
       },
       "nl": {
-        "text": "universiteit"
+        "text": "universiteit",
+        "article": "de"
       },
       "de": {
-        "text": "Universität"
+        "text": "Universität",
+        "article": "die"
       },
       "fr": {
-        "text": "université"
+        "text": "université",
+        "article": "l'"
       },
       "es": {
-        "text": "universidad"
+        "text": "universidad",
+        "article": "la"
       },
       "it": {
-        "text": "università"
+        "text": "università",
+        "article": "l'"
       },
       "tr": {
         "text": "Üniversite"
@@ -20722,7 +21002,8 @@
         "text": "विश्वविद्यालय"
       },
       "pt": {
-        "text": "universidade"
+        "text": "universidade",
+        "article": "a"
       }
     },
     "prompt": "",
@@ -20915,6 +21196,7 @@
       },
       "pt": {
         "text": "biblioteca",
+        "article": "a",
         "source": "generated",
         "needsNativeReview": true
       }
@@ -21109,6 +21391,7 @@
       },
       "pt": {
         "text": "cinema",
+        "article": "o",
         "source": "generated",
         "needsNativeReview": true
       }
@@ -21239,19 +21522,24 @@
         "text": "فرودگاه"
       },
       "nl": {
-        "text": "luchthaven"
+        "text": "luchthaven",
+        "article": "de"
       },
       "de": {
-        "text": "Flughafen"
+        "text": "Flughafen",
+        "article": "der"
       },
       "fr": {
-        "text": "aéroport"
+        "text": "aéroport",
+        "article": "l'"
       },
       "es": {
-        "text": "aeropuerto"
+        "text": "aeropuerto",
+        "article": "el"
       },
       "it": {
-        "text": "aeroporto"
+        "text": "aeroporto",
+        "article": "l'"
       },
       "tr": {
         "text": "Havalimanı",
@@ -21278,7 +21566,8 @@
         "text": "हवाई अड्डा"
       },
       "pt": {
-        "text": "aeroporto"
+        "text": "aeroporto",
+        "article": "o"
       }
     },
     "prompt": "",
@@ -21471,6 +21760,7 @@
       },
       "pt": {
         "text": "floresta",
+        "article": "a",
         "source": "generated",
         "needsNativeReview": true
       }
@@ -21601,19 +21891,24 @@
         "text": "کوه"
       },
       "nl": {
-        "text": "berg"
+        "text": "berg",
+        "article": "de"
       },
       "de": {
-        "text": "Berg"
+        "text": "Berg",
+        "article": "der"
       },
       "fr": {
-        "text": "montagne"
+        "text": "montagne",
+        "article": "la"
       },
       "es": {
-        "text": "montaña"
+        "text": "montaña",
+        "article": "la"
       },
       "it": {
-        "text": "montagna"
+        "text": "montagna",
+        "article": "la"
       },
       "tr": {
         "text": "Dağ"
@@ -21637,7 +21932,8 @@
         "text": "पहाड़"
       },
       "pt": {
-        "text": "montanha"
+        "text": "montanha",
+        "article": "a"
       }
     },
     "prompt": "",
@@ -21766,19 +22062,24 @@
         "text": "دریا"
       },
       "nl": {
-        "text": "zee"
+        "text": "zee",
+        "article": "de"
       },
       "de": {
-        "text": "Meer"
+        "text": "Meer",
+        "article": "das"
       },
       "fr": {
-        "text": "mer"
+        "text": "mer",
+        "article": "la"
       },
       "es": {
-        "text": "mar"
+        "text": "mar",
+        "article": "el"
       },
       "it": {
-        "text": "mare"
+        "text": "mare",
+        "article": "il"
       },
       "tr": {
         "text": "Deniz"
@@ -21802,7 +22103,8 @@
         "text": "समुद्र"
       },
       "pt": {
-        "text": "mar"
+        "text": "mar",
+        "article": "o"
       }
     },
     "prompt": "",
@@ -21931,19 +22233,24 @@
         "text": "ماشین"
       },
       "nl": {
-        "text": "auto"
+        "text": "auto",
+        "article": "de"
       },
       "de": {
-        "text": "Auto"
+        "text": "Auto",
+        "article": "das"
       },
       "fr": {
-        "text": "voiture"
+        "text": "voiture",
+        "article": "la"
       },
       "es": {
-        "text": "coche"
+        "text": "coche",
+        "article": "el"
       },
       "it": {
-        "text": "macchina"
+        "text": "macchina",
+        "article": "la"
       },
       "tr": {
         "text": "Araba"
@@ -21967,7 +22274,8 @@
         "text": "कार"
       },
       "pt": {
-        "text": "carro"
+        "text": "carro",
+        "article": "o"
       }
     },
     "prompt": "",
@@ -22096,19 +22404,24 @@
         "text": "اتوبوس"
       },
       "nl": {
-        "text": "bus"
+        "text": "bus",
+        "article": "de"
       },
       "de": {
-        "text": "Bus"
+        "text": "Bus",
+        "article": "der"
       },
       "fr": {
-        "text": "bus"
+        "text": "bus",
+        "article": "le"
       },
       "es": {
-        "text": "autobús"
+        "text": "autobús",
+        "article": "el"
       },
       "it": {
-        "text": "autobus"
+        "text": "autobus",
+        "article": "l'"
       },
       "tr": {
         "text": "Otobüs"
@@ -22132,7 +22445,8 @@
         "text": "बस"
       },
       "pt": {
-        "text": "ônibus"
+        "text": "ônibus",
+        "article": "o"
       }
     },
     "prompt": "",
@@ -22325,6 +22639,7 @@
       },
       "pt": {
         "text": "bicicleta",
+        "article": "a",
         "source": "generated",
         "needsNativeReview": true
       }
@@ -22455,19 +22770,24 @@
         "text": "قطار"
       },
       "nl": {
-        "text": "trein"
+        "text": "trein",
+        "article": "de"
       },
       "de": {
-        "text": "Zug"
+        "text": "Zug",
+        "article": "der"
       },
       "fr": {
-        "text": "train"
+        "text": "train",
+        "article": "le"
       },
       "es": {
-        "text": "tren"
+        "text": "tren",
+        "article": "el"
       },
       "it": {
-        "text": "treno"
+        "text": "treno",
+        "article": "il"
       },
       "tr": {
         "text": "Tren"
@@ -22497,7 +22817,8 @@
         "text": "ट्रेन"
       },
       "pt": {
-        "text": "trem"
+        "text": "trem",
+        "article": "o"
       }
     },
     "prompt": "",
@@ -22690,6 +23011,7 @@
       },
       "pt": {
         "text": "avião",
+        "article": "o",
         "source": "generated",
         "needsNativeReview": true
       }
@@ -22884,6 +23206,7 @@
       },
       "pt": {
         "text": "navio",
+        "article": "o",
         "source": "generated",
         "needsNativeReview": true
       }
@@ -23017,19 +23340,24 @@
         "text": "فوتبال"
       },
       "nl": {
-        "text": "voetbal"
+        "text": "voetbal",
+        "article": "het"
       },
       "de": {
-        "text": "Fußball"
+        "text": "Fußball",
+        "article": "der"
       },
       "fr": {
-        "text": "football"
+        "text": "football",
+        "article": "le"
       },
       "es": {
-        "text": "fútbol"
+        "text": "fútbol",
+        "article": "el"
       },
       "it": {
-        "text": "calcio"
+        "text": "calcio",
+        "article": "il"
       },
       "tr": {
         "text": "Futbol"
@@ -23053,7 +23381,8 @@
         "text": "फुटबॉल"
       },
       "pt": {
-        "text": "futebol"
+        "text": "futebol",
+        "article": "o"
       }
     },
     "prompt": "",
@@ -23246,6 +23575,7 @@
       },
       "pt": {
         "text": "basquete",
+        "article": "o",
         "source": "generated",
         "needsNativeReview": true
       }
@@ -23440,6 +23770,7 @@
       },
       "pt": {
         "text": "vôlei",
+        "article": "o",
         "source": "generated",
         "needsNativeReview": true
       }
@@ -23570,19 +23901,24 @@
         "text": "شنا"
       },
       "nl": {
-        "text": "zwemmen"
+        "text": "zwemmen",
+        "article": "het"
       },
       "de": {
-        "text": "Schwimmen"
+        "text": "Schwimmen",
+        "article": "das"
       },
       "fr": {
-        "text": "natation"
+        "text": "natation",
+        "article": "la"
       },
       "es": {
-        "text": "natación"
+        "text": "natación",
+        "article": "la"
       },
       "it": {
-        "text": "nuoto"
+        "text": "nuoto",
+        "article": "il"
       },
       "tr": {
         "text": "Yüzme"
@@ -23606,7 +23942,8 @@
         "text": "तैराकी"
       },
       "pt": {
-        "text": "natação"
+        "text": "natação",
+        "article": "a"
       }
     },
     "prompt": "",
@@ -23799,6 +24136,7 @@
       },
       "pt": {
         "text": "xadrez",
+        "article": "o",
         "source": "generated",
         "needsNativeReview": true
       }
@@ -23993,6 +24331,7 @@
       },
       "pt": {
         "text": "filme",
+        "article": "o",
         "source": "generated",
         "needsNativeReview": true
       }
@@ -24187,6 +24526,7 @@
       },
       "pt": {
         "text": "animação",
+        "article": "a",
         "source": "generated",
         "needsNativeReview": true
       }
@@ -24381,6 +24721,7 @@
       },
       "pt": {
         "text": "máquina de lavar",
+        "article": "a",
         "source": "generated",
         "needsNativeReview": true
       }
@@ -24575,6 +24916,7 @@
       },
       "pt": {
         "text": "lava-louças",
+        "article": "o",
         "source": "generated",
         "needsNativeReview": true
       }
@@ -24769,6 +25111,7 @@
       },
       "pt": {
         "text": "óculos de sol",
+        "article": "os",
         "source": "generated",
         "needsNativeReview": true
       }
@@ -24963,6 +25306,7 @@
       },
       "pt": {
         "text": "luminária de mesa",
+        "article": "a",
         "source": "generated",
         "needsNativeReview": true
       }
@@ -25157,6 +25501,7 @@
       },
       "pt": {
         "text": "controle remoto",
+        "article": "o",
         "source": "generated",
         "needsNativeReview": true
       }
@@ -25351,6 +25696,7 @@
       },
       "pt": {
         "text": "relógio de pulso",
+        "article": "o",
         "source": "generated",
         "needsNativeReview": true
       }
@@ -25481,7 +25827,7 @@
         "needsNativeReview": true
       },
       "de": {
-        "text": "Elektrische Zahnbürste",
+        "text": "elektrische Zahnbürste",
         "article": "die",
         "source": "generated",
         "needsNativeReview": true
@@ -25545,6 +25891,7 @@
       },
       "pt": {
         "text": "escova elétrica",
+        "article": "a",
         "source": "generated",
         "needsNativeReview": true
       }
@@ -25675,7 +26022,7 @@
         "needsNativeReview": true
       },
       "de": {
-        "text": "Kabelloser Staubsauger",
+        "text": "kabellose Staubsauger",
         "article": "der",
         "source": "generated",
         "needsNativeReview": true
@@ -25739,6 +26086,7 @@
       },
       "pt": {
         "text": "aspirador sem fio",
+        "article": "o",
         "source": "generated",
         "needsNativeReview": true
       }
@@ -25933,6 +26281,7 @@
       },
       "pt": {
         "text": "cartão bancário",
+        "article": "o",
         "source": "generated",
         "needsNativeReview": true
       }
@@ -26127,6 +26476,7 @@
       },
       "pt": {
         "text": "guarda-chuva",
+        "article": "o",
         "source": "generated",
         "needsNativeReview": true
       }
@@ -26252,7 +26602,7 @@
       },
       "nl": {
         "text": "keukenpapier",
-        "article": "de",
+        "article": "het",
         "source": "generated",
         "needsNativeReview": true
       },
@@ -26321,6 +26671,7 @@
       },
       "pt": {
         "text": "papel toalha",
+        "article": "o",
         "source": "generated",
         "needsNativeReview": true
       }
@@ -26515,6 +26866,7 @@
       },
       "pt": {
         "text": "lápis de cor",
+        "article": "o",
         "source": "generated",
         "needsNativeReview": true
       }
@@ -26709,6 +27061,7 @@
       },
       "pt": {
         "text": "bloco de desenho",
+        "article": "o",
         "source": "generated",
         "needsNativeReview": true
       }
@@ -26903,6 +27256,7 @@
       },
       "pt": {
         "text": "tênis de corrida",
+        "article": "os",
         "source": "generated",
         "needsNativeReview": true
       }
@@ -27097,6 +27451,7 @@
       },
       "pt": {
         "text": "mochila de viagem",
+        "article": "a",
         "source": "generated",
         "needsNativeReview": true
       }
@@ -27291,6 +27646,7 @@
       },
       "pt": {
         "text": "ventilador de teto",
+        "article": "o",
         "source": "generated",
         "needsNativeReview": true
       }
@@ -27485,6 +27841,7 @@
       },
       "pt": {
         "text": "aquecedor a gás",
+        "article": "o",
         "source": "generated",
         "needsNativeReview": true
       }
@@ -27679,6 +28036,7 @@
       },
       "pt": {
         "text": "ferro a vapor",
+        "article": "o",
         "source": "generated",
         "needsNativeReview": true
       }
@@ -27873,6 +28231,7 @@
       },
       "pt": {
         "text": "suco de romã",
+        "article": "o",
         "source": "generated",
         "needsNativeReview": true
       }
@@ -28067,6 +28426,7 @@
       },
       "pt": {
         "text": "sorvete de chocolate",
+        "article": "o",
         "source": "generated",
         "needsNativeReview": true
       }
@@ -28261,6 +28621,7 @@
       },
       "pt": {
         "text": "chá com açúcar cristal",
+        "article": "o",
         "source": "generated",
         "needsNativeReview": true
       }
@@ -28398,7 +28759,7 @@
       },
       "fr": {
         "text": "café expresso",
-        "article": "l'",
+        "article": "le",
         "source": "generated",
         "needsNativeReview": true
       },
@@ -28455,6 +28816,7 @@
       },
       "pt": {
         "text": "café expresso",
+        "article": "o",
         "source": "generated",
         "needsNativeReview": true
       }
@@ -28649,6 +29011,7 @@
       },
       "pt": {
         "text": "batatas fritas",
+        "article": "as",
         "source": "generated",
         "needsNativeReview": true
       }
@@ -28843,6 +29206,7 @@
       },
       "pt": {
         "text": "pizza especial",
+        "article": "a",
         "source": "generated",
         "needsNativeReview": true
       }
@@ -29037,6 +29401,7 @@
       },
       "pt": {
         "text": "espeto de kebab",
+        "article": "o",
         "source": "generated",
         "needsNativeReview": true
       }
@@ -29167,7 +29532,7 @@
         "needsNativeReview": true
       },
       "de": {
-        "text": "Gegrilltes Hähnchen",
+        "text": "gegrillte Hähnchen",
         "article": "das",
         "source": "generated",
         "needsNativeReview": true
@@ -29231,6 +29596,7 @@
       },
       "pt": {
         "text": "frango grelhado",
+        "article": "o",
         "source": "generated",
         "needsNativeReview": true
       }
@@ -29425,6 +29791,7 @@
       },
       "pt": {
         "text": "salada mista",
+        "article": "a",
         "source": "generated",
         "needsNativeReview": true
       }
@@ -29619,6 +29986,7 @@
       },
       "pt": {
         "text": "leite com chocolate",
+        "article": "o",
         "source": "generated",
         "needsNativeReview": true
       }
@@ -29813,6 +30181,7 @@
       },
       "pt": {
         "text": "pão folha",
+        "article": "o",
         "source": "generated",
         "needsNativeReview": true
       }
@@ -30007,6 +30376,7 @@
       },
       "pt": {
         "text": "cachorro-quente",
+        "article": "o",
         "source": "generated",
         "needsNativeReview": true
       }
@@ -30201,6 +30571,7 @@
       },
       "pt": {
         "text": "ovo frito",
+        "article": "o",
         "source": "generated",
         "needsNativeReview": true
       }
@@ -30395,6 +30766,7 @@
       },
       "pt": {
         "text": "iogurte com pepino",
+        "article": "o",
         "source": "generated",
         "needsNativeReview": true
       }
@@ -30589,6 +30961,7 @@
       },
       "pt": {
         "text": "geléia de cereja ácida",
+        "article": "a",
         "source": "generated",
         "needsNativeReview": true
       }
@@ -30783,6 +31156,7 @@
       },
       "pt": {
         "text": "massa Alfredo",
+        "article": "a",
         "source": "generated",
         "needsNativeReview": true
       }
@@ -30977,6 +31351,7 @@
       },
       "pt": {
         "text": "batatas fritas",
+        "article": "as",
         "source": "generated",
         "needsNativeReview": true
       }
@@ -31171,6 +31546,7 @@
       },
       "pt": {
         "text": "rei leão",
+        "article": "o",
         "source": "generated",
         "needsNativeReview": true
       }
@@ -31365,6 +31741,7 @@
       },
       "pt": {
         "text": "urso polar",
+        "article": "o",
         "source": "generated",
         "needsNativeReview": true
       }
@@ -31496,7 +31873,7 @@
       },
       "de": {
         "text": "Kätzchen",
-        "article": "die",
+        "article": "das",
         "source": "generated",
         "needsNativeReview": true
       },
@@ -31559,6 +31936,7 @@
       },
       "pt": {
         "text": "gato peludo",
+        "article": "o",
         "source": "generated",
         "needsNativeReview": true
       }
@@ -31753,6 +32131,7 @@
       },
       "pt": {
         "text": "cão de guarda",
+        "article": "o",
         "source": "generated",
         "needsNativeReview": true
       }
@@ -31883,7 +32262,7 @@
         "needsNativeReview": true
       },
       "de": {
-        "text": "Asiatischer Elefant",
+        "text": "asiatische Elefant",
         "article": "der",
         "source": "generated",
         "needsNativeReview": true
@@ -31947,6 +32326,7 @@
       },
       "pt": {
         "text": "elefante asiático",
+        "article": "o",
         "source": "generated",
         "needsNativeReview": true
       }
@@ -32141,6 +32521,7 @@
       },
       "pt": {
         "text": "abelha melífera",
+        "article": "a",
         "source": "generated",
         "needsNativeReview": true
       }
@@ -32335,6 +32716,7 @@
       },
       "pt": {
         "text": "águia-real",
+        "article": "a",
         "source": "generated",
         "needsNativeReview": true
       }
@@ -32529,6 +32911,7 @@
       },
       "pt": {
         "text": "orca",
+        "article": "a",
         "source": "generated",
         "needsNativeReview": true
       }
@@ -32723,6 +33106,7 @@
       },
       "pt": {
         "text": "peixinho dourado",
+        "article": "o",
         "source": "generated",
         "needsNativeReview": true
       }
@@ -32917,6 +33301,7 @@
       },
       "pt": {
         "text": "cascavel",
+        "article": "a",
         "source": "generated",
         "needsNativeReview": true
       }
@@ -33047,7 +33432,7 @@
         "needsNativeReview": true
       },
       "de": {
-        "text": "Schlauer Fuchs",
+        "text": "schlaue Fuchs",
         "article": "der",
         "source": "generated",
         "needsNativeReview": true
@@ -33111,6 +33496,7 @@
       },
       "pt": {
         "text": "raposa esperta",
+        "article": "a",
         "source": "generated",
         "needsNativeReview": true
       }
@@ -33235,13 +33621,13 @@
         "text": "اسب سفید"
       },
       "nl": {
-        "text": "wit paard",
+        "text": "witte paard",
         "article": "het",
         "source": "generated",
         "needsNativeReview": true
       },
       "de": {
-        "text": "Weißes Pferd",
+        "text": "weiße Pferd",
         "article": "das",
         "source": "generated",
         "needsNativeReview": true
@@ -33305,6 +33691,7 @@
       },
       "pt": {
         "text": "cavalo branco",
+        "article": "o",
         "source": "generated",
         "needsNativeReview": true
       }
@@ -33499,6 +33886,7 @@
       },
       "pt": {
         "text": "médico cirurgião",
+        "article": "o",
         "source": "generated",
         "needsNativeReview": true
       }
@@ -33693,6 +34081,7 @@
       },
       "pt": {
         "text": "professor de matemática",
+        "article": "o",
         "source": "generated",
         "needsNativeReview": true
       }
@@ -33887,6 +34276,7 @@
       },
       "pt": {
         "text": "piloto de linha aérea",
+        "article": "o",
         "source": "generated",
         "needsNativeReview": true
       }
@@ -34081,6 +34471,7 @@
       },
       "pt": {
         "text": "polícia de trânsito",
+        "article": "a",
         "source": "generated",
         "needsNativeReview": true
       }
@@ -34211,7 +34602,7 @@
         "needsNativeReview": true
       },
       "de": {
-        "text": "Mutiger Feuerwehrmann",
+        "text": "mutige Feuerwehrmann",
         "article": "der",
         "source": "generated",
         "needsNativeReview": true
@@ -34275,6 +34666,7 @@
       },
       "pt": {
         "text": "bombeiro corajoso",
+        "article": "o",
         "source": "generated",
         "needsNativeReview": true
       }
@@ -34469,6 +34861,7 @@
       },
       "pt": {
         "text": "odontopediatra",
+        "article": "o",
         "source": "generated",
         "needsNativeReview": true
       }
@@ -34593,7 +34986,7 @@
         "text": "شهربازی سرپوشیده"
       },
       "nl": {
-        "text": "overdekt pretpark",
+        "text": "overdekte pretpark",
         "article": "het",
         "source": "generated",
         "needsNativeReview": true
@@ -34663,6 +35056,7 @@
       },
       "pt": {
         "text": "parque temático coberto",
+        "article": "o",
         "source": "generated",
         "needsNativeReview": true
       }
@@ -34857,6 +35251,7 @@
       },
       "pt": {
         "text": "hotel cinco estrelas",
+        "article": "o",
         "source": "generated",
         "needsNativeReview": true
       }
@@ -34990,22 +35385,27 @@
         "text": "ایستگاه قطار"
       },
       "nl": {
-        "text": "treinstation"
+        "text": "treinstation",
+        "article": "het"
       },
       "de": {
-        "text": "Bahnhof"
+        "text": "Bahnhof",
+        "article": "der"
       },
       "fr": {
         "text": "gare ferroviaire",
+        "article": "la",
         "alternatives": [
           "gare"
         ]
       },
       "es": {
-        "text": "estación de tren"
+        "text": "estación de tren",
+        "article": "la"
       },
       "it": {
-        "text": "stazione ferroviaria"
+        "text": "stazione ferroviaria",
+        "article": "la"
       },
       "tr": {
         "text": "Tren istasyonu"
@@ -35032,7 +35432,8 @@
         "text": "रेलवे स्टेशन"
       },
       "pt": {
-        "text": "estação de trem"
+        "text": "estação de trem",
+        "article": "a"
       }
     },
     "prompt": "",
@@ -35225,6 +35626,7 @@
       },
       "pt": {
         "text": "piscina",
+        "article": "a",
         "source": "generated",
         "needsNativeReview": true
       }
@@ -35419,6 +35821,7 @@
       },
       "pt": {
         "text": "cinema 3D",
+        "article": "o",
         "source": "generated",
         "needsNativeReview": true
       }
@@ -35613,6 +36016,7 @@
       },
       "pt": {
         "text": "praia de areia",
+        "article": "a",
         "source": "generated",
         "needsNativeReview": true
       }
@@ -35807,6 +36211,7 @@
       },
       "pt": {
         "text": "carro de corrida",
+        "article": "o",
         "source": "generated",
         "needsNativeReview": true
       }
@@ -36001,6 +36406,7 @@
       },
       "pt": {
         "text": "trem-bala",
+        "article": "o",
         "source": "generated",
         "needsNativeReview": true
       }
@@ -36195,6 +36601,7 @@
       },
       "pt": {
         "text": "bicicleta de montanha",
+        "article": "a",
         "source": "generated",
         "needsNativeReview": true
       }
@@ -36332,7 +36739,7 @@
       },
       "fr": {
         "text": "bus à impériale",
-        "article": "l'",
+        "article": "le",
         "source": "generated",
         "needsNativeReview": true
       },
@@ -36389,6 +36796,7 @@
       },
       "pt": {
         "text": "ônibus de dois andares",
+        "article": "o",
         "source": "generated",
         "needsNativeReview": true
       }
@@ -36583,6 +36991,7 @@
       },
       "pt": {
         "text": "lancha",
+        "article": "a",
         "source": "generated",
         "needsNativeReview": true
       }
@@ -36777,6 +37186,7 @@
       },
       "pt": {
         "text": "navio de cruzeiro",
+        "article": "o",
         "source": "generated",
         "needsNativeReview": true
       }
@@ -36908,7 +37318,7 @@
       },
       "de": {
         "text": "Beachvolleyball",
-        "article": "das",
+        "article": "der",
         "source": "generated",
         "needsNativeReview": true
       },
@@ -36971,6 +37381,7 @@
       },
       "pt": {
         "text": "vôlei de praia",
+        "article": "o",
         "source": "generated",
         "needsNativeReview": true
       }
@@ -37165,6 +37576,7 @@
       },
       "pt": {
         "text": "tênis de mesa",
+        "article": "o",
         "source": "generated",
         "needsNativeReview": true
       }
@@ -37359,6 +37771,7 @@
       },
       "pt": {
         "text": "xadrez rápido",
+        "article": "o",
         "source": "generated",
         "needsNativeReview": true
       }
@@ -37553,6 +37966,7 @@
       },
       "pt": {
         "text": "luta livre",
+        "article": "a",
         "source": "generated",
         "needsNativeReview": true
       }
@@ -37747,6 +38161,7 @@
       },
       "pt": {
         "text": "filme de comédia",
+        "article": "o",
         "source": "generated",
         "needsNativeReview": true
       }
@@ -37941,6 +38356,7 @@
       },
       "pt": {
         "text": "show de música",
+        "article": "o",
         "source": "generated",
         "needsNativeReview": true
       }
@@ -38135,6 +38551,7 @@
       },
       "pt": {
         "text": "videogame",
+        "article": "o",
         "source": "generated",
         "needsNativeReview": true
       }
@@ -47693,7 +48110,8 @@
         "note": "لاته هلندی"
       },
       "nl": {
-        "text": "koffie verkeerd"
+        "text": "koffie verkeerd",
+        "article": "de"
       },
       "en": {
         "text": "Dutch latte with extra milk",
@@ -47717,21 +48135,25 @@
       },
       "de": {
         "text": "Milchkaffee",
+        "article": "der",
         "source": "generated",
         "needsNativeReview": true
       },
       "fr": {
         "text": "café au lait",
+        "article": "le",
         "source": "generated",
         "needsNativeReview": true
       },
       "es": {
         "text": "café con leche",
+        "article": "el",
         "source": "generated",
         "needsNativeReview": true
       },
       "it": {
         "text": "caffellatte",
+        "article": "il",
         "source": "generated",
         "needsNativeReview": true
       },
@@ -47772,6 +48194,7 @@
       },
       "pt": {
         "text": "café com leite",
+        "article": "o",
         "source": "generated",
         "needsNativeReview": true
       }
@@ -73944,30 +74367,35 @@
       },
       "nl": {
         "text": "moeder",
+        "article": "de",
         "alternatives": [
           "mama"
         ]
       },
       "de": {
         "text": "Mutter",
+        "article": "die",
         "alternatives": [
           "Mama"
         ]
       },
       "fr": {
         "text": "mère",
+        "article": "la",
         "alternatives": [
           "maman"
         ]
       },
       "es": {
         "text": "madre",
+        "article": "la",
         "alternatives": [
           "mamá"
         ]
       },
       "it": {
         "text": "madre",
+        "article": "la",
         "alternatives": [
           "mamma"
         ]
@@ -74009,7 +74437,8 @@
         "text": "माँ"
       },
       "pt": {
-        "text": "mãe"
+        "text": "mãe",
+        "article": "a"
       }
     },
     "is_collocation_excluded": false,
@@ -74149,30 +74578,35 @@
       },
       "nl": {
         "text": "vader",
+        "article": "de",
         "alternatives": [
           "papa"
         ]
       },
       "de": {
         "text": "Vater",
+        "article": "der",
         "alternatives": [
           "Papa"
         ]
       },
       "fr": {
         "text": "père",
+        "article": "le",
         "alternatives": [
           "papa"
         ]
       },
       "es": {
         "text": "padre",
+        "article": "el",
         "alternatives": [
           "papá"
         ]
       },
       "it": {
         "text": "padre",
+        "article": "il",
         "alternatives": [
           "papà"
         ]
@@ -74214,7 +74648,8 @@
         ]
       },
       "pt": {
-        "text": "pai"
+        "text": "pai",
+        "article": "o"
       }
     },
     "is_collocation_excluded": false,
@@ -75159,19 +75594,24 @@
         "text": "برادر"
       },
       "nl": {
-        "text": "broer"
+        "text": "broer",
+        "article": "de"
       },
       "de": {
-        "text": "Bruder"
+        "text": "Bruder",
+        "article": "der"
       },
       "fr": {
-        "text": "frère"
+        "text": "frère",
+        "article": "le"
       },
       "es": {
-        "text": "hermano"
+        "text": "hermano",
+        "article": "el"
       },
       "it": {
-        "text": "fratello"
+        "text": "fratello",
+        "article": "il"
       },
       "tr": {
         "text": "kardeş",
@@ -75211,7 +75651,8 @@
         "text": "भाई"
       },
       "pt": {
-        "text": "irmão"
+        "text": "irmão",
+        "article": "o"
       }
     },
     "is_collocation_excluded": false,
@@ -75338,19 +75779,24 @@
         "text": "خواهر"
       },
       "nl": {
-        "text": "zus"
+        "text": "zus",
+        "article": "de"
       },
       "de": {
-        "text": "Schwester"
+        "text": "Schwester",
+        "article": "die"
       },
       "fr": {
-        "text": "sœur"
+        "text": "sœur",
+        "article": "la"
       },
       "es": {
-        "text": "hermana"
+        "text": "hermana",
+        "article": "la"
       },
       "it": {
-        "text": "sorella"
+        "text": "sorella",
+        "article": "la"
       },
       "tr": {
         "text": "kız kardeş",
@@ -75389,7 +75835,8 @@
         "text": "बहन"
       },
       "pt": {
-        "text": "irmã"
+        "text": "irmã",
+        "article": "a"
       }
     },
     "is_collocation_excluded": false,
@@ -92818,19 +93265,24 @@
         "text": "آب"
       },
       "nl": {
-        "text": "water"
+        "text": "water",
+        "article": "het"
       },
       "de": {
-        "text": "Wasser"
+        "text": "Wasser",
+        "article": "das"
       },
       "fr": {
-        "text": "eau"
+        "text": "eau",
+        "article": "l'"
       },
       "es": {
-        "text": "agua"
+        "text": "agua",
+        "article": "el"
       },
       "it": {
-        "text": "acqua"
+        "text": "acqua",
+        "article": "l'"
       },
       "tr": {
         "text": "su"
@@ -92854,7 +93306,8 @@
         "text": "पानी"
       },
       "pt": {
-        "text": "água"
+        "text": "água",
+        "article": "a"
       }
     },
     "is_collocation_excluded": false,
@@ -93160,19 +93613,24 @@
         "text": "آشپزخانه"
       },
       "nl": {
-        "text": "keuken"
+        "text": "keuken",
+        "article": "de"
       },
       "de": {
-        "text": "Küche"
+        "text": "Küche",
+        "article": "die"
       },
       "fr": {
-        "text": "cuisine"
+        "text": "cuisine",
+        "article": "la"
       },
       "es": {
-        "text": "cocina"
+        "text": "cocina",
+        "article": "la"
       },
       "it": {
-        "text": "cucina"
+        "text": "cucina",
+        "article": "la"
       },
       "tr": {
         "text": "mutfak"
@@ -93199,7 +93657,8 @@
         "text": "रसोई"
       },
       "pt": {
-        "text": "cozinha"
+        "text": "cozinha",
+        "article": "a"
       }
     },
     "is_collocation_excluded": false,
@@ -93326,19 +93785,24 @@
         "text": "اتاق خواب"
       },
       "nl": {
-        "text": "slaapkamer"
+        "text": "slaapkamer",
+        "article": "de"
       },
       "de": {
-        "text": "Schlafzimmer"
+        "text": "Schlafzimmer",
+        "article": "das"
       },
       "fr": {
-        "text": "chambre"
+        "text": "chambre",
+        "article": "la"
       },
       "es": {
-        "text": "dormitorio"
+        "text": "dormitorio",
+        "article": "el"
       },
       "it": {
-        "text": "camera da letto"
+        "text": "camera da letto",
+        "article": "la"
       },
       "tr": {
         "text": "yatak odası"
@@ -93362,7 +93826,8 @@
         "text": "शयनकक्ष"
       },
       "pt": {
-        "text": "quarto"
+        "text": "quarto",
+        "article": "o"
       }
     },
     "is_collocation_excluded": false,
@@ -94349,25 +94814,30 @@
         ]
       },
       "nl": {
-        "text": "winkel"
+        "text": "winkel",
+        "article": "de"
       },
       "de": {
         "text": "Geschäft",
+        "article": "das",
         "alternatives": [
           "Laden"
         ]
       },
       "fr": {
         "text": "magasin",
+        "article": "le",
         "alternatives": [
           "boutique"
         ]
       },
       "es": {
-        "text": "tienda"
+        "text": "tienda",
+        "article": "la"
       },
       "it": {
-        "text": "negozio"
+        "text": "negozio",
+        "article": "il"
       },
       "tr": {
         "text": "dükkan",
@@ -94394,7 +94864,8 @@
         "text": "दुकान"
       },
       "pt": {
-        "text": "loja"
+        "text": "loja",
+        "article": "a"
       }
     },
     "is_collocation_excluded": false,
@@ -94524,19 +94995,24 @@
         "text": "پول"
       },
       "nl": {
-        "text": "geld"
+        "text": "geld",
+        "article": "het"
       },
       "de": {
-        "text": "Geld"
+        "text": "Geld",
+        "article": "das"
       },
       "fr": {
-        "text": "argent"
+        "text": "argent",
+        "article": "l'"
       },
       "es": {
-        "text": "dinero"
+        "text": "dinero",
+        "article": "el"
       },
       "it": {
-        "text": "soldi"
+        "text": "soldi",
+        "article": "i"
       },
       "tr": {
         "text": "para"
@@ -94560,7 +95036,8 @@
         "text": "पैसे"
       },
       "pt": {
-        "text": "dinheiro"
+        "text": "dinheiro",
+        "article": "o"
       }
     },
     "is_collocation_excluded": false,
@@ -96213,19 +96690,24 @@
         "text": "پاسپورت"
       },
       "nl": {
-        "text": "paspoort"
+        "text": "paspoort",
+        "article": "het"
       },
       "de": {
-        "text": "Reisepass"
+        "text": "Reisepass",
+        "article": "der"
       },
       "fr": {
-        "text": "passeport"
+        "text": "passeport",
+        "article": "le"
       },
       "es": {
-        "text": "pasaporte"
+        "text": "pasaporte",
+        "article": "el"
       },
       "it": {
-        "text": "passaporto"
+        "text": "passaporto",
+        "article": "il"
       },
       "tr": {
         "text": "pasaport"
@@ -96249,7 +96731,8 @@
         "text": "पासपोर्ट"
       },
       "pt": {
-        "text": "passaporte"
+        "text": "passaporte",
+        "article": "o"
       }
     },
     "is_collocation_excluded": false,
@@ -96380,27 +96863,32 @@
       },
       "nl": {
         "text": "kaartje",
+        "article": "het",
         "alternatives": [
           "ticket"
         ]
       },
       "de": {
         "text": "Fahrkarte",
+        "article": "die",
         "alternatives": [
           "Ticket"
         ]
       },
       "fr": {
-        "text": "billet"
+        "text": "billet",
+        "article": "le"
       },
       "es": {
         "text": "billete",
+        "article": "el",
         "alternatives": [
           "boleto"
         ]
       },
       "it": {
-        "text": "biglietto"
+        "text": "biglietto",
+        "article": "il"
       },
       "tr": {
         "text": "bilet"
@@ -96430,7 +96918,8 @@
         "text": "टिकट"
       },
       "pt": {
-        "text": "bilhete"
+        "text": "bilhete",
+        "article": "o"
       }
     },
     "is_collocation_excluded": false,
@@ -96557,19 +97046,24 @@
         "text": "هتل"
       },
       "nl": {
-        "text": "hotel"
+        "text": "hotel",
+        "article": "het"
       },
       "de": {
-        "text": "Hotel"
+        "text": "Hotel",
+        "article": "das"
       },
       "fr": {
-        "text": "hôtel"
+        "text": "hôtel",
+        "article": "l'"
       },
       "es": {
-        "text": "hotel"
+        "text": "hotel",
+        "article": "el"
       },
       "it": {
         "text": "albergo",
+        "article": "l'",
         "alternatives": [
           "hotel"
         ]
@@ -96596,7 +97090,8 @@
         "text": "होटल"
       },
       "pt": {
-        "text": "hotel"
+        "text": "hotel",
+        "article": "o"
       }
     },
     "is_collocation_excluded": false,
@@ -96889,19 +97384,24 @@
         ]
       },
       "nl": {
-        "text": "strand"
+        "text": "strand",
+        "article": "het"
       },
       "de": {
-        "text": "Strand"
+        "text": "Strand",
+        "article": "der"
       },
       "fr": {
-        "text": "plage"
+        "text": "plage",
+        "article": "la"
       },
       "es": {
-        "text": "playa"
+        "text": "playa",
+        "article": "la"
       },
       "it": {
-        "text": "spiaggia"
+        "text": "spiaggia",
+        "article": "la"
       },
       "tr": {
         "text": "plaj"
@@ -96928,7 +97428,8 @@
         "text": "समुद्र तट"
       },
       "pt": {
-        "text": "praia"
+        "text": "praia",
+        "article": "a"
       }
     },
     "is_collocation_excluded": false,
@@ -97055,19 +97556,24 @@
         "text": "پارک"
       },
       "nl": {
-        "text": "park"
+        "text": "park",
+        "article": "het"
       },
       "de": {
-        "text": "Park"
+        "text": "Park",
+        "article": "der"
       },
       "fr": {
-        "text": "parc"
+        "text": "parc",
+        "article": "le"
       },
       "es": {
-        "text": "parque"
+        "text": "parque",
+        "article": "el"
       },
       "it": {
-        "text": "parco"
+        "text": "parco",
+        "article": "il"
       },
       "tr": {
         "text": "park"
@@ -97091,7 +97597,8 @@
         "text": "पार्क"
       },
       "pt": {
-        "text": "parque"
+        "text": "parque",
+        "article": "o"
       }
     },
     "is_collocation_excluded": false,
@@ -97218,19 +97725,24 @@
         "text": "کتاب"
       },
       "nl": {
-        "text": "boek"
+        "text": "boek",
+        "article": "het"
       },
       "de": {
-        "text": "Buch"
+        "text": "Buch",
+        "article": "das"
       },
       "fr": {
-        "text": "livre"
+        "text": "livre",
+        "article": "le"
       },
       "es": {
-        "text": "libro"
+        "text": "libro",
+        "article": "el"
       },
       "it": {
-        "text": "libro"
+        "text": "libro",
+        "article": "il"
       },
       "tr": {
         "text": "kitap"
@@ -97254,7 +97766,8 @@
         "text": "किताब"
       },
       "pt": {
-        "text": "livro"
+        "text": "livro",
+        "article": "o"
       }
     },
     "is_collocation_excluded": false,
@@ -97381,19 +97894,24 @@
         "text": "مدرسه"
       },
       "nl": {
-        "text": "school"
+        "text": "school",
+        "article": "de"
       },
       "de": {
-        "text": "Schule"
+        "text": "Schule",
+        "article": "die"
       },
       "fr": {
-        "text": "école"
+        "text": "école",
+        "article": "l'"
       },
       "es": {
-        "text": "escuela"
+        "text": "escuela",
+        "article": "la"
       },
       "it": {
-        "text": "scuola"
+        "text": "scuola",
+        "article": "la"
       },
       "tr": {
         "text": "okul"
@@ -97417,7 +97935,8 @@
         "text": "स्कूल"
       },
       "pt": {
-        "text": "escola"
+        "text": "escola",
+        "article": "a"
       }
     },
     "is_collocation_excluded": false,
@@ -97547,26 +98066,31 @@
         "text": "دوست"
       },
       "nl": {
-        "text": "vriend"
+        "text": "vriend",
+        "article": "de"
       },
       "de": {
         "text": "Freund",
+        "article": "der",
         "alternatives": [
           "Freund(in)"
         ],
         "note": "in"
       },
       "fr": {
-        "text": "ami(e)",
+        "text": "ami",
+        "article": "l'",
         "alternatives": [
           "ami"
         ]
       },
       "es": {
-        "text": "amigo"
+        "text": "amigo",
+        "article": "el"
       },
       "it": {
-        "text": "amico"
+        "text": "amico",
+        "article": "l'"
       },
       "tr": {
         "text": "arkadaş"
@@ -97593,7 +98117,8 @@
         "text": "दोस्त"
       },
       "pt": {
-        "text": "amigo"
+        "text": "amigo",
+        "article": "o"
       }
     },
     "is_collocation_excluded": false,
@@ -99809,19 +100334,24 @@
         "text": "پیراهن"
       },
       "nl": {
-        "text": "overhemd"
+        "text": "overhemd",
+        "article": "het"
       },
       "de": {
-        "text": "Hemd"
+        "text": "Hemd",
+        "article": "das"
       },
       "fr": {
-        "text": "chemise"
+        "text": "chemise",
+        "article": "la"
       },
       "es": {
-        "text": "camisa"
+        "text": "camisa",
+        "article": "la"
       },
       "it": {
-        "text": "camicia"
+        "text": "camicia",
+        "article": "la"
       },
       "tr": {
         "text": "gömlek"
@@ -99845,7 +100375,8 @@
         "text": "शर्ट"
       },
       "pt": {
-        "text": "camisa"
+        "text": "camisa",
+        "article": "a"
       }
     },
     "is_collocation_excluded": false,
@@ -99972,19 +100503,24 @@
         "text": "شلوار"
       },
       "nl": {
-        "text": "broek"
+        "text": "broek",
+        "article": "de"
       },
       "de": {
-        "text": "Hose"
+        "text": "Hose",
+        "article": "die"
       },
       "fr": {
-        "text": "pantalon"
+        "text": "pantalon",
+        "article": "le"
       },
       "es": {
-        "text": "pantalones"
+        "text": "pantalones",
+        "article": "los"
       },
       "it": {
-        "text": "pantaloni"
+        "text": "pantaloni",
+        "article": "i"
       },
       "tr": {
         "text": "pantolon"
@@ -100008,7 +100544,8 @@
         "text": "पैंट"
       },
       "pt": {
-        "text": "calças"
+        "text": "calças",
+        "article": "as"
       }
     },
     "is_collocation_excluded": false,
@@ -100138,19 +100675,24 @@
         ]
       },
       "nl": {
-        "text": "jurk"
+        "text": "jurk",
+        "article": "de"
       },
       "de": {
-        "text": "Kleid"
+        "text": "Kleid",
+        "article": "das"
       },
       "fr": {
-        "text": "robe"
+        "text": "robe",
+        "article": "la"
       },
       "es": {
-        "text": "vestido"
+        "text": "vestido",
+        "article": "el"
       },
       "it": {
-        "text": "vestito"
+        "text": "vestito",
+        "article": "il"
       },
       "tr": {
         "text": "elbise"
@@ -100174,7 +100716,8 @@
         "text": "ड्रेस"
       },
       "pt": {
-        "text": "vestido"
+        "text": "vestido",
+        "article": "o"
       }
     },
     "is_collocation_excluded": false,
@@ -100304,22 +100847,27 @@
         ]
       },
       "nl": {
-        "text": "jas"
+        "text": "jas",
+        "article": "de"
       },
       "de": {
-        "text": "Jacke"
+        "text": "Jacke",
+        "article": "die"
       },
       "fr": {
         "text": "veste",
+        "article": "la",
         "alternatives": [
           "blouson"
         ]
       },
       "es": {
-        "text": "chaqueta"
+        "text": "chaqueta",
+        "article": "la"
       },
       "it": {
-        "text": "giacca"
+        "text": "giacca",
+        "article": "la"
       },
       "tr": {
         "text": "ceket"
@@ -100343,7 +100891,8 @@
         "text": "जैकेट"
       },
       "pt": {
-        "text": "jaqueta"
+        "text": "jaqueta",
+        "article": "a"
       }
     },
     "is_collocation_excluded": false,
@@ -100470,19 +101019,24 @@
         "text": "کلاه"
       },
       "nl": {
-        "text": "hoed"
+        "text": "hoed",
+        "article": "de"
       },
       "de": {
-        "text": "Hut"
+        "text": "Hut",
+        "article": "der"
       },
       "fr": {
-        "text": "chapeau"
+        "text": "chapeau",
+        "article": "le"
       },
       "es": {
-        "text": "sombrero"
+        "text": "sombrero",
+        "article": "el"
       },
       "it": {
-        "text": "cappello"
+        "text": "cappello",
+        "article": "il"
       },
       "tr": {
         "text": "şapka"
@@ -100506,7 +101060,8 @@
         "text": "टोपी"
       },
       "pt": {
-        "text": "chapéu"
+        "text": "chapéu",
+        "article": "o"
       }
     },
     "is_collocation_excluded": false,
@@ -100633,19 +101188,24 @@
         "text": "سر"
       },
       "nl": {
-        "text": "hoofd"
+        "text": "hoofd",
+        "article": "het"
       },
       "de": {
-        "text": "Kopf"
+        "text": "Kopf",
+        "article": "der"
       },
       "fr": {
-        "text": "tête"
+        "text": "tête",
+        "article": "la"
       },
       "es": {
-        "text": "cabeza"
+        "text": "cabeza",
+        "article": "la"
       },
       "it": {
-        "text": "testa"
+        "text": "testa",
+        "article": "la"
       },
       "tr": {
         "text": "kafa"
@@ -100669,7 +101229,8 @@
         "text": "सिर"
       },
       "pt": {
-        "text": "cabeça"
+        "text": "cabeça",
+        "article": "a"
       }
     },
     "is_collocation_excluded": false,
@@ -100796,19 +101357,24 @@
         "text": "دست"
       },
       "nl": {
-        "text": "hand"
+        "text": "hand",
+        "article": "de"
       },
       "de": {
-        "text": "Hand"
+        "text": "Hand",
+        "article": "die"
       },
       "fr": {
-        "text": "main"
+        "text": "main",
+        "article": "la"
       },
       "es": {
-        "text": "mano"
+        "text": "mano",
+        "article": "la"
       },
       "it": {
-        "text": "mano"
+        "text": "mano",
+        "article": "la"
       },
       "tr": {
         "text": "el"
@@ -100832,7 +101398,8 @@
         "text": "हाथ"
       },
       "pt": {
-        "text": "mão"
+        "text": "mão",
+        "article": "a"
       }
     },
     "is_collocation_excluded": false,
@@ -100959,19 +101526,24 @@
         "text": "چشم"
       },
       "nl": {
-        "text": "oog"
+        "text": "oog",
+        "article": "het"
       },
       "de": {
-        "text": "Auge"
+        "text": "Auge",
+        "article": "das"
       },
       "fr": {
-        "text": "œil"
+        "text": "œil",
+        "article": "l'"
       },
       "es": {
-        "text": "ojo"
+        "text": "ojo",
+        "article": "el"
       },
       "it": {
-        "text": "occhio"
+        "text": "occhio",
+        "article": "l'"
       },
       "tr": {
         "text": "göz"
@@ -100995,7 +101567,8 @@
         "text": "आँख"
       },
       "pt": {
-        "text": "olho"
+        "text": "olho",
+        "article": "o"
       }
     },
     "is_collocation_excluded": false,
@@ -101122,19 +101695,24 @@
         "text": "پا"
       },
       "nl": {
-        "text": "voet"
+        "text": "voet",
+        "article": "de"
       },
       "de": {
-        "text": "Fuß"
+        "text": "Fuß",
+        "article": "der"
       },
       "fr": {
-        "text": "pied"
+        "text": "pied",
+        "article": "le"
       },
       "es": {
-        "text": "pie"
+        "text": "pie",
+        "article": "el"
       },
       "it": {
-        "text": "piede"
+        "text": "piede",
+        "article": "il"
       },
       "tr": {
         "text": "ayak"
@@ -101161,7 +101739,8 @@
         "text": "पैर"
       },
       "pt": {
-        "text": "pé"
+        "text": "pé",
+        "article": "o"
       }
     },
     "is_collocation_excluded": false,
@@ -101288,19 +101867,24 @@
         "text": "میوه"
       },
       "nl": {
-        "text": "fruit"
+        "text": "fruit",
+        "article": "het"
       },
       "de": {
-        "text": "Obst"
+        "text": "Obst",
+        "article": "das"
       },
       "fr": {
-        "text": "fruit"
+        "text": "fruit",
+        "article": "le"
       },
       "es": {
-        "text": "fruta"
+        "text": "fruta",
+        "article": "la"
       },
       "it": {
-        "text": "frutta"
+        "text": "frutta",
+        "article": "la"
       },
       "tr": {
         "text": "meyve"
@@ -101324,7 +101908,8 @@
         "text": "फल"
       },
       "pt": {
-        "text": "fruta"
+        "text": "fruta",
+        "article": "a"
       }
     },
     "is_collocation_excluded": false,
@@ -101451,19 +102036,24 @@
         "text": "سبزیجات"
       },
       "nl": {
-        "text": "groente"
+        "text": "groente",
+        "article": "de"
       },
       "de": {
-        "text": "Gemüse"
+        "text": "Gemüse",
+        "article": "das"
       },
       "fr": {
-        "text": "légume"
+        "text": "légume",
+        "article": "le"
       },
       "es": {
-        "text": "verdura"
+        "text": "verdura",
+        "article": "la"
       },
       "it": {
-        "text": "verdura"
+        "text": "verdura",
+        "article": "la"
       },
       "tr": {
         "text": "sebze"
@@ -101487,7 +102077,8 @@
         "text": "सब्ज़ी"
       },
       "pt": {
-        "text": "legume"
+        "text": "legume",
+        "article": "o"
       }
     },
     "is_collocation_excluded": false,
@@ -101618,19 +102209,24 @@
         "text": "دوشنبه"
       },
       "nl": {
-        "text": "maandag"
+        "text": "maandag",
+        "article": "de"
       },
       "de": {
-        "text": "Montag"
+        "text": "Montag",
+        "article": "der"
       },
       "fr": {
-        "text": "lundi"
+        "text": "lundi",
+        "article": "le"
       },
       "es": {
-        "text": "lunes"
+        "text": "lunes",
+        "article": "el"
       },
       "it": {
-        "text": "lunedì"
+        "text": "lunedì",
+        "article": "il"
       },
       "tr": {
         "text": "Pazartesi"
@@ -101654,7 +102250,8 @@
         "text": "सोमवार"
       },
       "pt": {
-        "text": "segunda-feira"
+        "text": "segunda-feira",
+        "article": "a"
       }
     },
     "is_collocation_excluded": false,
@@ -101785,19 +102382,24 @@
         "text": "سه‌شنبه"
       },
       "nl": {
-        "text": "dinsdag"
+        "text": "dinsdag",
+        "article": "de"
       },
       "de": {
-        "text": "Dienstag"
+        "text": "Dienstag",
+        "article": "der"
       },
       "fr": {
-        "text": "mardi"
+        "text": "mardi",
+        "article": "le"
       },
       "es": {
-        "text": "martes"
+        "text": "martes",
+        "article": "el"
       },
       "it": {
-        "text": "martedì"
+        "text": "martedì",
+        "article": "il"
       },
       "tr": {
         "text": "Salı"
@@ -101821,7 +102423,8 @@
         "text": "मंगलवार"
       },
       "pt": {
-        "text": "terça-feira"
+        "text": "terça-feira",
+        "article": "a"
       }
     },
     "is_collocation_excluded": false,
@@ -101952,19 +102555,24 @@
         "text": "چهارشنبه"
       },
       "nl": {
-        "text": "woensdag"
+        "text": "woensdag",
+        "article": "de"
       },
       "de": {
-        "text": "Mittwoch"
+        "text": "Mittwoch",
+        "article": "der"
       },
       "fr": {
-        "text": "mercredi"
+        "text": "mercredi",
+        "article": "le"
       },
       "es": {
-        "text": "miércoles"
+        "text": "miércoles",
+        "article": "el"
       },
       "it": {
-        "text": "mercoledì"
+        "text": "mercoledì",
+        "article": "il"
       },
       "tr": {
         "text": "Çarşamba"
@@ -101988,7 +102596,8 @@
         "text": "बुधवार"
       },
       "pt": {
-        "text": "quarta-feira"
+        "text": "quarta-feira",
+        "article": "a"
       }
     },
     "is_collocation_excluded": false,
@@ -102119,19 +102728,24 @@
         "text": "پنجشنبه"
       },
       "nl": {
-        "text": "donderdag"
+        "text": "donderdag",
+        "article": "de"
       },
       "de": {
-        "text": "Donnerstag"
+        "text": "Donnerstag",
+        "article": "der"
       },
       "fr": {
-        "text": "jeudi"
+        "text": "jeudi",
+        "article": "le"
       },
       "es": {
-        "text": "jueves"
+        "text": "jueves",
+        "article": "el"
       },
       "it": {
-        "text": "giovedì"
+        "text": "giovedì",
+        "article": "il"
       },
       "tr": {
         "text": "Perşembe"
@@ -102155,7 +102769,8 @@
         "text": "गुरुवार"
       },
       "pt": {
-        "text": "quinta-feira"
+        "text": "quinta-feira",
+        "article": "a"
       }
     },
     "is_collocation_excluded": false,
@@ -102286,19 +102901,24 @@
         "text": "جمعه"
       },
       "nl": {
-        "text": "vrijdag"
+        "text": "vrijdag",
+        "article": "de"
       },
       "de": {
-        "text": "Freitag"
+        "text": "Freitag",
+        "article": "der"
       },
       "fr": {
-        "text": "vendredi"
+        "text": "vendredi",
+        "article": "le"
       },
       "es": {
-        "text": "viernes"
+        "text": "viernes",
+        "article": "el"
       },
       "it": {
-        "text": "venerdì"
+        "text": "venerdì",
+        "article": "il"
       },
       "tr": {
         "text": "Cuma"
@@ -102322,7 +102942,8 @@
         "text": "शुक्रवार"
       },
       "pt": {
-        "text": "sexta-feira"
+        "text": "sexta-feira",
+        "article": "a"
       }
     },
     "is_collocation_excluded": false,
@@ -102453,19 +103074,24 @@
         "text": "شنبه"
       },
       "nl": {
-        "text": "zaterdag"
+        "text": "zaterdag",
+        "article": "de"
       },
       "de": {
-        "text": "Samstag"
+        "text": "Samstag",
+        "article": "der"
       },
       "fr": {
-        "text": "samedi"
+        "text": "samedi",
+        "article": "le"
       },
       "es": {
-        "text": "sábado"
+        "text": "sábado",
+        "article": "el"
       },
       "it": {
-        "text": "sabato"
+        "text": "sabato",
+        "article": "il"
       },
       "tr": {
         "text": "Cumartesi"
@@ -102489,7 +103115,8 @@
         "text": "शनिवार"
       },
       "pt": {
-        "text": "sábado"
+        "text": "sábado",
+        "article": "o"
       }
     },
     "is_collocation_excluded": false,
@@ -102620,19 +103247,24 @@
         "text": "یکشنبه"
       },
       "nl": {
-        "text": "zondag"
+        "text": "zondag",
+        "article": "de"
       },
       "de": {
-        "text": "Sonntag"
+        "text": "Sonntag",
+        "article": "der"
       },
       "fr": {
-        "text": "dimanche"
+        "text": "dimanche",
+        "article": "le"
       },
       "es": {
-        "text": "domingo"
+        "text": "domingo",
+        "article": "el"
       },
       "it": {
-        "text": "domenica"
+        "text": "domenica",
+        "article": "la"
       },
       "tr": {
         "text": "Pazar"
@@ -102656,7 +103288,8 @@
         "text": "रविवार"
       },
       "pt": {
-        "text": "domingo"
+        "text": "domingo",
+        "article": "o"
       }
     },
     "is_collocation_excluded": false,
@@ -103818,19 +104451,24 @@
         "text": "دوچرخه"
       },
       "nl": {
-        "text": "fiets"
+        "text": "fiets",
+        "article": "de"
       },
       "de": {
-        "text": "Fahrrad"
+        "text": "Fahrrad",
+        "article": "das"
       },
       "fr": {
-        "text": "vélo"
+        "text": "vélo",
+        "article": "le"
       },
       "es": {
-        "text": "bicicleta"
+        "text": "bicicleta",
+        "article": "la"
       },
       "it": {
-        "text": "bicicletta"
+        "text": "bicicletta",
+        "article": "la"
       },
       "tr": {
         "text": "bisiklet"
@@ -103854,7 +104492,8 @@
         "text": "साइकिल"
       },
       "pt": {
-        "text": "bicicleta"
+        "text": "bicicleta",
+        "article": "a"
       }
     },
     "is_collocation_excluded": false,
@@ -103987,19 +104626,24 @@
         "text": "هواپیما"
       },
       "nl": {
-        "text": "vliegtuig"
+        "text": "vliegtuig",
+        "article": "het"
       },
       "de": {
-        "text": "Flugzeug"
+        "text": "Flugzeug",
+        "article": "das"
       },
       "fr": {
-        "text": "avion"
+        "text": "avion",
+        "article": "l'"
       },
       "es": {
-        "text": "avión"
+        "text": "avión",
+        "article": "el"
       },
       "it": {
-        "text": "aereo"
+        "text": "aereo",
+        "article": "l'"
       },
       "tr": {
         "text": "uçak"
@@ -104023,7 +104667,8 @@
         "text": "हवाई जहाज"
       },
       "pt": {
-        "text": "avião"
+        "text": "avião",
+        "article": "o"
       }
     },
     "is_collocation_excluded": false,
@@ -104150,25 +104795,30 @@
         "text": "ایستگاه"
       },
       "nl": {
-        "text": "station"
+        "text": "station",
+        "article": "het"
       },
       "de": {
         "text": "Bahnhof",
+        "article": "der",
         "alternatives": [
           "Station"
         ]
       },
       "fr": {
         "text": "gare",
+        "article": "la",
         "alternatives": [
           "station"
         ]
       },
       "es": {
-        "text": "estación"
+        "text": "estación",
+        "article": "la"
       },
       "it": {
-        "text": "stazione"
+        "text": "stazione",
+        "article": "la"
       },
       "tr": {
         "text": "istasyon"
@@ -104195,7 +104845,8 @@
         "text": "स्टेशन"
       },
       "pt": {
-        "text": "estação"
+        "text": "estação",
+        "article": "a"
       }
     },
     "is_collocation_excluded": false,
@@ -104322,19 +104973,24 @@
         "text": "بانک"
       },
       "nl": {
-        "text": "bank"
+        "text": "bank",
+        "article": "de"
       },
       "de": {
-        "text": "Bank"
+        "text": "Bank",
+        "article": "die"
       },
       "fr": {
-        "text": "banque"
+        "text": "banque",
+        "article": "la"
       },
       "es": {
-        "text": "banco"
+        "text": "banco",
+        "article": "el"
       },
       "it": {
-        "text": "banca"
+        "text": "banca",
+        "article": "la"
       },
       "tr": {
         "text": "banka"
@@ -104358,7 +105014,8 @@
         "text": "बैंक"
       },
       "pt": {
-        "text": "banco"
+        "text": "banco",
+        "article": "o"
       }
     },
     "is_collocation_excluded": false,
@@ -104485,19 +105142,24 @@
         "text": "پستخانه"
       },
       "nl": {
-        "text": "postkantoor"
+        "text": "postkantoor",
+        "article": "het"
       },
       "de": {
-        "text": "Postamt"
+        "text": "Postamt",
+        "article": "das"
       },
       "fr": {
-        "text": "bureau de poste"
+        "text": "bureau de poste",
+        "article": "le"
       },
       "es": {
-        "text": "oficina de correos"
+        "text": "oficina de correos",
+        "article": "la"
       },
       "it": {
-        "text": "ufficio postale"
+        "text": "ufficio postale",
+        "article": "l'"
       },
       "tr": {
         "text": "postane"
@@ -104521,7 +105183,8 @@
         "text": "डाकघर"
       },
       "pt": {
-        "text": "correios"
+        "text": "correios",
+        "article": "os"
       }
     },
     "is_collocation_excluded": false,
@@ -104648,19 +105311,24 @@
         "text": "سوپرمارکت"
       },
       "nl": {
-        "text": "supermarkt"
+        "text": "supermarkt",
+        "article": "de"
       },
       "de": {
-        "text": "Supermarkt"
+        "text": "Supermarkt",
+        "article": "der"
       },
       "fr": {
-        "text": "supermarché"
+        "text": "supermarché",
+        "article": "le"
       },
       "es": {
-        "text": "supermercado"
+        "text": "supermercado",
+        "article": "el"
       },
       "it": {
-        "text": "supermercato"
+        "text": "supermercato",
+        "article": "il"
       },
       "tr": {
         "text": "süpermarket"
@@ -104684,7 +105352,8 @@
         "text": "सुपरमार्केट"
       },
       "pt": {
-        "text": "supermercado"
+        "text": "supermercado",
+        "article": "o"
       }
     },
     "is_collocation_excluded": false,
@@ -106634,25 +107303,30 @@
         "text": "گوشی"
       },
       "nl": {
-        "text": "telefoon"
+        "text": "telefoon",
+        "article": "de"
       },
       "de": {
         "text": "Handy",
+        "article": "das",
         "alternatives": [
           "Telefon"
         ]
       },
       "fr": {
         "text": "téléphone",
+        "article": "le",
         "alternatives": [
           "portable"
         ]
       },
       "es": {
-        "text": "teléfono"
+        "text": "teléfono",
+        "article": "el"
       },
       "it": {
-        "text": "telefono"
+        "text": "telefono",
+        "article": "il"
       },
       "tr": {
         "text": "telefon"
@@ -106682,7 +107356,8 @@
         "text": "फोन"
       },
       "pt": {
-        "text": "telefone"
+        "text": "telefone",
+        "article": "o"
       }
     },
     "is_collocation_excluded": false,
@@ -106809,19 +107484,24 @@
         "text": "در"
       },
       "nl": {
-        "text": "deur"
+        "text": "deur",
+        "article": "de"
       },
       "de": {
-        "text": "Tür"
+        "text": "Tür",
+        "article": "die"
       },
       "fr": {
-        "text": "porte"
+        "text": "porte",
+        "article": "la"
       },
       "es": {
-        "text": "puerta"
+        "text": "puerta",
+        "article": "la"
       },
       "it": {
-        "text": "porta"
+        "text": "porta",
+        "article": "la"
       },
       "tr": {
         "text": "kapı"
@@ -106845,7 +107525,8 @@
         "text": "दरवाज़ा"
       },
       "pt": {
-        "text": "porta"
+        "text": "porta",
+        "article": "a"
       }
     },
     "is_collocation_excluded": false,
@@ -106972,19 +107653,24 @@
         "text": "پنجره"
       },
       "nl": {
-        "text": "raam"
+        "text": "raam",
+        "article": "het"
       },
       "de": {
-        "text": "Fenster"
+        "text": "Fenster",
+        "article": "das"
       },
       "fr": {
-        "text": "fenêtre"
+        "text": "fenêtre",
+        "article": "la"
       },
       "es": {
-        "text": "ventana"
+        "text": "ventana",
+        "article": "la"
       },
       "it": {
-        "text": "finestra"
+        "text": "finestra",
+        "article": "la"
       },
       "tr": {
         "text": "pencere"
@@ -107008,7 +107694,8 @@
         "text": "खिड़की"
       },
       "pt": {
-        "text": "janela"
+        "text": "janela",
+        "article": "a"
       }
     },
     "is_collocation_excluded": false,
@@ -109616,19 +110303,24 @@
         "text": "صبح"
       },
       "nl": {
-        "text": "ochtend"
+        "text": "ochtend",
+        "article": "de"
       },
       "de": {
-        "text": "Morgen"
+        "text": "Morgen",
+        "article": "der"
       },
       "fr": {
-        "text": "matin"
+        "text": "matin",
+        "article": "le"
       },
       "es": {
-        "text": "mañana"
+        "text": "mañana",
+        "article": "la"
       },
       "it": {
-        "text": "mattina"
+        "text": "mattina",
+        "article": "la"
       },
       "tr": {
         "text": "sabah"
@@ -109652,7 +110344,8 @@
         "text": "सुबह"
       },
       "pt": {
-        "text": "manhã"
+        "text": "manhã",
+        "article": "a"
       }
     },
     "is_collocation_excluded": false,
@@ -109779,19 +110472,24 @@
         "text": "بعدازظهر"
       },
       "nl": {
-        "text": "middag"
+        "text": "middag",
+        "article": "de"
       },
       "de": {
-        "text": "Nachmittag"
+        "text": "Nachmittag",
+        "article": "der"
       },
       "fr": {
-        "text": "après-midi"
+        "text": "après-midi",
+        "article": "l'"
       },
       "es": {
-        "text": "tarde"
+        "text": "tarde",
+        "article": "la"
       },
       "it": {
-        "text": "pomeriggio"
+        "text": "pomeriggio",
+        "article": "il"
       },
       "tr": {
         "text": "öğleden sonra"
@@ -109815,7 +110513,8 @@
         "text": "दोपहर"
       },
       "pt": {
-        "text": "tarde"
+        "text": "tarde",
+        "article": "a"
       }
     },
     "is_collocation_excluded": false,
@@ -109945,19 +110644,24 @@
         ]
       },
       "nl": {
-        "text": "avond"
+        "text": "avond",
+        "article": "de"
       },
       "de": {
-        "text": "Abend"
+        "text": "Abend",
+        "article": "der"
       },
       "fr": {
-        "text": "soir"
+        "text": "soir",
+        "article": "le"
       },
       "es": {
-        "text": "noche"
+        "text": "noche",
+        "article": "la"
       },
       "it": {
-        "text": "sera"
+        "text": "sera",
+        "article": "la"
       },
       "tr": {
         "text": "akşam"
@@ -109984,7 +110688,8 @@
         "text": "शाम"
       },
       "pt": {
-        "text": "noite"
+        "text": "noite",
+        "article": "a"
       }
     },
     "is_collocation_excluded": false,
@@ -110111,19 +110816,24 @@
         "text": "شب"
       },
       "nl": {
-        "text": "nacht"
+        "text": "nacht",
+        "article": "de"
       },
       "de": {
-        "text": "Nacht"
+        "text": "Nacht",
+        "article": "die"
       },
       "fr": {
-        "text": "nuit"
+        "text": "nuit",
+        "article": "la"
       },
       "es": {
-        "text": "noche"
+        "text": "noche",
+        "article": "la"
       },
       "it": {
-        "text": "notte"
+        "text": "notte",
+        "article": "la"
       },
       "tr": {
         "text": "gece"
@@ -110147,7 +110857,8 @@
         "text": "रात"
       },
       "pt": {
-        "text": "noite"
+        "text": "noite",
+        "article": "a"
       }
     },
     "is_collocation_excluded": false,
@@ -110274,19 +110985,24 @@
         "text": "هفته"
       },
       "nl": {
-        "text": "week"
+        "text": "week",
+        "article": "de"
       },
       "de": {
-        "text": "Woche"
+        "text": "Woche",
+        "article": "die"
       },
       "fr": {
-        "text": "semaine"
+        "text": "semaine",
+        "article": "la"
       },
       "es": {
-        "text": "semana"
+        "text": "semana",
+        "article": "la"
       },
       "it": {
-        "text": "settimana"
+        "text": "settimana",
+        "article": "la"
       },
       "tr": {
         "text": "hafta"
@@ -110313,7 +111029,8 @@
         "text": "हफ़्ता"
       },
       "pt": {
-        "text": "semana"
+        "text": "semana",
+        "article": "a"
       }
     },
     "is_collocation_excluded": false,
@@ -110440,19 +111157,24 @@
         "text": "ماه"
       },
       "nl": {
-        "text": "maand"
+        "text": "maand",
+        "article": "de"
       },
       "de": {
-        "text": "Monat"
+        "text": "Monat",
+        "article": "der"
       },
       "fr": {
-        "text": "mois"
+        "text": "mois",
+        "article": "le"
       },
       "es": {
-        "text": "mes"
+        "text": "mes",
+        "article": "el"
       },
       "it": {
-        "text": "mese"
+        "text": "mese",
+        "article": "il"
       },
       "tr": {
         "text": "ay"
@@ -110476,7 +111198,8 @@
         "text": "महीना"
       },
       "pt": {
-        "text": "mês"
+        "text": "mês",
+        "article": "o"
       }
     },
     "is_collocation_excluded": false,
@@ -110603,19 +111326,24 @@
         "text": "سال"
       },
       "nl": {
-        "text": "jaar"
+        "text": "jaar",
+        "article": "het"
       },
       "de": {
-        "text": "Jahr"
+        "text": "Jahr",
+        "article": "das"
       },
       "fr": {
-        "text": "année"
+        "text": "année",
+        "article": "l'"
       },
       "es": {
-        "text": "año"
+        "text": "año",
+        "article": "el"
       },
       "it": {
-        "text": "anno"
+        "text": "anno",
+        "article": "l'"
       },
       "tr": {
         "text": "yıl"
@@ -110639,7 +111367,8 @@
         "text": "साल"
       },
       "pt": {
-        "text": "ano"
+        "text": "ano",
+        "article": "o"
       }
     },
     "is_collocation_excluded": false,
@@ -110766,19 +111495,24 @@
         "text": "برگر"
       },
       "nl": {
-        "text": "hamburger"
+        "text": "hamburger",
+        "article": "de"
       },
       "de": {
-        "text": "Burger"
+        "text": "Burger",
+        "article": "der"
       },
       "fr": {
-        "text": "burger"
+        "text": "burger",
+        "article": "le"
       },
       "es": {
-        "text": "hamburguesa"
+        "text": "hamburguesa",
+        "article": "la"
       },
       "it": {
-        "text": "hamburger"
+        "text": "hamburger",
+        "article": "l'"
       },
       "tr": {
         "text": "hamburger"
@@ -110802,7 +111536,8 @@
         "text": "बर्गर"
       },
       "pt": {
-        "text": "hambúrguer"
+        "text": "hambúrguer",
+        "article": "o"
       }
     },
     "is_collocation_excluded": false,
@@ -110929,19 +111664,24 @@
         "text": "سالاد"
       },
       "nl": {
-        "text": "salade"
+        "text": "salade",
+        "article": "de"
       },
       "de": {
-        "text": "Salat"
+        "text": "Salat",
+        "article": "der"
       },
       "fr": {
-        "text": "salade"
+        "text": "salade",
+        "article": "la"
       },
       "es": {
-        "text": "ensalada"
+        "text": "ensalada",
+        "article": "la"
       },
       "it": {
-        "text": "insalata"
+        "text": "insalata",
+        "article": "l'"
       },
       "tr": {
         "text": "salata"
@@ -110965,7 +111705,8 @@
         "text": "सलाद"
       },
       "pt": {
-        "text": "salada"
+        "text": "salada",
+        "article": "a"
       }
     },
     "is_collocation_excluded": false,
@@ -111092,19 +111833,24 @@
         "text": "سوپ"
       },
       "nl": {
-        "text": "soep"
+        "text": "soep",
+        "article": "de"
       },
       "de": {
-        "text": "Suppe"
+        "text": "Suppe",
+        "article": "die"
       },
       "fr": {
-        "text": "soupe"
+        "text": "soupe",
+        "article": "la"
       },
       "es": {
-        "text": "sopa"
+        "text": "sopa",
+        "article": "la"
       },
       "it": {
-        "text": "zuppa"
+        "text": "zuppa",
+        "article": "la"
       },
       "tr": {
         "text": "çorba"
@@ -111128,7 +111874,8 @@
         "text": "सूप"
       },
       "pt": {
-        "text": "sopa"
+        "text": "sopa",
+        "article": "a"
       }
     },
     "is_collocation_excluded": false,
@@ -111255,22 +112002,27 @@
         "text": "آبمیوه"
       },
       "nl": {
-        "text": "sap"
+        "text": "sap",
+        "article": "het"
       },
       "de": {
-        "text": "Saft"
+        "text": "Saft",
+        "article": "der"
       },
       "fr": {
-        "text": "jus"
+        "text": "jus",
+        "article": "le"
       },
       "es": {
         "text": "zumo",
+        "article": "el",
         "alternatives": [
           "jugo"
         ]
       },
       "it": {
-        "text": "succo"
+        "text": "succo",
+        "article": "il"
       },
       "tr": {
         "text": "meyve suyu"
@@ -111294,7 +112046,8 @@
         "text": "जूस"
       },
       "pt": {
-        "text": "suco"
+        "text": "suco",
+        "article": "o"
       }
     },
     "is_collocation_excluded": false,
@@ -111421,19 +112174,24 @@
         "text": "آبجو"
       },
       "nl": {
-        "text": "bier"
+        "text": "bier",
+        "article": "het"
       },
       "de": {
-        "text": "Bier"
+        "text": "Bier",
+        "article": "das"
       },
       "fr": {
-        "text": "bière"
+        "text": "bière",
+        "article": "la"
       },
       "es": {
-        "text": "cerveza"
+        "text": "cerveza",
+        "article": "la"
       },
       "it": {
-        "text": "birra"
+        "text": "birra",
+        "article": "la"
       },
       "tr": {
         "text": "bira"
@@ -111457,7 +112215,8 @@
         "text": "बीयर"
       },
       "pt": {
-        "text": "cerveja"
+        "text": "cerveja",
+        "article": "a"
       }
     },
     "is_collocation_excluded": false,
@@ -111584,19 +112343,24 @@
         "text": "شراب"
       },
       "nl": {
-        "text": "wijn"
+        "text": "wijn",
+        "article": "de"
       },
       "de": {
-        "text": "Wein"
+        "text": "Wein",
+        "article": "der"
       },
       "fr": {
-        "text": "vin"
+        "text": "vin",
+        "article": "le"
       },
       "es": {
-        "text": "vino"
+        "text": "vino",
+        "article": "el"
       },
       "it": {
-        "text": "vino"
+        "text": "vino",
+        "article": "il"
       },
       "tr": {
         "text": "şarap"
@@ -111620,7 +112384,8 @@
         "text": "वाइन"
       },
       "pt": {
-        "text": "vinho"
+        "text": "vinho",
+        "article": "o"
       }
     },
     "is_collocation_excluded": false,
@@ -112399,19 +113164,24 @@
         "text": "جوراب"
       },
       "nl": {
-        "text": "sokken"
+        "text": "sokken",
+        "article": "de"
       },
       "de": {
-        "text": "Socken"
+        "text": "Socken",
+        "article": "die"
       },
       "fr": {
-        "text": "chaussettes"
+        "text": "chaussettes",
+        "article": "les"
       },
       "es": {
-        "text": "calcetines"
+        "text": "calcetines",
+        "article": "los"
       },
       "it": {
-        "text": "calzini"
+        "text": "calzini",
+        "article": "i"
       },
       "tr": {
         "text": "çorap"
@@ -112435,7 +113205,8 @@
         "text": "मोज़े"
       },
       "pt": {
-        "text": "meias"
+        "text": "meias",
+        "article": "as"
       }
     },
     "is_collocation_excluded": false,
@@ -112562,19 +113333,24 @@
         "text": "کت"
       },
       "nl": {
-        "text": "jas"
+        "text": "jas",
+        "article": "de"
       },
       "de": {
-        "text": "Mantel"
+        "text": "Mantel",
+        "article": "der"
       },
       "fr": {
-        "text": "manteau"
+        "text": "manteau",
+        "article": "le"
       },
       "es": {
-        "text": "abrigo"
+        "text": "abrigo",
+        "article": "el"
       },
       "it": {
-        "text": "cappotto"
+        "text": "cappotto",
+        "article": "il"
       },
       "tr": {
         "text": "palto"
@@ -112598,7 +113374,8 @@
         "text": "कोट"
       },
       "pt": {
-        "text": "casaco"
+        "text": "casaco",
+        "article": "o"
       }
     },
     "is_collocation_excluded": false,
@@ -112725,19 +113502,24 @@
         "text": "دامن"
       },
       "nl": {
-        "text": "rok"
+        "text": "rok",
+        "article": "de"
       },
       "de": {
-        "text": "Rock"
+        "text": "Rock",
+        "article": "der"
       },
       "fr": {
-        "text": "jupe"
+        "text": "jupe",
+        "article": "la"
       },
       "es": {
-        "text": "falda"
+        "text": "falda",
+        "article": "la"
       },
       "it": {
-        "text": "gonna"
+        "text": "gonna",
+        "article": "la"
       },
       "tr": {
         "text": "etek"
@@ -112761,7 +113543,8 @@
         "text": "स्कर्ट"
       },
       "pt": {
-        "text": "saia"
+        "text": "saia",
+        "article": "a"
       }
     },
     "is_collocation_excluded": false,
@@ -112888,19 +113671,24 @@
         "text": "جین"
       },
       "nl": {
-        "text": "spijkerbroek"
+        "text": "spijkerbroek",
+        "article": "de"
       },
       "de": {
-        "text": "Jeans"
+        "text": "Jeans",
+        "article": "die"
       },
       "fr": {
-        "text": "jean"
+        "text": "jean",
+        "article": "le"
       },
       "es": {
-        "text": "vaqueros"
+        "text": "vaqueros",
+        "article": "los"
       },
       "it": {
-        "text": "jeans"
+        "text": "jeans",
+        "article": "i"
       },
       "tr": {
         "text": "kot"
@@ -112924,7 +113712,8 @@
         "text": "जींस"
       },
       "pt": {
-        "text": "jeans"
+        "text": "jeans",
+        "article": "o"
       }
     },
     "is_collocation_excluded": false,
@@ -113051,19 +113840,24 @@
         "text": "مو"
       },
       "nl": {
-        "text": "haar"
+        "text": "haar",
+        "article": "het"
       },
       "de": {
-        "text": "Haare"
+        "text": "Haare",
+        "article": "die"
       },
       "fr": {
-        "text": "cheveux"
+        "text": "cheveux",
+        "article": "les"
       },
       "es": {
-        "text": "pelo"
+        "text": "pelo",
+        "article": "el"
       },
       "it": {
-        "text": "capelli"
+        "text": "capelli",
+        "article": "i"
       },
       "tr": {
         "text": "saç"
@@ -113087,7 +113881,8 @@
         "text": "बाल"
       },
       "pt": {
-        "text": "cabelo"
+        "text": "cabelo",
+        "article": "o"
       }
     },
     "is_collocation_excluded": false,
@@ -113214,19 +114009,24 @@
         "text": "صورت"
       },
       "nl": {
-        "text": "gezicht"
+        "text": "gezicht",
+        "article": "het"
       },
       "de": {
-        "text": "Gesicht"
+        "text": "Gesicht",
+        "article": "das"
       },
       "fr": {
-        "text": "visage"
+        "text": "visage",
+        "article": "le"
       },
       "es": {
-        "text": "cara"
+        "text": "cara",
+        "article": "la"
       },
       "it": {
-        "text": "viso"
+        "text": "viso",
+        "article": "il"
       },
       "tr": {
         "text": "yüz"
@@ -113250,7 +114050,8 @@
         "text": "चेहरा"
       },
       "pt": {
-        "text": "rosto"
+        "text": "rosto",
+        "article": "o"
       }
     },
     "is_collocation_excluded": false,
@@ -113377,19 +114178,24 @@
         "text": "بازو"
       },
       "nl": {
-        "text": "arm"
+        "text": "arm",
+        "article": "de"
       },
       "de": {
-        "text": "Arm"
+        "text": "Arm",
+        "article": "der"
       },
       "fr": {
-        "text": "bras"
+        "text": "bras",
+        "article": "le"
       },
       "es": {
-        "text": "brazo"
+        "text": "brazo",
+        "article": "el"
       },
       "it": {
-        "text": "braccio"
+        "text": "braccio",
+        "article": "il"
       },
       "tr": {
         "text": "kol"
@@ -113413,7 +114219,8 @@
         "text": "बाँह"
       },
       "pt": {
-        "text": "braço"
+        "text": "braço",
+        "article": "o"
       }
     },
     "is_collocation_excluded": false,
@@ -113540,19 +114347,24 @@
         "text": "پا"
       },
       "nl": {
-        "text": "been"
+        "text": "been",
+        "article": "het"
       },
       "de": {
-        "text": "Bein"
+        "text": "Bein",
+        "article": "das"
       },
       "fr": {
-        "text": "jambe"
+        "text": "jambe",
+        "article": "la"
       },
       "es": {
-        "text": "pierna"
+        "text": "pierna",
+        "article": "la"
       },
       "it": {
-        "text": "gamba"
+        "text": "gamba",
+        "article": "la"
       },
       "tr": {
         "text": "bacak"
@@ -113579,7 +114391,8 @@
         "text": "पैर"
       },
       "pt": {
-        "text": "perna"
+        "text": "perna",
+        "article": "a"
       }
     },
     "is_collocation_excluded": false,
@@ -113706,19 +114519,24 @@
         "text": "دهان"
       },
       "nl": {
-        "text": "mond"
+        "text": "mond",
+        "article": "de"
       },
       "de": {
-        "text": "Mund"
+        "text": "Mund",
+        "article": "der"
       },
       "fr": {
-        "text": "bouche"
+        "text": "bouche",
+        "article": "la"
       },
       "es": {
-        "text": "boca"
+        "text": "boca",
+        "article": "la"
       },
       "it": {
-        "text": "bocca"
+        "text": "bocca",
+        "article": "la"
       },
       "tr": {
         "text": "ağız"
@@ -113742,7 +114560,8 @@
         "text": "मुँह"
       },
       "pt": {
-        "text": "boca"
+        "text": "boca",
+        "article": "a"
       }
     },
     "is_collocation_excluded": false,
@@ -113869,19 +114688,24 @@
         "text": "خیابان"
       },
       "nl": {
-        "text": "straat"
+        "text": "straat",
+        "article": "de"
       },
       "de": {
-        "text": "Straße"
+        "text": "Straße",
+        "article": "die"
       },
       "fr": {
-        "text": "rue"
+        "text": "rue",
+        "article": "la"
       },
       "es": {
-        "text": "calle"
+        "text": "calle",
+        "article": "la"
       },
       "it": {
-        "text": "strada"
+        "text": "strada",
+        "article": "la"
       },
       "tr": {
         "text": "sokak"
@@ -113905,7 +114729,8 @@
         "text": "सड़क"
       },
       "pt": {
-        "text": "rua"
+        "text": "rua",
+        "article": "a"
       }
     },
     "is_collocation_excluded": false,
@@ -114032,19 +114857,24 @@
         "text": "شهر"
       },
       "nl": {
-        "text": "stad"
+        "text": "stad",
+        "article": "de"
       },
       "de": {
-        "text": "Stadt"
+        "text": "Stadt",
+        "article": "die"
       },
       "fr": {
-        "text": "ville"
+        "text": "ville",
+        "article": "la"
       },
       "es": {
-        "text": "ciudad"
+        "text": "ciudad",
+        "article": "la"
       },
       "it": {
-        "text": "città"
+        "text": "città",
+        "article": "la"
       },
       "tr": {
         "text": "şehir"
@@ -114068,7 +114898,8 @@
         "text": "शहर"
       },
       "pt": {
-        "text": "cidade"
+        "text": "cidade",
+        "article": "a"
       }
     },
     "is_collocation_excluded": false,
@@ -114195,19 +115026,24 @@
         "text": "روستا"
       },
       "nl": {
-        "text": "dorp"
+        "text": "dorp",
+        "article": "het"
       },
       "de": {
-        "text": "Dorf"
+        "text": "Dorf",
+        "article": "das"
       },
       "fr": {
-        "text": "village"
+        "text": "village",
+        "article": "le"
       },
       "es": {
-        "text": "pueblo"
+        "text": "pueblo",
+        "article": "el"
       },
       "it": {
-        "text": "villaggio"
+        "text": "villaggio",
+        "article": "il"
       },
       "tr": {
         "text": "köy"
@@ -114231,7 +115067,8 @@
         "text": "गाँव"
       },
       "pt": {
-        "text": "aldeia"
+        "text": "aldeia",
+        "article": "a"
       }
     },
     "is_collocation_excluded": false,
@@ -114358,19 +115195,24 @@
         "text": "پل"
       },
       "nl": {
-        "text": "brug"
+        "text": "brug",
+        "article": "de"
       },
       "de": {
-        "text": "Brücke"
+        "text": "Brücke",
+        "article": "die"
       },
       "fr": {
-        "text": "pont"
+        "text": "pont",
+        "article": "le"
       },
       "es": {
-        "text": "puente"
+        "text": "puente",
+        "article": "el"
       },
       "it": {
-        "text": "ponte"
+        "text": "ponte",
+        "article": "il"
       },
       "tr": {
         "text": "köprü"
@@ -114394,7 +115236,8 @@
         "text": "पुल"
       },
       "pt": {
-        "text": "ponte"
+        "text": "ponte",
+        "article": "a"
       }
     },
     "is_collocation_excluded": false,
@@ -117147,19 +117990,24 @@
         "text": "صبحانه"
       },
       "nl": {
-        "text": "ontbijt"
+        "text": "ontbijt",
+        "article": "het"
       },
       "de": {
-        "text": "Frühstück"
+        "text": "Frühstück",
+        "article": "das"
       },
       "fr": {
-        "text": "petit-déjeuner"
+        "text": "petit-déjeuner",
+        "article": "le"
       },
       "es": {
-        "text": "desayuno"
+        "text": "desayuno",
+        "article": "el"
       },
       "it": {
-        "text": "colazione"
+        "text": "colazione",
+        "article": "la"
       },
       "tr": {
         "text": "kahvaltı"
@@ -117183,7 +118031,8 @@
         "text": "नाश्ता"
       },
       "pt": {
-        "text": "café da manhã"
+        "text": "café da manhã",
+        "article": "o"
       }
     },
     "is_collocation_excluded": false,
@@ -117310,19 +118159,24 @@
         "text": "ناهار"
       },
       "nl": {
-        "text": "lunch"
+        "text": "lunch",
+        "article": "de"
       },
       "de": {
-        "text": "Mittagessen"
+        "text": "Mittagessen",
+        "article": "das"
       },
       "fr": {
-        "text": "déjeuner"
+        "text": "déjeuner",
+        "article": "le"
       },
       "es": {
-        "text": "almuerzo"
+        "text": "almuerzo",
+        "article": "el"
       },
       "it": {
-        "text": "pranzo"
+        "text": "pranzo",
+        "article": "il"
       },
       "tr": {
         "text": "öğle yemeği"
@@ -117346,7 +118200,8 @@
         "text": "दोपहर का खाना"
       },
       "pt": {
-        "text": "almoço"
+        "text": "almoço",
+        "article": "o"
       }
     },
     "is_collocation_excluded": false,
@@ -117473,19 +118328,24 @@
         "text": "شام"
       },
       "nl": {
-        "text": "avondeten"
+        "text": "avondeten",
+        "article": "het"
       },
       "de": {
-        "text": "Abendessen"
+        "text": "Abendessen",
+        "article": "das"
       },
       "fr": {
-        "text": "dîner"
+        "text": "dîner",
+        "article": "le"
       },
       "es": {
-        "text": "cena"
+        "text": "cena",
+        "article": "la"
       },
       "it": {
-        "text": "cena"
+        "text": "cena",
+        "article": "la"
       },
       "tr": {
         "text": "akşam yemeği"
@@ -117509,7 +118369,8 @@
         "text": "रात का खाना"
       },
       "pt": {
-        "text": "jantar"
+        "text": "jantar",
+        "article": "o"
       }
     },
     "is_collocation_excluded": false,
@@ -117636,19 +118497,24 @@
         "text": "ایستگاه اتوبوس"
       },
       "nl": {
-        "text": "bushalte"
+        "text": "bushalte",
+        "article": "de"
       },
       "de": {
-        "text": "Bushaltestelle"
+        "text": "Bushaltestelle",
+        "article": "die"
       },
       "fr": {
-        "text": "arrêt de bus"
+        "text": "arrêt de bus",
+        "article": "l'"
       },
       "es": {
-        "text": "parada de autobús"
+        "text": "parada de autobús",
+        "article": "la"
       },
       "it": {
-        "text": "fermata dell'autobus"
+        "text": "fermata dell'autobus",
+        "article": "la"
       },
       "tr": {
         "text": "otobüs durağı"
@@ -117672,7 +118538,8 @@
         "text": "बस स्टॉप"
       },
       "pt": {
-        "text": "ponto de ônibus"
+        "text": "ponto de ônibus",
+        "article": "o"
       }
     },
     "is_collocation_excluded": false,
@@ -117799,19 +118666,24 @@
         "text": "تاکسی"
       },
       "nl": {
-        "text": "taxi"
+        "text": "taxi",
+        "article": "de"
       },
       "de": {
-        "text": "Taxi"
+        "text": "Taxi",
+        "article": "das"
       },
       "fr": {
-        "text": "taxi"
+        "text": "taxi",
+        "article": "le"
       },
       "es": {
-        "text": "taxi"
+        "text": "taxi",
+        "article": "el"
       },
       "it": {
-        "text": "taxi"
+        "text": "taxi",
+        "article": "il"
       },
       "tr": {
         "text": "taksi"
@@ -117835,7 +118707,8 @@
         "text": "टैक्सी"
       },
       "pt": {
-        "text": "táxi"
+        "text": "táxi",
+        "article": "o"
       }
     },
     "is_collocation_excluded": false,
@@ -117962,19 +118835,24 @@
         "text": "باجه بلیت"
       },
       "nl": {
-        "text": "loket"
+        "text": "loket",
+        "article": "het"
       },
       "de": {
-        "text": "Fahrkartenschalter"
+        "text": "Fahrkartenschalter",
+        "article": "der"
       },
       "fr": {
-        "text": "guichet"
+        "text": "guichet",
+        "article": "le"
       },
       "es": {
-        "text": "taquilla"
+        "text": "taquilla",
+        "article": "la"
       },
       "it": {
-        "text": "biglietteria"
+        "text": "biglietteria",
+        "article": "la"
       },
       "tr": {
         "text": "bilet gişesi"
@@ -117998,7 +118876,8 @@
         "text": "टिकट घर"
       },
       "pt": {
-        "text": "bilheteria"
+        "text": "bilheteria",
+        "article": "a"
       }
     },
     "is_collocation_excluded": false,
@@ -119103,19 +119982,24 @@
         "text": "پسر"
       },
       "nl": {
-        "text": "zoon"
+        "text": "zoon",
+        "article": "de"
       },
       "de": {
-        "text": "Sohn"
+        "text": "Sohn",
+        "article": "der"
       },
       "fr": {
-        "text": "fils"
+        "text": "fils",
+        "article": "le"
       },
       "es": {
-        "text": "hijo"
+        "text": "hijo",
+        "article": "el"
       },
       "it": {
-        "text": "figlio"
+        "text": "figlio",
+        "article": "il"
       },
       "tr": {
         "text": "oğul"
@@ -119139,7 +120023,8 @@
         "text": "बेटा"
       },
       "pt": {
-        "text": "filho"
+        "text": "filho",
+        "article": "o"
       }
     },
     "is_collocation_excluded": false,
@@ -119266,19 +120151,24 @@
         "text": "دختر"
       },
       "nl": {
-        "text": "dochter"
+        "text": "dochter",
+        "article": "de"
       },
       "de": {
-        "text": "Tochter"
+        "text": "Tochter",
+        "article": "die"
       },
       "fr": {
-        "text": "fille"
+        "text": "fille",
+        "article": "la"
       },
       "es": {
-        "text": "hija"
+        "text": "hija",
+        "article": "la"
       },
       "it": {
-        "text": "figlia"
+        "text": "figlia",
+        "article": "la"
       },
       "tr": {
         "text": "kız"
@@ -119302,7 +120192,8 @@
         "text": "बेटी"
       },
       "pt": {
-        "text": "filha"
+        "text": "filha",
+        "article": "a"
       }
     },
     "is_collocation_excluded": false,
@@ -119429,19 +120320,24 @@
         "text": "شوهر"
       },
       "nl": {
-        "text": "echtgenoot"
+        "text": "echtgenoot",
+        "article": "de"
       },
       "de": {
-        "text": "Ehemann"
+        "text": "Ehemann",
+        "article": "der"
       },
       "fr": {
-        "text": "mari"
+        "text": "mari",
+        "article": "le"
       },
       "es": {
-        "text": "marido"
+        "text": "marido",
+        "article": "el"
       },
       "it": {
-        "text": "marito"
+        "text": "marito",
+        "article": "il"
       },
       "tr": {
         "text": "koca"
@@ -119465,7 +120361,8 @@
         "text": "पति"
       },
       "pt": {
-        "text": "marido"
+        "text": "marido",
+        "article": "o"
       }
     },
     "is_collocation_excluded": false,
@@ -119595,19 +120492,24 @@
         ]
       },
       "nl": {
-        "text": "echtgenote"
+        "text": "echtgenote",
+        "article": "de"
       },
       "de": {
-        "text": "Ehefrau"
+        "text": "Ehefrau",
+        "article": "die"
       },
       "fr": {
-        "text": "femme"
+        "text": "femme",
+        "article": "la"
       },
       "es": {
-        "text": "esposa"
+        "text": "esposa",
+        "article": "la"
       },
       "it": {
-        "text": "moglie"
+        "text": "moglie",
+        "article": "la"
       },
       "tr": {
         "text": "eş"
@@ -119631,7 +120533,8 @@
         "text": "पत्नी"
       },
       "pt": {
-        "text": "esposa"
+        "text": "esposa",
+        "article": "a"
       }
     },
     "is_collocation_excluded": false,
@@ -119758,19 +120661,24 @@
         "text": "پرنده"
       },
       "nl": {
-        "text": "vogel"
+        "text": "vogel",
+        "article": "de"
       },
       "de": {
-        "text": "Vogel"
+        "text": "Vogel",
+        "article": "der"
       },
       "fr": {
-        "text": "oiseau"
+        "text": "oiseau",
+        "article": "l'"
       },
       "es": {
-        "text": "pájaro"
+        "text": "pájaro",
+        "article": "el"
       },
       "it": {
-        "text": "uccello"
+        "text": "uccello",
+        "article": "l'"
       },
       "tr": {
         "text": "kuş"
@@ -119794,7 +120702,8 @@
         "text": "पंछी"
       },
       "pt": {
-        "text": "pássaro"
+        "text": "pássaro",
+        "article": "o"
       }
     },
     "is_collocation_excluded": false,
@@ -123510,19 +124419,24 @@
         ]
       },
       "nl": {
-        "text": "student"
+        "text": "student",
+        "article": "de"
       },
       "de": {
-        "text": "Student"
+        "text": "Student",
+        "article": "der"
       },
       "fr": {
-        "text": "étudiant"
+        "text": "étudiant",
+        "article": "l'"
       },
       "es": {
-        "text": "estudiante"
+        "text": "estudiante",
+        "article": "el"
       },
       "it": {
-        "text": "studente"
+        "text": "studente",
+        "article": "lo"
       },
       "tr": {
         "text": "öğrenci"
@@ -123546,7 +124460,8 @@
         "text": "छात्र"
       },
       "pt": {
-        "text": "estudante"
+        "text": "estudante",
+        "article": "o"
       }
     },
     "is_collocation_excluded": false,
@@ -123673,19 +124588,24 @@
         "text": "راننده"
       },
       "nl": {
-        "text": "chauffeur"
+        "text": "chauffeur",
+        "article": "de"
       },
       "de": {
-        "text": "Fahrer"
+        "text": "Fahrer",
+        "article": "der"
       },
       "fr": {
-        "text": "chauffeur"
+        "text": "chauffeur",
+        "article": "le"
       },
       "es": {
-        "text": "conductor"
+        "text": "conductor",
+        "article": "el"
       },
       "it": {
-        "text": "autista"
+        "text": "autista",
+        "article": "l'"
       },
       "tr": {
         "text": "şoför"
@@ -123709,7 +124629,8 @@
         "text": "ड्राइवर"
       },
       "pt": {
-        "text": "motorista"
+        "text": "motorista",
+        "article": "o"
       }
     },
     "is_collocation_excluded": false,
@@ -123836,19 +124757,24 @@
         "text": "آشپز"
       },
       "nl": {
-        "text": "kok"
+        "text": "kok",
+        "article": "de"
       },
       "de": {
-        "text": "Koch"
+        "text": "Koch",
+        "article": "der"
       },
       "fr": {
-        "text": "cuisinier"
+        "text": "cuisinier",
+        "article": "le"
       },
       "es": {
-        "text": "cocinero"
+        "text": "cocinero",
+        "article": "el"
       },
       "it": {
-        "text": "cuoco"
+        "text": "cuoco",
+        "article": "il"
       },
       "tr": {
         "text": "aşçı"
@@ -123872,7 +124798,8 @@
         "text": "रसोइया"
       },
       "pt": {
-        "text": "cozinheiro"
+        "text": "cozinheiro",
+        "article": "o"
       }
     },
     "is_collocation_excluded": false,
@@ -123999,19 +124926,24 @@
         "text": "افسر پلیس"
       },
       "nl": {
-        "text": "politieagent"
+        "text": "politieagent",
+        "article": "de"
       },
       "de": {
-        "text": "Polizist"
+        "text": "Polizist",
+        "article": "der"
       },
       "fr": {
-        "text": "policier"
+        "text": "policier",
+        "article": "le"
       },
       "es": {
-        "text": "policía"
+        "text": "policía",
+        "article": "el"
       },
       "it": {
-        "text": "poliziotto"
+        "text": "poliziotto",
+        "article": "il"
       },
       "tr": {
         "text": "polis memuru"
@@ -124035,7 +124967,8 @@
         "text": "पुलिस अधिकारी"
       },
       "pt": {
-        "text": "policial"
+        "text": "policial",
+        "article": "o"
       }
     },
     "is_collocation_excluded": false,
@@ -124162,19 +125095,24 @@
         "text": "کلاس"
       },
       "nl": {
-        "text": "klaslokaal"
+        "text": "klaslokaal",
+        "article": "het"
       },
       "de": {
-        "text": "Klassenzimmer"
+        "text": "Klassenzimmer",
+        "article": "das"
       },
       "fr": {
-        "text": "salle de classe"
+        "text": "salle de classe",
+        "article": "la"
       },
       "es": {
-        "text": "aula"
+        "text": "aula",
+        "article": "el"
       },
       "it": {
-        "text": "aula"
+        "text": "aula",
+        "article": "l'"
       },
       "tr": {
         "text": "sınıf"
@@ -124198,7 +125136,8 @@
         "text": "कक्षा"
       },
       "pt": {
-        "text": "sala de aula"
+        "text": "sala de aula",
+        "article": "a"
       }
     },
     "is_collocation_excluded": false,
@@ -124325,19 +125264,24 @@
         "text": "تکلیف"
       },
       "nl": {
-        "text": "huiswerk"
+        "text": "huiswerk",
+        "article": "het"
       },
       "de": {
-        "text": "Hausaufgaben"
+        "text": "Hausaufgaben",
+        "article": "die"
       },
       "fr": {
-        "text": "devoirs"
+        "text": "devoirs",
+        "article": "les"
       },
       "es": {
-        "text": "deberes"
+        "text": "deberes",
+        "article": "los"
       },
       "it": {
-        "text": "compiti"
+        "text": "compiti",
+        "article": "i"
       },
       "tr": {
         "text": "ödev"
@@ -124361,7 +125305,8 @@
         "text": "होमवर्क"
       },
       "pt": {
-        "text": "lição de casa"
+        "text": "lição de casa",
+        "article": "a"
       }
     },
     "is_collocation_excluded": false,
@@ -124814,19 +125759,24 @@
         "text": "آب و هوا"
       },
       "nl": {
-        "text": "weer"
+        "text": "weer",
+        "article": "het"
       },
       "de": {
-        "text": "Wetter"
+        "text": "Wetter",
+        "article": "das"
       },
       "fr": {
-        "text": "temps"
+        "text": "temps",
+        "article": "le"
       },
       "es": {
-        "text": "tiempo"
+        "text": "tiempo",
+        "article": "el"
       },
       "it": {
-        "text": "tempo"
+        "text": "tempo",
+        "article": "il"
       },
       "tr": {
         "text": "hava"
@@ -124850,7 +125800,8 @@
         "text": "मौसम"
       },
       "pt": {
-        "text": "tempo"
+        "text": "tempo",
+        "article": "o"
       }
     },
     "is_collocation_excluded": false,
@@ -124977,19 +125928,24 @@
         "text": "خورشید"
       },
       "nl": {
-        "text": "zon"
+        "text": "zon",
+        "article": "de"
       },
       "de": {
-        "text": "Sonne"
+        "text": "Sonne",
+        "article": "die"
       },
       "fr": {
-        "text": "soleil"
+        "text": "soleil",
+        "article": "le"
       },
       "es": {
-        "text": "sol"
+        "text": "sol",
+        "article": "el"
       },
       "it": {
-        "text": "sole"
+        "text": "sole",
+        "article": "il"
       },
       "tr": {
         "text": "güneş"
@@ -125013,7 +125969,8 @@
         "text": "सूरज"
       },
       "pt": {
-        "text": "sol"
+        "text": "sol",
+        "article": "o"
       }
     },
     "is_collocation_excluded": false,
@@ -125140,19 +126097,24 @@
         "text": "باران"
       },
       "nl": {
-        "text": "regen"
+        "text": "regen",
+        "article": "de"
       },
       "de": {
-        "text": "Regen"
+        "text": "Regen",
+        "article": "der"
       },
       "fr": {
-        "text": "pluie"
+        "text": "pluie",
+        "article": "la"
       },
       "es": {
-        "text": "lluvia"
+        "text": "lluvia",
+        "article": "la"
       },
       "it": {
-        "text": "pioggia"
+        "text": "pioggia",
+        "article": "la"
       },
       "tr": {
         "text": "yağmur"
@@ -125176,7 +126138,8 @@
         "text": "बारिश"
       },
       "pt": {
-        "text": "chuva"
+        "text": "chuva",
+        "article": "a"
       }
     },
     "is_collocation_excluded": false,
@@ -125303,19 +126266,24 @@
         "text": "برف"
       },
       "nl": {
-        "text": "sneeuw"
+        "text": "sneeuw",
+        "article": "de"
       },
       "de": {
-        "text": "Schnee"
+        "text": "Schnee",
+        "article": "der"
       },
       "fr": {
-        "text": "neige"
+        "text": "neige",
+        "article": "la"
       },
       "es": {
-        "text": "nieve"
+        "text": "nieve",
+        "article": "la"
       },
       "it": {
-        "text": "neve"
+        "text": "neve",
+        "article": "la"
       },
       "tr": {
         "text": "kar"
@@ -125339,7 +126307,8 @@
         "text": "बर्फ"
       },
       "pt": {
-        "text": "neve"
+        "text": "neve",
+        "article": "a"
       }
     },
     "is_collocation_excluded": false,
@@ -125466,19 +126435,24 @@
         "text": "باد"
       },
       "nl": {
-        "text": "wind"
+        "text": "wind",
+        "article": "de"
       },
       "de": {
-        "text": "Wind"
+        "text": "Wind",
+        "article": "der"
       },
       "fr": {
-        "text": "vent"
+        "text": "vent",
+        "article": "le"
       },
       "es": {
-        "text": "viento"
+        "text": "viento",
+        "article": "el"
       },
       "it": {
-        "text": "vento"
+        "text": "vento",
+        "article": "il"
       },
       "tr": {
         "text": "rüzgar"
@@ -125502,7 +126476,8 @@
         "text": "हवा"
       },
       "pt": {
-        "text": "vento"
+        "text": "vento",
+        "article": "o"
       }
     },
     "is_collocation_excluded": false,
@@ -125629,19 +126604,24 @@
         "text": "ابر"
       },
       "nl": {
-        "text": "wolk"
+        "text": "wolk",
+        "article": "de"
       },
       "de": {
-        "text": "Wolke"
+        "text": "Wolke",
+        "article": "die"
       },
       "fr": {
-        "text": "nuage"
+        "text": "nuage",
+        "article": "le"
       },
       "es": {
-        "text": "nube"
+        "text": "nube",
+        "article": "la"
       },
       "it": {
-        "text": "nuvola"
+        "text": "nuvola",
+        "article": "la"
       },
       "tr": {
         "text": "bulut"
@@ -125665,7 +126645,8 @@
         "text": "बादल"
       },
       "pt": {
-        "text": "nuvem"
+        "text": "nuvem",
+        "article": "a"
       }
     },
     "is_collocation_excluded": false,
@@ -125792,19 +126773,24 @@
         "text": "درخت"
       },
       "nl": {
-        "text": "boom"
+        "text": "boom",
+        "article": "de"
       },
       "de": {
-        "text": "Baum"
+        "text": "Baum",
+        "article": "der"
       },
       "fr": {
-        "text": "arbre"
+        "text": "arbre",
+        "article": "l'"
       },
       "es": {
-        "text": "árbol"
+        "text": "árbol",
+        "article": "el"
       },
       "it": {
-        "text": "albero"
+        "text": "albero",
+        "article": "l'"
       },
       "tr": {
         "text": "ağaç"
@@ -125828,7 +126814,8 @@
         "text": "पेड़"
       },
       "pt": {
-        "text": "árvore"
+        "text": "árvore",
+        "article": "a"
       }
     },
     "is_collocation_excluded": false,
@@ -125955,19 +126942,24 @@
         "text": "گل"
       },
       "nl": {
-        "text": "bloem"
+        "text": "bloem",
+        "article": "de"
       },
       "de": {
-        "text": "Blume"
+        "text": "Blume",
+        "article": "die"
       },
       "fr": {
-        "text": "fleur"
+        "text": "fleur",
+        "article": "la"
       },
       "es": {
-        "text": "flor"
+        "text": "flor",
+        "article": "la"
       },
       "it": {
-        "text": "fiore"
+        "text": "fiore",
+        "article": "il"
       },
       "tr": {
         "text": "çiçek"
@@ -125991,7 +126983,8 @@
         "text": "फूल"
       },
       "pt": {
-        "text": "flor"
+        "text": "flor",
+        "article": "a"
       }
     },
     "is_collocation_excluded": false,
@@ -126118,19 +127111,24 @@
         "text": "رودخانه"
       },
       "nl": {
-        "text": "rivier"
+        "text": "rivier",
+        "article": "de"
       },
       "de": {
-        "text": "Fluss"
+        "text": "Fluss",
+        "article": "der"
       },
       "fr": {
-        "text": "rivière"
+        "text": "rivière",
+        "article": "la"
       },
       "es": {
-        "text": "río"
+        "text": "río",
+        "article": "el"
       },
       "it": {
-        "text": "fiume"
+        "text": "fiume",
+        "article": "il"
       },
       "tr": {
         "text": "nehir"
@@ -126154,7 +127152,8 @@
         "text": "नदी"
       },
       "pt": {
-        "text": "rio"
+        "text": "rio",
+        "article": "o"
       }
     },
     "is_collocation_excluded": false,
@@ -128243,19 +129242,24 @@
         "text": "خانه"
       },
       "nl": {
-        "text": "huis"
+        "text": "huis",
+        "article": "het"
       },
       "de": {
-        "text": "Haus"
+        "text": "Haus",
+        "article": "das"
       },
       "fr": {
-        "text": "maison"
+        "text": "maison",
+        "article": "la"
       },
       "es": {
-        "text": "casa"
+        "text": "casa",
+        "article": "la"
       },
       "it": {
-        "text": "casa"
+        "text": "casa",
+        "article": "la"
       },
       "tr": {
         "text": "ev"
@@ -128279,7 +129283,8 @@
         "text": "घर"
       },
       "pt": {
-        "text": "casa"
+        "text": "casa",
+        "article": "a"
       }
     },
     "is_collocation_excluded": false,
@@ -128409,19 +129414,24 @@
         "text": "آپارتمان"
       },
       "nl": {
-        "text": "appartement"
+        "text": "appartement",
+        "article": "het"
       },
       "de": {
-        "text": "Wohnung"
+        "text": "Wohnung",
+        "article": "die"
       },
       "fr": {
-        "text": "appartement"
+        "text": "appartement",
+        "article": "l'"
       },
       "es": {
-        "text": "piso"
+        "text": "piso",
+        "article": "el"
       },
       "it": {
-        "text": "appartamento"
+        "text": "appartamento",
+        "article": "l'"
       },
       "tr": {
         "text": "daire"
@@ -128445,7 +129455,8 @@
         "text": "अपार्टमेंट"
       },
       "pt": {
-        "text": "apartamento"
+        "text": "apartamento",
+        "article": "o"
       }
     },
     "is_collocation_excluded": false,
@@ -128572,22 +129583,27 @@
         "text": "اتاق"
       },
       "nl": {
-        "text": "kamer"
+        "text": "kamer",
+        "article": "de"
       },
       "de": {
-        "text": "Zimmer"
+        "text": "Zimmer",
+        "article": "das"
       },
       "fr": {
         "text": "chambre",
+        "article": "la",
         "alternatives": [
           "pièce"
         ]
       },
       "es": {
-        "text": "habitación"
+        "text": "habitación",
+        "article": "la"
       },
       "it": {
-        "text": "stanza"
+        "text": "stanza",
+        "article": "la"
       },
       "tr": {
         "text": "oda"
@@ -128611,7 +129627,8 @@
         "text": "कमरा"
       },
       "pt": {
-        "text": "quarto"
+        "text": "quarto",
+        "article": "o"
       }
     },
     "is_collocation_excluded": false,
@@ -128738,19 +129755,24 @@
         "text": "حمام"
       },
       "nl": {
-        "text": "badkamer"
+        "text": "badkamer",
+        "article": "de"
       },
       "de": {
-        "text": "Badezimmer"
+        "text": "Badezimmer",
+        "article": "das"
       },
       "fr": {
-        "text": "salle de bain"
+        "text": "salle de bain",
+        "article": "la"
       },
       "es": {
-        "text": "baño"
+        "text": "baño",
+        "article": "el"
       },
       "it": {
-        "text": "bagno"
+        "text": "bagno",
+        "article": "il"
       },
       "tr": {
         "text": "banyo"
@@ -128774,7 +129796,8 @@
         "text": "बाथरूम"
       },
       "pt": {
-        "text": "banheiro"
+        "text": "banheiro",
+        "article": "o"
       }
     },
     "is_collocation_excluded": false,
@@ -128901,19 +129924,24 @@
         "text": "اتاق نشیمن"
       },
       "nl": {
-        "text": "woonkamer"
+        "text": "woonkamer",
+        "article": "de"
       },
       "de": {
-        "text": "Wohnzimmer"
+        "text": "Wohnzimmer",
+        "article": "das"
       },
       "fr": {
-        "text": "salon"
+        "text": "salon",
+        "article": "le"
       },
       "es": {
-        "text": "salón"
+        "text": "salón",
+        "article": "el"
       },
       "it": {
-        "text": "soggiorno"
+        "text": "soggiorno",
+        "article": "il"
       },
       "tr": {
         "text": "oturma odası"
@@ -128937,7 +129965,8 @@
         "text": "बैठक कक्ष"
       },
       "pt": {
-        "text": "sala de estar"
+        "text": "sala de estar",
+        "article": "a"
       }
     },
     "is_collocation_excluded": false,
@@ -129064,19 +130093,24 @@
         "text": "باغ"
       },
       "nl": {
-        "text": "tuin"
+        "text": "tuin",
+        "article": "de"
       },
       "de": {
-        "text": "Garten"
+        "text": "Garten",
+        "article": "der"
       },
       "fr": {
-        "text": "jardin"
+        "text": "jardin",
+        "article": "le"
       },
       "es": {
-        "text": "jardín"
+        "text": "jardín",
+        "article": "el"
       },
       "it": {
-        "text": "giardino"
+        "text": "giardino",
+        "article": "il"
       },
       "tr": {
         "text": "bahçe"
@@ -129100,7 +130134,8 @@
         "text": "बगीचा"
       },
       "pt": {
-        "text": "jardim"
+        "text": "jardim",
+        "article": "o"
       }
     },
     "is_collocation_excluded": false,
@@ -129227,19 +130262,24 @@
         "text": "چراغ"
       },
       "nl": {
-        "text": "lamp"
+        "text": "lamp",
+        "article": "de"
       },
       "de": {
-        "text": "Lampe"
+        "text": "Lampe",
+        "article": "die"
       },
       "fr": {
-        "text": "lampe"
+        "text": "lampe",
+        "article": "la"
       },
       "es": {
-        "text": "lámpara"
+        "text": "lámpara",
+        "article": "la"
       },
       "it": {
-        "text": "lampada"
+        "text": "lampada",
+        "article": "la"
       },
       "tr": {
         "text": "lamba"
@@ -129263,7 +130303,8 @@
         "text": "लैंप"
       },
       "pt": {
-        "text": "lâmpada"
+        "text": "lâmpada",
+        "article": "a"
       }
     },
     "is_collocation_excluded": false,
@@ -130881,19 +131922,24 @@
         "text": "بازار"
       },
       "nl": {
-        "text": "markt"
+        "text": "markt",
+        "article": "de"
       },
       "de": {
-        "text": "Markt"
+        "text": "Markt",
+        "article": "der"
       },
       "fr": {
-        "text": "marché"
+        "text": "marché",
+        "article": "le"
       },
       "es": {
-        "text": "mercado"
+        "text": "mercado",
+        "article": "el"
       },
       "it": {
-        "text": "mercato"
+        "text": "mercato",
+        "article": "il"
       },
       "tr": {
         "text": "pazar"
@@ -130917,7 +131963,8 @@
         "text": "बाज़ार"
       },
       "pt": {
-        "text": "mercado"
+        "text": "mercado",
+        "article": "o"
       }
     },
     "is_collocation_excluded": false,
@@ -131044,19 +132091,24 @@
         "text": "قیمت"
       },
       "nl": {
-        "text": "prijs"
+        "text": "prijs",
+        "article": "de"
       },
       "de": {
-        "text": "Preis"
+        "text": "Preis",
+        "article": "der"
       },
       "fr": {
-        "text": "prix"
+        "text": "prix",
+        "article": "le"
       },
       "es": {
-        "text": "precio"
+        "text": "precio",
+        "article": "el"
       },
       "it": {
-        "text": "prezzo"
+        "text": "prezzo",
+        "article": "il"
       },
       "tr": {
         "text": "fiyat"
@@ -131080,7 +132132,8 @@
         "text": "कीमत"
       },
       "pt": {
-        "text": "preço"
+        "text": "preço",
+        "article": "o"
       }
     },
     "is_collocation_excluded": false,
@@ -132372,19 +133425,24 @@
         "text": "کارت اعتباری"
       },
       "nl": {
-        "text": "creditcard"
+        "text": "creditcard",
+        "article": "de"
       },
       "de": {
-        "text": "Kreditkarte"
+        "text": "Kreditkarte",
+        "article": "die"
       },
       "fr": {
-        "text": "carte de crédit"
+        "text": "carte de crédit",
+        "article": "la"
       },
       "es": {
-        "text": "tarjeta de crédito"
+        "text": "tarjeta de crédito",
+        "article": "la"
       },
       "it": {
-        "text": "carta di credito"
+        "text": "carta di credito",
+        "article": "la"
       },
       "tr": {
         "text": "kredi kartı"
@@ -132408,7 +133466,8 @@
         "text": "क्रेडिट कार्ड"
       },
       "pt": {
-        "text": "cartão de crédito"
+        "text": "cartão de crédito",
+        "article": "o"
       }
     },
     "is_collocation_excluded": false,
@@ -132538,16 +133597,20 @@
         "text": "contant"
       },
       "de": {
-        "text": "Bargeld"
+        "text": "Bargeld",
+        "article": "das"
       },
       "fr": {
-        "text": "espèces"
+        "text": "espèces",
+        "article": "les"
       },
       "es": {
-        "text": "efectivo"
+        "text": "efectivo",
+        "article": "el"
       },
       "it": {
-        "text": "contanti"
+        "text": "contanti",
+        "article": "i"
       },
       "tr": {
         "text": "nakit"
@@ -132571,7 +133634,8 @@
         "text": "नकद"
       },
       "pt": {
-        "text": "dinheiro"
+        "text": "dinheiro",
+        "article": "o"
       }
     },
     "is_collocation_excluded": false,
@@ -132885,19 +133949,24 @@
         "text": "رسید"
       },
       "nl": {
-        "text": "bonnetje"
+        "text": "bonnetje",
+        "article": "het"
       },
       "de": {
-        "text": "Quittung"
+        "text": "Quittung",
+        "article": "die"
       },
       "fr": {
-        "text": "reçu"
+        "text": "reçu",
+        "article": "le"
       },
       "es": {
-        "text": "recibo"
+        "text": "recibo",
+        "article": "el"
       },
       "it": {
-        "text": "scontrino"
+        "text": "scontrino",
+        "article": "lo"
       },
       "tr": {
         "text": "fiş"
@@ -132921,7 +133990,8 @@
         "text": "रसीद"
       },
       "pt": {
-        "text": "recibo"
+        "text": "recibo",
+        "article": "o"
       }
     },
     "is_collocation_excluded": false,
@@ -134192,19 +135262,24 @@
         "text": "موسیقی"
       },
       "nl": {
-        "text": "muziek"
+        "text": "muziek",
+        "article": "de"
       },
       "de": {
-        "text": "Musik"
+        "text": "Musik",
+        "article": "die"
       },
       "fr": {
-        "text": "musique"
+        "text": "musique",
+        "article": "la"
       },
       "es": {
-        "text": "música"
+        "text": "música",
+        "article": "la"
       },
       "it": {
-        "text": "musica"
+        "text": "musica",
+        "article": "la"
       },
       "tr": {
         "text": "müzik"
@@ -134228,7 +135303,8 @@
         "text": "संगीत"
       },
       "pt": {
-        "text": "música"
+        "text": "música",
+        "article": "a"
       }
     },
     "is_collocation_excluded": false,
@@ -134355,19 +135431,24 @@
         "text": "ورزش"
       },
       "nl": {
-        "text": "sport"
+        "text": "sport",
+        "article": "de"
       },
       "de": {
-        "text": "Sport"
+        "text": "Sport",
+        "article": "der"
       },
       "fr": {
-        "text": "sport"
+        "text": "sport",
+        "article": "le"
       },
       "es": {
-        "text": "deporte"
+        "text": "deporte",
+        "article": "el"
       },
       "it": {
-        "text": "sport"
+        "text": "sport",
+        "article": "lo"
       },
       "tr": {
         "text": "spor"
@@ -134391,7 +135472,8 @@
         "text": "खेल"
       },
       "pt": {
-        "text": "esporte"
+        "text": "esporte",
+        "article": "o"
       }
     },
     "is_collocation_excluded": false,
@@ -134518,19 +135600,24 @@
         "text": "خواندن"
       },
       "nl": {
-        "text": "lezen"
+        "text": "lezen",
+        "article": "het"
       },
       "de": {
-        "text": "Lesen"
+        "text": "Lesen",
+        "article": "das"
       },
       "fr": {
-        "text": "lecture"
+        "text": "lecture",
+        "article": "la"
       },
       "es": {
-        "text": "lectura"
+        "text": "lectura",
+        "article": "la"
       },
       "it": {
-        "text": "lettura"
+        "text": "lettura",
+        "article": "la"
       },
       "tr": {
         "text": "okuma"
@@ -134554,7 +135641,8 @@
         "text": "पढ़ना"
       },
       "pt": {
-        "text": "leitura"
+        "text": "leitura",
+        "article": "a"
       }
     },
     "is_collocation_excluded": false,
@@ -134681,19 +135769,24 @@
         "text": "رقص"
       },
       "nl": {
-        "text": "dansen"
+        "text": "dansen",
+        "article": "het"
       },
       "de": {
-        "text": "Tanzen"
+        "text": "Tanzen",
+        "article": "das"
       },
       "fr": {
-        "text": "danse"
+        "text": "danse",
+        "article": "la"
       },
       "es": {
-        "text": "baile"
+        "text": "baile",
+        "article": "el"
       },
       "it": {
-        "text": "ballo"
+        "text": "ballo",
+        "article": "il"
       },
       "tr": {
         "text": "dans"
@@ -134717,7 +135810,8 @@
         "text": "नाचना"
       },
       "pt": {
-        "text": "dança"
+        "text": "dança",
+        "article": "a"
       }
     },
     "is_collocation_excluded": false,
@@ -134844,13 +135938,16 @@
         "text": "آشپزی"
       },
       "nl": {
-        "text": "koken"
+        "text": "koken",
+        "article": "het"
       },
       "de": {
-        "text": "Kochen"
+        "text": "Kochen",
+        "article": "das"
       },
       "fr": {
-        "text": "cuisine"
+        "text": "cuisine",
+        "article": "la"
       },
       "es": {
         "text": "cocinar"
@@ -135007,19 +136104,24 @@
         "text": "سفر"
       },
       "nl": {
-        "text": "reizen"
+        "text": "reizen",
+        "article": "het"
       },
       "de": {
-        "text": "Reisen"
+        "text": "Reisen",
+        "article": "das"
       },
       "fr": {
-        "text": "voyage"
+        "text": "voyage",
+        "article": "le"
       },
       "es": {
-        "text": "viaje"
+        "text": "viaje",
+        "article": "el"
       },
       "it": {
-        "text": "viaggio"
+        "text": "viaggio",
+        "article": "il"
       },
       "tr": {
         "text": "seyahat"
@@ -135043,7 +136145,8 @@
         "text": "यात्रा"
       },
       "pt": {
-        "text": "viagem"
+        "text": "viagem",
+        "article": "a"
       }
     },
     "is_collocation_excluded": false,
@@ -135659,19 +136762,24 @@
         "text": "کامپیوتر"
       },
       "nl": {
-        "text": "computer"
+        "text": "computer",
+        "article": "de"
       },
       "de": {
-        "text": "Computer"
+        "text": "Computer",
+        "article": "der"
       },
       "fr": {
-        "text": "ordinateur"
+        "text": "ordinateur",
+        "article": "l'"
       },
       "es": {
-        "text": "ordenador"
+        "text": "ordenador",
+        "article": "el"
       },
       "it": {
-        "text": "computer"
+        "text": "computer",
+        "article": "il"
       },
       "tr": {
         "text": "bilgisayar"
@@ -135695,7 +136803,8 @@
         "text": "कंप्यूटर"
       },
       "pt": {
-        "text": "computador"
+        "text": "computador",
+        "article": "o"
       }
     },
     "is_collocation_excluded": false,
@@ -135822,19 +136931,24 @@
         "text": "اینترنت"
       },
       "nl": {
-        "text": "internet"
+        "text": "internet",
+        "article": "het"
       },
       "de": {
-        "text": "Internet"
+        "text": "Internet",
+        "article": "das"
       },
       "fr": {
-        "text": "internet"
+        "text": "internet",
+        "article": "l'"
       },
       "es": {
-        "text": "internet"
+        "text": "internet",
+        "article": "el"
       },
       "it": {
-        "text": "internet"
+        "text": "internet",
+        "article": "l'"
       },
       "tr": {
         "text": "internet"
@@ -135858,7 +136972,8 @@
         "text": "इंटरनेट"
       },
       "pt": {
-        "text": "internet"
+        "text": "internet",
+        "article": "a"
       }
     },
     "is_collocation_excluded": false,
@@ -135985,19 +137100,24 @@
         "text": "ایمیل"
       },
       "nl": {
-        "text": "e-mail"
+        "text": "e-mail",
+        "article": "de"
       },
       "de": {
-        "text": "E-Mail"
+        "text": "E-Mail",
+        "article": "die"
       },
       "fr": {
-        "text": "e-mail"
+        "text": "e-mail",
+        "article": "l'"
       },
       "es": {
-        "text": "correo electrónico"
+        "text": "correo electrónico",
+        "article": "el"
       },
       "it": {
-        "text": "e-mail"
+        "text": "e-mail",
+        "article": "l'"
       },
       "tr": {
         "text": "e-posta"
@@ -136021,7 +137141,8 @@
         "text": "ईमेल"
       },
       "pt": {
-        "text": "e-mail"
+        "text": "e-mail",
+        "article": "o"
       }
     },
     "is_collocation_excluded": false,
@@ -136148,19 +137269,24 @@
         "text": "رمز عبور"
       },
       "nl": {
-        "text": "wachtwoord"
+        "text": "wachtwoord",
+        "article": "het"
       },
       "de": {
-        "text": "Passwort"
+        "text": "Passwort",
+        "article": "das"
       },
       "fr": {
-        "text": "mot de passe"
+        "text": "mot de passe",
+        "article": "le"
       },
       "es": {
-        "text": "contraseña"
+        "text": "contraseña",
+        "article": "la"
       },
       "it": {
-        "text": "password"
+        "text": "password",
+        "article": "la"
       },
       "tr": {
         "text": "şifre"
@@ -136184,7 +137310,8 @@
         "text": "पासवर्ड"
       },
       "pt": {
-        "text": "senha"
+        "text": "senha",
+        "article": "a"
       }
     },
     "is_collocation_excluded": false,
@@ -136311,19 +137438,24 @@
         "text": "پیام"
       },
       "nl": {
-        "text": "bericht"
+        "text": "bericht",
+        "article": "het"
       },
       "de": {
-        "text": "Nachricht"
+        "text": "Nachricht",
+        "article": "die"
       },
       "fr": {
-        "text": "message"
+        "text": "message",
+        "article": "le"
       },
       "es": {
-        "text": "mensaje"
+        "text": "mensaje",
+        "article": "el"
       },
       "it": {
-        "text": "messaggio"
+        "text": "messaggio",
+        "article": "il"
       },
       "tr": {
         "text": "mesaj"
@@ -136347,7 +137479,8 @@
         "text": "संदेश"
       },
       "pt": {
-        "text": "mensagem"
+        "text": "mensagem",
+        "article": "a"
       }
     },
     "is_collocation_excluded": false,
@@ -138434,19 +139567,24 @@
         "text": "کشور"
       },
       "nl": {
-        "text": "land"
+        "text": "land",
+        "article": "het"
       },
       "de": {
-        "text": "Land"
+        "text": "Land",
+        "article": "das"
       },
       "fr": {
-        "text": "pays"
+        "text": "pays",
+        "article": "le"
       },
       "es": {
-        "text": "país"
+        "text": "país",
+        "article": "el"
       },
       "it": {
-        "text": "paese"
+        "text": "paese",
+        "article": "il"
       },
       "tr": {
         "text": "ülke"
@@ -138470,7 +139608,8 @@
         "text": "देश"
       },
       "pt": {
-        "text": "país"
+        "text": "país",
+        "article": "o"
       }
     },
     "is_collocation_excluded": false,
@@ -138597,19 +139736,24 @@
         "text": "پایتخت"
       },
       "nl": {
-        "text": "hoofdstad"
+        "text": "hoofdstad",
+        "article": "de"
       },
       "de": {
-        "text": "Hauptstadt"
+        "text": "Hauptstadt",
+        "article": "die"
       },
       "fr": {
-        "text": "capitale"
+        "text": "capitale",
+        "article": "la"
       },
       "es": {
-        "text": "capital"
+        "text": "capital",
+        "article": "la"
       },
       "it": {
-        "text": "capitale"
+        "text": "capitale",
+        "article": "la"
       },
       "tr": {
         "text": "başkent"
@@ -138633,7 +139777,8 @@
         "text": "राजधानी"
       },
       "pt": {
-        "text": "capital"
+        "text": "capital",
+        "article": "a"
       }
     },
     "is_collocation_excluded": false,
@@ -140064,19 +141209,24 @@
         "text": "زبان"
       },
       "nl": {
-        "text": "taal"
+        "text": "taal",
+        "article": "de"
       },
       "de": {
-        "text": "Sprache"
+        "text": "Sprache",
+        "article": "die"
       },
       "fr": {
-        "text": "langue"
+        "text": "langue",
+        "article": "la"
       },
       "es": {
-        "text": "idioma"
+        "text": "idioma",
+        "article": "el"
       },
       "it": {
-        "text": "lingua"
+        "text": "lingua",
+        "article": "la"
       },
       "tr": {
         "text": "dil"
@@ -140100,7 +141250,8 @@
         "text": "भाषा"
       },
       "pt": {
-        "text": "língua"
+        "text": "língua",
+        "article": "a"
       }
     },
     "is_collocation_excluded": false,
@@ -140231,19 +141382,24 @@
         "text": "انگلیسی"
       },
       "nl": {
-        "text": "engels"
+        "text": "engels",
+        "article": "het"
       },
       "de": {
-        "text": "Englisch"
+        "text": "Englisch",
+        "article": "das"
       },
       "fr": {
-        "text": "anglais"
+        "text": "anglais",
+        "article": "l'"
       },
       "es": {
-        "text": "inglés"
+        "text": "inglés",
+        "article": "el"
       },
       "it": {
-        "text": "inglese"
+        "text": "inglese",
+        "article": "l'"
       },
       "tr": {
         "text": "İngilizce"
@@ -140267,7 +141423,8 @@
         "text": "अंग्रेज़ी"
       },
       "pt": {
-        "text": "inglês"
+        "text": "inglês",
+        "article": "o"
       }
     },
     "is_collocation_excluded": false,
@@ -140398,19 +141555,24 @@
         "text": "هلندی"
       },
       "nl": {
-        "text": "nederlands"
+        "text": "nederlands",
+        "article": "het"
       },
       "de": {
-        "text": "Niederländisch"
+        "text": "Niederländisch",
+        "article": "das"
       },
       "fr": {
-        "text": "néerlandais"
+        "text": "néerlandais",
+        "article": "le"
       },
       "es": {
-        "text": "neerlandés"
+        "text": "neerlandés",
+        "article": "el"
       },
       "it": {
-        "text": "olandese"
+        "text": "olandese",
+        "article": "l'"
       },
       "tr": {
         "text": "Hollandaca"
@@ -140434,7 +141596,8 @@
         "text": "डच"
       },
       "pt": {
-        "text": "holandês"
+        "text": "holandês",
+        "article": "o"
       }
     },
     "is_collocation_excluded": false,
@@ -140571,19 +141734,24 @@
         "text": "فارسی"
       },
       "nl": {
-        "text": "perzisch"
+        "text": "perzisch",
+        "article": "het"
       },
       "de": {
-        "text": "Persisch"
+        "text": "Persisch",
+        "article": "das"
       },
       "fr": {
-        "text": "persan"
+        "text": "persan",
+        "article": "le"
       },
       "es": {
-        "text": "persa"
+        "text": "persa",
+        "article": "el"
       },
       "it": {
-        "text": "persiano"
+        "text": "persiano",
+        "article": "il"
       },
       "tr": {
         "text": "Farsça"
@@ -140607,7 +141775,8 @@
         "text": "फ़ारसी"
       },
       "pt": {
-        "text": "persa"
+        "text": "persa",
+        "article": "o"
       }
     },
     "is_collocation_excluded": false,
@@ -141911,19 +143080,24 @@
         "text": "همسایه"
       },
       "nl": {
-        "text": "buur"
+        "text": "buur",
+        "article": "de"
       },
       "de": {
-        "text": "Nachbar"
+        "text": "Nachbar",
+        "article": "der"
       },
       "fr": {
-        "text": "voisin"
+        "text": "voisin",
+        "article": "le"
       },
       "es": {
-        "text": "vecino"
+        "text": "vecino",
+        "article": "el"
       },
       "it": {
-        "text": "vicino"
+        "text": "vicino",
+        "article": "il"
       },
       "tr": {
         "text": "komşu"
@@ -141947,7 +143121,8 @@
         "text": "पड़ोसी"
       },
       "pt": {
-        "text": "vizinho"
+        "text": "vizinho",
+        "article": "o"
       }
     },
     "is_collocation_excluded": false,
@@ -142074,19 +143249,24 @@
         "text": "کودک"
       },
       "nl": {
-        "text": "kind"
+        "text": "kind",
+        "article": "het"
       },
       "de": {
-        "text": "Kind"
+        "text": "Kind",
+        "article": "das"
       },
       "fr": {
-        "text": "enfant"
+        "text": "enfant",
+        "article": "l'"
       },
       "es": {
-        "text": "niño"
+        "text": "niño",
+        "article": "el"
       },
       "it": {
-        "text": "bambino"
+        "text": "bambino",
+        "article": "il"
       },
       "tr": {
         "text": "çocuk"
@@ -142110,7 +143290,8 @@
         "text": "बच्चा"
       },
       "pt": {
-        "text": "criança"
+        "text": "criança",
+        "article": "a"
       }
     },
     "is_collocation_excluded": false,
@@ -142237,19 +143418,24 @@
         "text": "مرد"
       },
       "nl": {
-        "text": "man"
+        "text": "man",
+        "article": "de"
       },
       "de": {
-        "text": "Mann"
+        "text": "Mann",
+        "article": "der"
       },
       "fr": {
-        "text": "homme"
+        "text": "homme",
+        "article": "l'"
       },
       "es": {
-        "text": "hombre"
+        "text": "hombre",
+        "article": "el"
       },
       "it": {
-        "text": "uomo"
+        "text": "uomo",
+        "article": "l'"
       },
       "tr": {
         "text": "adam"
@@ -142273,7 +143459,8 @@
         "text": "आदमी"
       },
       "pt": {
-        "text": "homem"
+        "text": "homem",
+        "article": "o"
       }
     },
     "is_collocation_excluded": false,
@@ -142400,19 +143587,24 @@
         "text": "زن"
       },
       "nl": {
-        "text": "vrouw"
+        "text": "vrouw",
+        "article": "de"
       },
       "de": {
-        "text": "Frau"
+        "text": "Frau",
+        "article": "die"
       },
       "fr": {
-        "text": "femme"
+        "text": "femme",
+        "article": "la"
       },
       "es": {
-        "text": "mujer"
+        "text": "mujer",
+        "article": "la"
       },
       "it": {
-        "text": "donna"
+        "text": "donna",
+        "article": "la"
       },
       "tr": {
         "text": "kadın"
@@ -142436,7 +143628,8 @@
         "text": "औरत"
       },
       "pt": {
-        "text": "mulher"
+        "text": "mulher",
+        "article": "a"
       }
     },
     "is_collocation_excluded": false,
@@ -142563,19 +143756,24 @@
         "text": "مردم"
       },
       "nl": {
-        "text": "mensen"
+        "text": "mensen",
+        "article": "de"
       },
       "de": {
-        "text": "Leute"
+        "text": "Leute",
+        "article": "die"
       },
       "fr": {
-        "text": "gens"
+        "text": "gens",
+        "article": "les"
       },
       "es": {
-        "text": "gente"
+        "text": "gente",
+        "article": "la"
       },
       "it": {
-        "text": "persone"
+        "text": "persone",
+        "article": "le"
       },
       "tr": {
         "text": "insanlar"
@@ -142599,7 +143797,8 @@
         "text": "लोग"
       },
       "pt": {
-        "text": "pessoas"
+        "text": "pessoas",
+        "article": "as"
       }
     },
     "is_collocation_excluded": false,
