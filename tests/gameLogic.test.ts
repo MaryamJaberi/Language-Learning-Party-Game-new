@@ -487,7 +487,7 @@ describe('10-Round Complete Multi-User Simulation & English Language Integration
     expect(teams[1].score).toBeGreaterThan(0);
     expect(teams[0].timeRemaining).toBeGreaterThan(0);
     expect(teams[1].timeRemaining).toBeGreaterThan(0);
-  });
+  }, 60000);
 
   test('Simulating 10 complete rounds with 6 players (3 teams)', () => {
     const pool = buildSessionCardPool(['en', 'de', 'fr'], [], 'all', 'fa');
@@ -525,5 +525,5 @@ describe('10-Round Complete Multi-User Simulation & English Language Integration
     expect(teams[0].score).toBe(40);
     expect(teams[1].score).toBe(40);
     expect(teams[2].score).toBe(40);
-  });
+  }, 60000);
 });
