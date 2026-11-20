@@ -1018,7 +1018,7 @@ export const UserProfileModal: React.FC<Props> = ({
                         {isRTL ? 'دانلود مستقیم فایل AAB (مخصوص گوگل پلی)' : 'Download Google Play AAB (.aab)'}
                       </h4>
                       <span className="text-xs text-[var(--mute)] font-medium">
-                        {isRTL ? 'فرمت Android App Bundle (.aab) • حجم ۱.۳ مگابایت • نسخه ۱.۱.۲' : 'Format: Android App Bundle (.aab) • Size: 1.3 MB • v1.1.2'}
+                        {isRTL ? 'آخرین نسخه از GitHub Releases • کمتر از ۱ مگابایت' : 'Latest build from GitHub Releases • under 1 MB'}
                       </span>
                     </div>
                   </div>
@@ -1029,7 +1029,7 @@ export const UserProfileModal: React.FC<Props> = ({
 
                 <div className="text-xs text-[var(--mute)] space-y-0.5 font-mono bg-[var(--panel)] p-2.5 rounded-[14px] border border-[var(--line)]">
                   <div><strong>Package:</strong> <code className="text-[var(--lapis)]">com.solonovate.dour</code></div>
-                  <div><strong>Version:</strong> 1.1.2 (VersionCode: 10012) • Min SDK: 24 (Android 7.0+) • Target SDK: 36</div>
+                  <div><strong>Version:</strong> {isRTL ? 'شمارهٔ نسخه خودکار در هر ساخت' : 'auto-incremented on every build'} • Min SDK: 24 (Android 7.0+) • Target SDK: 36</div>
                 </div>
 
                 <button
@@ -1037,13 +1037,8 @@ export const UserProfileModal: React.FC<Props> = ({
                   disabled={downloadingFile === 'dor-zaban-google-play.aab'}
                   onClick={async () => {
                     sound.playClick();
-                    setDownloadingFile('dor-zaban-google-play.aab');
-                    setDownloadMsg(isRTL ? 'در حال دریافت بسته باندل گوگل‌پلی...' : 'Downloading AAB...');
-                    const res = await downloadFileWithBlob('./downloads/dor-zaban-google-play.aab', 'dor-zaban-google-play.aab', (s, msg) => {
-                      if (msg) setDownloadMsg(msg);
-                    });
-                    setDownloadingFile(null);
-                    if (!res.success && res.error) setDownloadMsg(res.error);
+                    // آخرین نسخهٔ ساخته‌شده در GitHub Actions (گردش‌کار android-release)
+                    window.open('https://github.com/MaryamJaberi/Language-Learning-Party-Game-new/releases/latest/download/dor-zaban.aab', '_blank', 'noopener');
                   }}
                   className="w-full h-11 bg-[var(--lapis)] hover:bg-[#1a38a0] text-white rounded-full font-bold text-xs flex items-center justify-center gap-2 shadow-xs active:scale-98 transition-all cursor-pointer disabled:opacity-75"
                 >
@@ -1055,7 +1050,7 @@ export const UserProfileModal: React.FC<Props> = ({
                   ) : (
                     <>
                       <Download size={16} strokeWidth={2} />
-                      <span>{isRTL ? 'دانلود بسته رسمی AAB اندروید (۱.۳ مگابایت)' : 'Download Official Android AAB (1.3 MB)'}</span>
+                      <span>{isRTL ? 'دانلود آخرین بستهٔ AAB برای گوگل پلی' : 'Download latest Google Play AAB'}</span>
                     </>
                   )}
                 </button>
@@ -1073,7 +1068,7 @@ export const UserProfileModal: React.FC<Props> = ({
                         {isRTL ? 'دانلود مستقیم فایل APK اندروید' : 'Direct Android APK Installer'}
                       </h4>
                       <span className="text-xs text-[var(--mute)] font-medium">
-                        {isRTL ? 'نصب مستقیم روی گوشی • حجم ۱.۳ مگابایت • نسخه ۱.۱.۲' : 'Direct Install on Android • 1.3 MB • v1.1.2'}
+                        {isRTL ? 'نصب مستقیم روی گوشی برای تست • کمتر از ۱ مگابایت' : 'Direct install for testing • under 1 MB'}
                       </span>
                     </div>
                   </div>
@@ -1084,13 +1079,7 @@ export const UserProfileModal: React.FC<Props> = ({
                   disabled={downloadingFile === 'dor-zaban-v1.0.apk'}
                   onClick={async () => {
                     sound.playClick();
-                    setDownloadingFile('dor-zaban-v1.0.apk');
-                    setDownloadMsg(isRTL ? 'در حال دریافت فایل APK...' : 'Fetching APK...');
-                    const res = await downloadFileWithBlob('./downloads/dor-zaban-v1.0.apk', 'dor-zaban-v1.0.apk', (s, msg) => {
-                      if (msg) setDownloadMsg(msg);
-                    });
-                    setDownloadingFile(null);
-                    if (!res.success && res.error) setDownloadMsg(res.error);
+                    window.open('https://github.com/MaryamJaberi/Language-Learning-Party-Game-new/releases/latest/download/dor-zaban.apk', '_blank', 'noopener');
                   }}
                   className="w-full h-11 bg-emerald-600 hover:bg-emerald-700 text-white rounded-full font-bold text-xs flex items-center justify-center gap-2 shadow-xs active:scale-98 transition-all cursor-pointer disabled:opacity-75"
                 >
@@ -1102,7 +1091,7 @@ export const UserProfileModal: React.FC<Props> = ({
                   ) : (
                     <>
                       <Download size={16} strokeWidth={2} />
-                      <span>{isRTL ? 'دانلود فایل نصبی APK اندروید (۵.۸ مگابایت)' : 'Download Standalone APK (5.8 MB)'}</span>
+                      <span>{isRTL ? 'دانلود آخرین APK برای تست' : 'Download latest test APK'}</span>
                     </>
                   )}
                 </button>

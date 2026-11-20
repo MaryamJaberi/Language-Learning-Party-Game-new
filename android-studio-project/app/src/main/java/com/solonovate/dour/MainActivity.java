@@ -20,7 +20,7 @@ import android.annotation.TargetApi;
 public class MainActivity extends Activity {
     private WebView webView;
     private static final int PERMISSION_REQUEST_CODE = 101;
-    private static final String APP_URL = "https://maryamjaberi.github.io/Language-Learning-Party-Game/";
+    private static final String APP_URL = BuildConfig.APP_URL;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,7 +75,7 @@ public class MainActivity extends Activity {
             @Override
             public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
                 super.onReceivedError(view, errorCode, description, failingUrl);
-                if (failingUrl != null && (failingUrl.contains("maryamjaberi.github.io") || failingUrl.equals(APP_URL))) {
+                if (failingUrl != null && (failingUrl.equals(APP_URL))) {
                     loadOfflineFallback();
                 }
             }
