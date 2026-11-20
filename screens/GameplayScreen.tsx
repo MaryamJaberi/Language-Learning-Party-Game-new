@@ -766,7 +766,7 @@ const GameplayScreen: React.FC<Props> = ({
 
           {/* Center Card Content Area - Clean, Focused, High Legibility */}
           <div className="flex-1 min-h-0 flex flex-col items-center justify-center py-1 text-center font-ui overflow-y-auto">
-            <CardImage conceptId={currentCard?.conceptId} className="mb-2" />
+            <CardImage card={currentCard} className="mb-2" />
 
             {/* SCENARIO 1: REVERSE TRANSLATION MODE */}
             {currentCard?.isReverse ? (

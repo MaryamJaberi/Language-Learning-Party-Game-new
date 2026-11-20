@@ -1408,7 +1408,7 @@ const SinglePlayerScreen: React.FC<Props> = ({
 
         {/* Center Card Content Area */}
         <div className="flex-1 flex flex-col items-center justify-center py-2">
-          <CardImage conceptId={currentCard?.conceptId} className="mb-2" />
+          <CardImage card={currentCard} className="mb-2" />
           {/* State: Skipped Card Review (User sees correct answer before proceeding to next card) */}
           {skippedCardInfo ? (
             <div className="py-1 flex flex-col items-center justify-center w-full text-center animate-fade-in">
