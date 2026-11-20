@@ -18,6 +18,8 @@ concurrency:
 
 jobs:
   build:
+    # فقط در مخزن اصلی اجرا شود، نه در نسخهٔ AI Studio
+    if: github.repository == 'MaryamJaberi/Language-Learning-Party-Game-new'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository

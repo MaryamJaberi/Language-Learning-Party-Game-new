@@ -1,0 +1,79 @@
+# پل همگام‌سازی بین این مخزن (مخزن اصلی) و مخزنی که Google AI Studio ساخته است.
+#
+# AI Studio نمی‌تواند به مخزن موجود وصل شود و فقط مخزن تازه می‌سازد.
+# این گردش‌کار آن مخزن را به این مخزن گره می‌زند:
+#   ۱. هر تغییری که در AI Studio ثبت شود → یک Pull Request در این مخزن (شاخهٔ from-aistudio)
+#   ۲. هر تغییری که به main این مخزن برسد → به main مخزن AI Studio فرستاده می‌شود
+#      تا AI Studio هم آخرین نسخه را ببیند.
+#
+# راه‌اندازی (یک بار):
+#   Settings → Secrets and variables → Actions
+#     Variables → AISTUDIO_REPO        = MaryamJaberi/<نام مخزن AI Studio>
+#     Secrets   → AISTUDIO_SYNC_TOKEN  = توکن fine-grained با دسترسی به هر دو مخزن:
+#                 Contents: Read and write, Pull requests: Read and write, Workflows: Read and write
+#
+# تا وقتی AISTUDIO_REPO تنظیم نشده، این گردش‌کار کاری نمی‌کند.
+
+name: AI Studio sync
+
+on:
+  push:
+    branches: [main]
+  schedule:
+    - cron: "*/30 * * * *"
+  workflow_dispatch:
+
+concurrency:
+  group: aistudio-sync
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  sync:
+    if: vars.AISTUDIO_REPO != '' && github.repository == 'MaryamJaberi/Language-Learning-Party-Game-new'
+    runs-on: ubuntu-latest
+    env:
+      STUDIO_REPO: ${{ vars.AISTUDIO_REPO }}
+      TOKEN: ${{ secrets.AISTUDIO_SYNC_TOKEN }}
+      GH_TOKEN: ${{ secrets.AISTUDIO_SYNC_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.AISTUDIO_SYNC_TOKEN }}
+
+      - name: Fetch AI Studio repo
+        run: |
+          git config user.name "dour-sync-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git remote add studio "https://x-access-token:${TOKEN}@github.com/${STUDIO_REPO}.git"
+          git fetch origin main
+          git fetch studio main
+
+      - name: AI Studio → Pull Request in main repo
+        run: |
+          if git merge-base --is-ancestor studio/main origin/main; then
+            echo "AI Studio تغییر تازه‌ای ندارد."
+          else
+            git push --force origin studio/main:refs/heads/from-aistudio
+            open=$(gh pr list --repo "$GITHUB_REPOSITORY" --head from-aistudio --state open --json number --jq length)
+            if [ "$open" = "0" ]; then
+              gh pr create --repo "$GITHUB_REPOSITORY" --base main --head from-aistudio \
+                --title "تغییرهای تازه از AI Studio" \
+                --body "این PR خودکار ساخته شد. تغییرهایی که در Google AI Studio ثبت شده‌اند را نشان می‌دهد. بعد از بازبینی، merge کنید تا به مخزن اصلی برسند."
+            else
+              echo "PR باز از قبل هست و به‌روز شد."
+            fi
+          fi
+
+      - name: Main repo → AI Studio
+        run: |
+          git fetch studio main
+          if git merge-base --is-ancestor studio/main origin/main; then
+            git push studio origin/main:refs/heads/main
+            echo "main به AI Studio فرستاده شد."
+          else
+            echo "AI Studio تغییر ادغام‌نشده دارد؛ اول PR شاخهٔ from-aistudio را merge کنید."
+          fi
