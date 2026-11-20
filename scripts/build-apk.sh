@@ -52,7 +52,9 @@ EOF
 cp public/.well-known/assetlinks.json dist/.well-known/assetlinks.json
 
 echo "=== 3. Copying Web Assets to Android Assets ==="
-cp -r dist/* android/assets/dist/
+# کارت‌های زبان (data/decks) و فایل‌های دانلودی داخل اپ گذاشته نمی‌شوند تا حجم اپ کم بماند؛
+# اپ آن‌ها را هنگام نیاز از سایت می‌گیرد و فقط اگر کاربر بخواهد روی گوشی ذخیره می‌کند (contentStore.ts).
+rsync -a --delete --exclude 'data/decks/' --exclude 'downloads/' --exclude 'assets/aistudio/' dist/ android/assets/dist/
 
 echo "=== 4. Creating Android Resources and Manifest ==="
 cat << 'EOF' > android/res/values/strings.xml

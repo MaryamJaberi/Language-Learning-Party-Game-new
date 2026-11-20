@@ -17,6 +17,8 @@ import {
   LocalPlayerProfile 
 } from '../firebase';
 import { AvatarPickerModal } from './AvatarPickerModal';
+import { ContentStorageSettings } from './ContentStorageSettings';
+import { EmailAuthForm } from './EmailAuthForm';
 import { PixelAvatar, AvatarId } from './PixelAvatars';
 import { User } from 'firebase/auth';
 import { sound } from '../soundManager';
@@ -57,10 +59,11 @@ import {
   RotateCcw,
   ChevronDown,
   ChevronUp,
-  Edit2
+  Edit2,
+  HardDrive
 } from 'lucide-react';
 
-export type ProfileTab = 'history' | 'records' | 'leitner' | 'leaderboard' | 'install' | 'downloads' | 'privacy';
+export type ProfileTab = 'history' | 'records' | 'leitner' | 'leaderboard' | 'storage' | 'install' | 'downloads' | 'privacy';
 
 interface Props {
   language: Language;
@@ -331,6 +334,7 @@ export const UserProfileModal: React.FC<Props> = ({
     { id: 'records', label: isRTL ? 'رکوردهای من' : 'My Records', icon: Sparkles },
     { id: 'leitner', label: isRTL ? 'جعبه لایتنر' : 'Leitner', icon: Box },
     { id: 'leaderboard', label: isRTL ? 'رده‌بندی' : 'Ranks', icon: Trophy },
+    { id: 'storage', label: isRTL ? 'آفلاین و حافظه' : 'Offline & storage', icon: HardDrive },
     { id: 'install', label: isRTL ? 'نصب روی گوشی' : 'Install App', icon: Smartphone },
     ...(isAdmin ? [{ id: 'downloads' as ProfileTab, label: isRTL ? 'دانلودها (مدیر)' : 'Downloads (Admin)', icon: Download }] : []),
     { id: 'privacy', label: isRTL ? 'حریم خصوصی' : 'Privacy', icon: ShieldCheck },
@@ -540,8 +544,8 @@ export const UserProfileModal: React.FC<Props> = ({
                 <div className="px-3 py-1.5 rounded-xl bg-[var(--bg)] border border-[var(--line)] text-[11px] text-[var(--mute)] text-start leading-relaxed flex items-center justify-between gap-2">
                   <span>
                     {isRTL
-                      ? 'حالت مهمان فعال است (ذخیره آفلاین رکوردها و لایتنر روی گوشی). برای پشتیبان‌گیری ابری و ثبت امتیاز در لیدربرد جهانی، وارد حساب گوگل شوید.'
-                      : 'Guest mode is active (records & Leitner saved locally). Sign in with Google for cloud backup & global leaderboard.'}
+                      ? 'حالت مهمان فعال است (رکوردها و لایتنر روی همین گوشی ذخیره می‌شوند). برای نگه‌داشتن اطلاعات روی پروفایل و ثبت امتیاز در رده‌بندی، با گوگل یا با ایمیل و رمز وارد شوید.'
+                      : 'Guest mode is active (records & Leitner saved on this phone). Sign in with Google or with email and password to keep them on your profile and join the leaderboard.'}
                   </span>
                 </div>
 
@@ -583,6 +587,16 @@ export const UserProfileModal: React.FC<Props> = ({
                     <span>{isDirectSigningIn ? (isRTL ? 'انتقال به گوگل...' : 'Redirecting...') : (isRTL ? 'ورود مستقیم (مخصوص سامسونگ)' : 'Direct Mobile Login')}</span>
                   </button>
                 </div>
+
+                {/* ورود با ایمیل و رمز — گوگل اجباری نیست */}
+                <EmailAuthForm
+                  isRTL={isRTL}
+                  onSignedIn={(user) => {
+                    if (onAuthChange) onAuthChange(user);
+                    loadCloudHistory(user.uid);
+                    sound.playSuccess();
+                  }}
+                />
 
                 {/* Mobile Troubleshooting Accordion Toggle */}
                 <div className="pt-0.5 flex items-center justify-between">
@@ -987,6 +1001,10 @@ export const UserProfileModal: React.FC<Props> = ({
           )}
 
           {/* TAB 5: DOWNLOADS & PACKAGES - Admin Only */}
+          {activeTab === 'storage' && (
+            <ContentStorageSettings isRTL={isRTL} currentUser={currentUser} />
+          )}
+
           {activeTab === 'downloads' && isAdmin && (
             <div className="space-y-3.5 text-start">
               <div className="p-4 rounded-[22px] bg-slate-50/80 dark:bg-slate-900/40 border border-[var(--line)] space-y-3">

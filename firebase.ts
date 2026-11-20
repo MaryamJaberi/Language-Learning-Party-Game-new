@@ -8,6 +8,10 @@ import {
   signOut, 
   onAuthStateChanged,
   deleteUser,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  sendPasswordResetEmail,
+  updateProfile,
   User 
 } from 'firebase/auth';
 import { 
@@ -196,6 +200,27 @@ export const saveLocalPlayerProfile = (profile: LocalPlayerProfile): void => {
   try {
     localStorage.setItem('dour_local_profile', JSON.stringify(profile));
   } catch {}
+};
+
+// ورود با ایمیل و رمز — بدون نیاز به حساب گوگل
+// (در کنسول Firebase باید Authentication → Sign-in method → Email/Password روشن باشد)
+export const signUpWithEmail = async (email: string, password: string, displayName?: string): Promise<User> => {
+  const cred = await createUserWithEmailAndPassword(auth, email.trim(), password);
+  if (displayName && displayName.trim()) {
+    try { await updateProfile(cred.user, { displayName: displayName.trim() }); } catch {}
+  }
+  await syncUserProfileToCloud(cred.user);
+  return cred.user;
+};
+
+export const signInWithEmail = async (email: string, password: string): Promise<User> => {
+  const cred = await signInWithEmailAndPassword(auth, email.trim(), password);
+  await syncUserProfileToCloud(cred.user);
+  return cred.user;
+};
+
+export const resetPasswordByEmail = async (email: string): Promise<void> => {
+  await sendPasswordResetEmail(auth, email.trim());
 };
 
 // Sign Out

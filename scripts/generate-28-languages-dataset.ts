@@ -662,8 +662,8 @@ function escapeCSV(val: any): string {
 }
 
 export function generateComplete28LanguagesFiles() {
-  const publicCsv = path.resolve('public/downloads/dour_28_languages_complete_dataset.csv');
-  const publicJson = path.resolve('public/downloads/dour_28_languages_complete_dataset.json');
+  const publicCsv = path.resolve('data/exports/downloads/dour_28_languages_complete_dataset.csv');
+  const publicJson = path.resolve('data/exports/downloads/dour_28_languages_complete_dataset.json');
   const distDir = path.resolve('dist/downloads');
   const distCsv = path.resolve('dist/downloads/dour_28_languages_complete_dataset.csv');
   const distJson = path.resolve('dist/downloads/dour_28_languages_complete_dataset.json');
