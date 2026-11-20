@@ -141,7 +141,7 @@ export const SUPPORTED_LANGUAGES: LanguageInfo[] = [
   { code: 'es', name: 'Spanish', nativeName: 'Español', persianName: 'اسپانیایی', flag: '🇪🇸', direction: 'ltr', popular: true, region: 'europe', speechCode: 'es-ES' },
   { code: 'it', name: 'Italian', nativeName: 'Italiano', persianName: 'ایتالیایی', flag: '🇮🇹', direction: 'ltr', popular: true, region: 'europe', speechCode: 'it-IT' },
   { code: 'ru', name: 'Russian (Beta - Limited)', nativeName: 'Русский (Бета)', persianName: 'روسی (بتا — محتوای محدود)', flag: '🇷🇺', direction: 'ltr', popular: false, region: 'europe', speechCode: 'ru-RU' },
-  { code: 'pt', name: 'Portuguese', nativeName: 'Português', persianName: 'پرتغالی', flag: '🇵🇹', direction: 'ltr', region: 'europe', speechCode: 'pt-PT' },
+  { code: 'pt', name: 'Portuguese', nativeName: 'Português', persianName: 'پرتغالی (برزیل)', flag: '🇧🇷', direction: 'ltr', region: 'americas', speechCode: 'pt-BR' },
   { code: 'sv', name: 'Swedish', nativeName: 'Svenska', persianName: 'سوئدی', flag: '🇸🇪', direction: 'ltr', region: 'europe', speechCode: 'sv-SE' },
   { code: 'no', name: 'Norwegian', nativeName: 'Norsk', persianName: 'نروژی', flag: '🇳🇴', direction: 'ltr', region: 'europe', speechCode: 'nb-NO' },
   { code: 'da', name: 'Danish', nativeName: 'Dansk', persianName: 'دانمارکی', flag: '🇩🇰', direction: 'ltr', region: 'europe', speechCode: 'da-DK' },
@@ -166,6 +166,37 @@ export const SUPPORTED_LANGUAGES: LanguageInfo[] = [
   { code: 'th', name: 'Thai', nativeName: 'ไทย', persianName: 'تایلندی', flag: '🇹🇭', direction: 'ltr', region: 'asia', speechCode: 'th-TH' },
   { code: 'tl', name: 'Filipino', nativeName: 'Tagalog', persianName: 'فیلیپینی', flag: '🇵🇭', direction: 'ltr', region: 'asia', speechCode: 'fil-PH' }
 ];
+
+// BCP-47 Speech recognition language code mapping for the 18 active locales
+export const SPEECH_LANG_MAP: Record<string, string> = {
+  'en': 'en-GB',
+  'en-US': 'en-US',
+  'en-GB': 'en-GB',
+  'fa': 'fa-IR',
+  'ar': 'ar-SA',
+  'nl': 'nl-NL',
+  'de': 'de-DE',
+  'fr': 'fr-FR',
+  'es': 'es-ES',
+  'it': 'it-IT',
+  'pt': 'pt-BR',
+  'tr': 'tr-TR',
+  'pl': 'pl-PL',
+  'uk': 'uk-UA',
+  'zh': 'zh-CN',
+  'ja': 'ja-JP',
+  'ko': 'ko-KR',
+  'hi': 'hi-IN'
+};
+
+export function getSpeechLanguageCode(langCode: string): string {
+  if (!langCode) return 'en-US';
+  const found = SUPPORTED_LANGUAGES.find(l => l.code === langCode);
+  if (found?.speechCode) return found.speechCode;
+  const mapped = SPEECH_LANG_MAP[langCode];
+  if (mapped) return mapped;
+  return langCode.includes('-') ? langCode : `${langCode}-${langCode.toUpperCase()}`;
+}
 
 export interface CEFRLevelInfo {
   id: CEFRLevel;
@@ -844,25 +875,11 @@ export const CATEGORIES: Record<string, string[]> = {
 };
 
 // System Admin Configuration (Authorized Admin for APK/AAB Downloads & Management)
-// نشانی‌های ادمین از متغیر محیطی می‌آیند؛ هیچ نشانی شخصی در کد مخزن نوشته نمی‌شود.
-// مثال:  VITE_ADMIN_EMAILS="a@example.com,b@example.com"
-const readAdminEmails = (): string[] => {
-  const raw =
-    (typeof import.meta !== 'undefined' && (import.meta as any).env?.VITE_ADMIN_EMAILS) ||
-    (typeof process !== 'undefined' && process.env?.VITE_ADMIN_EMAILS) ||
-    '';
-  return String(raw)
-    .split(',')
-    .map((e: string) => e.trim().toLowerCase())
-    .filter(Boolean);
-};
-
-/** فهرست ادمین‌ها در لحظهٔ بارگذاری ماژول (برای سازگاری با کد قدیمی). */
-export const ADMIN_EMAILS: string[] = readAdminEmails();
+export const ADMIN_EMAILS: string[] = ['m.jaberi1212@gmail.com'];
 
 export const isAdminUser = (email?: string | null): boolean => {
   if (!email) return false;
-  return readAdminEmails().includes(email.trim().toLowerCase());
+  return ADMIN_EMAILS.includes(email.trim().toLowerCase());
 };
 
 export const DEFAULT_SETTINGS: GameSettings = {

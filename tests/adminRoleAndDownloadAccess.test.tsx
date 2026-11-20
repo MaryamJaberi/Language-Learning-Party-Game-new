@@ -1,25 +1,17 @@
-import { describe, test, expect, vi, beforeEach, afterEach } from 'vitest';
+import { describe, test, expect, vi } from 'vitest';
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import { InstallPromptModal } from '../components/InstallPromptModal';
 import { UserProfileModal } from '../components/UserProfileModal';
-import { isAdminUser } from '../constants';
+import { ADMIN_EMAILS, isAdminUser } from '../constants';
 
 describe('Admin Role and Download Visibility Protection', () => {
-  const adminEmail = 'admin@example.test';
+  const adminEmail = 'm.jaberi1212@gmail.com';
   const regularEmail = 'regular.user@example.com';
-
-  beforeEach(() => {
-    vi.stubEnv('VITE_ADMIN_EMAILS', adminEmail);
-  });
-
-  afterEach(() => {
-    vi.unstubAllEnvs();
-  });
 
   test('isAdminUser correctly verifies admin email and rejects other users', () => {
     expect(isAdminUser(adminEmail)).toBe(true);
-    expect(isAdminUser(' ADMIN@EXAMPLE.TEST ')).toBe(true);
+    expect(isAdminUser('M.JABERI1212@GMAIL.COM ')).toBe(true);
     expect(isAdminUser(regularEmail)).toBe(false);
     expect(isAdminUser(null)).toBe(false);
     expect(isAdminUser(undefined)).toBe(false);
@@ -44,7 +36,7 @@ describe('Admin Role and Download Visibility Protection', () => {
     expect(screen.getByText(/iOS/i)).toBeInTheDocument();
   });
 
-  test('InstallPromptModal shows APK download tab for admin (admin@example.test)', () => {
+  test('InstallPromptModal shows APK download tab for admin (m.jaberi1212@gmail.com)', () => {
     const adminUser = { uid: 'admin-1', email: adminEmail, displayName: 'Admin User' } as any;
 
     render(

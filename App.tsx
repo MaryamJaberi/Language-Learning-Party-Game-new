@@ -15,6 +15,7 @@ import {
   OnlineDuelRoom
 } from './types';
 import { buildSessionCardPool } from './cardsData';
+import { preloadLanguageDecks } from './phraseBank';
 import { getUniqueCardsForSession } from './contentEngine';
 import IntroScreen from './screens/IntroScreen';
 import LanguageSelectScreen from './screens/LanguageSelectScreen';
@@ -99,6 +100,16 @@ const App: React.FC = () => {
       }
     }
   }, []);
+
+  // Lazy load deck data for ALL active languages (native + every target language)
+  useEffect(() => {
+    const targets = Array.isArray(settings.targetLanguages) && settings.targetLanguages.length > 0
+      ? settings.targetLanguages
+      : [settings.targetLanguage || 'en'];
+    const native = settings.nativeLanguage || settings.language || 'fa';
+    const allLangs = Array.from(new Set([native, ...targets]));
+    preloadLanguageDecks(allLangs).catch(() => {});
+  }, [settings.targetLanguages, settings.targetLanguage, settings.nativeLanguage, settings.language]);
 
   // Sync document root direction and language
   useEffect(() => {
