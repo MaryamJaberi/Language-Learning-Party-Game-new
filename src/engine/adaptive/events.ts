@@ -39,7 +39,10 @@ export type AdaptiveLogEvent = CardAnsweredEvent | AdaptiveGenericEvent;
 const STORAGE_EVENT_LOGS = 'dor_adaptive_events_v1';
 const MAX_LOCAL_EVENTS = 1000;
 
-export function logAdaptiveEvent(event: Omit<AdaptiveLogEvent, 'ts'> & { ts?: number }): void {
+// Omit applied to each member of the union (plain Omit would keep only the shared fields)
+type WithoutTs<T> = T extends unknown ? Omit<T, 'ts'> : never;
+
+export function logAdaptiveEvent(event: WithoutTs<AdaptiveLogEvent> & { ts?: number }): void {
   try {
     const fullEvent: AdaptiveLogEvent = {
       ts: event.ts || Date.now(),

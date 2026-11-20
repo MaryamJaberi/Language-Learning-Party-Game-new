@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import fs from 'fs';
 import path from 'path';
-import { CardPacingSequencer, measureTextPacing, PacedCard } from '../src/engine/pacing/cardPacing';
+import { CardPacingSequencer, measureTextPacing, getCardMetric, PacedCard } from '../src/engine/pacing/cardPacing';
 
 describe('Card Length & Pacing Sequencer (Level-Relative & Multi-Language)', () => {
   it('correctly classifies short, medium, and long cards based on level-relative caps and language', () => {
@@ -181,5 +181,27 @@ describe('Card Length & Pacing Sequencer (Level-Relative & Multi-Language)', () 
         expect(validation.errors).toEqual([]);
       }
     }
+  });
+});
+
+describe('Pacing uses the level of in-game cards (cefrLevel)', () => {
+  // 13 words: long for an A1 learner (cap 6), not long for B2 (cap 16)
+  const text = 'I would like to book a table for four people tomorrow evening please';
+
+  it('measures a game card against its own level, not against A1', () => {
+    const asB2 = { id: 'g1', cefrLevel: 'B2', targetText: text };
+    const asA1 = { id: 'g2', cefrLevel: 'A1', targetText: text };
+    expect(getCardMetric(asA1, 'en').lengthClass).toBe('long');
+    expect(getCardMetric(asB2, 'en').lengthClass).not.toBe('long');
+    expect(getCardMetric(asB2, 'en')).toEqual(measureTextPacing(text, 'B2', 'en'));
+  });
+
+  it('applies the C1 short-turn exclusion to game cards too', () => {
+    const sequencer = new CardPacingSequencer();
+    const long = Array.from({ length: 40 }, (_, i) => 'word' + i).join(' ');
+    const c1 = { id: 'c1', cefrLevel: 'C1', targetText: long };
+    const c2 = { id: 'c2', cefrLevel: 'C2', targetText: long };
+    const kept = sequencer.filterEligibleCards([c1, c2], 10, 'en').map((c) => c.id);
+    expect(kept).toEqual(['c2']);
   });
 });

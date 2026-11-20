@@ -438,18 +438,23 @@ const App: React.FC = () => {
     setGameStatus(prev => prev === GameStatus.WinnerScreen || prev === GameStatus.GameEnded ? prev : GameStatus.ActiveTurn);
   };
 
+  const helpPausedTurnRef = useRef(false);
   const openHelp = (section: string) => {
     setActiveHelpSection(section);
-    if (currentScreen === 'GAME') setGameStatus(GameStatus.Paused);
+    // Only pause (and later auto-resume) a turn that was actually running.
+    // Opening help from Paused / RoundEnded / PassPhone must return to that same state.
+    helpPausedTurnRef.current = currentScreen === 'GAME' && gameStatus === GameStatus.ActiveTurn;
+    if (helpPausedTurnRef.current) setGameStatus(GameStatus.Paused);
     setPrevScreen(currentScreen);
     setCurrentScreen('HELP');
   };
 
   const closeHelp = () => {
     setCurrentScreen(prevScreen);
-    if (prevScreen === 'GAME') {
+    if (prevScreen === 'GAME' && helpPausedTurnRef.current) {
       handleResume();
     }
+    helpPausedTurnRef.current = false;
   };
 
   // Rock-solid delta timer loop for ACTIVE_TURN (50ms interval, no drift)
