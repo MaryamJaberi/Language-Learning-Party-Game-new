@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { GameSettings, Language, CEFRLevel } from '../types';
-import { SUPPORTED_LANGUAGES, CEFR_LEVELS } from '../constants';
+import { SUPPORTED_LANGUAGES, CEFR_LEVELS, isPracticeReady } from '../constants';
 import { NATIVE_LANGUAGE_NAMES } from '../translations';
 import { FlagIcon } from './FlagIcon';
 import { LanguagePickerModal } from './LanguagePickerModal';
@@ -50,7 +50,7 @@ export const LanguageAndCefrDropdowns: React.FC<Props> = ({
   const searchResults = useMemo(() => {
     const q = searchQuery.trim().toLowerCase();
     if (!q) return [];
-    return SUPPORTED_LANGUAGES.filter(lang => 
+    return SUPPORTED_LANGUAGES.filter(lang => isPracticeReady(lang.code)).filter(lang => 
       lang.name.toLowerCase().includes(q) ||
       lang.nativeName.toLowerCase().includes(q) ||
       lang.persianName.toLowerCase().includes(q) ||
@@ -376,6 +376,7 @@ export const LanguageAndCefrDropdowns: React.FC<Props> = ({
           }}
           selectedLanguage={pickerMode === 'native' ? nativeLang : pickerMode === 'ui' ? appUiLang : undefined}
           mode={pickerMode === 'target' ? 'multi' : 'single'}
+          practiceOnly={pickerMode !== 'ui'}
           selectedLanguages={pickerMode === 'target' ? targetLangs : undefined}
           onSelectLanguages={pickerMode === 'target' ? (langs) => onSave({ ...settings, targetLanguages: langs }) : undefined}
           title={pickerMode === 'target' 
