@@ -30,6 +30,7 @@ import {
   LEITNER_INTERVALS,
   getTodayDateString 
 } from '../leitnerBoxService';
+import { TrainingWheelText } from '../components/trainingWheels/TrainingWheelText';
 import { LeitnerState, Language, CEFRLevel, LanguageCard } from '../types';
 import { sound } from '../soundManager';
 import { FlagIcon } from '../components/FlagIcon';
@@ -317,9 +318,19 @@ export const LeitnerScreen: React.FC<Props> = ({
               {/* Main Card Prompt */}
               <div className="py-3">
                 <h2 className="text-xl sm:text-2xl font-black text-[var(--ink)] leading-snug">
-                  {isFlipped 
-                    ? currentDueItem.item.card.targetText 
-                    : (currentDueItem.item.card.prompt || currentDueItem.item.card.translation)}
+                  {isFlipped ? (
+                    <TrainingWheelText
+                      card={currentDueItem.item.card}
+                      stage={
+                        currentDueItem.item.boxIndex >= 3
+                          ? 3
+                          : (currentDueItem.item.boxIndex as any)
+                      }
+                      uiLanguage={uiLanguage}
+                    />
+                  ) : (
+                    currentDueItem.item.card.prompt || currentDueItem.item.card.translation
+                  )}
                 </h2>
                 {isFlipped && (
                   <p className="text-xs font-bold text-[var(--mute)] mt-1.5">

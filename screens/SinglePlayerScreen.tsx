@@ -21,6 +21,8 @@ import ExitConfirmModal from '../components/ExitConfirmModal';
 import { PracticeTourModal } from '../components/PracticeTourModal';
 import { generateChallengingReflexOptions } from '../utils/testQuestionEngine';
 import { getPronunciationHint } from '../pronunciationService';
+import { TrainingWheelText } from '../components/trainingWheels/TrainingWheelText';
+import { getAdaptiveTtsSpeed } from '../src/engine/trainingWheels/trainingWheelsService';
 import {
   Session,
   AdaptiveItem,
@@ -1577,7 +1579,7 @@ const SinglePlayerScreen: React.FC<Props> = ({
                 dir={isRtlLang(currentCard.targetLanguage) ? 'rtl' : 'ltr'}
                 className="text-xl sm:text-2xl font-black text-[var(--ink)] tracking-tight leading-snug py-0.5"
               >
-                {currentCard.targetText}
+                <TrainingWheelText card={currentCard} cefrLevel={settings.cefrLevel} uiLanguage={uiLanguage} />
               </div>
 
               {currentCard.pronunciation && (
@@ -1627,7 +1629,7 @@ const SinglePlayerScreen: React.FC<Props> = ({
                 dir={isRtlLang(currentCard.targetLanguage) ? 'rtl' : 'ltr'}
                 className="text-xl sm:text-2xl font-black text-[var(--ink)] tracking-tight leading-snug py-0.5"
               >
-                {currentCard.targetText}
+                <TrainingWheelText card={currentCard} cefrLevel={settings.cefrLevel} uiLanguage={uiLanguage} />
               </div>
 
               {currentCard.pronunciation && (

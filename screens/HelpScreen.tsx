@@ -29,6 +29,7 @@ import { useGoogleScrollBars } from '../useGoogleScrollBars';
 import { FlagIcon } from '../components/FlagIcon';
 import { SUPPORTED_LANGUAGES } from '../constants';
 import { LanguagePickerModal } from '../components/LanguagePickerModal';
+import { TrainingWheelsHelpSection } from '../components/trainingWheels/TrainingWheelsHelpSection';
 
 const RULES_CHALLENGE_AND_COMBO: Record<string, { challenge: string; combo: string; title: string }> = {
   fa: {
@@ -241,7 +242,7 @@ export const HelpScreen: React.FC<Props> = ({
   const t = tUI(language);
   const isRTL = isRtlLang(language);
   const { isBarsVisible, scrollContainerRef, handleScroll, showBars } = useGoogleScrollBars();
-  const [activeTab, setActiveTab] = useState<'game_modes' | 'adaptive' | 'rules' | 'privacy'>('game_modes');
+  const [activeTab, setActiveTab] = useState<'game_modes' | 'adaptive' | 'rules' | 'privacy' | 'training_wheels'>('game_modes');
   const [isLangPickerOpen, setIsLangPickerOpen] = useState(false);
 
   const currentLangInfo = SUPPORTED_LANGUAGES.find(l => l.code === language) || SUPPORTED_LANGUAGES[0];
@@ -249,6 +250,8 @@ export const HelpScreen: React.FC<Props> = ({
   useEffect(() => {
     if (initialSection === 'adaptive') {
       setActiveTab('adaptive');
+    } else if (initialSection === 'training_wheels') {
+      setActiveTab('training_wheels');
     }
     if (initialSection && scrollContainerRef.current) {
       const element = document.getElementById(`help-${initialSection}`);
@@ -367,6 +370,22 @@ export const HelpScreen: React.FC<Props> = ({
           >
             <Zap size={13} />
             <span>{isRTL ? 'قوانین و امتیاز' : 'Rules & Scoring'}</span>
+          </button>
+
+          <button
+            type="button"
+            onClick={() => {
+              sound.playToggle();
+              setActiveTab('training_wheels');
+            }}
+            className={`px-3 py-1 rounded-xl text-xs font-black transition-all cursor-pointer flex items-center gap-1.5 ${
+              activeTab === 'training_wheels'
+                ? 'bg-[var(--lapis)] text-[var(--on-lapis)] shadow-xs'
+                : 'text-[var(--mute)] hover:bg-[var(--panel)] hover:text-[var(--ink)]'
+            }`}
+          >
+            <span>🚲</span>
+            <span>{isRTL ? 'چرخ‌های کمکی' : 'Training Wheels'}</span>
           </button>
 
           <button
@@ -908,6 +927,13 @@ export const HelpScreen: React.FC<Props> = ({
                 </section>
               );
             })()}
+          </div>
+        )}
+
+        {/* TAB: TRAINING WHEELS */}
+        {activeTab === 'training_wheels' && (
+          <div className="space-y-3 animate-fade-in">
+            <TrainingWheelsHelpSection uiLanguage={language} />
           </div>
         )}
 
