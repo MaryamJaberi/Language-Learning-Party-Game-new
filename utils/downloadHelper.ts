@@ -92,17 +92,8 @@ export async function downloadFileWithBlob(
       isHtmlError = true;
     }
 
-    // If network fetch returned an HTML page or was intercepted, use embedded verified bundle for AAB
     if (isHtmlError || !arrayBuffer) {
-      if (filename.endsWith('.aab')) {
-        if (onStatusChange) onStatusChange('verifying', 'در حال استخراج مستقیم بسته باینری AAB از حافظه...');
-        const { EMBEDDED_AAB_BASE64 } = await import('./embeddedAabData');
-        const uint8 = base64ToUint8Array(EMBEDDED_AAB_BASE64);
-        arrayBuffer = uint8.buffer as ArrayBuffer;
-        byteLength = uint8.byteLength;
-      } else {
-        throw new Error('دریافت فایل با خطای پروکسی شبکه مواجه شد. لطفاً دوباره تلاش نمایید.');
-      }
+      throw new Error('دریافت فایل با خطای شبکه مواجه شد. لطفاً دوباره تلاش نمایید.');
     }
 
     // Verify ZIP magic header (0x50, 0x4B, 0x03, 0x04)

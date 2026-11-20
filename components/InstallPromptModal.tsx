@@ -223,7 +223,7 @@ export const InstallPromptModal: React.FC<Props> = ({
                         <span className="text-[9px] bg-[var(--lapis-soft)] text-[var(--lapis)] font-black px-1.5 py-0.5 rounded-full">Google Play</span>
                       </h4>
                       <span className="text-[10px] text-[var(--mute)] font-medium">
-                        {isRTL ? 'فرمت Android App Bundle (.aab) • حجم ۲.۲ مگابایت • نسخه ۱.۰.۴' : 'Format: Android App Bundle (.aab) • Size: 2.2 MB • v1.0.4'}
+                        {isRTL ? 'آخرین نسخه از GitHub Releases • کمتر از ۱ مگابایت' : 'Latest build from GitHub Releases • under 1 MB'}
                       </span>
                     </div>
                   </div>
@@ -246,7 +246,7 @@ export const InstallPromptModal: React.FC<Props> = ({
                 <button
                   type="button"
                   disabled={downloadingFile === 'dor-zaban-v1.0.aab'}
-                  onClick={() => handleDownload('./downloads/dor-zaban-v1.0.aab', 'dor-zaban-v1.0.aab')}
+                  onClick={() => window.open('https://github.com/MaryamJaberi/Language-Learning-Party-Game-new/releases/latest/download/dor-zaban.aab', '_blank', 'noopener')}
                   className="w-full py-2.5 px-3 bg-[var(--lapis)] hover:bg-[#1a38a0] text-white rounded-[12px] font-bold text-xs flex items-center justify-center gap-2 shadow-sm active:translate-y-0.5 transition-all text-center cursor-pointer disabled:opacity-75"
                 >
                   {downloadingFile === 'dor-zaban-v1.0.aab' ? (
@@ -257,7 +257,7 @@ export const InstallPromptModal: React.FC<Props> = ({
                   ) : (
                     <>
                       <Download size={16} />
-                      <span>{isRTL ? 'دانلود فایل AAB گوگل پلی (۲.۲ مگابایت)' : 'Download AAB File (2.2 MB)'}</span>
+                      <span>{isRTL ? 'دانلود آخرین AAB گوگل پلی' : 'Download latest AAB'}</span>
                     </>
                   )}
                 </button>
@@ -275,7 +275,7 @@ export const InstallPromptModal: React.FC<Props> = ({
                         {isRTL ? 'دانلود مستقیم فایل نصبی APK (تست روی گوشی)' : 'Download Signed Android APK (.apk)'}
                       </h4>
                       <span className="text-[10px] text-[var(--mute)] font-medium">
-                        {isRTL ? 'حجم: ۵.۸ مگابایت • نسخه ۱.۰.۱ • کاملاً آفلاین' : 'Size: 5.8 MB • v1.0.1 • 100% Offline'}
+                        {isRTL ? 'آخرین نسخه • کمتر از ۱ مگابایت • بار اول اینترنت لازم است' : 'Latest build • under 1 MB • first launch needs internet'}
                       </span>
                     </div>
                   </div>
@@ -293,7 +293,7 @@ export const InstallPromptModal: React.FC<Props> = ({
                 <button
                   type="button"
                   disabled={downloadingFile === 'dor-zaban-v1.0.apk'}
-                  onClick={() => handleDownload('./downloads/dor-zaban-v1.0.apk', 'dor-zaban-v1.0.apk')}
+                  onClick={() => window.open('https://github.com/MaryamJaberi/Language-Learning-Party-Game-new/releases/latest/download/dor-zaban.apk', '_blank', 'noopener')}
                   className="w-full py-2.5 px-3 bg-[var(--turq)] hover:bg-[#0fa091] text-white rounded-[12px] font-bold text-xs flex items-center justify-center gap-2 shadow-[var(--shadow-sm)] active:translate-y-0.5 transition-all text-center cursor-pointer disabled:opacity-75"
                 >
                   {downloadingFile === 'dor-zaban-v1.0.apk' ? (
@@ -304,32 +304,10 @@ export const InstallPromptModal: React.FC<Props> = ({
                   ) : (
                     <>
                       <Download size={16} />
-                      <span>{isRTL ? 'دانلود فایل APK نصبی (۵.۸ مگابایت)' : 'Download APK File (5.8 MB)'}</span>
+                      <span>{isRTL ? 'دانلود آخرین APK برای تست' : 'Download latest test APK'}</span>
                     </>
                   )}
                 </button>
-              </div>
-
-              {/* Card 3: Full Google Play Source Bundle (ZIP) */}
-              <div className="bg-[var(--bg)] p-3 rounded-[14px] border border-[var(--line)] space-y-1.5 opacity-90 hover:opacity-100 transition-opacity">
-                <div className="flex items-center justify-between">
-                  <h4 className="text-xs font-bold text-[var(--ink)]">
-                    {isRTL ? 'سورس کامل Android Studio و کلید Keystore' : 'Full Android Studio Project & Keystore (ZIP)'}
-                  </h4>
-                  <button
-                    type="button"
-                    disabled={downloadingFile === 'dor-zaban-google-play-package.zip'}
-                    onClick={() => handleDownload('./downloads/dor-zaban-google-play-package.zip', 'dor-zaban-google-play-package.zip')}
-                    className="text-[11px] text-[var(--lapis)] font-bold hover:underline flex items-center gap-1 cursor-pointer disabled:opacity-75"
-                  >
-                    {downloadingFile === 'dor-zaban-google-play-package.zip' ? (
-                      <Loader2 size={13} className="animate-spin" />
-                    ) : (
-                      <Download size={13} />
-                    )}
-                    <span>{isRTL ? 'دانلود سورس (ZIP)' : 'Download ZIP'}</span>
-                  </button>
-                </div>
               </div>
 
               {/* Card 4.1: Master 28 Languages Complete Dataset (All CEFR Levels) */}

@@ -20,27 +20,6 @@ export default defineConfig(() => {
         allowedHosts: true,
       },
       plugins: [
-        {
-          name: 'downloads-header-plugin',
-          configureServer(server) {
-            server.middlewares.use((req, res, next) => {
-              if (req.url && req.url.includes('/downloads/')) {
-                const filename = req.url.split('/').pop()?.split('?')[0];
-                if (filename?.endsWith('.aab')) {
-                  res.setHeader('Content-Type', 'application/octet-stream');
-                  res.setHeader('Content-Disposition', `attachment; filename="${filename}"`);
-                } else if (filename?.endsWith('.apk')) {
-                  res.setHeader('Content-Type', 'application/vnd.android.package-archive');
-                  res.setHeader('Content-Disposition', `attachment; filename="${filename}"`);
-                } else if (filename?.endsWith('.zip')) {
-                  res.setHeader('Content-Type', 'application/zip');
-                  res.setHeader('Content-Disposition', `attachment; filename="${filename}"`);
-                }
-              }
-              next();
-            });
-          }
-        },
         react(),
         VitePWA({
           registerType: 'autoUpdate',
@@ -79,7 +58,7 @@ export default defineConfig(() => {
           },
           workbox: {
             globPatterns: ['**/*.{js,css,html,ico,png,svg,woff,woff2,json}'],
-            globIgnores: ['**/embeddedAabData*.js', '**/downloads/**', '**/assets/aistudio/**', '**/data/decks/*.json'],
+            globIgnores: ['**/downloads/**', '**/assets/aistudio/**', '**/data/decks/*.json'],
             maximumFileSizeToCacheInBytes: 3 * 1024 * 1024,
             runtimeCaching: [
               // کارت‌های زبان (data/decks) را خود اپ با contentStore.ts ذخیره می‌کند،

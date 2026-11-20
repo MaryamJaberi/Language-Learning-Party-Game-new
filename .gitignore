@@ -53,3 +53,7 @@ android-studio-project/app/build/
 
 # صادرات فهرست فایل‌های درایو (شامل نام و نشانی شخصی)
 data/previous_folder_files.json
+
+# فایل‌های موقت AI Studio
+.aistudio/
+data/exports/aistudio-uploads/
