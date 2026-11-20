@@ -1,3 +1,4 @@
+import { loadDecksIfNeeded } from '../phraseBank';
 import React, { useState, useEffect, useMemo } from 'react';
 import { 
   Box, 
@@ -92,8 +93,10 @@ export const LeitnerScreen: React.FC<Props> = ({
   };
 
   // Add more cards
-  const handleEnrollMore = () => {
+  const handleEnrollMore = async () => {
     sound.playClick();
+    const decksPending = loadDecksIfNeeded([leitnerState.targetLanguage, leitnerState.nativeLanguage, 'en']);
+    if (decksPending) await decksPending;
     const updated = enrollCardsInLeitner(
       leitnerState.targetLanguage,
       leitnerState.nativeLanguage,
