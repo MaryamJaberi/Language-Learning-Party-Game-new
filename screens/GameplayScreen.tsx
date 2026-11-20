@@ -14,6 +14,7 @@ import { FlagIcon } from '../components/FlagIcon';
 import ExitConfirmModal from '../components/ExitConfirmModal';
 import { recordMistake } from '../mistakeReviewService';
 import { CardIndicator } from '../src/engine/adaptive/dor-adaptive-engine';
+import { TrainingWheelText } from '../components/trainingWheels/TrainingWheelText';
 import { 
   Zap, 
   Volume2, 
@@ -788,16 +789,11 @@ const GameplayScreen: React.FC<Props> = ({
 
                 {/* Target Foreign Answer (Hero text with dynamic dir) */}
                 <div className="flex items-center justify-center gap-2 pt-0.5 px-2 max-w-full">
-                  {currentCard.article && (
-                    <span className="text-xs sm:text-sm font-black px-2 py-0.5 rounded-lg bg-[var(--bg)] border border-[var(--line)] text-[var(--turq)] shrink-0">
-                      {currentCard.article}
-                    </span>
-                  )}
                   <h2 
                     dir={isRtlLang(currentCard.targetLanguage) ? 'rtl' : 'ltr'} 
-                    className="card-target-word text-xl sm:text-2xl md:text-3xl font-extrabold font-card-word tracking-tight leading-snug text-[var(--ink)] break-words"
+                    className="card-target-word text-xl sm:text-2xl md:text-3xl font-extrabold font-card-word tracking-tight leading-snug text-[var(--ink)] break-words flex flex-col items-center"
                   >
-                    {currentCard.targetText}
+                    <TrainingWheelText card={currentCard} uiLanguage={language} />
                   </h2>
                   
                   {/* Pronounce Button */}
