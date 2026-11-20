@@ -5,7 +5,7 @@ import {
   SinglePlayerSettings, 
   SinglePlayerDisplayMode 
 } from '../types';
-import { SUPPORTED_LANGUAGES, CEFR_LEVELS, getCefrText } from '../constants';
+import { SUPPORTED_LANGUAGES, CEFR_LEVELS, getCefrText, isPracticeReady, PRACTICE_READY_LANGUAGES } from '../constants';
 import { FlagIcon } from './FlagIcon';
 import { LanguagePickerModal } from './LanguagePickerModal';
 import { sound } from '../soundManager';
@@ -88,6 +88,7 @@ const SinglePlayerSetupModal: React.FC<Props> = ({
   const currentNativeLangInfo = SUPPORTED_LANGUAGES.find(l => l.code === settings.nativeLanguage) || SUPPORTED_LANGUAGES[0];
 
   const unmasteredCount = getSavedMistakes().filter(m => !m.mastered).length;
+  const langsReady = isPracticeReady(settings.targetLanguage) && isPracticeReady(settings.nativeLanguage);
 
   const handleStart = () => {
     const levelToUse = selectedLevel && selectedLevel !== 'all' ? selectedLevel : 'A1';
@@ -306,38 +307,73 @@ const SinglePlayerSetupModal: React.FC<Props> = ({
                 <span>{isRTL ? 'انتخاب سطح دشواری (CEFR):' : 'Select Level (CEFR):'}</span>
               </label>
               <span className="text-[10px] font-black px-2 py-0.5 rounded-lg bg-[var(--lapis-soft)] text-[var(--lapis)]">
-                {selectedLevel}
+                <bdi dir="ltr">{selectedLevel}</bdi>
               </span>
             </div>
 
-            <div className="grid grid-cols-4 sm:grid-cols-7 gap-1.5 pt-0.5">
-              {CEFR_LEVELS.map(lvl => {
-                const isSelected = selectedLevel === lvl.id;
-                const subText = getCefrText(lvl.name, language) || lvl.id;
-                return (
-                  <button
-                    key={lvl.id}
-                    data-testid={`single-level-${lvl.id}`}
-                    type="button"
-                    onClick={() => {
-                      sound.playToggle();
-                      setSelectedLevel(lvl.id);
-                      setSettings(s => ({ ...s, cefrLevel: lvl.id }));
-                    }}
-                    className={`py-2 px-1 rounded-xl border text-center transition-all cursor-pointer active:scale-95 ${
-                      isSelected
-                        ? 'bg-[var(--lapis)] text-white border-[var(--lapis)] shadow-xs font-black'
-                        : 'bg-[var(--panel)] border-[var(--line)] text-[var(--ink)] hover:bg-[var(--line)]/30 hover:border-[var(--lapis)]/50'
-                    }`}
-                  >
-                    <div className="text-xs font-black leading-none">{lvl.code}</div>
-                    <div className={`text-[9px] mt-0.5 truncate ${isSelected ? 'text-white/85 font-bold' : 'text-[var(--mute)] font-medium'}`}>
-                      {subText}
+            {(() => {
+              const bands: { key: string; fa: string; en: string; ids: string[] }[] = [
+                { key: 'A', fa: 'پایه', en: 'Basic', ids: ['Pre-A1', 'A0+', 'A1', 'A1+', 'A2', 'A2+'] },
+                { key: 'B', fa: 'میانی', en: 'Independent', ids: ['B1', 'B1+', 'B2', 'B2+'] },
+                { key: 'C', fa: 'پیشرفته', en: 'Proficient', ids: ['C1', 'C1+', 'C2'] },
+              ];
+              const selectedInfo = CEFR_LEVELS.find(l => l.id === selectedLevel);
+              return (
+                <div className="space-y-1.5 pt-0.5">
+                  {bands.map(band => {
+                    const levels = band.ids
+                      .map(id => CEFR_LEVELS.find(l => l.id === id))
+                      .filter((l): l is NonNullable<typeof l> => !!l);
+                    if (!levels.length) return null;
+                    return (
+                      <div key={band.key} className="flex items-center gap-1.5">
+                        <span className="w-12 shrink-0 text-[10px] font-bold text-[var(--mute)] leading-tight">
+                          {isRTL ? band.fa : band.en}
+                        </span>
+                        <div className="flex-1 grid grid-cols-6 gap-1">
+                          {levels.map(lvl => {
+                            const isSelected = selectedLevel === lvl.id;
+                            return (
+                              <button
+                                key={lvl.id}
+                                data-testid={`single-level-${lvl.id}`}
+                                type="button"
+                                aria-pressed={isSelected}
+                                title={getCefrText(lvl.name, language) || lvl.id}
+                                onClick={() => {
+                                  sound.playToggle();
+                                  setSelectedLevel(lvl.id);
+                                  setSettings(s => ({ ...s, cefrLevel: lvl.id }));
+                                }}
+                                className={`min-h-[34px] px-0.5 rounded-lg border text-center text-[11px] font-black whitespace-nowrap transition-all cursor-pointer active:scale-95 ${
+                                  isSelected
+                                    ? 'bg-[var(--lapis)] text-white border-[var(--lapis)] shadow-xs'
+                                    : 'bg-[var(--panel)] border-[var(--line)] text-[var(--ink)] hover:border-[var(--lapis)]/50'
+                                }`}
+                              >
+                                <bdi dir="ltr">{lvl.code}</bdi>
+                              </button>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    );
+                  })}
+                  {selectedInfo && (
+                    <div className="mt-1 px-2.5 py-1.5 rounded-xl bg-[var(--panel)] border border-[var(--line)]">
+                      <div className="text-xs font-black text-[var(--lapis)]">
+                        {getCefrText(selectedInfo.name, language) || selectedInfo.id}
+                      </div>
+                      {selectedInfo.desc && (
+                        <div className="text-[11px] text-[var(--mute)] leading-relaxed mt-0.5">
+                          {getCefrText(selectedInfo.desc, language)}
+                        </div>
+                      )}
                     </div>
-                  </button>
-                );
-              })}
-            </div>
+                  )}
+                </div>
+              );
+            })()}
           </div>
 
           {/* 5. Match Format: Total Match Time vs Card Count */}
@@ -466,10 +502,18 @@ const SinglePlayerSetupModal: React.FC<Props> = ({
 
         {/* Start Button */}
         <div className="p-3 bg-[var(--panel)] border-t border-[var(--line)] shrink-0">
+          {!langsReady && (
+            <p className="text-[11px] font-bold text-[var(--vermilion)] text-center mb-2">
+              {isRTL
+                ? `کارت‌های ${!isPracticeReady(settings.targetLanguage) ? currentTargetLangInfo.persianName : currentNativeLangInfo.persianName} هنوز آماده نیست؛ زبان دیگری انتخاب کن.`
+                : `Cards for ${!isPracticeReady(settings.targetLanguage) ? currentTargetLangInfo.name : currentNativeLangInfo.name} are not ready yet; pick another language.`}
+            </p>
+          )}
           <button
             type="button"
             onClick={handleStart}
-            className="w-full min-h-[46px] py-2.5 rounded-2xl bg-[var(--lapis)] hover:brightness-105 text-[var(--on-lapis)] font-extrabold text-sm shadow-md active:scale-98 transition-all flex items-center justify-center gap-2 cursor-pointer"
+            disabled={!langsReady}
+            className="disabled:opacity-50 disabled:cursor-not-allowed w-full min-h-[46px] py-2.5 rounded-2xl bg-[var(--lapis)] hover:brightness-105 text-[var(--on-lapis)] font-extrabold text-sm shadow-md active:scale-98 transition-all flex items-center justify-center gap-2 cursor-pointer"
           >
             <Play size={16} fill="currentColor" />
             <span>{isRTL ? 'شروع تمرین هوشمند' : 'Start Practice'}</span>
@@ -493,10 +537,11 @@ const SinglePlayerSetupModal: React.FC<Props> = ({
           setPickerMode(null);
         }}
         mode="single"
+        practiceOnly
         title={pickerMode === 'target' 
           ? (isRTL ? 'انتخاب زبان هدف تمرین' : 'Select Target Practice Language')
           : (isRTL ? 'انتخاب زبان مادری و راهنما' : 'Select Native Language')}
-        subtitle={isRTL ? 'بیش از ۳۵ زبان زنده دنیا' : 'Over 35 supported languages'}
+        subtitle={isRTL ? `${PRACTICE_READY_LANGUAGES.length.toLocaleString('fa-IR')} زبان آمادهٔ تمرین · بقیه به‌زودی` : `${PRACTICE_READY_LANGUAGES.length} languages ready · more coming soon`}
         isRTL={isRTL}
       />
     )}

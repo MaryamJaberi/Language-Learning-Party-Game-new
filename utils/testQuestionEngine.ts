@@ -180,6 +180,9 @@ export function generateChallengingReflexOptions(
     if (!t) return;
     const cleanT = cleanText(t);
     if (cleanT === cleanCorrect) return; // Ignore identical
+    // A distractor that contains the answer (or is contained in it) is also correct in practice:
+    // "Die Speisekarte" vs "Die Speisekarte, bitte!" — never offer both.
+    if (cleanT.length > 1 && cleanCorrect.length > 1 && (cleanT.includes(cleanCorrect) || cleanCorrect.includes(cleanT))) return;
 
     const candIsQ = isQuestionText(t);
     const candWordsCount = t.split(/\s+/).length;

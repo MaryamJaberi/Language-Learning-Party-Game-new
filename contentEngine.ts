@@ -230,11 +230,20 @@ const TIME_SUBS = [
   { time: "this Friday", time_fa: "این جمعه" }
 ];
 
-function generateDynamicCards(targetLang: Language, nativeLang: Language, count: number): LanguageCard[] {
+const LEVEL_ORDER = ['Pre-A1', 'A0+', 'A1', 'A1+', 'A2', 'A2+', 'B1', 'B1+', 'B2', 'B2+', 'C1', 'C1+', 'C2'];
+/** true when cardLevel is at or below the chosen level (unknown levels pass). */
+function isWithinLevel(cardLevel: string | undefined, chosen: CEFRLevel): boolean {
+  if (chosen === 'all' || !cardLevel) return true;
+  const c = LEVEL_ORDER.indexOf(cardLevel), m = LEVEL_ORDER.indexOf(chosen);
+  if (c < 0 || m < 0) return true;
+  return c <= m;
+}
+
+function generateDynamicCards(targetLang: Language, nativeLang: Language, count: number, cefrLevel: CEFRLevel = 'all'): LanguageCard[] {
   // If target language is non-English, OR nativeLanguage is not Persian/English (e.g. Dutch, German, French, etc.):
   // draw from authentic universal multi-lingual concepts which translate directly into the exact nativeLanguage!
   if ((targetLang !== 'en' && targetLang !== 'en-US') || (nativeLang !== 'fa' && nativeLang !== 'en' && nativeLang !== 'en-US')) {
-    const concepts = buildCardsFromConcepts(targetLang, nativeLang, 'all', []);
+    const concepts = buildCardsFromConcepts(targetLang, nativeLang, cefrLevel, []);
     if (concepts.length > 0) {
       const shuffled = [...concepts].sort(() => Math.random() - 0.5);
       return shuffled.slice(0, count);
@@ -247,8 +256,11 @@ function generateDynamicCards(targetLang: Language, nativeLang: Language, count:
   const targetInfo = SUPPORTED_LANGUAGES.find(l => l.code === targetLang);
   const targetLangDisplayName = targetInfo?.nativeName || targetLang;
 
+  const templates = DYNAMIC_TEMPLATES_EN.filter(t => isWithinLevel(t.level, cefrLevel));
+  if (templates.length === 0) return generated;
+
   for (let i = 0; i < count; i++) {
-    const tmpl = DYNAMIC_TEMPLATES_EN[i % DYNAMIC_TEMPLATES_EN.length];
+    const tmpl = templates[i % templates.length];
     const place = PLACE_SUBS[i % PLACE_SUBS.length];
     const time = TIME_SUBS[i % TIME_SUBS.length];
 
@@ -346,9 +358,9 @@ export function getUniqueCardsForSession(
       pool.push(card);
     }
   });
-
+  // 3. Gather authentic C1 Sentences if level is C1, C1+ (mix), or all — never at C2
   // 3. Gather authentic C1 Sentences if level is C1, C2, or all
-  if (cefrLevel === 'C1' || cefrLevel === 'C2' || cefrLevel === 'all') {
+  if (cefrLevel === 'C1' || cefrLevel === 'C1+' || cefrLevel === 'all') {
     const c1Cards = getC1CardsForSession(targetLanguage, nativeLanguage, selectedCategories);
     c1Cards.forEach(card => {
       if (!pool.some(p => p.id === card.id)) {
@@ -377,7 +389,7 @@ export function getUniqueCardsForSession(
       if (!isFaNative && (/[\u0600-\u06FF]/.test(item.card.translation || '') || /[\u0600-\u06FF]/.test(item.card.prompt || ''))) {
         return false;
       }
-      return matchTarget && matchNative;
+      return matchTarget && matchNative && isWithinLevel(item.card.cefrLevel, cefrLevel);
     });
     const weakCardsToInject = weakItems.slice(0, Math.max(1, Math.floor(requestedCount * 0.3))).map(w => w.card);
     weakCardsToInject.forEach(wc => {
@@ -422,17 +434,8 @@ export function getUniqueCardsForSession(
     }
   }
 
-  // 6. If not enough unseen cards exist (user played everything!), generate fresh dynamic cards
-  if (finalSelection.length < requestedCount) {
-    const needed = requestedCount - finalSelection.length;
-    const dynamicCards = generateDynamicCards(targetLanguage, nativeLanguage, needed + 5);
-    for (const card of dynamicCards) {
-      if (finalSelection.length >= requestedCount) break;
-      finalSelection.push(card);
-    }
-  }
-
-  // If still not enough, recycle existing with random shuffle
+  // 6. If every card of this level has been seen, recycle cards of the SAME level first
+  //    (repetition at the right level beats new cards at the wrong level).
   if (finalSelection.length < requestedCount) {
     const recycled = [...pool].sort(() => Math.random() - 0.5);
     for (const card of recycled) {
@@ -440,6 +443,16 @@ export function getUniqueCardsForSession(
       if (!finalSelection.some(c => c.id === card.id)) {
         finalSelection.push(card);
       }
+    }
+  }
+
+  // 7. Only if this level has too few cards at all, add generated cards — never above the chosen level
+  if (finalSelection.length < requestedCount) {
+    const needed = requestedCount - finalSelection.length;
+    const dynamicCards = generateDynamicCards(targetLanguage, nativeLanguage, needed + 5, cefrLevel);
+    for (const card of dynamicCards) {
+      if (finalSelection.length >= requestedCount) break;
+      finalSelection.push(card);
     }
   }
 
@@ -460,6 +473,27 @@ export function getUniqueCardsForSession(
           if (safeSelection.length >= requestedCount) break;
         }
       }
+    }
+  }
+
+  // Two different concepts can share the same text (e.g. two «ایستگاه مرکزی قطار» rows):
+  // keep only one per session, then top up from the same-level pool.
+  const textKey = (c: LanguageCard) => (c.targetText || '').trim().toLowerCase().replace(/[.,!?؟;:]/g, '');
+  const usedTexts = new Set<string>();
+  safeSelection = safeSelection.filter(c => {
+    const k = textKey(c);
+    if (usedTexts.has(k)) return false;
+    usedTexts.add(k);
+    return true;
+  });
+  if (safeSelection.length < requestedCount) {
+    for (const c of [...pool].sort(() => Math.random() - 0.5)) {
+      if (safeSelection.length >= requestedCount) break;
+      const k = textKey(c);
+      if (usedTexts.has(k) || safeSelection.some(x => x.id === c.id)) continue;
+      if (!isArabicScriptSession && /[\u0600-\u06FF\u0750-\u077F\uFB50-\uFDFF\uFE70-\uFEFF]/.test((c.translation || '') + ' ' + (c.targetText || '') + ' ' + (c.prompt || ''))) continue;
+      usedTexts.add(k);
+      safeSelection.push(c);
     }
   }
 

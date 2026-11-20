@@ -10,6 +10,7 @@ import {
   BAND_PACING_FACTORS,
 } from '../src/engine/pacing/cardPacingConfig';
 import { measureTextPacing } from '../src/engine/pacing/cardPacing';
+import { applyDeckQualityFixes } from './deckTextFixes';
 
 const require = createRequire(import.meta.url);
 const XLSX = require('xlsx');
@@ -942,6 +943,9 @@ export function runPipeline() {
 
     merged_cards.push(winner);
   }
+
+  // Text-quality fixes + unique ids (scripts/deckTextFixes.ts) — must run before any file is written
+  applyDeckQualityFixes(merged_cards);
 
   // Ensure reports directory exists
   fs.mkdirSync(path.join('data', 'reports'), { recursive: true });

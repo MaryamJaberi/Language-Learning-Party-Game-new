@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { Swords, X, Play, RotateCw, Users, Sparkles, Trophy, Smartphone, Wifi, Globe, KeyRound, ChevronDown, Search, Check, Plus } from 'lucide-react';
 import { Language, CEFRLevel } from '../types';
-import { SUPPORTED_LANGUAGES, ARCADE_AVATARS, ARCADE_CHARACTERS, CEFR_LEVELS, getCefrText } from '../constants';
+import { SUPPORTED_LANGUAGES, ARCADE_AVATARS, ARCADE_CHARACTERS, CEFR_LEVELS, getCefrText, isPracticeReady } from '../constants';
 import { sound } from '../soundManager';
 import { toPersianDigits } from '../ui';
 
@@ -392,7 +392,7 @@ export const DuelSetupModal: React.FC<Props> = ({
                 </div>
 
                 <div className="max-h-44 overflow-y-auto space-y-1 no-scrollbar overscroll-contain">
-                  {SUPPORTED_LANGUAGES.filter(l => {
+                  {SUPPORTED_LANGUAGES.filter(l => isPracticeReady(l.code)).filter(l => {
                     const q = searchLang.trim().toLowerCase();
                     if (!q) return true;
                     return l.name.toLowerCase().includes(q) ||

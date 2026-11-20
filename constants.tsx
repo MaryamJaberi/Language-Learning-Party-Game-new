@@ -119,6 +119,16 @@ export interface LanguageInfo {
   speechCode: string;
 }
 
+/**
+ * زبان‌هایی که بانک کارت کامل دارند (public/data/decks/<code>.json با محتوا).
+ * بقیهٔ زبان‌ها فقط به‌عنوان زبان برنامه در دسترس‌اند و برای تمرین «به‌زودی» نشان داده می‌شوند.
+ * هر زبانی که بانکش ساخته شد، اینجا اضافه شود (تست tests/languageCoverage.test.ts این را چک می‌کند).
+ */
+export const PRACTICE_READY_LANGUAGES: string[] = [
+  'fa', 'ar', 'tr', 'en', 'en-US', 'nl', 'de', 'fr', 'es', 'it', 'pt', 'pl', 'uk', 'zh', 'ja', 'ko', 'hi',
+];
+export const isPracticeReady = (code: string): boolean => PRACTICE_READY_LANGUAGES.includes(code);
+
 export const SUPPORTED_LANGUAGES: LanguageInfo[] = [
   // Middle East & West Asia
   { code: 'fa', name: 'Persian', nativeName: 'فارسی', persianName: 'فارسی', flag: '🇮🇷', direction: 'rtl', popular: true, region: 'middle_east', speechCode: 'fa-IR' },
