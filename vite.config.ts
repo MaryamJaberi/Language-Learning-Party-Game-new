@@ -80,22 +80,10 @@ export default defineConfig(() => {
           workbox: {
             globPatterns: ['**/*.{js,css,html,ico,png,svg,woff,woff2,json}'],
             globIgnores: ['**/embeddedAabData*.js', '**/downloads/**', '**/assets/aistudio/**', '**/data/decks/*.json'],
-            maximumFileSizeToCacheInBytes: 50 * 1024 * 1024,
+            maximumFileSizeToCacheInBytes: 3 * 1024 * 1024,
             runtimeCaching: [
-              {
-                urlPattern: /.*\/data\/decks\/.*\.json/i,
-                handler: 'CacheFirst',
-                options: {
-                  cacheName: 'language-decks-cache',
-                  expiration: {
-                    maxEntries: 40,
-                    maxAgeSeconds: 60 * 60 * 24 * 30, // 30 days
-                  },
-                  cacheableResponse: {
-                    statuses: [0, 200],
-                  },
-                },
-              },
+              // کارت‌های زبان (data/decks) را خود اپ با contentStore.ts ذخیره می‌کند،
+              // فقط اگر کاربر در تنظیمات اجازه داده باشد؛ Service Worker آن‌ها را ذخیره نمی‌کند.
               {
                 urlPattern: /^https:\/\/fonts\.googleapis\.com\/.*/i,
                 handler: 'CacheFirst',

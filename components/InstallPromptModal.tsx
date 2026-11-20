@@ -24,6 +24,9 @@ import {
   Lock
 } from 'lucide-react';
 
+// فایل‌های داده دیگر داخل اپ نیستند (حجم اپ را بالا می‌بردند)؛ از خود مخزن دانلود می‌شوند
+const DATASET_BASE = 'https://raw.githubusercontent.com/MaryamJaberi/Language-Learning-Party-Game-new/main/data/exports/downloads/';
+
 interface Props {
   language: Language;
   isOpen: boolean;
@@ -361,7 +364,7 @@ export const InstallPromptModal: React.FC<Props> = ({
                   <button
                     type="button"
                     disabled={downloadingFile === 'dour_28_languages_complete_dataset.csv'}
-                    onClick={() => handleDownload('./downloads/dour_28_languages_complete_dataset.csv', 'dour_28_languages_complete_dataset.csv')}
+                    onClick={() => handleDownload(DATASET_BASE + 'dour_28_languages_complete_dataset.csv', 'dour_28_languages_complete_dataset.csv')}
                     className="flex-1 py-2 px-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-[12px] font-bold text-xs flex items-center justify-center gap-1.5 shadow-[var(--shadow-sm)] active:translate-y-0.5 transition-all text-center cursor-pointer disabled:opacity-75"
                   >
                     <Download size={14} />
@@ -370,7 +373,7 @@ export const InstallPromptModal: React.FC<Props> = ({
                   <button
                     type="button"
                     disabled={downloadingFile === 'dour_28_languages_complete_dataset.json'}
-                    onClick={() => handleDownload('./downloads/dour_28_languages_complete_dataset.json', 'dour_28_languages_complete_dataset.json')}
+                    onClick={() => handleDownload(DATASET_BASE + 'dour_28_languages_complete_dataset.json', 'dour_28_languages_complete_dataset.json')}
                     className="py-2 px-3 bg-[var(--panel)] hover:bg-[var(--bg)] text-[var(--ink)] border border-[var(--line)] rounded-[12px] font-bold text-xs flex items-center justify-center gap-1.5 shadow-2xs active:translate-y-0.5 transition-all text-center cursor-pointer disabled:opacity-75"
                   >
                     <span>JSON (۲۸ زبان)</span>
@@ -409,7 +412,7 @@ export const InstallPromptModal: React.FC<Props> = ({
                   <button
                     type="button"
                     disabled={downloadingFile === 'dour_complete_language_dataset.csv'}
-                    onClick={() => handleDownload('./downloads/dour_complete_language_dataset.csv', 'dour_complete_language_dataset.csv')}
+                    onClick={() => handleDownload(DATASET_BASE + 'dour_complete_language_dataset.csv', 'dour_complete_language_dataset.csv')}
                     className="flex-1 py-2 px-3 bg-emerald-600 hover:bg-emerald-700 text-white rounded-[12px] font-bold text-xs flex items-center justify-center gap-1.5 shadow-[var(--shadow-sm)] active:translate-y-0.5 transition-all text-center cursor-pointer disabled:opacity-75"
                   >
                     <Download size={14} />
@@ -418,7 +421,7 @@ export const InstallPromptModal: React.FC<Props> = ({
                   <button
                     type="button"
                     disabled={downloadingFile === 'dour_complete_language_dataset.json'}
-                    onClick={() => handleDownload('./downloads/dour_complete_language_dataset.json', 'dour_complete_language_dataset.json')}
+                    onClick={() => handleDownload(DATASET_BASE + 'dour_complete_language_dataset.json', 'dour_complete_language_dataset.json')}
                     className="py-2 px-3 bg-[var(--panel)] hover:bg-[var(--bg)] text-[var(--ink)] border border-[var(--line)] rounded-[12px] font-bold text-xs flex items-center justify-center gap-1.5 shadow-2xs active:translate-y-0.5 transition-all text-center cursor-pointer disabled:opacity-75"
                   >
                     <span>JSON</span>

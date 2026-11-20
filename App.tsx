@@ -16,6 +16,7 @@ import {
 } from './types';
 import { buildSessionCardPool } from './cardsData';
 import { preloadLanguageDecks } from './phraseBank';
+import { getContentMode, downloadLanguagesForOffline, removeLegacyCaches } from './contentStore';
 import { getUniqueCardsForSession } from './contentEngine';
 import IntroScreen from './screens/IntroScreen';
 import LanguageSelectScreen from './screens/LanguageSelectScreen';
@@ -109,7 +110,12 @@ const App: React.FC = () => {
     const native = settings.nativeLanguage || settings.language || 'fa';
     const allLangs = Array.from(new Set([native, ...targets]));
     preloadLanguageDecks(allLangs).catch(() => {});
+    // در حالت «کاملاً آفلاین» هر زبان تازه‌ای که انتخاب شود کامل روی گوشی ذخیره می‌شود
+    if (getContentMode() === 'offline') downloadLanguagesForOffline(allLangs).catch(() => {});
   }, [settings.targetLanguages, settings.targetLanguage, settings.nativeLanguage, settings.language]);
+
+  // کش قدیمی Service Worker که کارت‌ها را بدون اجازهٔ کاربر نگه می‌داشت پاک می‌شود
+  useEffect(() => { removeLegacyCaches().catch(() => {}); }, []);
 
   // Sync document root direction and language
   useEffect(() => {

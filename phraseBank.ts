@@ -1,5 +1,6 @@
 import { Language, CEFRLevel, LanguageCard, ContentType, LearningMode, CardGameMode } from './types';
 import { CardPacingSequencer } from './src/engine/pacing/cardPacing';
+import { fetchContentJSON } from './contentStore';
 
 export interface CuratedRawCard {
   id: string;
@@ -76,7 +77,7 @@ function getLanguageDeckSync(lang: string): Record<string, DeckTranslationItem> 
 }
 
 /**
- * Lazy loads decks for player-selected languages via HTTP fetch (cached by Service Worker)
+ * Lazy loads decks for player-selected languages (stored on the device only if the player allows it)
  */
 export async function preloadLanguageDecks(languages: string[]): Promise<void> {
   const needed = (languages || []).filter(Boolean);
@@ -92,17 +93,12 @@ export async function preloadLanguageDecks(languages: string[]): Promise<void> {
   }
 
   if (typeof window === 'undefined') return;
-  const baseUrl = (typeof import.meta !== 'undefined' && import.meta.env?.BASE_URL) || './';
-  const cleanBase = baseUrl.endsWith('/') ? baseUrl : baseUrl + '/';
 
-  // 1. Load meta if needed
+  // 1. Load meta if needed (از اینترنت یا حافظهٔ گوشی، بسته به انتخاب کاربر — contentStore.ts)
   if (!cachedMeta) {
     try {
-      const res = await fetch(`${cleanBase}data/decks/meta.json`);
-      if (res.ok) {
-        const raw: CardMetaItem[] = await res.json();
-        cachedMeta = raw.filter((c) => !c.excluded);
-      }
+      const raw = await fetchContentJSON<CardMetaItem[]>('data/decks/meta.json');
+      cachedMeta = raw.filter((c) => !c.excluded);
     } catch (e) {
       console.warn('Failed to fetch deck meta.json:', e);
     }
@@ -113,10 +109,7 @@ export async function preloadLanguageDecks(languages: string[]): Promise<void> {
   await Promise.all(
     unCached.map(async (lang) => {
       try {
-        const res = await fetch(`${cleanBase}data/decks/${lang}.json`);
-        if (res.ok) {
-          cachedDecks[lang] = await res.json();
-        }
+        cachedDecks[lang] = await fetchContentJSON<Record<string, DeckTranslationItem>>(`data/decks/${lang}.json`);
       } catch (e) {
         console.warn(`Failed to fetch deck for ${lang}:`, e);
       }

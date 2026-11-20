@@ -150,7 +150,7 @@ const masterCSVContent = bom + [
 ].join('\r\n');
 
 fs.mkdirSync('public/downloads', { recursive: true });
-fs.writeFileSync('public/downloads/dour_complete_language_dataset.csv', masterCSVContent, 'utf-8');
+fs.writeFileSync('data/exports/downloads/dour_complete_language_dataset.csv', masterCSVContent, 'utf-8');
 
 // Also save structured JSON format
 const structuredData = {
@@ -166,7 +166,7 @@ const structuredData = {
   universalConcepts: UNIVERSAL_CONCEPTS
 };
 
-fs.writeFileSync('public/downloads/dour_complete_language_dataset.json', JSON.stringify(structuredData, null, 2), 'utf-8');
+fs.writeFileSync('data/exports/downloads/dour_complete_language_dataset.json', JSON.stringify(structuredData, null, 2), 'utf-8');
 
-console.log(`Successfully exported ${masterRows.length} total language learning rows to public/downloads/dour_complete_language_dataset.csv and .json`);
+console.log(`Successfully exported ${masterRows.length} total language learning rows to data/exports/downloads/dour_complete_language_dataset.csv and .json`);
 
