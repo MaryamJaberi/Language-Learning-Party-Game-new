@@ -59,6 +59,13 @@ const App: React.FC = () => {
   const [activeHelpSection, setActiveHelpSection] = useState<string>('intro');
   const [settings, setSettings] = useState<GameSettings>(DEFAULT_SETTINGS);
   const [history, setHistory] = useState<GameHistoryEntry[]>([]);
+  const [gmpQuotaExceeded, setGmpQuotaExceeded] = useState(false);
+
+  useEffect(() => {
+    const onQuota = () => setGmpQuotaExceeded(true);
+    window.addEventListener('gmp-quota-exceeded', onQuota);
+    return () => window.removeEventListener('gmp-quota-exceeded', onQuota);
+  }, []);
 
   // 2-Player Shared Screen Duel State
   const [isDuelSetupOpen, setIsDuelSetupOpen] = useState(false);
@@ -825,6 +832,36 @@ const App: React.FC = () => {
       {/* Global Retro Arcade Ambient Background */}
       <ArcadeBackground />
       
+      {/* Google Maps API Quota Exceeded Banner (Demo Key Handling) */}
+      {gmpQuotaExceeded && (
+        <div
+          role="alert"
+          className="sticky top-0 z-[200] w-full bg-amber-100 border-b border-amber-300 text-amber-950 px-3 py-2 text-xs font-medium flex items-center justify-between gap-2 shadow-sm"
+          dir="ltr"
+        >
+          <span className="leading-snug">
+            Google Maps API quota exceeded for this free key. Please try again later, or see the{' '}
+            <a
+              href="https://developers.google.com/maps/ai/ai-studio?utm_campaign=gmp_mcp_codeassist_v1_aistudio#quota_exceeded_errors"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline font-bold hover:text-amber-800"
+            >
+              Google Maps AI Studio documentation
+            </a>{' '}
+            to switch to your own Google Cloud project key.
+          </span>
+          <button
+            type="button"
+            onClick={() => setGmpQuotaExceeded(false)}
+            aria-label="Dismiss quota notice"
+            className="px-2 py-0.5 rounded bg-amber-200/80 hover:bg-amber-300 text-amber-950 font-bold cursor-pointer shrink-0"
+          >
+            ✕
+          </button>
+        </div>
+      )}
+
       {/* Offline PWA Connectivity Indicator */}
       <OfflineIndicator language={settings.language} />
 

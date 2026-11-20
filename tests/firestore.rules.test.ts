@@ -236,4 +236,134 @@ describe.skipIf(!hasEmulator)('Firestore Security Rules Unit Tests (Emulator)', 
     await setupRoom();
     await assertSucceeds(admin.doc('rooms/room_test_del').delete());
   });
+
+  // 7. Public Meetups security rules (creator edit/delete, self-only join/leave, public venues only)
+  test('meetups: public read, authenticated create, creator-only edit/delete, self-only join/leave', async () => {
+    const anon = testEnv.unauthenticatedContext().firestore();
+    const creator = testEnv.authenticatedContext('creator_1').firestore();
+    const joiner = testEnv.authenticatedContext('player_2').firestore();
+    const intruder = testEnv.authenticatedContext('intruder_3').firestore();
+
+    const baseMeetup = {
+      venueName: 'Central Cafe',
+      venueType: 'cafe',
+      city: 'Amsterdam',
+      area: 'Centrum',
+      lat: 52.3676,
+      lng: 4.9041,
+      placeId: null,
+      targetLanguage: 'nl',
+      cefrLevel: 'A1+',
+      date: '2026-12-01',
+      time: '18:00',
+      capacity: 2,
+      participants: ['creator_1'],
+      participantNames: { creator_1: 'Maryam' },
+      notes: 'Friendly Dour meetup',
+      creatorUid: 'creator_1',
+      creatorName: 'Maryam',
+      createdAt: '2026-11-20T10:00:00.000Z',
+      updatedAt: '2026-11-20T10:00:00.000Z',
+    };
+
+    // Unauthenticated cannot create
+    await assertFails(anon.doc('meetups/m_1').set(baseMeetup));
+
+    // Private venue type is rejected
+    await assertFails(
+      creator.doc('meetups/m_1').set({ ...baseMeetup, venueType: 'home' })
+    );
+
+    // Creator creates valid public meetup -> SUCCEEDS
+    await assertSucceeds(creator.doc('meetups/m_1').set(baseMeetup));
+
+    // Anyone (even unauthenticated) can read -> SUCCEEDS
+    await assertSucceeds(anon.doc('meetups/m_1').get());
+
+    // Another user cannot edit venue details -> FAILS
+    await assertFails(
+      intruder.doc('meetups/m_1').update({
+        venueName: 'Hijacked Cafe',
+        updatedAt: '2026-11-20T10:05:00.000Z',
+      })
+    );
+
+    // Another user cannot add someone else to participants -> FAILS
+    await assertFails(
+      intruder.doc('meetups/m_1').update({
+        participants: ['creator_1', 'player_2'],
+        participantNames: { creator_1: 'Maryam', player_2: 'Fake' },
+        updatedAt: '2026-11-20T10:05:00.000Z',
+      })
+    );
+
+    // player_2 adds ONLY themselves -> SUCCEEDS
+    await assertSucceeds(
+      joiner.doc('meetups/m_1').update({
+        participants: ['creator_1', 'player_2'],
+        participantNames: { creator_1: 'Maryam', player_2: 'Ali' },
+        updatedAt: '2026-11-20T10:06:00.000Z',
+      })
+    );
+
+    // Over-capacity join (capacity is 2) -> FAILS
+    await assertFails(
+      intruder.doc('meetups/m_1').update({
+        participants: ['creator_1', 'player_2', 'intruder_3'],
+        participantNames: { creator_1: 'Maryam', player_2: 'Ali', intruder_3: 'Bob' },
+        updatedAt: '2026-11-20T10:07:00.000Z',
+      })
+    );
+
+    // player_2 removes ONLY themselves -> SUCCEEDS
+    await assertSucceeds(
+      joiner.doc('meetups/m_1').update({
+        participants: ['creator_1'],
+        participantNames: { creator_1: 'Maryam' },
+        updatedAt: '2026-11-20T10:08:00.000Z',
+      })
+    );
+
+    // Creator edits meetup details -> SUCCEEDS
+    await assertSucceeds(
+      creator.doc('meetups/m_1').update({
+        notes: 'Updated table info',
+        updatedAt: '2026-11-20T10:09:00.000Z',
+      })
+    );
+
+    // Non-creator cannot delete -> FAILS; creator can delete -> SUCCEEDS
+    await assertFails(intruder.doc('meetups/m_1').delete());
+    await assertSucceeds(creator.doc('meetups/m_1').delete());
+  });
+
+  test('meetup_reports: signed-in users can create own report; admin-only read/delete', async () => {
+    const anon = testEnv.unauthenticatedContext().firestore();
+    const user = testEnv.authenticatedContext('reporter_1').firestore();
+    const admin = testEnv.authenticatedContext('admin_user', { admin: true }).firestore();
+
+    await testEnv.withSecurityRulesDisabled(async (context) => {
+      await context.firestore().doc('meetups/m_1').set({
+        venueName: 'Central Cafe',
+        venueType: 'cafe',
+        city: 'Amsterdam',
+        area: 'Centrum',
+        creatorUid: 'creator_1',
+      });
+    });
+
+    const report = {
+      meetupId: 'm_1',
+      reporterUid: 'reporter_1',
+      reason: 'private_address',
+      details: 'Looks like a private home',
+      createdAt: '2026-11-20T11:00:00.000Z',
+    };
+
+    await assertFails(anon.doc('meetup_reports/rep_1').set(report));
+    await assertSucceeds(user.doc('meetup_reports/rep_1').set(report));
+    await assertFails(user.doc('meetup_reports/rep_1').get());
+    await assertSucceeds(admin.doc('meetup_reports/rep_1').get());
+    await assertSucceeds(admin.doc('meetup_reports/rep_1').delete());
+  });
 });
