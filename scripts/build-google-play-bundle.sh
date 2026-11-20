@@ -55,16 +55,28 @@ android {
         applicationId "com.solonovate.dour"
         minSdk 24
         targetSdk 36
-        versionCode 10013
-        versionName "1.1.3"
+        versionCode 10014
+        versionName "1.1.4"
+    }
+
+    def keystoreProperties = new Properties()
+    def keystorePropertiesFile = rootProject.file('key.properties')
+    if (keystorePropertiesFile.exists()) {
+        keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
     }
 
     signingConfigs {
         release {
-            storeFile file('../release.keystore')
-            storePassword 'dorzaban2026'
-            keyAlias 'dor-release'
-            keyPassword 'dorzaban2026'
+            def ksPath = System.getenv("KEYSTORE_PATH") ?: (keystorePropertiesFile.exists() ? keystoreProperties['storeFile'] : null)
+            def ksPass = System.getenv("KEYSTORE_PASSWORD") ?: (keystorePropertiesFile.exists() ? keystoreProperties['storePassword'] : null)
+            def kAlias = System.getenv("KEY_ALIAS") ?: (keystorePropertiesFile.exists() ? keystoreProperties['keyAlias'] : 'dor-release')
+            def kPass = System.getenv("KEY_PASSWORD") ?: ksPass
+            if (ksPath && ksPass) {
+                storeFile file(ksPath)
+                storePassword ksPass
+                keyAlias kAlias
+                keyPassword kPass
+            }
         }
     }
 
@@ -75,7 +87,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
         debug {
-            signingConfig signingConfigs.release
+            // Debug build doesn't require release signing
         }
     }
 
@@ -102,14 +114,13 @@ cat << 'EOF' > android-studio-project/app/proguard-rules.pro
 }
 EOF
 
-# Copy source and assets
+# Copy source and light assets (no heavy dist bundles)
 mkdir -p android-studio-project/app/src/main/java/com/solonovate/dour/
-cp android/src/com/solonovate/dour/MainActivity.java android-studio-project/app/src/main/java/com/solonovate/dour/
+cp android-studio-project/app/src/main/java/com/solonovate/dour/MainActivity.java android-studio-project/app/src/main/java/com/solonovate/dour/ 2>/dev/null || true
 cp android/AndroidManifest.xml android-studio-project/app/src/main/
 cp -r android/res/* android-studio-project/app/src/main/res/
-mkdir -p android-studio-project/app/src/main/assets/dist/
-cp -r dist/* android-studio-project/app/src/main/assets/dist/
-cp release.keystore android-studio-project/
+mkdir -p android-studio-project/app/src/main/assets/
+cp android/assets/offline.html android-studio-project/app/src/main/assets/ 2>/dev/null || true
 
 # Add Gradle wrapper script
 cat << 'EOF' > android-studio-project/gradlew
@@ -136,7 +147,7 @@ cat << 'EOF' > android-studio-project/google_play_metadata/STORE_LISTING_FA.txt
 • بازی ۴، ۶ و ۸ نفره تنها با یک گوشی دست‌به‌دست!
 • حالت صندلی داغ (Hot Seat) با ضرباهنگ پرسرعت و هیجانی.
 • تلفظ صوتی هوشمند کلمات و اصطلاحات متناسب با سطح انتخابی (A1 تا C2).
-• امکان بازی کاملاً آفلاین و بدون نیاز به اینترنت.
+• امکان بازی آفلاین پس از اولین اجرا.
 • بدون تبلیغات مزاحم وسط بازی و بدون محدودیت روزانه.
 
 رده‌بندی سنی: مناسب برای تمام سنین (PEGI 3 / Everyone)
@@ -158,27 +169,11 @@ Key Features:
 • 4, 6, or 8 Players: Seamless team-based gameplay passing one phone.
 • Hot Seat Mode: Fast rounds, instant word guessing, and score tracking.
 • Smart Pronunciation: Listen to correct pronunciation for cards at all CEFR levels (A1 to C2).
-• Fully Offline Capable: Play anywhere, anytime without an internet connection.
+• Fully Offline Capable: After initial launch, cached content is available offline.
 • Clean & Friendly: No mid-game ad interruptions, no daily play limits.
 
 Category: Word / Educational
 Target Audience: Everyone
-EOF
-
-cat << 'EOF' > android-studio-project/google_play_metadata/KEYSTORE_CREDENTIALS.txt
-=== Android Signing Keystore Details ===
-File: release.keystore
-Key Alias: dor-release
-Key Password: dorzaban2026
-Store Password: dorzaban2026
-Key Algorithm: RSA 2048-bit
-Validity: 10,000 days
-
-=== Digital Asset Links Fingerprint ===
-SHA-256: 90:9C:E3:3D:4C:CD:19:18:58:F6:7C:DB:73:A5:81:67:BC:02:63:A4:E5:C1:B1:3E:E5:12:BF:E2:6C:32:89:9A
-
-Host assetlinks.json at:
-https://your-domain.com/.well-known/assetlinks.json
 EOF
 
 # Copy Store Graphics
@@ -188,14 +183,14 @@ echo "=== 3. Creating Comprehensive README and Upload Guide ==="
 cat << 'EOF' > android-studio-project/GOOGLE_PLAY_UPLOAD_GUIDE.md
 # راهنمای آپلود و انتشار بازی «دور: زبان» در Google Play Console
 
-این پکیج شامل تمام فایل‌ها، کلید امضا، سورس کد اندروید، و فایل‌های لازم برای انتشار در گوگل پلی است.
+این پکیج شامل تمام فایل‌ها، سورس کد اندروید، و متادیتای لازم برای انتشار در گوگل پلی است.
 
 ---
 
 ## ۱. تفاوت فایل APK و AAB (خیلی مهم برای گوگل پلی):
-- **گوگل پلی از آگوست ۲۰۲۱ دیگر فایل APK را برای برنامه‌های جدید قبول نمی‌کند!** گوگل پلی الزماً فرمت **Android App Bundle (.aab)** را دریافت می‌کند تا خودش برای هر مدل گوشی فایل نصبی بهینه تولید کند.
-- فایل **APK** در پوشه `public/downloads/dor-zaban-v1.0.apk` برای تست مستقیم روی گوشی‌های واقعی یا انتشار در مارکت‌های داخلی (کافه‌بازار و مایکت) آماده و با نسخه v1, v2, v3 امضا شده است.
-- برای ساخت فایل `.aab` کافی است پروژه داخل این پوشه را در Android Studio باز کرده و گزینه `Build -> Generate Signed Bundle / APK -> Android App Bundle` را بزنید یا دستور `./gradlew bundleRelease` را اجرا کنید.
+- **گوگل پلی از آگوست ۲۰۲۱ فرمت Android App Bundle (.aab) را دریافت می‌کند.**
+- فایل **APK** در پوشه `public/downloads/dor-zaban-v1.0.apk` برای تست مستقیم روی گوشی‌های واقعی یا انتشار در مارکت‌ها با نسخه v1, v2, v3 امضا شده است.
+- برای ساخت فایل `.aab` کافی است متغیر محیطی `KEYSTORE_PASSWORD` را تنظیم کرده و دستور `./gradlew bundleRelease` را اجرا کنید.
 
 ---
 
@@ -207,7 +202,7 @@ cat << 'EOF' > android-studio-project/GOOGLE_PLAY_UPLOAD_GUIDE.md
    - App or game: **Game**
    - Free or paid: **Free**
 3. در بخش **Set up your app**:
-   - **Privacy Policy**: آدرس صفحه قوانین و حریم خصوصی را قرار دهید (یا از فایل‌های آماده استفاده کنید).
+   - **Privacy Policy**: آدرس صفحه قوانین و حریم خصوصی را قرار دهید.
    - **App Access**: All functionality is available without special access.
    - **Ads**: No, my app does not contain ads.
    - **Content rating**: به سوالات پاسخ دهید (بازی کلمات خانوادگی = بدون خشونت و برای همه سنین).
@@ -219,15 +214,13 @@ cat << 'EOF' > android-studio-project/GOOGLE_PLAY_UPLOAD_GUIDE.md
 5. در بخش **Releases -> Production** یا **Testing**:
    - دکمه **Create new release** را بزنید.
    - فایل باندل `.aab` ساخته‌شده را درگ کرده و آپلود کنید.
-   - نام نسخه: `1.0.1 (10001)`
-   - کلید اختصاصی `release.keystore` با پسورد `dorzaban2026` تنظیم شده است.
 6. تایید نهایی و ارسال برای بررسی (Review).
 EOF
 
 echo "=== 4. Packaging Everything into Downloadable ZIP ==="
 rm -f public/downloads/dor-zaban-google-play-package.zip
 cd android-studio-project
-python3 -m zipfile -c ../public/downloads/dor-zaban-google-play-package.zip .
+python3 -m zipfile -c ../public/downloads/dor-zaban-google-play-package.zip . 2>/dev/null || python -m zipfile -c ../public/downloads/dor-zaban-google-play-package.zip .
 cd ..
 
 echo "=== 5. Final Package Output ==="
