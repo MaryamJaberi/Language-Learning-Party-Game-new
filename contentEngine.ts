@@ -358,9 +358,9 @@ export function getUniqueCardsForSession(
       pool.push(card);
     }
   });
-
+  // 3. Gather authentic C1 Sentences if level is C1, C1+ (mix), or all — never at C2
   // 3. Gather authentic C1 Sentences if level is C1, C2, or all
-  if (cefrLevel === 'C1' || cefrLevel === 'C2' || cefrLevel === 'all') {
+  if (cefrLevel === 'C1' || cefrLevel === 'C1+' || cefrLevel === 'all') {
     const c1Cards = getC1CardsForSession(targetLanguage, nativeLanguage, selectedCategories);
     c1Cards.forEach(card => {
       if (!pool.some(p => p.id === card.id)) {
@@ -473,6 +473,27 @@ export function getUniqueCardsForSession(
           if (safeSelection.length >= requestedCount) break;
         }
       }
+    }
+  }
+
+  // Two different concepts can share the same text (e.g. two «ایستگاه مرکزی قطار» rows):
+  // keep only one per session, then top up from the same-level pool.
+  const textKey = (c: LanguageCard) => (c.targetText || '').trim().toLowerCase().replace(/[.,!?؟;:]/g, '');
+  const usedTexts = new Set<string>();
+  safeSelection = safeSelection.filter(c => {
+    const k = textKey(c);
+    if (usedTexts.has(k)) return false;
+    usedTexts.add(k);
+    return true;
+  });
+  if (safeSelection.length < requestedCount) {
+    for (const c of [...pool].sort(() => Math.random() - 0.5)) {
+      if (safeSelection.length >= requestedCount) break;
+      const k = textKey(c);
+      if (usedTexts.has(k) || safeSelection.some(x => x.id === c.id)) continue;
+      if (!isArabicScriptSession && /[\u0600-\u06FF\u0750-\u077F\uFB50-\uFDFF\uFE70-\uFEFF]/.test((c.translation || '') + ' ' + (c.targetText || '') + ' ' + (c.prompt || ''))) continue;
+      usedTexts.add(k);
+      safeSelection.push(c);
     }
   }
 
