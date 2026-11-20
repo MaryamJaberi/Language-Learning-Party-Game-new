@@ -5,8 +5,9 @@
 ## یک مخزن اصلی
 
 - مخزن اصلی و منبع حقیقت: `MaryamJaberi/Language-Learning-Party-Game-new`، شاخهٔ `main`.
-- Google AI Studio مخزن جداگانهٔ خودش را دارد. گردش‌کار `.github/workflows/aistudio-sync.yml` آن را هر ۳۰ دقیقه با مخزن اصلی همگام می‌کند:
+- Google AI Studio مخزن جداگانهٔ خودش را دارد: `MaryamJaberi/Language-Learning-Party-Game-studio`. گردش‌کار `.github/workflows/aistudio-sync.yml` آن را هر ۳۰ دقیقه با مخزن اصلی همگام می‌کند:
   تغییر AI Studio → PR با شاخهٔ `from-aistudio` در مخزن اصلی؛ و `main` مخزن اصلی → `main` مخزن AI Studio.
+- تاریخچهٔ مخزن AI Studio هرگز با مخزن اصلی ادغام نمی‌شود (کلید امضای قدیمی در آن است)؛ فقط محتوا جابه‌جا می‌شود. روی مخزن AI Studio مستقیم کار نکن.
 - Antigravity و Claude مستقیم روی مخزن اصلی کار می‌کنند.
 
 ## روش کار
