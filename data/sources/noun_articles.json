@@ -1,0 +1,6688 @@
+{
+ "_about": "جنسیت دستوری (حرف تعریف) اسم‌های واژگانی برای nl, de, fr, es, it, pt. scripts/importDatabase.ts این فایل را بعد از scope_a_supplement می‌خواند: حرف تعریف خالی را پر می‌کند و حرف تعریف یا متن نادرست را اصلاح می‌کند. منبع: بازبینی Claude بر پایهٔ فرهنگ‌های معیار؛ آلمانی با ویکی‌واژهٔ آلمانی (بستهٔ german-nouns) خودکار بررسی شد. فعل، صفت، عدد، ماه، نام کشور و ضرب‌المثل عمداً حرف تعریف ندارند.",
+ "articles": {
+  "c_glass": {
+   "nl": {
+    "article": "het"
+   },
+   "de": {
+    "article": "das"
+   },
+   "fr": {
+    "article": "le"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "il"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_plate": {
+   "nl": {
+    "article": "het"
+   },
+   "de": {
+    "article": "der"
+   },
+   "fr": {
+    "article": "l'"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "il"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_spoon": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "der"
+   },
+   "fr": {
+    "article": "la"
+   },
+   "es": {
+    "article": "la"
+   },
+   "it": {
+    "article": "il"
+   },
+   "pt": {
+    "article": "a"
+   }
+  },
+  "c_fork": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "die"
+   },
+   "fr": {
+    "article": "la"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "la"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_knife": {
+   "nl": {
+    "article": "het"
+   },
+   "de": {
+    "article": "das"
+   },
+   "fr": {
+    "article": "le"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "il"
+   },
+   "pt": {
+    "article": "a"
+   }
+  },
+  "c_pot": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "der"
+   },
+   "fr": {
+    "article": "la"
+   },
+   "es": {
+    "article": "la"
+   },
+   "it": {
+    "article": "la"
+   },
+   "pt": {
+    "article": "a"
+   }
+  },
+  "c_frying_pan": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "die"
+   },
+   "fr": {
+    "article": "la"
+   },
+   "es": {
+    "article": "la"
+   },
+   "it": {
+    "article": "la"
+   },
+   "pt": {
+    "article": "a"
+   }
+  },
+  "c_fridge": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "der"
+   },
+   "fr": {
+    "article": "le"
+   },
+   "es": {
+    "article": "la"
+   },
+   "it": {
+    "article": "il"
+   },
+   "pt": {
+    "article": "a"
+   }
+  },
+  "c_freezer": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "der"
+   },
+   "fr": {
+    "article": "le"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "il"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_stove": {
+   "nl": {
+    "article": "het"
+   },
+   "de": {
+    "article": "der"
+   },
+   "fr": {
+    "article": "la"
+   },
+   "es": {
+    "article": "la"
+   },
+   "it": {
+    "article": "il"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_oven": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "der"
+   },
+   "fr": {
+    "article": "le"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "il"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_microwave": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "die"
+   },
+   "fr": {
+    "article": "le"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "il"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_samovar": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "der"
+   },
+   "fr": {
+    "article": "le"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "il"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_kettle": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "der"
+   },
+   "fr": {
+    "article": "la"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "il"
+   },
+   "pt": {
+    "article": "a"
+   }
+  },
+  "c_coffee_maker": {
+   "nl": {
+    "article": "het"
+   },
+   "de": {
+    "article": "die"
+   },
+   "fr": {
+    "article": "la"
+   },
+   "es": {
+    "article": "la"
+   },
+   "it": {
+    "article": "la"
+   },
+   "pt": {
+    "article": "a"
+   }
+  },
+  "c_cup": {
+   "nl": {
+    "article": "het"
+   },
+   "de": {
+    "article": "die"
+   },
+   "fr": {
+    "article": "la",
+    "text": "tasse"
+   },
+   "es": {
+    "article": "la"
+   },
+   "it": {
+    "article": "la"
+   },
+   "pt": {
+    "article": "a"
+   }
+  },
+  "c_bottle": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "die"
+   },
+   "fr": {
+    "article": "la"
+   },
+   "es": {
+    "article": "la"
+   },
+   "it": {
+    "article": "la"
+   },
+   "pt": {
+    "article": "a"
+   }
+  },
+  "c_flask": {
+   "nl": {
+    "article": "de",
+    "text": "veldfles"
+   },
+   "de": {
+    "article": "die"
+   },
+   "fr": {
+    "article": "la"
+   },
+   "es": {
+    "article": "la"
+   },
+   "it": {
+    "article": "la"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_bucket": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "der"
+   },
+   "fr": {
+    "article": "le"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "il"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_broom": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "der"
+   },
+   "fr": {
+    "article": "le"
+   },
+   "es": {
+    "article": "la"
+   },
+   "it": {
+    "article": "la"
+   },
+   "pt": {
+    "article": "a"
+   }
+  },
+  "c_soap": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "die"
+   },
+   "fr": {
+    "article": "le"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "il"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_shampoo": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "das"
+   },
+   "fr": {
+    "article": "le"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "lo"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_toothbrush": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "die"
+   },
+   "fr": {
+    "article": "la"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "lo"
+   },
+   "pt": {
+    "article": "a"
+   }
+  },
+  "c_towel": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "das"
+   },
+   "fr": {
+    "article": "la"
+   },
+   "es": {
+    "article": "la"
+   },
+   "it": {
+    "article": "l'"
+   },
+   "pt": {
+    "article": "a"
+   }
+  },
+  "c_mirror": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "der"
+   },
+   "fr": {
+    "article": "le"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "lo"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_comb": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "der"
+   },
+   "fr": {
+    "article": "le"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "il"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_hairdryer": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "der"
+   },
+   "fr": {
+    "article": "le"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "l'"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_closet": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "der"
+   },
+   "fr": {
+    "article": "l'"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "l'"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_table": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "der"
+   },
+   "fr": {
+    "article": "la"
+   },
+   "es": {
+    "article": "la"
+   },
+   "it": {
+    "article": "il"
+   },
+   "pt": {
+    "article": "a"
+   }
+  },
+  "c_chair": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "der"
+   },
+   "fr": {
+    "article": "la"
+   },
+   "es": {
+    "article": "la"
+   },
+   "it": {
+    "article": "la"
+   },
+   "pt": {
+    "article": "a"
+   }
+  },
+  "c_sofa": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "das"
+   },
+   "fr": {
+    "article": "le"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "il"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_bed": {
+   "nl": {
+    "article": "het"
+   },
+   "de": {
+    "article": "das"
+   },
+   "fr": {
+    "article": "le"
+   },
+   "es": {
+    "article": "la"
+   },
+   "it": {
+    "article": "il"
+   },
+   "pt": {
+    "article": "a"
+   }
+  },
+  "c_pillow": {
+   "nl": {
+    "article": "het"
+   },
+   "de": {
+    "article": "das"
+   },
+   "fr": {
+    "article": "l'"
+   },
+   "es": {
+    "article": "la"
+   },
+   "it": {
+    "article": "il"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_blanket": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "die"
+   },
+   "fr": {
+    "article": "la"
+   },
+   "es": {
+    "article": "la"
+   },
+   "it": {
+    "article": "la"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_carpet": {
+   "nl": {
+    "article": "het"
+   },
+   "de": {
+    "article": "der"
+   },
+   "fr": {
+    "article": "le"
+   },
+   "es": {
+    "article": "la"
+   },
+   "it": {
+    "article": "il"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_shoes": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "die"
+   },
+   "fr": {
+    "article": "les"
+   },
+   "es": {
+    "article": "los"
+   },
+   "it": {
+    "article": "le"
+   },
+   "pt": {
+    "article": "os"
+   }
+  },
+  "c_bag": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "die"
+   },
+   "fr": {
+    "article": "le"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "la"
+   },
+   "pt": {
+    "article": "a"
+   }
+  },
+  "c_umbrella": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "der"
+   },
+   "fr": {
+    "article": "le"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "l'"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_glasses": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "die"
+   },
+   "fr": {
+    "article": "les"
+   },
+   "es": {
+    "article": "las"
+   },
+   "it": {
+    "article": "gli"
+   },
+   "pt": {
+    "article": "os"
+   }
+  },
+  "c_watch": {
+   "nl": {
+    "article": "het"
+   },
+   "de": {
+    "article": "die"
+   },
+   "fr": {
+    "article": "la"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "l'"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_telephone": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "das"
+   },
+   "fr": {
+    "article": "le"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "il"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_key": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "der"
+   },
+   "fr": {
+    "article": "la"
+   },
+   "es": {
+    "article": "la"
+   },
+   "it": {
+    "article": "la"
+   },
+   "pt": {
+    "article": "a"
+   }
+  },
+  "c_lock": {
+   "nl": {
+    "article": "het"
+   },
+   "de": {
+    "article": "das"
+   },
+   "fr": {
+    "article": "la"
+   },
+   "es": {
+    "article": "la"
+   },
+   "it": {
+    "article": "la"
+   },
+   "pt": {
+    "article": "a"
+   }
+  },
+  "c_bulb": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "die"
+   },
+   "fr": {
+    "article": "l'"
+   },
+   "es": {
+    "article": "la"
+   },
+   "it": {
+    "article": "la"
+   },
+   "pt": {
+    "article": "a"
+   }
+  },
+  "c_television": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "der"
+   },
+   "fr": {
+    "article": "la"
+   },
+   "es": {
+    "article": "la"
+   },
+   "it": {
+    "article": "la"
+   },
+   "pt": {
+    "article": "a"
+   }
+  },
+  "c_notebook": {
+   "nl": {
+    "article": "het"
+   },
+   "de": {
+    "article": "das"
+   },
+   "fr": {
+    "article": "le"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "il"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_pen": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "der"
+   },
+   "fr": {
+    "article": "le"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "la"
+   },
+   "pt": {
+    "article": "a"
+   }
+  },
+  "c_pencil": {
+   "nl": {
+    "article": "het"
+   },
+   "de": {
+    "article": "der"
+   },
+   "fr": {
+    "article": "le"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "la"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_eraser": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "der"
+   },
+   "fr": {
+    "article": "la"
+   },
+   "es": {
+    "article": "la"
+   },
+   "it": {
+    "article": "la"
+   },
+   "pt": {
+    "article": "a"
+   }
+  },
+  "c_bread": {
+   "nl": {
+    "article": "het"
+   },
+   "de": {
+    "article": "das"
+   },
+   "fr": {
+    "article": "le"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "il"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_rice": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "der"
+   },
+   "fr": {
+    "article": "le"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "il"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_pasta": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "die"
+   },
+   "fr": {
+    "article": "les"
+   },
+   "es": {
+    "article": "la"
+   },
+   "it": {
+    "article": "la"
+   },
+   "pt": {
+    "article": "a"
+   }
+  },
+  "c_potato": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "die"
+   },
+   "fr": {
+    "article": "la"
+   },
+   "es": {
+    "article": "la"
+   },
+   "it": {
+    "article": "la"
+   },
+   "pt": {
+    "article": "a"
+   }
+  },
+  "c_tomato": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "die"
+   },
+   "fr": {
+    "article": "la"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "il"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_cucumber": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "die"
+   },
+   "fr": {
+    "article": "le"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "il"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_onion": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "die"
+   },
+   "fr": {
+    "article": "l'"
+   },
+   "es": {
+    "article": "la"
+   },
+   "it": {
+    "article": "la"
+   },
+   "pt": {
+    "article": "a"
+   }
+  },
+  "c_carrot": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "die"
+   },
+   "fr": {
+    "article": "la"
+   },
+   "es": {
+    "article": "la"
+   },
+   "it": {
+    "article": "la"
+   },
+   "pt": {
+    "article": "a"
+   }
+  },
+  "c_meat": {
+   "nl": {
+    "article": "het"
+   },
+   "de": {
+    "article": "das"
+   },
+   "fr": {
+    "article": "la"
+   },
+   "es": {
+    "article": "la"
+   },
+   "it": {
+    "article": "la"
+   },
+   "pt": {
+    "article": "a"
+   }
+  },
+  "c_chicken": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "das"
+   },
+   "fr": {
+    "article": "le"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "il"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_fish": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "der"
+   },
+   "fr": {
+    "article": "le"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "il"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_egg": {
+   "nl": {
+    "article": "het"
+   },
+   "de": {
+    "article": "das"
+   },
+   "fr": {
+    "article": "l'"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "l'"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_cheese": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "der"
+   },
+   "fr": {
+    "article": "le"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "il"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_yogurt": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "der"
+   },
+   "fr": {
+    "article": "le"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "lo"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_milk": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "die"
+   },
+   "fr": {
+    "article": "le"
+   },
+   "es": {
+    "article": "la"
+   },
+   "it": {
+    "article": "il"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_ice_cream": {
+   "nl": {
+    "article": "het"
+   },
+   "de": {
+    "article": "das"
+   },
+   "fr": {
+    "article": "la"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "il"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_cake": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "der"
+   },
+   "fr": {
+    "article": "le"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "la"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_chocolate": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "die"
+   },
+   "fr": {
+    "article": "le"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "il"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_banana": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "die"
+   },
+   "fr": {
+    "article": "la"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "la"
+   },
+   "pt": {
+    "article": "a"
+   }
+  },
+  "c_apple": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "der"
+   },
+   "fr": {
+    "article": "la"
+   },
+   "es": {
+    "article": "la"
+   },
+   "it": {
+    "article": "la"
+   },
+   "pt": {
+    "article": "a"
+   }
+  },
+  "c_orange": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "die"
+   },
+   "fr": {
+    "article": "l'"
+   },
+   "es": {
+    "article": "la"
+   },
+   "it": {
+    "article": "l'"
+   },
+   "pt": {
+    "article": "a"
+   }
+  },
+  "c_pomegranate": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "der"
+   },
+   "fr": {
+    "article": "la"
+   },
+   "es": {
+    "article": "la"
+   },
+   "it": {
+    "article": "il"
+   },
+   "pt": {
+    "article": "a"
+   }
+  },
+  "c_grape": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "die"
+   },
+   "fr": {
+    "article": "le"
+   },
+   "es": {
+    "article": "la"
+   },
+   "it": {
+    "article": "l'"
+   },
+   "pt": {
+    "article": "a"
+   }
+  },
+  "c_watermelon": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "die"
+   },
+   "fr": {
+    "article": "la"
+   },
+   "es": {
+    "article": "la"
+   },
+   "it": {
+    "article": "l'"
+   },
+   "pt": {
+    "article": "a"
+   }
+  },
+  "c_coffee": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "der"
+   },
+   "fr": {
+    "article": "le"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "il"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_tea": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "der"
+   },
+   "fr": {
+    "article": "le"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "il"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_pizza": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "die"
+   },
+   "fr": {
+    "article": "la"
+   },
+   "es": {
+    "article": "la"
+   },
+   "it": {
+    "article": "la"
+   },
+   "pt": {
+    "article": "a"
+   }
+  },
+  "c_hamburger": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "der"
+   },
+   "fr": {
+    "article": "le"
+   },
+   "es": {
+    "article": "la"
+   },
+   "it": {
+    "article": "l'"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_sandwich": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "das"
+   },
+   "fr": {
+    "article": "le"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "il"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_kebab": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "der"
+   },
+   "fr": {
+    "article": "le"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "il"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_dog": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "der"
+   },
+   "fr": {
+    "article": "le"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "il"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_cat": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "die"
+   },
+   "fr": {
+    "article": "le"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "il"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_horse": {
+   "nl": {
+    "article": "het"
+   },
+   "de": {
+    "article": "das"
+   },
+   "fr": {
+    "article": "le"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "il"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_cow": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "die"
+   },
+   "fr": {
+    "article": "la"
+   },
+   "es": {
+    "article": "la"
+   },
+   "it": {
+    "article": "la"
+   },
+   "pt": {
+    "article": "a"
+   }
+  },
+  "c_sheep": {
+   "nl": {
+    "article": "het"
+   },
+   "de": {
+    "article": "das"
+   },
+   "fr": {
+    "article": "le"
+   },
+   "es": {
+    "article": "la"
+   },
+   "it": {
+    "article": "la"
+   },
+   "pt": {
+    "article": "a"
+   }
+  },
+  "c_camel": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "das"
+   },
+   "fr": {
+    "article": "le"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "il"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_rabbit": {
+   "nl": {
+    "article": "het"
+   },
+   "de": {
+    "article": "der"
+   },
+   "fr": {
+    "article": "le"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "il"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_bear": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "der"
+   },
+   "fr": {
+    "article": "l'"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "l'"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_wolf": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "der"
+   },
+   "fr": {
+    "article": "le"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "il"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_fox": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "der"
+   },
+   "fr": {
+    "article": "le"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "la"
+   },
+   "pt": {
+    "article": "a"
+   }
+  },
+  "c_lion": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "der"
+   },
+   "fr": {
+    "article": "le"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "il"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_tiger": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "der"
+   },
+   "fr": {
+    "article": "le"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "la"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_leopard": {
+   "nl": {
+    "article": "het"
+   },
+   "de": {
+    "article": "der"
+   },
+   "fr": {
+    "article": "le"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "il"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_elephant": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "der"
+   },
+   "fr": {
+    "article": "l'"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "l'"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_giraffe": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "die"
+   },
+   "fr": {
+    "article": "la"
+   },
+   "es": {
+    "article": "la"
+   },
+   "it": {
+    "article": "la"
+   },
+   "pt": {
+    "article": "a"
+   }
+  },
+  "c_monkey": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "der"
+   },
+   "fr": {
+    "article": "le"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "la"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_crocodile": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "das"
+   },
+   "fr": {
+    "article": "le"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "il"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_snake": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "die"
+   },
+   "fr": {
+    "article": "le"
+   },
+   "es": {
+    "article": "la"
+   },
+   "it": {
+    "article": "il"
+   },
+   "pt": {
+    "article": "a"
+   }
+  },
+  "c_shark": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "der"
+   },
+   "fr": {
+    "article": "le"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "lo"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_dolphin": {
+   "nl": {
+    "article": "de",
+    "text": "dolfijn"
+   },
+   "de": {
+    "article": "der"
+   },
+   "fr": {
+    "article": "le"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "il"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_whale": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "der"
+   },
+   "fr": {
+    "article": "la"
+   },
+   "es": {
+    "article": "la"
+   },
+   "it": {
+    "article": "la"
+   },
+   "pt": {
+    "article": "a"
+   }
+  },
+  "c_butterfly": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "der"
+   },
+   "fr": {
+    "article": "le"
+   },
+   "es": {
+    "article": "la"
+   },
+   "it": {
+    "article": "la"
+   },
+   "pt": {
+    "article": "a"
+   }
+  },
+  "c_eagle": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "der"
+   },
+   "fr": {
+    "article": "l'"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "l'"
+   },
+   "pt": {
+    "article": "a"
+   }
+  },
+  "c_doctor": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "der"
+   },
+   "fr": {
+    "article": "le"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "il"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_nurse": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "die"
+   },
+   "fr": {
+    "article": "l'"
+   },
+   "es": {
+    "article": "la"
+   },
+   "it": {
+    "article": "l'"
+   },
+   "pt": {
+    "article": "a"
+   }
+  },
+  "c_teacher": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "der"
+   },
+   "fr": {
+    "article": "le"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "l'"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_engineer": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "der"
+   },
+   "fr": {
+    "article": "l'"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "l'"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_pilot": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "der"
+   },
+   "fr": {
+    "article": "le"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "il"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_chef": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "der"
+   },
+   "fr": {
+    "article": "le"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "il"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_police": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "die"
+   },
+   "fr": {
+    "article": "la"
+   },
+   "es": {
+    "article": "la"
+   },
+   "it": {
+    "article": "la"
+   },
+   "pt": {
+    "article": "a"
+   }
+  },
+  "c_firefighter": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "der"
+   },
+   "fr": {
+    "article": "le"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "il"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_hospital": {
+   "nl": {
+    "article": "het"
+   },
+   "de": {
+    "article": "das"
+   },
+   "fr": {
+    "article": "l'"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "l'"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_university": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "die"
+   },
+   "fr": {
+    "article": "l'"
+   },
+   "es": {
+    "article": "la"
+   },
+   "it": {
+    "article": "l'"
+   },
+   "pt": {
+    "article": "a"
+   }
+  },
+  "c_library": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "die"
+   },
+   "fr": {
+    "article": "la"
+   },
+   "es": {
+    "article": "la"
+   },
+   "it": {
+    "article": "la"
+   },
+   "pt": {
+    "article": "a"
+   }
+  },
+  "c_cinema": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "das"
+   },
+   "fr": {
+    "article": "le"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "il"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_airport": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "der"
+   },
+   "fr": {
+    "article": "l'"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "l'"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_forest": {
+   "nl": {
+    "article": "het"
+   },
+   "de": {
+    "article": "der"
+   },
+   "fr": {
+    "article": "la"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "la"
+   },
+   "pt": {
+    "article": "a"
+   }
+  },
+  "c_mountain": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "der"
+   },
+   "fr": {
+    "article": "la"
+   },
+   "es": {
+    "article": "la"
+   },
+   "it": {
+    "article": "la"
+   },
+   "pt": {
+    "article": "a"
+   }
+  },
+  "c_sea": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "das"
+   },
+   "fr": {
+    "article": "la"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "il"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_car": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "das"
+   },
+   "fr": {
+    "article": "la"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "la"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_bus": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "der"
+   },
+   "fr": {
+    "article": "le"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "l'"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_bicycle": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "das"
+   },
+   "fr": {
+    "article": "le"
+   },
+   "es": {
+    "article": "la"
+   },
+   "it": {
+    "article": "la"
+   },
+   "pt": {
+    "article": "a"
+   }
+  },
+  "c_train": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "der"
+   },
+   "fr": {
+    "article": "le"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "il"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_airplane": {
+   "nl": {
+    "article": "het"
+   },
+   "de": {
+    "article": "das"
+   },
+   "fr": {
+    "article": "l'"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "l'"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_ship": {
+   "nl": {
+    "article": "het"
+   },
+   "de": {
+    "article": "das"
+   },
+   "fr": {
+    "article": "le"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "la"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_football": {
+   "nl": {
+    "article": "het"
+   },
+   "de": {
+    "article": "der"
+   },
+   "fr": {
+    "article": "le"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "il"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_basketball": {
+   "nl": {
+    "article": "het"
+   },
+   "de": {
+    "article": "der"
+   },
+   "fr": {
+    "article": "le"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "la"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_volleyball": {
+   "nl": {
+    "article": "het"
+   },
+   "de": {
+    "article": "der"
+   },
+   "fr": {
+    "article": "le"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "la"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_swimming": {
+   "nl": {
+    "article": "het"
+   },
+   "de": {
+    "article": "das"
+   },
+   "fr": {
+    "article": "la"
+   },
+   "es": {
+    "article": "la"
+   },
+   "it": {
+    "article": "il"
+   },
+   "pt": {
+    "article": "a"
+   }
+  },
+  "c_chess": {
+   "nl": {
+    "article": "het"
+   },
+   "de": {
+    "article": "das"
+   },
+   "fr": {
+    "article": "les"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "gli"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_movie": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "der"
+   },
+   "fr": {
+    "article": "le"
+   },
+   "es": {
+    "article": "la"
+   },
+   "it": {
+    "article": "il"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_animation": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "die"
+   },
+   "fr": {
+    "article": "l'"
+   },
+   "es": {
+    "article": "la"
+   },
+   "it": {
+    "article": "l'"
+   },
+   "pt": {
+    "article": "a"
+   }
+  },
+  "c_washing_machine": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "die"
+   },
+   "fr": {
+    "article": "la"
+   },
+   "es": {
+    "article": "la"
+   },
+   "it": {
+    "article": "la"
+   },
+   "pt": {
+    "article": "a"
+   }
+  },
+  "c_dishwasher": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "der"
+   },
+   "fr": {
+    "article": "le"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "la"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_sunglasses": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "die"
+   },
+   "fr": {
+    "article": "les"
+   },
+   "es": {
+    "article": "las"
+   },
+   "it": {
+    "article": "gli"
+   },
+   "pt": {
+    "article": "os"
+   }
+  },
+  "c_desk_lamp": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "die"
+   },
+   "fr": {
+    "article": "la"
+   },
+   "es": {
+    "article": "la"
+   },
+   "it": {
+    "article": "la"
+   },
+   "pt": {
+    "article": "a"
+   }
+  },
+  "c_tv_remote": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "die"
+   },
+   "fr": {
+    "article": "la"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "il"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_wrist_watch": {
+   "nl": {
+    "article": "het"
+   },
+   "de": {
+    "article": "die"
+   },
+   "fr": {
+    "article": "la"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "l'"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_electric_toothbrush": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "die",
+    "text": "elektrische Zahnbürste"
+   },
+   "fr": {
+    "article": "la"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "lo"
+   },
+   "pt": {
+    "article": "a"
+   }
+  },
+  "c_cordless_vacuum": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "der",
+    "text": "kabellose Staubsauger"
+   },
+   "fr": {
+    "article": "l'"
+   },
+   "es": {
+    "article": "la"
+   },
+   "it": {
+    "article": "l'"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_bank_card": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "die"
+   },
+   "fr": {
+    "article": "la"
+   },
+   "es": {
+    "article": "la"
+   },
+   "it": {
+    "article": "la"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_rain_umbrella": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "der"
+   },
+   "fr": {
+    "article": "le"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "l'"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_paper_towel": {
+   "nl": {
+    "article": "het"
+   },
+   "de": {
+    "article": "das"
+   },
+   "fr": {
+    "article": "l'"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "la"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_colored_pencil": {
+   "nl": {
+    "article": "het"
+   },
+   "de": {
+    "article": "der"
+   },
+   "fr": {
+    "article": "le"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "la"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_drawing_pad": {
+   "nl": {
+    "article": "het"
+   },
+   "de": {
+    "article": "der"
+   },
+   "fr": {
+    "article": "le"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "il"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_running_shoes": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "die"
+   },
+   "fr": {
+    "article": "les"
+   },
+   "es": {
+    "article": "las"
+   },
+   "it": {
+    "article": "le"
+   },
+   "pt": {
+    "article": "os"
+   }
+  },
+  "c_travel_backpack": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "der"
+   },
+   "fr": {
+    "article": "le"
+   },
+   "es": {
+    "article": "la"
+   },
+   "it": {
+    "article": "lo"
+   },
+   "pt": {
+    "article": "a"
+   }
+  },
+  "c_ceiling_fan": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "der"
+   },
+   "fr": {
+    "article": "le"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "il"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_gas_heater": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "die"
+   },
+   "fr": {
+    "article": "le"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "la"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_steam_iron": {
+   "nl": {
+    "article": "het"
+   },
+   "de": {
+    "article": "das"
+   },
+   "fr": {
+    "article": "le"
+   },
+   "es": {
+    "article": "la"
+   },
+   "it": {
+    "article": "il"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_pomegranate_juice": {
+   "nl": {
+    "article": "het"
+   },
+   "de": {
+    "article": "der"
+   },
+   "fr": {
+    "article": "le"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "il"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_chocolate_ice_cream": {
+   "nl": {
+    "article": "het"
+   },
+   "de": {
+    "article": "das"
+   },
+   "fr": {
+    "article": "la"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "il"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_rock_candy_tea": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "der"
+   },
+   "fr": {
+    "article": "le"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "il"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_espresso_coffee": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "der"
+   },
+   "fr": {
+    "article": "le",
+    "text": "café expresso"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "l'"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_french_fries": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "die"
+   },
+   "fr": {
+    "article": "les"
+   },
+   "es": {
+    "article": "las"
+   },
+   "it": {
+    "article": "le"
+   },
+   "pt": {
+    "article": "as"
+   }
+  },
+  "c_special_pizza": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "die"
+   },
+   "fr": {
+    "article": "la"
+   },
+   "es": {
+    "article": "la"
+   },
+   "it": {
+    "article": "la"
+   },
+   "pt": {
+    "article": "a"
+   }
+  },
+  "c_kebab_skewer": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "der"
+   },
+   "fr": {
+    "article": "la"
+   },
+   "es": {
+    "article": "la"
+   },
+   "it": {
+    "article": "lo"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_grilled_chicken": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "das",
+    "text": "gegrillte Hähnchen"
+   },
+   "fr": {
+    "article": "le"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "il"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_garden_salad": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "der"
+   },
+   "fr": {
+    "article": "la"
+   },
+   "es": {
+    "article": "la"
+   },
+   "it": {
+    "article": "l'"
+   },
+   "pt": {
+    "article": "a"
+   }
+  },
+  "c_chocolate_milk": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "die"
+   },
+   "fr": {
+    "article": "le"
+   },
+   "es": {
+    "article": "la"
+   },
+   "it": {
+    "article": "il"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_flatbread": {
+   "nl": {
+    "article": "het"
+   },
+   "de": {
+    "article": "das"
+   },
+   "fr": {
+    "article": "le"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "la"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_hot_dog": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "der"
+   },
+   "fr": {
+    "article": "le"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "l'"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_fried_egg": {
+   "nl": {
+    "article": "het"
+   },
+   "de": {
+    "article": "das"
+   },
+   "fr": {
+    "article": "l'"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "l'"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_cucumber_yogurt": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "der"
+   },
+   "fr": {
+    "article": "le"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "lo"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_sour_cherry_jam": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "die"
+   },
+   "fr": {
+    "article": "la"
+   },
+   "es": {
+    "article": "la"
+   },
+   "it": {
+    "article": "la"
+   },
+   "pt": {
+    "article": "a"
+   }
+  },
+  "c_pasta_alfredo": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "die"
+   },
+   "fr": {
+    "article": "les"
+   },
+   "es": {
+    "article": "la"
+   },
+   "it": {
+    "article": "la"
+   },
+   "pt": {
+    "article": "a"
+   }
+  },
+  "c_potato_chips": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "die"
+   },
+   "fr": {
+    "article": "les"
+   },
+   "es": {
+    "article": "las"
+   },
+   "it": {
+    "article": "le"
+   },
+   "pt": {
+    "article": "as"
+   }
+  },
+  "c_lion_king": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "der"
+   },
+   "fr": {
+    "article": "le"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "il"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_polar_bear": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "der"
+   },
+   "fr": {
+    "article": "l'"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "l'"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_fluffy_cat": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "das"
+   },
+   "fr": {
+    "article": "le"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "il"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_guard_dog": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "der"
+   },
+   "fr": {
+    "article": "le"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "il"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_asian_elephant": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "der",
+    "text": "asiatische Elefant"
+   },
+   "fr": {
+    "article": "l'"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "l'"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_honey_bee": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "die"
+   },
+   "fr": {
+    "article": "l'"
+   },
+   "es": {
+    "article": "la"
+   },
+   "it": {
+    "article": "l'"
+   },
+   "pt": {
+    "article": "a"
+   }
+  },
+  "c_golden_eagle": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "der"
+   },
+   "fr": {
+    "article": "l'"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "l'"
+   },
+   "pt": {
+    "article": "a"
+   }
+  },
+  "c_killer_whale": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "der"
+   },
+   "fr": {
+    "article": "l'"
+   },
+   "es": {
+    "article": "la"
+   },
+   "it": {
+    "article": "l'"
+   },
+   "pt": {
+    "article": "a"
+   }
+  },
+  "c_goldfish": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "der"
+   },
+   "fr": {
+    "article": "le"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "il"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_rattlesnake": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "die"
+   },
+   "fr": {
+    "article": "le"
+   },
+   "es": {
+    "article": "la"
+   },
+   "it": {
+    "article": "il"
+   },
+   "pt": {
+    "article": "a"
+   }
+  },
+  "c_clever_fox": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "der",
+    "text": "schlaue Fuchs"
+   },
+   "fr": {
+    "article": "le"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "la"
+   },
+   "pt": {
+    "article": "a"
+   }
+  },
+  "c_white_horse": {
+   "nl": {
+    "article": "het",
+    "text": "witte paard"
+   },
+   "de": {
+    "article": "das",
+    "text": "weiße Pferd"
+   },
+   "fr": {
+    "article": "le"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "il"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_surgeon_doctor": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "der"
+   },
+   "fr": {
+    "article": "le"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "il"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_math_teacher": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "der"
+   },
+   "fr": {
+    "article": "le"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "il"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_airline_pilot": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "der"
+   },
+   "fr": {
+    "article": "le"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "il"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_traffic_police": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "die"
+   },
+   "fr": {
+    "article": "la"
+   },
+   "es": {
+    "article": "la"
+   },
+   "it": {
+    "article": "la"
+   },
+   "pt": {
+    "article": "a"
+   }
+  },
+  "c_brave_firefighter": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "der",
+    "text": "mutige Feuerwehrmann"
+   },
+   "fr": {
+    "article": "le"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "il"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_pediatric_dentist": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "der"
+   },
+   "fr": {
+    "article": "le"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "il"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_indoor_theme_park": {
+   "nl": {
+    "article": "het",
+    "text": "overdekte pretpark"
+   },
+   "de": {
+    "article": "der"
+   },
+   "fr": {
+    "article": "le"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "il"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_five_star_hotel": {
+   "nl": {
+    "article": "het"
+   },
+   "de": {
+    "article": "das"
+   },
+   "fr": {
+    "article": "l'"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "l'"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_train_station": {
+   "nl": {
+    "article": "het"
+   },
+   "de": {
+    "article": "der"
+   },
+   "fr": {
+    "article": "la"
+   },
+   "es": {
+    "article": "la"
+   },
+   "it": {
+    "article": "la"
+   },
+   "pt": {
+    "article": "a"
+   }
+  },
+  "c_swimming_pool": {
+   "nl": {
+    "article": "het"
+   },
+   "de": {
+    "article": "das"
+   },
+   "fr": {
+    "article": "la"
+   },
+   "es": {
+    "article": "la"
+   },
+   "it": {
+    "article": "la"
+   },
+   "pt": {
+    "article": "a"
+   }
+  },
+  "c_3d_cinema": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "das"
+   },
+   "fr": {
+    "article": "le"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "il"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_sandy_beach": {
+   "nl": {
+    "article": "het"
+   },
+   "de": {
+    "article": "der"
+   },
+   "fr": {
+    "article": "la"
+   },
+   "es": {
+    "article": "la"
+   },
+   "it": {
+    "article": "la"
+   },
+   "pt": {
+    "article": "a"
+   }
+  },
+  "c_racing_car": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "der"
+   },
+   "fr": {
+    "article": "la"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "l'"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_bullet_train": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "der"
+   },
+   "fr": {
+    "article": "le"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "il"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_mountain_bike": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "das"
+   },
+   "fr": {
+    "article": "le"
+   },
+   "es": {
+    "article": "la"
+   },
+   "it": {
+    "article": "la"
+   },
+   "pt": {
+    "article": "a"
+   }
+  },
+  "c_double_decker_bus": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "der"
+   },
+   "fr": {
+    "article": "le",
+    "text": "bus à impériale"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "l'"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_motorboat": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "das"
+   },
+   "fr": {
+    "article": "le"
+   },
+   "es": {
+    "article": "la"
+   },
+   "it": {
+    "article": "il"
+   },
+   "pt": {
+    "article": "a"
+   }
+  },
+  "c_cruise_ship": {
+   "nl": {
+    "article": "het"
+   },
+   "de": {
+    "article": "das"
+   },
+   "fr": {
+    "article": "le"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "la"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_beach_volleyball": {
+   "nl": {
+    "article": "het"
+   },
+   "de": {
+    "article": "der"
+   },
+   "fr": {
+    "article": "le"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "il"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_table_tennis": {
+   "nl": {
+    "article": "het"
+   },
+   "de": {
+    "article": "das"
+   },
+   "fr": {
+    "article": "le"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "il"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_speed_chess": {
+   "nl": {
+    "article": "het"
+   },
+   "de": {
+    "article": "das"
+   },
+   "fr": {
+    "article": "les"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "gli"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_freestyle_wrestling": {
+   "nl": {
+    "article": "het"
+   },
+   "de": {
+    "article": "das"
+   },
+   "fr": {
+    "article": "la"
+   },
+   "es": {
+    "article": "la"
+   },
+   "it": {
+    "article": "la"
+   },
+   "pt": {
+    "article": "a"
+   }
+  },
+  "c_comedy_film": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "die"
+   },
+   "fr": {
+    "article": "la"
+   },
+   "es": {
+    "article": "la"
+   },
+   "it": {
+    "article": "la"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_music_concert": {
+   "nl": {
+    "article": "het"
+   },
+   "de": {
+    "article": "das"
+   },
+   "fr": {
+    "article": "le"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "il"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_video_game": {
+   "nl": {
+    "article": "het"
+   },
+   "de": {
+    "article": "das"
+   },
+   "fr": {
+    "article": "le"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "il"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_koffie_verkeerd": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "der"
+   },
+   "fr": {
+    "article": "le"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "il"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_mother": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "die"
+   },
+   "fr": {
+    "article": "la"
+   },
+   "es": {
+    "article": "la"
+   },
+   "it": {
+    "article": "la"
+   },
+   "pt": {
+    "article": "a"
+   }
+  },
+  "c_father": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "der"
+   },
+   "fr": {
+    "article": "le"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "il"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_brother": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "der"
+   },
+   "fr": {
+    "article": "le"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "il"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_sister": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "die"
+   },
+   "fr": {
+    "article": "la"
+   },
+   "es": {
+    "article": "la"
+   },
+   "it": {
+    "article": "la"
+   },
+   "pt": {
+    "article": "a"
+   }
+  },
+  "c_water": {
+   "nl": {
+    "article": "het"
+   },
+   "de": {
+    "article": "das"
+   },
+   "fr": {
+    "article": "l'"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "l'"
+   },
+   "pt": {
+    "article": "a"
+   }
+  },
+  "c_kitchen": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "die"
+   },
+   "fr": {
+    "article": "la"
+   },
+   "es": {
+    "article": "la"
+   },
+   "it": {
+    "article": "la"
+   },
+   "pt": {
+    "article": "a"
+   }
+  },
+  "c_bedroom": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "das"
+   },
+   "fr": {
+    "article": "la"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "la"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_shop": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "das"
+   },
+   "fr": {
+    "article": "le"
+   },
+   "es": {
+    "article": "la"
+   },
+   "it": {
+    "article": "il"
+   },
+   "pt": {
+    "article": "a"
+   }
+  },
+  "c_money": {
+   "nl": {
+    "article": "het"
+   },
+   "de": {
+    "article": "das"
+   },
+   "fr": {
+    "article": "l'"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "i"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_passport": {
+   "nl": {
+    "article": "het"
+   },
+   "de": {
+    "article": "der"
+   },
+   "fr": {
+    "article": "le"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "il"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_ticket": {
+   "nl": {
+    "article": "het"
+   },
+   "de": {
+    "article": "die"
+   },
+   "fr": {
+    "article": "le"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "il"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_hotel": {
+   "nl": {
+    "article": "het"
+   },
+   "de": {
+    "article": "das"
+   },
+   "fr": {
+    "article": "l'"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "l'"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_beach": {
+   "nl": {
+    "article": "het"
+   },
+   "de": {
+    "article": "der"
+   },
+   "fr": {
+    "article": "la"
+   },
+   "es": {
+    "article": "la"
+   },
+   "it": {
+    "article": "la"
+   },
+   "pt": {
+    "article": "a"
+   }
+  },
+  "c_park": {
+   "nl": {
+    "article": "het"
+   },
+   "de": {
+    "article": "der"
+   },
+   "fr": {
+    "article": "le"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "il"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_book": {
+   "nl": {
+    "article": "het"
+   },
+   "de": {
+    "article": "das"
+   },
+   "fr": {
+    "article": "le"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "il"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_school": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "die"
+   },
+   "fr": {
+    "article": "l'"
+   },
+   "es": {
+    "article": "la"
+   },
+   "it": {
+    "article": "la"
+   },
+   "pt": {
+    "article": "a"
+   }
+  },
+  "c_friend": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "der"
+   },
+   "fr": {
+    "article": "l'",
+    "text": "ami"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "l'"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_shirt": {
+   "nl": {
+    "article": "het"
+   },
+   "de": {
+    "article": "das"
+   },
+   "fr": {
+    "article": "la"
+   },
+   "es": {
+    "article": "la"
+   },
+   "it": {
+    "article": "la"
+   },
+   "pt": {
+    "article": "a"
+   }
+  },
+  "c_trousers": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "die"
+   },
+   "fr": {
+    "article": "le"
+   },
+   "es": {
+    "article": "los"
+   },
+   "it": {
+    "article": "i"
+   },
+   "pt": {
+    "article": "as"
+   }
+  },
+  "c_dress": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "das"
+   },
+   "fr": {
+    "article": "la"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "il"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_jacket": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "die"
+   },
+   "fr": {
+    "article": "la"
+   },
+   "es": {
+    "article": "la"
+   },
+   "it": {
+    "article": "la"
+   },
+   "pt": {
+    "article": "a"
+   }
+  },
+  "c_hat": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "der"
+   },
+   "fr": {
+    "article": "le"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "il"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_head": {
+   "nl": {
+    "article": "het"
+   },
+   "de": {
+    "article": "der"
+   },
+   "fr": {
+    "article": "la"
+   },
+   "es": {
+    "article": "la"
+   },
+   "it": {
+    "article": "la"
+   },
+   "pt": {
+    "article": "a"
+   }
+  },
+  "c_hand": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "die"
+   },
+   "fr": {
+    "article": "la"
+   },
+   "es": {
+    "article": "la"
+   },
+   "it": {
+    "article": "la"
+   },
+   "pt": {
+    "article": "a"
+   }
+  },
+  "c_eye": {
+   "nl": {
+    "article": "het"
+   },
+   "de": {
+    "article": "das"
+   },
+   "fr": {
+    "article": "l'"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "l'"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_foot": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "der"
+   },
+   "fr": {
+    "article": "le"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "il"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_fruit": {
+   "nl": {
+    "article": "het"
+   },
+   "de": {
+    "article": "das"
+   },
+   "fr": {
+    "article": "le"
+   },
+   "es": {
+    "article": "la"
+   },
+   "it": {
+    "article": "la"
+   },
+   "pt": {
+    "article": "a"
+   }
+  },
+  "c_vegetable": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "das"
+   },
+   "fr": {
+    "article": "le"
+   },
+   "es": {
+    "article": "la"
+   },
+   "it": {
+    "article": "la"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_monday": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "der"
+   },
+   "fr": {
+    "article": "le"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "il"
+   },
+   "pt": {
+    "article": "a"
+   }
+  },
+  "c_tuesday": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "der"
+   },
+   "fr": {
+    "article": "le"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "il"
+   },
+   "pt": {
+    "article": "a"
+   }
+  },
+  "c_wednesday": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "der"
+   },
+   "fr": {
+    "article": "le"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "il"
+   },
+   "pt": {
+    "article": "a"
+   }
+  },
+  "c_thursday": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "der"
+   },
+   "fr": {
+    "article": "le"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "il"
+   },
+   "pt": {
+    "article": "a"
+   }
+  },
+  "c_friday": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "der"
+   },
+   "fr": {
+    "article": "le"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "il"
+   },
+   "pt": {
+    "article": "a"
+   }
+  },
+  "c_saturday": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "der"
+   },
+   "fr": {
+    "article": "le"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "il"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_sunday": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "der"
+   },
+   "fr": {
+    "article": "le"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "la"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_bike": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "das"
+   },
+   "fr": {
+    "article": "le"
+   },
+   "es": {
+    "article": "la"
+   },
+   "it": {
+    "article": "la"
+   },
+   "pt": {
+    "article": "a"
+   }
+  },
+  "c_plane": {
+   "nl": {
+    "article": "het"
+   },
+   "de": {
+    "article": "das"
+   },
+   "fr": {
+    "article": "l'"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "l'"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_station": {
+   "nl": {
+    "article": "het"
+   },
+   "de": {
+    "article": "der"
+   },
+   "fr": {
+    "article": "la"
+   },
+   "es": {
+    "article": "la"
+   },
+   "it": {
+    "article": "la"
+   },
+   "pt": {
+    "article": "a"
+   }
+  },
+  "c_bank": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "die"
+   },
+   "fr": {
+    "article": "la"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "la"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_post_office": {
+   "nl": {
+    "article": "het"
+   },
+   "de": {
+    "article": "das"
+   },
+   "fr": {
+    "article": "le"
+   },
+   "es": {
+    "article": "la"
+   },
+   "it": {
+    "article": "l'"
+   },
+   "pt": {
+    "article": "os"
+   }
+  },
+  "c_supermarket": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "der"
+   },
+   "fr": {
+    "article": "le"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "il"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_phone": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "das"
+   },
+   "fr": {
+    "article": "le"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "il"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_door": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "die"
+   },
+   "fr": {
+    "article": "la"
+   },
+   "es": {
+    "article": "la"
+   },
+   "it": {
+    "article": "la"
+   },
+   "pt": {
+    "article": "a"
+   }
+  },
+  "c_window": {
+   "nl": {
+    "article": "het"
+   },
+   "de": {
+    "article": "das"
+   },
+   "fr": {
+    "article": "la"
+   },
+   "es": {
+    "article": "la"
+   },
+   "it": {
+    "article": "la"
+   },
+   "pt": {
+    "article": "a"
+   }
+  },
+  "c_morning": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "der"
+   },
+   "fr": {
+    "article": "le"
+   },
+   "es": {
+    "article": "la"
+   },
+   "it": {
+    "article": "la"
+   },
+   "pt": {
+    "article": "a"
+   }
+  },
+  "c_afternoon": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "der"
+   },
+   "fr": {
+    "article": "l'"
+   },
+   "es": {
+    "article": "la"
+   },
+   "it": {
+    "article": "il"
+   },
+   "pt": {
+    "article": "a"
+   }
+  },
+  "c_evening": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "der"
+   },
+   "fr": {
+    "article": "le"
+   },
+   "es": {
+    "article": "la"
+   },
+   "it": {
+    "article": "la"
+   },
+   "pt": {
+    "article": "a"
+   }
+  },
+  "c_night": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "die"
+   },
+   "fr": {
+    "article": "la"
+   },
+   "es": {
+    "article": "la"
+   },
+   "it": {
+    "article": "la"
+   },
+   "pt": {
+    "article": "a"
+   }
+  },
+  "c_week": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "die"
+   },
+   "fr": {
+    "article": "la"
+   },
+   "es": {
+    "article": "la"
+   },
+   "it": {
+    "article": "la"
+   },
+   "pt": {
+    "article": "a"
+   }
+  },
+  "c_month": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "der"
+   },
+   "fr": {
+    "article": "le"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "il"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_year": {
+   "nl": {
+    "article": "het"
+   },
+   "de": {
+    "article": "das"
+   },
+   "fr": {
+    "article": "l'"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "l'"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_burger": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "der"
+   },
+   "fr": {
+    "article": "le"
+   },
+   "es": {
+    "article": "la"
+   },
+   "it": {
+    "article": "l'"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_salad": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "der"
+   },
+   "fr": {
+    "article": "la"
+   },
+   "es": {
+    "article": "la"
+   },
+   "it": {
+    "article": "l'"
+   },
+   "pt": {
+    "article": "a"
+   }
+  },
+  "c_soup": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "die"
+   },
+   "fr": {
+    "article": "la"
+   },
+   "es": {
+    "article": "la"
+   },
+   "it": {
+    "article": "la"
+   },
+   "pt": {
+    "article": "a"
+   }
+  },
+  "c_juice": {
+   "nl": {
+    "article": "het"
+   },
+   "de": {
+    "article": "der"
+   },
+   "fr": {
+    "article": "le"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "il"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_beer": {
+   "nl": {
+    "article": "het"
+   },
+   "de": {
+    "article": "das"
+   },
+   "fr": {
+    "article": "la"
+   },
+   "es": {
+    "article": "la"
+   },
+   "it": {
+    "article": "la"
+   },
+   "pt": {
+    "article": "a"
+   }
+  },
+  "c_wine": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "der"
+   },
+   "fr": {
+    "article": "le"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "il"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_socks": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "die"
+   },
+   "fr": {
+    "article": "les"
+   },
+   "es": {
+    "article": "los"
+   },
+   "it": {
+    "article": "i"
+   },
+   "pt": {
+    "article": "as"
+   }
+  },
+  "c_coat": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "der"
+   },
+   "fr": {
+    "article": "le"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "il"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_skirt": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "der"
+   },
+   "fr": {
+    "article": "la"
+   },
+   "es": {
+    "article": "la"
+   },
+   "it": {
+    "article": "la"
+   },
+   "pt": {
+    "article": "a"
+   }
+  },
+  "c_jeans": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "die"
+   },
+   "fr": {
+    "article": "le"
+   },
+   "es": {
+    "article": "los"
+   },
+   "it": {
+    "article": "i"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_hair": {
+   "nl": {
+    "article": "het"
+   },
+   "de": {
+    "article": "die"
+   },
+   "fr": {
+    "article": "les"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "i"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_face": {
+   "nl": {
+    "article": "het"
+   },
+   "de": {
+    "article": "das"
+   },
+   "fr": {
+    "article": "le"
+   },
+   "es": {
+    "article": "la"
+   },
+   "it": {
+    "article": "il"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_arm": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "der"
+   },
+   "fr": {
+    "article": "le"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "il"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_leg": {
+   "nl": {
+    "article": "het"
+   },
+   "de": {
+    "article": "das"
+   },
+   "fr": {
+    "article": "la"
+   },
+   "es": {
+    "article": "la"
+   },
+   "it": {
+    "article": "la"
+   },
+   "pt": {
+    "article": "a"
+   }
+  },
+  "c_mouth": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "der"
+   },
+   "fr": {
+    "article": "la"
+   },
+   "es": {
+    "article": "la"
+   },
+   "it": {
+    "article": "la"
+   },
+   "pt": {
+    "article": "a"
+   }
+  },
+  "c_street": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "die"
+   },
+   "fr": {
+    "article": "la"
+   },
+   "es": {
+    "article": "la"
+   },
+   "it": {
+    "article": "la"
+   },
+   "pt": {
+    "article": "a"
+   }
+  },
+  "c_city": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "die"
+   },
+   "fr": {
+    "article": "la"
+   },
+   "es": {
+    "article": "la"
+   },
+   "it": {
+    "article": "la"
+   },
+   "pt": {
+    "article": "a"
+   }
+  },
+  "c_village": {
+   "nl": {
+    "article": "het"
+   },
+   "de": {
+    "article": "das"
+   },
+   "fr": {
+    "article": "le"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "il"
+   },
+   "pt": {
+    "article": "a"
+   }
+  },
+  "c_bridge": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "die"
+   },
+   "fr": {
+    "article": "le"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "il"
+   },
+   "pt": {
+    "article": "a"
+   }
+  },
+  "c_breakfast": {
+   "nl": {
+    "article": "het"
+   },
+   "de": {
+    "article": "das"
+   },
+   "fr": {
+    "article": "le"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "la"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_lunch": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "das"
+   },
+   "fr": {
+    "article": "le"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "il"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_dinner": {
+   "nl": {
+    "article": "het"
+   },
+   "de": {
+    "article": "das"
+   },
+   "fr": {
+    "article": "le"
+   },
+   "es": {
+    "article": "la"
+   },
+   "it": {
+    "article": "la"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_bus_stop": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "die"
+   },
+   "fr": {
+    "article": "l'"
+   },
+   "es": {
+    "article": "la"
+   },
+   "it": {
+    "article": "la"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_taxi": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "das"
+   },
+   "fr": {
+    "article": "le"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "il"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_ticket_office": {
+   "nl": {
+    "article": "het"
+   },
+   "de": {
+    "article": "der"
+   },
+   "fr": {
+    "article": "le"
+   },
+   "es": {
+    "article": "la"
+   },
+   "it": {
+    "article": "la"
+   },
+   "pt": {
+    "article": "a"
+   }
+  },
+  "c_son": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "der"
+   },
+   "fr": {
+    "article": "le"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "il"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_daughter": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "die"
+   },
+   "fr": {
+    "article": "la"
+   },
+   "es": {
+    "article": "la"
+   },
+   "it": {
+    "article": "la"
+   },
+   "pt": {
+    "article": "a"
+   }
+  },
+  "c_husband": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "der"
+   },
+   "fr": {
+    "article": "le"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "il"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_wife": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "die"
+   },
+   "fr": {
+    "article": "la"
+   },
+   "es": {
+    "article": "la"
+   },
+   "it": {
+    "article": "la"
+   },
+   "pt": {
+    "article": "a"
+   }
+  },
+  "c_bird": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "der"
+   },
+   "fr": {
+    "article": "l'"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "l'"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_student": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "der"
+   },
+   "fr": {
+    "article": "l'"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "lo"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_driver": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "der"
+   },
+   "fr": {
+    "article": "le"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "l'"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_cook": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "der"
+   },
+   "fr": {
+    "article": "le"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "il"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_police_officer": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "der"
+   },
+   "fr": {
+    "article": "le"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "il"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_classroom": {
+   "nl": {
+    "article": "het"
+   },
+   "de": {
+    "article": "das"
+   },
+   "fr": {
+    "article": "la"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "l'"
+   },
+   "pt": {
+    "article": "a"
+   }
+  },
+  "c_homework": {
+   "nl": {
+    "article": "het"
+   },
+   "de": {
+    "article": "die"
+   },
+   "fr": {
+    "article": "les"
+   },
+   "es": {
+    "article": "los"
+   },
+   "it": {
+    "article": "i"
+   },
+   "pt": {
+    "article": "a"
+   }
+  },
+  "c_weather": {
+   "nl": {
+    "article": "het"
+   },
+   "de": {
+    "article": "das"
+   },
+   "fr": {
+    "article": "le"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "il"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_sun": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "die"
+   },
+   "fr": {
+    "article": "le"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "il"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_rain": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "der"
+   },
+   "fr": {
+    "article": "la"
+   },
+   "es": {
+    "article": "la"
+   },
+   "it": {
+    "article": "la"
+   },
+   "pt": {
+    "article": "a"
+   }
+  },
+  "c_snow": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "der"
+   },
+   "fr": {
+    "article": "la"
+   },
+   "es": {
+    "article": "la"
+   },
+   "it": {
+    "article": "la"
+   },
+   "pt": {
+    "article": "a"
+   }
+  },
+  "c_wind": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "der"
+   },
+   "fr": {
+    "article": "le"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "il"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_cloud": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "die"
+   },
+   "fr": {
+    "article": "le"
+   },
+   "es": {
+    "article": "la"
+   },
+   "it": {
+    "article": "la"
+   },
+   "pt": {
+    "article": "a"
+   }
+  },
+  "c_tree": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "der"
+   },
+   "fr": {
+    "article": "l'"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "l'"
+   },
+   "pt": {
+    "article": "a"
+   }
+  },
+  "c_flower": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "die"
+   },
+   "fr": {
+    "article": "la"
+   },
+   "es": {
+    "article": "la"
+   },
+   "it": {
+    "article": "il"
+   },
+   "pt": {
+    "article": "a"
+   }
+  },
+  "c_river": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "der"
+   },
+   "fr": {
+    "article": "la"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "il"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_house": {
+   "nl": {
+    "article": "het"
+   },
+   "de": {
+    "article": "das"
+   },
+   "fr": {
+    "article": "la"
+   },
+   "es": {
+    "article": "la"
+   },
+   "it": {
+    "article": "la"
+   },
+   "pt": {
+    "article": "a"
+   }
+  },
+  "c_flat": {
+   "nl": {
+    "article": "het"
+   },
+   "de": {
+    "article": "die"
+   },
+   "fr": {
+    "article": "l'"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "l'"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_room": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "das"
+   },
+   "fr": {
+    "article": "la"
+   },
+   "es": {
+    "article": "la"
+   },
+   "it": {
+    "article": "la"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_bathroom": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "das"
+   },
+   "fr": {
+    "article": "la"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "il"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_living_room": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "das"
+   },
+   "fr": {
+    "article": "le"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "il"
+   },
+   "pt": {
+    "article": "a"
+   }
+  },
+  "c_garden": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "der"
+   },
+   "fr": {
+    "article": "le"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "il"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_lamp": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "die"
+   },
+   "fr": {
+    "article": "la"
+   },
+   "es": {
+    "article": "la"
+   },
+   "it": {
+    "article": "la"
+   },
+   "pt": {
+    "article": "a"
+   }
+  },
+  "c_market": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "der"
+   },
+   "fr": {
+    "article": "le"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "il"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_price": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "der"
+   },
+   "fr": {
+    "article": "le"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "il"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_credit_card": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "die"
+   },
+   "fr": {
+    "article": "la"
+   },
+   "es": {
+    "article": "la"
+   },
+   "it": {
+    "article": "la"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_cash": {
+   "de": {
+    "article": "das"
+   },
+   "fr": {
+    "article": "les"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "i"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_receipt": {
+   "nl": {
+    "article": "het"
+   },
+   "de": {
+    "article": "die"
+   },
+   "fr": {
+    "article": "le"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "lo"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_music": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "die"
+   },
+   "fr": {
+    "article": "la"
+   },
+   "es": {
+    "article": "la"
+   },
+   "it": {
+    "article": "la"
+   },
+   "pt": {
+    "article": "a"
+   }
+  },
+  "c_sport": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "der"
+   },
+   "fr": {
+    "article": "le"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "lo"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_reading": {
+   "nl": {
+    "article": "het"
+   },
+   "de": {
+    "article": "das"
+   },
+   "fr": {
+    "article": "la"
+   },
+   "es": {
+    "article": "la"
+   },
+   "it": {
+    "article": "la"
+   },
+   "pt": {
+    "article": "a"
+   }
+  },
+  "c_dancing": {
+   "nl": {
+    "article": "het"
+   },
+   "de": {
+    "article": "das"
+   },
+   "fr": {
+    "article": "la"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "il"
+   },
+   "pt": {
+    "article": "a"
+   }
+  },
+  "c_cooking": {
+   "nl": {
+    "article": "het"
+   },
+   "de": {
+    "article": "das"
+   },
+   "fr": {
+    "article": "la"
+   }
+  },
+  "c_travel": {
+   "nl": {
+    "article": "het"
+   },
+   "de": {
+    "article": "das"
+   },
+   "fr": {
+    "article": "le"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "il"
+   },
+   "pt": {
+    "article": "a"
+   }
+  },
+  "c_computer": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "der"
+   },
+   "fr": {
+    "article": "l'"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "il"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_internet": {
+   "nl": {
+    "article": "het"
+   },
+   "de": {
+    "article": "das"
+   },
+   "fr": {
+    "article": "l'"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "l'"
+   },
+   "pt": {
+    "article": "a"
+   }
+  },
+  "c_email": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "die"
+   },
+   "fr": {
+    "article": "l'"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "l'"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_password": {
+   "nl": {
+    "article": "het"
+   },
+   "de": {
+    "article": "das"
+   },
+   "fr": {
+    "article": "le"
+   },
+   "es": {
+    "article": "la"
+   },
+   "it": {
+    "article": "la"
+   },
+   "pt": {
+    "article": "a"
+   }
+  },
+  "c_message": {
+   "nl": {
+    "article": "het"
+   },
+   "de": {
+    "article": "die"
+   },
+   "fr": {
+    "article": "le"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "il"
+   },
+   "pt": {
+    "article": "a"
+   }
+  },
+  "c_country": {
+   "nl": {
+    "article": "het"
+   },
+   "de": {
+    "article": "das"
+   },
+   "fr": {
+    "article": "le"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "il"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_capital": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "die"
+   },
+   "fr": {
+    "article": "la"
+   },
+   "es": {
+    "article": "la"
+   },
+   "it": {
+    "article": "la"
+   },
+   "pt": {
+    "article": "a"
+   }
+  },
+  "c_language": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "die"
+   },
+   "fr": {
+    "article": "la"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "la"
+   },
+   "pt": {
+    "article": "a"
+   }
+  },
+  "c_english": {
+   "nl": {
+    "article": "het"
+   },
+   "de": {
+    "article": "das"
+   },
+   "fr": {
+    "article": "l'"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "l'"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_dutch": {
+   "nl": {
+    "article": "het"
+   },
+   "de": {
+    "article": "das"
+   },
+   "fr": {
+    "article": "le"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "l'"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_persian": {
+   "nl": {
+    "article": "het"
+   },
+   "de": {
+    "article": "das"
+   },
+   "fr": {
+    "article": "le"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "il"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_neighbour": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "der"
+   },
+   "fr": {
+    "article": "le"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "il"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_child": {
+   "nl": {
+    "article": "het"
+   },
+   "de": {
+    "article": "das"
+   },
+   "fr": {
+    "article": "l'"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "il"
+   },
+   "pt": {
+    "article": "a"
+   }
+  },
+  "c_man": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "der"
+   },
+   "fr": {
+    "article": "l'"
+   },
+   "es": {
+    "article": "el"
+   },
+   "it": {
+    "article": "l'"
+   },
+   "pt": {
+    "article": "o"
+   }
+  },
+  "c_woman": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "die"
+   },
+   "fr": {
+    "article": "la"
+   },
+   "es": {
+    "article": "la"
+   },
+   "it": {
+    "article": "la"
+   },
+   "pt": {
+    "article": "a"
+   }
+  },
+  "c_people": {
+   "nl": {
+    "article": "de"
+   },
+   "de": {
+    "article": "die"
+   },
+   "fr": {
+    "article": "les"
+   },
+   "es": {
+    "article": "la"
+   },
+   "it": {
+    "article": "le"
+   },
+   "pt": {
+    "article": "as"
+   }
+  }
+ }
+}

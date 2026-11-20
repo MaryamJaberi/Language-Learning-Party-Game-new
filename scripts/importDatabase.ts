@@ -642,6 +642,15 @@ export function runPipeline() {
     supplement = JSON.parse(fs.readFileSync(suppPath, 'utf-8'));
   }
 
+  // جنسیت دستوری بازبینی‌شدهٔ اسم‌ها (حرف تعریف و در صورت لزوم متن اصلاح‌شده)
+  const nounArticlesPath = path.resolve('data/sources/noun_articles.json');
+  let nounArticles: Record<string, Record<string, { article: string; text?: string }>> = {};
+  if (fs.existsSync(nounArticlesPath)) {
+    nounArticles = JSON.parse(fs.readFileSync(nounArticlesPath, 'utf-8')).articles || {};
+  }
+  let nounArticlesFilled = 0;
+  let nounArticlesCorrected = 0;
+
   // Load C1_FINAL expansion concepts that are not in the C1 Sync file
   const c1FinalOnlyConceptIds = new Set<string>();
   const c1FinalPath = path.resolve('data/previous_folder_download/C1_Multilingual_Phrases_FINAL.xlsx');
@@ -910,6 +919,26 @@ export function runPipeline() {
       }
     }
 
+    // جنسیت بازبینی‌شده: خالی را پر می‌کند و نادرست را اصلاح می‌کند
+    if (finalType === 'vocabulary' && nounArticles[cid]) {
+      for (const [nLang, fix] of Object.entries(nounArticles[cid])) {
+        const tr = mergedTranslations[nLang];
+        if (!tr) continue;
+        if (fix.text) tr.text = fix.text;
+        // اگر حرف تعریف داخل متن هم آمده («o kebab»)، از متن برداشته شود
+        if (tr.text.toLowerCase().startsWith(fix.article.toLowerCase() + ' ')) {
+          tr.text = tr.text.slice(fix.article.length + 1);
+        }
+        if (!tr.article) {
+          nounArticlesFilled++;
+          articlesCountByLang[nLang] = (articlesCountByLang[nLang] || 0) + 1;
+        } else if (tr.article !== fix.article) {
+          nounArticlesCorrected++;
+        }
+        tr.article = fix.article;
+      }
+    }
+
     const isColloc = candidates.some((c) => c.is_collocation_excluded);
     const isC1Expansion = c1FinalOnlyConceptIds.has(cid);
     const isExcluded = isColloc || isC1Expansion;
@@ -1058,6 +1087,7 @@ export function runPipeline() {
   console.log(`C1_FINAL expansion concepts marked excluded: ${c1FinalOnlyConceptIds.size}`);
   console.log(`Parenthetical explanations moved to note field: ${parenExplanationsCount}`);
   console.log(`Vocabulary case leftovers cleaned: ${vocabCaseCleanedCount}`);
+  console.log(`Noun articles (noun_articles.json): ${nounArticlesFilled} filled, ${nounArticlesCorrected} corrected`);
 
   return merged_cards;
 }
