@@ -57,11 +57,14 @@ jobs:
     if: github.repository == 'MaryamJaberi/Language-Learning-Party-Game-new'
     runs-on: ubuntu-latest
     env:
-      VERSION_CODE: ${{ 10100 + github.run_number }}
-      VERSION_NAME: 1.2.${{ github.run_number }}
       APP_URL: ${{ inputs.app_url || vars.ANDROID_APP_URL || '' }}
     steps:
       - uses: actions/checkout@v4
+
+      - name: Version
+        run: |
+          echo "VERSION_CODE=$((10100 + GITHUB_RUN_NUMBER))" >> "$GITHUB_ENV"
+          echo "VERSION_NAME=1.2.$GITHUB_RUN_NUMBER" >> "$GITHUB_ENV"
 
       - uses: actions/setup-java@v4
         with:
