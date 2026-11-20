@@ -1768,7 +1768,7 @@ const SinglePlayerScreen: React.FC<Props> = ({
                     aria-label={`گزینه ${optIdx + 1}: ${opt}`}
                   >
                     <span className="opacity-60 text-[10px] ml-1.5">{optIdx + 1}.</span>
-                    {opt}
+                    <bdi dir="auto">{opt}</bdi>
                   </button>
                 ))}
               </div>
