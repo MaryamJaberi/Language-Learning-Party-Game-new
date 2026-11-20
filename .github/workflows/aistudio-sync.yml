@@ -55,7 +55,13 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git remote add studio "https://x-access-token:${TOKEN}@github.com/${STUDIO_REPO}.git"
           git fetch origin main
-          git fetch --no-tags studio main "+refs/tags/${BASE_TAG}:refs/tags/${BASE_TAG}"
+          git fetch --no-tags studio main
+          if ! git fetch --no-tags studio "+refs/tags/${BASE_TAG}:refs/tags/${BASE_TAG}" 2>/dev/null; then
+            # اجرای اول: نقطهٔ همگام‌سازی هنوز نیست؛ وضعیت فعلی AI Studio نقطهٔ شروع می‌شود
+            echo "تگ ${BASE_TAG} نبود؛ روی main فعلی AI Studio ساخته می‌شود."
+            git tag -f "${BASE_TAG}" studio/main
+            git push studio "refs/tags/${BASE_TAG}"
+          fi
 
       - name: Sync
         run: |
