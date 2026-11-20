@@ -6,7 +6,8 @@ import { tUI, isRtlLang, isPersianLang } from '../ui';
 import { CEFR_LEVELS, getCefrText } from '../constants';
 import { getAvailablePoolCount, getRealSituationCount } from '../cardsData';
 import { SoundHeaderButton } from '../components/SoundHeaderButton';
-import { ArrowLeft, ArrowRight, ArrowRightLeft, Check, Search, X, ChevronDown, ChevronUp, Settings, Award, AlertTriangle, Smartphone, Globe, Wifi, BookOpen } from 'lucide-react';
+import { MeetupMapModal } from '../components/MeetupMapModal';
+import { ArrowLeft, ArrowRight, ArrowRightLeft, Check, Search, X, ChevronDown, ChevronUp, Settings, Award, AlertTriangle, Smartphone, Globe, Wifi, BookOpen, MapPin } from 'lucide-react';
 
 interface Props {
   settings: GameSettings;
@@ -190,8 +191,9 @@ const SetupScreen: React.FC<Props> = ({ settings, onSave, onNext, onBack, onOpen
   const isRTL = isRtlLang(settings.language);
   const isFa = isPersianLang(settings.language);
 
-  // Party Mode Tab: 'local' (Pass & Play 1 Phone) vs 'online' (Online Multi-Phone Room)
-  const [partyTab, setPartyTab] = useState<'local' | 'online'>('local');
+  // Party Mode Tab: 'local' (1 Phone) vs 'online' (Online Room) vs 'nearby' (Nearby In-Person Meetups)
+  const [partyTab, setPartyTab] = useState<'local' | 'online' | 'nearby'>('local');
+  const [isMeetupMapOpen, setIsMeetupMapOpen] = useState(false);
 
   // Local UI states
   const [isSheetOpen, setIsSheetOpen] = useState(false);
@@ -699,22 +701,22 @@ const SetupScreen: React.FC<Props> = ({ settings, onSave, onNext, onBack, onOpen
         </div>
       </header>
 
-      {/* PARTY MODE TABS: Local (1 Phone) vs Online (Multi-Phone Room) */}
-      <div className="mt-2.5 bg-[var(--panel)] p-1.5 rounded-2xl border border-[var(--line)] grid grid-cols-2 gap-1.5 shadow-xs">
+      {/* PARTY MODE TABS: Local (1 Phone) vs Online (Multi-Phone Room) vs Nearby Meetups */}
+      <div className="mt-2.5 bg-[var(--panel)] p-1.5 rounded-2xl border border-[var(--line)] grid grid-cols-3 gap-1.5 shadow-xs">
         <button
           type="button"
           onClick={() => {
             sound.playClick();
             setPartyTab('local');
           }}
-          className={`min-h-[42px] py-2 px-3 rounded-xl text-xs sm:text-sm font-black flex items-center justify-center gap-2 transition-all cursor-pointer ${
+          className={`min-h-[42px] py-2 px-2 rounded-xl text-[11px] sm:text-xs font-black flex items-center justify-center gap-1.5 transition-all cursor-pointer ${
             partyTab === 'local'
               ? 'bg-[var(--lapis)] text-white shadow-xs'
               : 'text-[var(--mute)] hover:text-[var(--ink)] hover:bg-[var(--bg)]'
           }`}
         >
-          <Smartphone size={16} />
-          <span>{t.localOnePhone || (isFa ? 'حضوری (۱ گوشی)' : 'Local (1 Phone)')}</span>
+          <Smartphone size={15} className="shrink-0" />
+          <span className="truncate">{t.localOnePhone || (isFa ? 'حضوری (۱ گوشی)' : 'Local (1 Phone)')}</span>
         </button>
 
         <button
@@ -723,14 +725,31 @@ const SetupScreen: React.FC<Props> = ({ settings, onSave, onNext, onBack, onOpen
             sound.playClick();
             setPartyTab('online');
           }}
-          className={`min-h-[42px] py-2 px-3 rounded-xl text-xs sm:text-sm font-black flex items-center justify-center gap-2 transition-all cursor-pointer ${
+          className={`min-h-[42px] py-2 px-2 rounded-xl text-[11px] sm:text-xs font-black flex items-center justify-center gap-1.5 transition-all cursor-pointer ${
             partyTab === 'online'
               ? 'bg-[var(--turq)] text-white shadow-xs'
               : 'text-[var(--mute)] hover:text-[var(--ink)] hover:bg-[var(--bg)]'
           }`}
         >
-          <Globe size={16} />
-          <span>{t.onlineMultiPhone || (isFa ? 'آنلاین (چند گوشی)' : 'Online (Multi-Phone)')}</span>
+          <Globe size={15} className="shrink-0" />
+          <span className="truncate">{t.onlineMultiPhone || (isFa ? 'اتاق آنلاین' : 'Online Room')}</span>
+        </button>
+
+        <button
+          type="button"
+          data-testid="party-tab-nearby"
+          onClick={() => {
+            sound.playClick();
+            setPartyTab('nearby');
+          }}
+          className={`min-h-[42px] py-2 px-2 rounded-xl text-[11px] sm:text-xs font-black flex items-center justify-center gap-1.5 transition-all cursor-pointer ${
+            partyTab === 'nearby'
+              ? 'bg-[var(--turq)] text-white shadow-xs'
+              : 'text-[var(--mute)] hover:text-[var(--ink)] hover:bg-[var(--bg)]'
+          }`}
+        >
+          <MapPin size={15} className="shrink-0" />
+          <span className="truncate">{isFa ? 'دورهمی اطراف' : 'Nearby Meetups'}</span>
         </button>
       </div>
 
@@ -763,6 +782,41 @@ const SetupScreen: React.FC<Props> = ({ settings, onSave, onNext, onBack, onOpen
           >
             <Globe size={18} />
             <span>{t.enterOnlineLobby || (isFa ? 'ورود به لابی آنلاین دورهمی' : 'Enter Online Party Lobby')}</span>
+            {isRTL ? <ArrowLeft size={18} /> : <ArrowRight size={18} />}
+          </button>
+        </section>
+      )}
+
+      {/* NEARBY IN-PERSON MEETUPS CALLOUT WHEN NEARBY TAB IS ACTIVE */}
+      {partyTab === 'nearby' && (
+        <section className="panel space-y-3 border-2 !border-[var(--turq)]/40 animate-fade-in" data-testid="nearby-meetups-callout">
+          <div className="flex items-center gap-2.5">
+            <div className="w-10 h-10 rounded-xl bg-[var(--turq)]/15 text-[var(--turq)] flex items-center justify-center shrink-0">
+              <MapPin size={20} />
+            </div>
+            <div>
+              <h2 className="text-sm sm:text-base font-black text-[var(--ink)]">
+                {isFa ? 'یافتن دورهمی‌های اطراف (نقشه عمومی)' : 'Find Nearby Meetups (Public Map)'}
+              </h2>
+              <p className="text-xs text-[var(--mute)] font-bold">
+                {isFa
+                  ? 'دورهمی‌های حضوری بازی دور در کافه‌ها، کتابخانه‌ها و پارک‌های عمومی روی Google Maps'
+                  : 'In-person Dour meetups at public cafés, libraries & parks on Google Maps'}
+              </p>
+            </div>
+          </div>
+
+          <button
+            type="button"
+            data-testid="open-nearby-meetups-btn"
+            onClick={() => {
+              sound.playClick();
+              setIsMeetupMapOpen(true);
+            }}
+            className="btn-turq w-full !min-h-[48px] text-sm font-black flex items-center justify-center gap-2 shadow-md cursor-pointer"
+          >
+            <MapPin size={18} />
+            <span>{isFa ? 'مشاهده نقشه و دورهمی‌های اطراف' : 'Open Map & Nearby Meetups'}</span>
             {isRTL ? <ArrowLeft size={18} /> : <ArrowRight size={18} />}
           </button>
         </section>
@@ -1489,6 +1543,16 @@ const SetupScreen: React.FC<Props> = ({ settings, onSave, onNext, onBack, onOpen
           </div>
         </div>
       </div>
+
+      {/* Public Nearby Meetups Map Modal */}
+      <MeetupMapModal
+        isOpen={isMeetupMapOpen}
+        onClose={() => setIsMeetupMapOpen(false)}
+        language={settings.language}
+        isRTL={isRTL}
+        defaultTargetLanguage={settings.targetLanguages?.[0] || settings.targetLanguage || 'en'}
+        defaultCefrLevel={settings.cefrLevel || 'A1'}
+      />
 
     </div>
   );

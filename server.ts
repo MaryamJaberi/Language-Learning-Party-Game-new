@@ -115,13 +115,20 @@ async function startServer() {
     },
   });
 
-  // 1. Google Maps Grounding Endpoint (gemini-3.5-flash with googleMaps tool)
-  // Used for Admin local game meetups, board game cafes, and finding community play spots
-  app.post('/api/meetups/search-venues', authenticateUser, requireAdmin, async (req, res) => {
+  // 1. Google Maps Grounding Endpoint (Gemini + Google Maps tool)
+  // Open to everyone where the server is available; suggests PUBLIC venues only
+  app.post('/api/meetups/search-venues', optionalAuthenticateUser, async (req, res) => {
     try {
-
-      const { query, location, latLng } = req.body;
-      const searchQuery = query || (location ? `Find the best cozy board game cafes, language exchange venues, or social game spaces in ${location} where friends can gather and play the party game 'Dour'. List specific venue names and vibes.` : `Best board game cafes and friendly hangout venues nearby to play party games and language games.`);
+      const { query, location, latLng, language = 'fa' } = req.body;
+      const isPersian = String(language).startsWith('fa');
+      const locationText = typeof location === 'string' ? location.trim().slice(0, 100) : '';
+      const searchQuery = query || (locationText
+        ? (isPersian
+          ? `بهترین مکان‌های عمومی (فقط کافه، کافه‌بردگیم، کتابخانه عمومی، پارک یا فرهنگسرا) در «${locationText}» برای دورهمی بازی یادگیری زبان «دور» را معرفی کن. فقط مکان‌های عمومی واقعی و امن را نام ببر و توضیح کوتاه بده.`
+          : `Suggest the best PUBLIC venues only (cafes, board game cafes, public libraries, parks, or community centers) in "${locationText}" where friends can meet to play the language-learning party game Dour. List real public venues and brief vibes.`)
+        : (isPersian
+          ? `بهترین کافه‌ها، کافه‌بردگیم‌ها، کتابخانه‌های عمومی و پارک‌های مناسب برای دورهمی دوستانه و بازی یادگیری زبان را معرفی کن.`
+          : `Suggest public cafes, board game cafes, public libraries, and parks suitable for a friendly language-learning party game meetup.`));
 
       const config: any = {
         tools: [{ googleMaps: {} }],

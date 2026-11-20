@@ -43,7 +43,8 @@ async function getAuthHeaders(): Promise<Record<string, string>> {
 export async function searchVenuesWithMaps(
   location?: string,
   latLng?: { latitude: number; longitude: number },
-  query?: string
+  query?: string,
+  language = 'fa'
 ): Promise<{ text: string; places: MapPlace[] }> {
   const authHeaders = await getAuthHeaders();
   const res = await fetch('/api/meetups/search-venues', {
@@ -52,7 +53,7 @@ export async function searchVenuesWithMaps(
       'Content-Type': 'application/json',
       ...authHeaders
     },
-    body: JSON.stringify({ location, latLng, query }),
+    body: JSON.stringify({ location, latLng, query, language }),
   });
 
   const data = await res.json();

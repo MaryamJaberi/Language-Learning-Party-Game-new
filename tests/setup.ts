@@ -113,6 +113,11 @@ vi.mock('firebase/auth', () => ({
   signInWithRedirect: vi.fn().mockResolvedValue(undefined),
   getRedirectResult: vi.fn().mockResolvedValue({ user: null }),
   signOut: vi.fn().mockResolvedValue(undefined),
+  deleteUser: vi.fn().mockResolvedValue(undefined),
+  createUserWithEmailAndPassword: vi.fn().mockResolvedValue({ user: { uid: 'email_u1', email: 'test@example.com' } }),
+  signInWithEmailAndPassword: vi.fn().mockResolvedValue({ user: { uid: 'email_u1', email: 'test@example.com' } }),
+  sendPasswordResetEmail: vi.fn().mockResolvedValue(undefined),
+  updateProfile: vi.fn().mockResolvedValue(undefined),
   onAuthStateChanged: vi.fn((auth, callback) => {
     callback(null);
     return vi.fn();
@@ -121,12 +126,22 @@ vi.mock('firebase/auth', () => ({
 
 vi.mock('firebase/firestore', () => ({
   getFirestore: vi.fn(() => ({})),
-  doc: vi.fn(),
+  doc: vi.fn((_db, ...segments) => ({ path: segments.join('/') })),
   setDoc: vi.fn().mockResolvedValue(undefined),
+  updateDoc: vi.fn().mockResolvedValue(undefined),
+  deleteDoc: vi.fn().mockResolvedValue(undefined),
   getDoc: vi.fn().mockResolvedValue({ exists: () => false, data: () => ({}) }),
-  collection: vi.fn(),
-  getDocs: vi.fn().mockResolvedValue([]),
-  query: vi.fn(),
+  getDocFromServer: vi.fn().mockResolvedValue({ exists: () => false, data: () => ({}) }),
+  collection: vi.fn((_db, name) => ({ name })),
+  getDocs: vi.fn().mockResolvedValue({ docs: [], forEach: vi.fn() }),
+  onSnapshot: vi.fn((_q, onNext) => {
+    if (typeof onNext === 'function') {
+      onNext({ forEach: vi.fn() });
+    }
+    return vi.fn();
+  }),
+  query: vi.fn((...args) => args),
+  where: vi.fn(),
   orderBy: vi.fn(),
   limit: vi.fn(),
   serverTimestamp: vi.fn(),

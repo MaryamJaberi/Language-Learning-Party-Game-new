@@ -112,6 +112,63 @@
         "lastPracticed": { "type": "string" }
       },
       "required": ["cardId", "targetText"]
+    },
+    "Meetup": {
+      "title": "Meetup",
+      "description": "Public in-person language party meetup at a public venue (cafe, library, park, boardgame cafe, community center)",
+      "type": "object",
+      "properties": {
+        "venueName": { "type": "string", "maxLength": 120 },
+        "venueType": { "type": "string", "enum": ["cafe", "library", "park", "boardgame_cafe", "community_center"] },
+        "city": { "type": "string", "maxLength": 80 },
+        "area": { "type": "string", "maxLength": 120 },
+        "lat": { "type": "number" },
+        "lng": { "type": "number" },
+        "placeId": { "type": "string", "maxLength": 200 },
+        "targetLanguage": { "type": "string", "maxLength": 12 },
+        "cefrLevel": { "type": "string", "enum": ["Pre-A1", "A0", "A0+", "A1", "A1+", "A2", "A2+", "B1", "B1+", "B2", "B2+", "C1", "C1+", "C2", "all"] },
+        "date": { "type": "string", "maxLength": 32 },
+        "time": { "type": "string", "maxLength": 16 },
+        "capacity": { "type": "number" },
+        "participants": { "type": "array", "items": { "type": "string" } },
+        "participantNames": { "type": "object" },
+        "notes": { "type": "string", "maxLength": 500 },
+        "creatorUid": { "type": "string", "maxLength": 128 },
+        "creatorName": { "type": "string", "maxLength": 80 },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": [
+        "venueName",
+        "venueType",
+        "city",
+        "area",
+        "targetLanguage",
+        "cefrLevel",
+        "date",
+        "time",
+        "capacity",
+        "participants",
+        "participantNames",
+        "notes",
+        "creatorUid",
+        "creatorName",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "MeetupReport": {
+      "title": "MeetupReport",
+      "description": "User safety or privacy report on a meetup listing",
+      "type": "object",
+      "properties": {
+        "meetupId": { "type": "string", "maxLength": 128 },
+        "reporterUid": { "type": "string", "maxLength": 128 },
+        "reason": { "type": "string", "enum": ["private_address", "unsafe", "spam", "inappropriate", "other"] },
+        "details": { "type": "string", "maxLength": 500 },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["meetupId", "reporterUid", "reason", "details", "createdAt"]
     }
   },
   "firestore": {
@@ -138,6 +195,14 @@
     "/matchmaking/{ticketId}": {
       "schema": "MatchmakingTicket",
       "description": "Active queue ticket for matchmaking"
+    },
+    "/meetups/{meetupId}": {
+      "schema": "Meetup",
+      "description": "Public in-person language party meetups at public venues"
+    },
+    "/meetup_reports/{reportId}": {
+      "schema": "MeetupReport",
+      "description": "Safety and privacy reports submitted against meetups"
     }
   }
 }

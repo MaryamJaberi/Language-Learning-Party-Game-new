@@ -68,12 +68,22 @@ jobs:
           set -euo pipefail
           base=$(git rev-parse "refs/tags/${BASE_TAG}^{commit}")
           studio=$(git rev-parse studio/main)
+          # اگر Claude تغییرهای AI Studio را تا commit خاصی بازبینی و جدا merge کرده باشد،
+          # شناسه‌اش در .github/aistudio-reviewed.txt است؛ از آنجا به بعد حساب می‌شود.
+          if [ -f .github/aistudio-reviewed.txt ]; then
+            rev=$(tr -d '[:space:]' < .github/aistudio-reviewed.txt)
+            if git cat-file -e "${rev}^{commit}" 2>/dev/null && git merge-base --is-ancestor "$base" "$rev" 2>/dev/null; then
+              base="$rev"
+            fi
+          fi
 
           # فایل‌هایی که هرگز از AI Studio به مخزن اصلی نمی‌آیند
           EXCLUDE=(':!*.keystore' ':!*.jks' ':!release.key' ':!release.crt' ':!key.properties'
                    ':!*.apk' ':!*.aab' ':!*.idsig' ':!android/bin' ':!android/obj'
                    ':!android-studio-project/app/build' ':!bundletool.jar'
-                   ':!data/previous_folder_files.json' ':!.github')
+                   ':!data/previous_folder_files.json' ':!.github'
+                   ':!public/downloads' ':!public/assets/aistudio' ':!.aistudio' ':!*.zip'
+                   ':!bun.lock' ':!utils/embeddedAabData.ts' ':!data/reports')
 
           git diff --binary "$base" "$studio" -- . "${EXCLUDE[@]}" > /tmp/studio.patch
 

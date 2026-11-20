@@ -93,5 +93,142 @@ service cloud.firestore {
       allow create, update: if isSignedIn() && request.resource.data.uid == request.auth.uid;
       allow delete: if isAdmin() || (isSignedIn() && resource.data.uid == request.auth.uid);
     }
+
+    // Helper for safe document IDs
+    function isValidDocId(id) {
+      return id is string && id.size() >= 1 && id.size() <= 128 && id.matches('^[a-zA-Z0-9_-]+$');
+    }
+
+    // Public In-Person Language Meetups (public venues only: cafes, libraries, parks, etc.)
+    // - Anyone can view (read)
+    // - Creating requires an authenticated account (Google or Email)
+    // - Only the creator (or admin) can edit meetup details or delete the meetup
+    // - Any signed-in user can ONLY add or remove themselves from the participants list
+    match /meetups/{meetupId} {
+      function isValidVenueType(vt) {
+        return vt in ['cafe', 'library', 'park', 'boardgame_cafe', 'community_center'];
+      }
+
+      function isValidCefrLevel(lvl) {
+        return lvl in ['Pre-A1', 'A0', 'A0+', 'A1', 'A1+', 'A2', 'A2+', 'B1', 'B1+', 'B2', 'B2+', 'C1', 'C1+', 'C2', 'all'];
+      }
+
+      function isValidMeetup(data) {
+        return data.keys().hasAll([
+            'venueName', 'venueType', 'city', 'area',
+            'targetLanguage', 'cefrLevel', 'date', 'time',
+            'capacity', 'participants', 'participantNames', 'notes',
+            'creatorUid', 'creatorName', 'createdAt', 'updatedAt'
+          ]) &&
+          data.keys().hasOnly([
+            'venueName', 'venueType', 'city', 'area',
+            'lat', 'lng', 'placeId',
+            'targetLanguage', 'cefrLevel', 'date', 'time',
+            'capacity', 'participants', 'participantNames', 'notes',
+            'creatorUid', 'creatorName', 'createdAt', 'updatedAt'
+          ]) &&
+          data.venueName is string && data.venueName.size() >= 2 && data.venueName.size() <= 120 &&
+          isValidVenueType(data.venueType) &&
+          data.city is string && data.city.size() >= 2 && data.city.size() <= 80 &&
+          data.area is string && data.area.size() <= 120 &&
+          (!('lat' in data) || data.lat == null || (data.lat is number && data.lat >= -90 && data.lat <= 90)) &&
+          (!('lng' in data) || data.lng == null || (data.lng is number && data.lng >= -180 && data.lng <= 180)) &&
+          (!('placeId' in data) || data.placeId == null || (data.placeId is string && data.placeId.size() <= 200)) &&
+          data.targetLanguage is string && data.targetLanguage.size() >= 2 && data.targetLanguage.size() <= 12 &&
+          isValidCefrLevel(data.cefrLevel) &&
+          data.date is string && data.date.size() >= 4 && data.date.size() <= 32 &&
+          data.time is string && data.time.size() >= 3 && data.time.size() <= 16 &&
+          data.capacity is int && data.capacity >= 2 && data.capacity <= 30 &&
+          data.participants is list && data.participants.size() >= 0 && data.participants.size() <= data.capacity &&
+          data.participantNames is map && data.participantNames.size() <= 30 &&
+          data.notes is string && data.notes.size() <= 500 &&
+          data.creatorUid is string && data.creatorUid.size() >= 1 && data.creatorUid.size() <= 128 &&
+          data.creatorName is string && data.creatorName.size() >= 1 && data.creatorName.size() <= 80 &&
+          data.createdAt is string && data.createdAt.size() >= 8 && data.createdAt.size() <= 40 &&
+          data.updatedAt is string && data.updatedAt.size() >= 8 && data.updatedAt.size() <= 40;
+      }
+
+      function isSelfJoin() {
+        return !(request.auth.uid in resource.data.participants) &&
+          (request.auth.uid in request.resource.data.participants) &&
+          request.resource.data.participants.size() == resource.data.participants.size() + 1 &&
+          request.resource.data.participants.hasAll(resource.data.participants) &&
+          request.resource.data.participants.size() <= resource.data.capacity &&
+          request.resource.data.participantNames.diff(resource.data.participantNames).affectedKeys().hasOnly([request.auth.uid]) &&
+          request.resource.data.participantNames[request.auth.uid] is string &&
+          request.resource.data.participantNames[request.auth.uid].size() >= 1 &&
+          request.resource.data.participantNames[request.auth.uid].size() <= 80;
+      }
+
+      function isSelfLeave() {
+        return (request.auth.uid in resource.data.participants) &&
+          !(request.auth.uid in request.resource.data.participants) &&
+          request.resource.data.participants.size() == resource.data.participants.size() - 1 &&
+          resource.data.participants.hasAll(request.resource.data.participants) &&
+          request.resource.data.participantNames.diff(resource.data.participantNames).affectedKeys().hasOnly([request.auth.uid]) &&
+          !(request.auth.uid in request.resource.data.participantNames);
+      }
+
+      function isCreatorOrAdminDetailsEdit() {
+        return (resource.data.creatorUid == request.auth.uid || isAdmin()) &&
+          request.resource.data.participants == resource.data.participants &&
+          request.resource.data.participantNames == resource.data.participantNames &&
+          request.resource.data.capacity >= resource.data.participants.size();
+      }
+
+      function isSelfMembershipToggle() {
+        return request.resource.data.diff(resource.data).affectedKeys().hasOnly(['participants', 'participantNames', 'updatedAt']) &&
+          (isSelfJoin() || isSelfLeave());
+      }
+
+      allow read: if true;
+
+      allow create: if isSignedIn() &&
+        isValidDocId(meetupId) &&
+        isValidMeetup(request.resource.data) &&
+        request.resource.data.creatorUid == request.auth.uid &&
+        request.resource.data.participants.size() == 1 &&
+        request.resource.data.participants[0] == request.auth.uid &&
+        request.resource.data.participantNames.keys().hasOnly([request.auth.uid]) &&
+        request.resource.data.participantNames[request.auth.uid] is string &&
+        request.resource.data.participantNames[request.auth.uid].size() >= 1 &&
+        request.resource.data.participantNames[request.auth.uid].size() <= 80;
+
+      allow update: if isSignedIn() &&
+        isValidDocId(meetupId) &&
+        isValidMeetup(request.resource.data) &&
+        request.resource.data.creatorUid == resource.data.creatorUid &&
+        request.resource.data.createdAt == resource.data.createdAt &&
+        (isCreatorOrAdminDetailsEdit() || isSelfMembershipToggle());
+
+      allow delete: if isSignedIn() &&
+        isValidDocId(meetupId) &&
+        (resource.data.creatorUid == request.auth.uid || isAdmin());
+    }
+
+    // Safety & privacy reports for meetups
+    match /meetup_reports/{reportId} {
+      allow read, update, delete: if isAdmin();
+      allow create: if isSignedIn() &&
+        isValidDocId(reportId) &&
+        request.resource.data.keys().hasAll(['meetupId', 'reporterUid', 'reason', 'details', 'createdAt']) &&
+        request.resource.data.keys().hasOnly(['meetupId', 'reporterUid', 'reason', 'details', 'createdAt']) &&
+        request.resource.data.reporterUid == request.auth.uid &&
+        request.resource.data.meetupId is string &&
+        request.resource.data.meetupId.size() >= 1 &&
+        request.resource.data.meetupId.size() <= 128 &&
+        exists(/databases/$(database)/documents/meetups/$(request.resource.data.meetupId)) &&
+        request.resource.data.reason in ['private_address', 'unsafe', 'spam', 'inappropriate', 'other'] &&
+        request.resource.data.details is string &&
+        request.resource.data.details.size() <= 500 &&
+        request.resource.data.createdAt is string &&
+        request.resource.data.createdAt.size() >= 8 &&
+        request.resource.data.createdAt.size() <= 40;
+    }
+
+    // Default deny for any unspecified collection
+    match /{document=**} {
+      allow read, write: if false;
+    }
   }
 }
