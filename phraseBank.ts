@@ -312,6 +312,7 @@ export function cardsFromPhraseBank(
 
       pool.push({
         id: `${c.id}_${target}`,
+        conceptId: cardKey,
         nativeLanguage,
         targetLanguage: target,
         cefrLevel: (cefrLevel === 'all' ? (c.rawLevel || c.level || 'A1') : cefrLevel) as Exclude<CEFRLevel, 'all'>,
