@@ -5,7 +5,7 @@ import {
   SinglePlayerSettings, 
   SinglePlayerDisplayMode 
 } from '../types';
-import { SUPPORTED_LANGUAGES, CEFR_LEVELS, getCefrText } from '../constants';
+import { SUPPORTED_LANGUAGES, CEFR_LEVELS, getCefrText, isPracticeReady, PRACTICE_READY_LANGUAGES } from '../constants';
 import { FlagIcon } from './FlagIcon';
 import { LanguagePickerModal } from './LanguagePickerModal';
 import { sound } from '../soundManager';
@@ -88,6 +88,7 @@ const SinglePlayerSetupModal: React.FC<Props> = ({
   const currentNativeLangInfo = SUPPORTED_LANGUAGES.find(l => l.code === settings.nativeLanguage) || SUPPORTED_LANGUAGES[0];
 
   const unmasteredCount = getSavedMistakes().filter(m => !m.mastered).length;
+  const langsReady = isPracticeReady(settings.targetLanguage) && isPracticeReady(settings.nativeLanguage);
 
   const handleStart = () => {
     const levelToUse = selectedLevel && selectedLevel !== 'all' ? selectedLevel : 'A1';
@@ -501,10 +502,18 @@ const SinglePlayerSetupModal: React.FC<Props> = ({
 
         {/* Start Button */}
         <div className="p-3 bg-[var(--panel)] border-t border-[var(--line)] shrink-0">
+          {!langsReady && (
+            <p className="text-[11px] font-bold text-[var(--vermilion)] text-center mb-2">
+              {isRTL
+                ? `کارت‌های ${!isPracticeReady(settings.targetLanguage) ? currentTargetLangInfo.persianName : currentNativeLangInfo.persianName} هنوز آماده نیست؛ زبان دیگری انتخاب کن.`
+                : `Cards for ${!isPracticeReady(settings.targetLanguage) ? currentTargetLangInfo.name : currentNativeLangInfo.name} are not ready yet; pick another language.`}
+            </p>
+          )}
           <button
             type="button"
             onClick={handleStart}
-            className="w-full min-h-[46px] py-2.5 rounded-2xl bg-[var(--lapis)] hover:brightness-105 text-[var(--on-lapis)] font-extrabold text-sm shadow-md active:scale-98 transition-all flex items-center justify-center gap-2 cursor-pointer"
+            disabled={!langsReady}
+            className="disabled:opacity-50 disabled:cursor-not-allowed w-full min-h-[46px] py-2.5 rounded-2xl bg-[var(--lapis)] hover:brightness-105 text-[var(--on-lapis)] font-extrabold text-sm shadow-md active:scale-98 transition-all flex items-center justify-center gap-2 cursor-pointer"
           >
             <Play size={16} fill="currentColor" />
             <span>{isRTL ? 'شروع تمرین هوشمند' : 'Start Practice'}</span>
@@ -528,10 +537,11 @@ const SinglePlayerSetupModal: React.FC<Props> = ({
           setPickerMode(null);
         }}
         mode="single"
+        practiceOnly
         title={pickerMode === 'target' 
           ? (isRTL ? 'انتخاب زبان هدف تمرین' : 'Select Target Practice Language')
           : (isRTL ? 'انتخاب زبان مادری و راهنما' : 'Select Native Language')}
-        subtitle={isRTL ? 'بیش از ۳۵ زبان زنده دنیا' : 'Over 35 supported languages'}
+        subtitle={isRTL ? `${PRACTICE_READY_LANGUAGES.length.toLocaleString('fa-IR')} زبان آمادهٔ تمرین · بقیه به‌زودی` : `${PRACTICE_READY_LANGUAGES.length} languages ready · more coming soon`}
         isRTL={isRTL}
       />
     )}

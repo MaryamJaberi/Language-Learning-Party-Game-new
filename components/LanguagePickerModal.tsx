@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { Search, X, Check, Globe, Sparkles } from 'lucide-react';
 import { Language } from '../types';
-import { SUPPORTED_LANGUAGES, LanguageInfo, LanguageRegion } from '../constants';
+import { SUPPORTED_LANGUAGES, LanguageInfo, LanguageRegion, isPracticeReady } from '../constants';
 import { FlagIcon } from './FlagIcon';
 import { sound } from '../soundManager';
 
@@ -18,6 +18,8 @@ interface LanguagePickerModalProps {
   title?: string;
   subtitle?: string;
   isRTL?: boolean;
+  /** برای انتخاب زبان تمرین: زبان‌های بدون بانک کارت غیرفعال و «به‌زودی» نشان داده می‌شوند */
+  practiceOnly?: boolean;
 }
 
 export const LanguagePickerModal: React.FC<LanguagePickerModalProps> = ({
@@ -31,6 +33,7 @@ export const LanguagePickerModal: React.FC<LanguagePickerModalProps> = ({
   title,
   subtitle,
   isRTL = false,
+  practiceOnly = false,
 }) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [activeRegion, setActiveRegion] = useState<LanguageRegion | 'all'>('all');
@@ -227,12 +230,17 @@ export const LanguagePickerModal: React.FC<LanguagePickerModalProps> = ({
                 const isSelected = mode === 'single' 
                   ? selectedLanguage === lang.code 
                   : tempMultiSelected.includes(lang.code);
+                const isSoon = practiceOnly && !isPracticeReady(lang.code);
 
                 return (
                   <button
                     key={lang.code}
                     type="button"
+                    disabled={isSoon}
+                    aria-disabled={isSoon}
+                    title={isSoon ? (isRTL ? 'کارت‌های این زبان هنوز آماده نیست' : 'Cards for this language are not ready yet') : undefined}
                     onClick={() => {
+                      if (isSoon) return;
                       if (mode === 'single') {
                         handleSingleSelect(lang.code);
                       } else {
@@ -240,7 +248,9 @@ export const LanguagePickerModal: React.FC<LanguagePickerModalProps> = ({
                       }
                     }}
                     className={`p-2.5 rounded-[16px] border transition-all flex items-center justify-between text-start active:translate-y-0.5 relative group font-ui ${
-                      isSelected
+                      isSoon
+                        ? 'bg-[var(--bg)] text-[var(--mute)] border-dashed border-[var(--line)] opacity-60 cursor-not-allowed active:translate-y-0'
+                        : isSelected
                         ? 'bg-[var(--teal)] text-white border-[var(--teal)] shadow-[var(--shadow-sm)]'
                         : 'bg-[var(--bg)] text-[var(--ink)] border-[var(--line)] hover:bg-[var(--panel)] shadow-[var(--shadow-sm)]'
                     }`}
@@ -254,6 +264,11 @@ export const LanguagePickerModal: React.FC<LanguagePickerModalProps> = ({
                           <span className={`font-bold text-sm truncate ${isSelected ? 'text-white' : 'text-[var(--ink)]'}`}>
                             {lang.nativeName}
                           </span>
+                          {isSoon && (
+                            <span className="shrink-0 text-[9px] font-bold px-1.5 py-0.5 rounded-md bg-[var(--line)] text-[var(--mute)]" dir={isRTL ? 'rtl' : 'ltr'}>
+                              {isRTL ? 'به‌زودی' : 'Soon'}
+                            </span>
+                          )}
                         </div>
                       </div>
                     </div>
