@@ -1,0 +1,11 @@
+{
+ "_about": "اصلاح متن کارت‌ها در خط تولید داده. هر مورد: conceptId → زبان → متن درست. importDatabase.ts این را بعد از ادغام همهٔ منبع‌ها اعمال می‌کند. دلیل هر اصلاح در _why.",
+ "overrides": {
+  "c_dinner_menu": {
+   "en": "Restaurant menu",
+   "en-GB": "Restaurant menu",
+   "en-US": "Restaurant menu",
+   "_why": "فارسی، فرانسوی، اسپانیایی، ایتالیایی، لهستانی و اوکراینی همه «منوی رستوران» اند؛ فقط انگلیسی «Dinner menu» بود و جواب درست «Restaurant menu» را رد می‌کرد."
+  }
+ }
+}

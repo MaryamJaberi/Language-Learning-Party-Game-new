@@ -19,7 +19,7 @@ import { feedbackDirector } from '../feedbackDirector';
 import { SoundHeaderButton } from '../components/SoundHeaderButton';
 import ExitConfirmModal from '../components/ExitConfirmModal';
 import { PracticeTourModal } from '../components/PracticeTourModal';
-import { generateChallengingReflexOptions } from '../utils/testQuestionEngine';
+import { generateChallengingReflexOptions, pickTwoChoiceOptions } from '../utils/testQuestionEngine';
 import { getPronunciationHint } from '../pronunciationService';
 import { TrainingWheelText } from '../components/trainingWheels/TrainingWheelText';
 import { getAdaptiveTtsSpeed } from '../src/engine/trainingWheels/trainingWheelsService';
@@ -315,7 +315,8 @@ const SinglePlayerScreen: React.FC<Props> = ({
       : (currentCard.targetLanguage || settings.targetLanguage || 'en');
     const all = generateChallengingReflexOptions(currentCard, cards, targetLang);
     if (currentExerciseType === 'choice2') {
-      return all.slice(0, 2);
+      // دو گزینه: همیشه پاسخ درست + یک گزینهٔ غلط (برش سادهٔ دو گزینهٔ اول گاهی پاسخ درست را حذف می‌کرد)
+      return pickTwoChoiceOptions(all, currentCard.targetText || '');
     }
     return all;
   }, [currentCard, cards, settings.displayMode, settings.nativeLanguage, settings.targetLanguage, isRTL, currentExerciseType]);

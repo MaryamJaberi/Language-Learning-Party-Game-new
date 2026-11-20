@@ -152,6 +152,21 @@ function synthesizeParallelFoils(correct: string, lang: Language | string): stri
 /**
  * Main Test Design function to generate 4 challenging options
  */
+/**
+ * دو گزینه برای تمرین «انتخاب از دو»: همیشه پاسخ درست و بهترین گزینهٔ غلط.
+ * جای پاسخ درست (اول یا دوم) از روی متن کارت ثابت است تا با هر بار رندر عوض نشود.
+ */
+export function pickTwoChoiceOptions(options: string[], correctText: string): string[] {
+  const clean = cleanText(correctText.trim());
+  const correct = options.find((o) => cleanText(o) === clean) ?? correctText.trim();
+  const distractor = options.find((o) => cleanText(o) !== clean);
+  if (!correct) return options.slice(0, 2);
+  if (!distractor) return [correct];
+  let h = 0;
+  for (const ch of correct) h = (h * 31 + ch.charCodeAt(0)) | 0;
+  return h % 2 === 0 ? [correct, distractor] : [distractor, correct];
+}
+
 export function generateChallengingReflexOptions(
   currentCard: LanguageCard,
   sessionPool: LanguageCard[] = [],
