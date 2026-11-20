@@ -362,8 +362,8 @@ const IntroScreen: React.FC<Props> = ({
         </div>
       )}
 
-      {/* Hero Modern Card Area (Material Design 3 Surface Container) */}
-      <div className="relative w-full max-w-sm sm:max-w-md mx-auto my-auto shrink-0">
+      {/* Hero Modern Card Area (Material Design 3 Surface Container) — mt-auto here and mb-auto on the modes keep hero and modes together, centred, instead of two islands with a big gap */}
+      <div className="relative w-full max-w-sm sm:max-w-md mx-auto mt-auto shrink-0">
         <div className="bg-[var(--panel)] border border-[var(--line)] p-5 sm:p-6 text-center flex flex-col justify-center min-h-[170px] sm:min-h-[185px] rounded-[24px] shadow-sm transition-all">
           {/* Interactive Mascot & Hero Title */}
           <div className="py-1 flex flex-col items-center">
@@ -390,7 +390,7 @@ const IntroScreen: React.FC<Props> = ({
       </div>
 
       {/* 3 EQUAL-VALUE GAME MODES (سه حالت بازی هم‌ارزش) */}
-      <div className="w-full max-w-sm sm:max-w-md space-y-2.5 my-auto shrink-0 font-ui">
+      <div className="w-full max-w-sm sm:max-w-md space-y-2.5 mt-4 mb-auto shrink-0 font-ui">
         {/* RECOVERY BANNER: Resume previous active session */}
         {savedSession && (
           <div className="w-full p-3.5 rounded-2xl bg-gradient-to-r from-amber-500/15 via-orange-500/15 to-amber-500/15 border border-amber-500/35 text-start space-y-2 animate-fade-in shadow-xs">
