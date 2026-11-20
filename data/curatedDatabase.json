@@ -59093,20 +59093,20 @@
     "source": "dour_complete_language_dataset.csv",
     "priority": 3,
     "is_final": true,
-    "base_en": "Dinner menu",
+    "base_en": "Restaurant menu",
     "level": "A1",
     "rawLevel": "A1",
     "topic": "CAT_RESTAURANT",
     "type": "universal_concept",
     "translations": {
       "en": {
-        "text": "Dinner menu"
+        "text": "Restaurant menu"
       },
       "en-GB": {
-        "text": "Dinner menu"
+        "text": "Restaurant menu"
       },
       "en-US": {
-        "text": "Dinner menu"
+        "text": "Restaurant menu"
       },
       "ar": {
         "text": "قائمة الطعام"
