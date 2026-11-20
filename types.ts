@@ -191,6 +191,8 @@ export interface OnlinePlayer {
   deviceId: string;
   avatar?: string;
   joinedAt?: number;
+  /** Computer-controlled teammate added to fill a room. */
+  isAi?: boolean;
 }
 
 export interface RoomReaction {

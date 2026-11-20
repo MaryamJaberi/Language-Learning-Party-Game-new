@@ -1,4 +1,5 @@
 #!/bin/bash
+: "${KEYSTORE_PASSWORD:?Set KEYSTORE_PASSWORD (the signing password is not stored in git)}"
 set -e
 
 echo "=== Building 100% Official Google Play AAB with R8 Optimization for com.solonovate.dour ==="
@@ -101,8 +102,8 @@ $JAVA_CMD -jar $BUNDLETOOL_JAR build-bundle \
 # 7. Sign with official jarsigner
 $JARSIGNER_CMD \
   -keystore release.keystore \
-  -storepass dorzaban2026 \
-  -keypass dorzaban2026 \
+  -storepass "$KEYSTORE_PASSWORD" \
+  -keypass "$KEYSTORE_PASSWORD" \
   -sigalg SHA256withRSA \
   -digestalg SHA-256 \
   /tmp/dor_bundletool.aab \

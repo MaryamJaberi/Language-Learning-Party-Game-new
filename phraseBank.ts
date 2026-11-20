@@ -238,7 +238,7 @@ function getMatchingCuratedMeta(selectedLevel: CEFRLevel): CardMetaItem[] {
   if (selectedLevel === 'C1') {
     return meta.filter((c) => {
       const lvl = c.rawLevel || c.level;
-      return (lvl === 'C1') && lvl !== 'C2';
+      return lvl === 'C1';
     });
   }
 
