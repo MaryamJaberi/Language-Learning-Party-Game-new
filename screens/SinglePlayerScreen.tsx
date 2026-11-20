@@ -81,7 +81,7 @@ import {
   Star,
   Pause
 } from 'lucide-react';
-// Audio recording handled via browser Web Speech API
+import { AudioRecorder } from '../geminiService';
 
 interface Props {
   initialCards: LanguageCard[];
