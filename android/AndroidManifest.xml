@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.solonovate.dour"
+    package="com.dour.languagegame"
     android:versionCode="10014"
     android:versionName="1.1.4">
 
