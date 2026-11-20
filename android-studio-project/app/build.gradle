@@ -10,8 +10,16 @@ android {
         applicationId "com.solonovate.dour"
         minSdk 24
         targetSdk 36
-        versionCode 10014
-        versionName "1.1.4"
+        // در GitHub Actions شمارهٔ نسخه خودکار بالا می‌رود (VERSION_CODE / VERSION_NAME)
+        versionCode((System.getenv("VERSION_CODE") ?: "10014") as int)
+        versionName(System.getenv("VERSION_NAME") ?: "1.1.4")
+
+        // نشانی سایتی که اپ باز می‌کند؛ در گردش‌کار قابل تغییر است (APP_URL)
+        buildConfigField "String", "APP_URL", "\"" + (System.getenv("APP_URL") ?: "https://maryamjaberi.github.io/Language-Learning-Party-Game/") + "\""
+    }
+
+    buildFeatures {
+        buildConfig true
     }
 
     // کلید امضا هیچ‌وقت در مخزن نیست. key.properties را کنار این فایل بساز
@@ -39,8 +47,10 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled false
-            signingConfig signingConfigs.release
+            // کوچک‌سازی کد و منابع برای حجم کمتر
+            minifyEnabled true
+            shrinkResources true
+            signingConfig signingConfigs.release.storeFile ? signingConfigs.release : null
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
         debug {
@@ -55,6 +65,5 @@ android {
 }
 
 dependencies {
-    implementation 'androidx.appcompat:appcompat:1.6.1'
-    implementation 'androidx.webkit:webkit:1.10.0'
+    // بدون کتابخانهٔ اضافه: اپ فقط یک WebView است و هیچ کلاس androidx به کار نمی‌برد
 }

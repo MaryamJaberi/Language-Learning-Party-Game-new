@@ -1,0 +1,146 @@
+# ساخت خودکار نسخهٔ اندروید «دور: زبان» برای گوگل پلی
+#
+# چه کار می‌کند:
+#   - هر بار که پوشهٔ android-studio-project روی main تغییر کند، یا دستی از تب Actions اجرا شود،
+#     فایل AAB (برای گوگل پلی) و APK (برای تست روی گوشی) را می‌سازد، امضا می‌کند
+#     و در بخش Releases مخزن می‌گذارد.
+#   - نشانی همیشگی آخرین نسخه:
+#       https://github.com/MaryamJaberi/Language-Learning-Party-Game-new/releases/latest/download/dor-zaban.aab
+#       https://github.com/MaryamJaberi/Language-Learning-Party-Game-new/releases/latest/download/dor-zaban.apk
+#   - اگر رمز PLAY_SERVICE_ACCOUNT_JSON تنظیم شده باشد، AAB را مستقیم به گوگل پلی هم می‌فرستد
+#     (پیش‌فرض: آزمایش داخلی / internal، به‌صورت پیش‌نویس).
+#
+# رمزهای لازم (Settings → Secrets and variables → Actions):
+#   ANDROID_KEYSTORE_BASE64   فایل keystore به base64
+#   KEYSTORE_PASSWORD         رمز keystore
+#   KEY_ALIAS                 نام کلید (مثلاً dor-release)
+#   KEY_PASSWORD              رمز کلید (اگر خالی باشد همان KEYSTORE_PASSWORD)
+#   PLAY_SERVICE_ACCOUNT_JSON (اختیاری) برای ارسال خودکار به گوگل پلی
+#
+# نکته: محتوای بازی از سایت بارگذاری می‌شود، پس برای هر تغییر بازی AAB تازه لازم نیست؛
+# فقط وقتی پوستهٔ اندروید عوض شود.
+
+name: Android release
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'android-studio-project/**'
+      - '.github/workflows/android-release.yml'
+  pull_request:
+    paths:
+      - 'android-studio-project/**'
+      - '.github/workflows/android-release.yml'
+  workflow_dispatch:
+    inputs:
+      play_track:
+        description: 'ارسال به گوگل پلی (none = فقط ساخت)'
+        type: choice
+        options: [internal, alpha, beta, production, none]
+        default: internal
+      app_url:
+        description: 'نشانی سایتی که اپ باز می‌کند (خالی = پیش‌فرض داخل build.gradle)'
+        type: string
+        default: ''
+
+permissions:
+  contents: write
+
+concurrency:
+  group: android-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  build:
+    # فقط در مخزن اصلی، نه در نسخهٔ AI Studio
+    if: github.repository == 'MaryamJaberi/Language-Learning-Party-Game-new'
+    runs-on: ubuntu-latest
+    env:
+      APP_URL: ${{ inputs.app_url || vars.ANDROID_APP_URL || '' }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Version
+        run: |
+          echo "VERSION_CODE=$((10100 + GITHUB_RUN_NUMBER))" >> "$GITHUB_ENV"
+          echo "VERSION_NAME=1.2.$GITHUB_RUN_NUMBER" >> "$GITHUB_ENV"
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      # Android SDK از پیش روی ubuntu-latest نصب است (ANDROID_HOME)
+      - uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '8.14.3'
+
+      - name: Prepare signing key
+        id: sign
+        env:
+          KS_B64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+        run: |
+          if [ -n "$KS_B64" ]; then
+            echo "$KS_B64" | base64 -d > "$RUNNER_TEMP/release.keystore"
+            echo "KEYSTORE_PATH=$RUNNER_TEMP/release.keystore" >> "$GITHUB_ENV"
+            echo "signed=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "::warning::رمز ANDROID_KEYSTORE_BASE64 تنظیم نشده؛ خروجی امضا نمی‌شود و قابل آپلود در گوگل پلی نیست."
+            echo "signed=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Build AAB and APK
+        working-directory: android-studio-project
+        env:
+          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+        run: |
+          [ -z "$APP_URL" ] && unset APP_URL
+          gradle --no-daemon bundleRelease assembleRelease
+          mkdir -p "$GITHUB_WORKSPACE/out"
+          cp app/build/outputs/bundle/release/*.aab "$GITHUB_WORKSPACE/out/dor-zaban.aab"
+          cp app/build/outputs/apk/release/*.apk "$GITHUB_WORKSPACE/out/dor-zaban.apk"
+          ls -la "$GITHUB_WORKSPACE/out"
+          {
+            echo "### نسخهٔ اندروید $VERSION_NAME ($VERSION_CODE)"
+            echo "| فایل | حجم |"
+            echo "|---|---|"
+            for f in "$GITHUB_WORKSPACE"/out/*; do echo "| $(basename "$f") | $(du -h "$f" | cut -f1) |"; done
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: dor-zaban-${{ env.VERSION_NAME }}
+          path: out/*
+
+      - name: Publish GitHub release
+        if: github.event_name != 'pull_request' && steps.sign.outputs.signed == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "android-v$VERSION_NAME" out/dor-zaban.aab out/dor-zaban.apk \
+            --title "دور: زبان — اندروید $VERSION_NAME" \
+            --notes "versionCode $VERSION_CODE — ساخته‌شده از $GITHUB_SHA" \
+            --latest
+
+      - name: Check Play credentials
+        id: play
+        env:
+          SA: ${{ secrets.PLAY_SERVICE_ACCOUNT_JSON }}
+        run: echo "ready=$([ -n "$SA" ] && echo true || echo false)" >> "$GITHUB_OUTPUT"
+
+      - name: Upload to Google Play
+        if: >-
+          github.event_name != 'pull_request' &&
+          steps.sign.outputs.signed == 'true' &&
+          steps.play.outputs.ready == 'true' &&
+          (inputs.play_track || 'internal') != 'none'
+        uses: r0adkll/upload-google-play@v1
+        with:
+          serviceAccountJsonPlainText: ${{ secrets.PLAY_SERVICE_ACCOUNT_JSON }}
+          packageName: com.solonovate.dour
+          releaseFiles: out/dor-zaban.aab
+          track: ${{ inputs.play_track || 'internal' }}
+          status: draft
