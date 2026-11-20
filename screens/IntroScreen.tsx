@@ -45,7 +45,7 @@ import { tUI, isRtlLang } from '../ui';
 import { GameSettings } from '../types';
 import { CEFR_LEVELS, isAdminUser } from '../constants';
 import { AICoachChatModal } from '../components/AICoachChatModal';
-import { AdminMeetupMapModal } from '../components/AdminMeetupMapModal';
+import { MeetupMapModal } from '../components/MeetupMapModal';
 
 interface Props {
   language: Language;
@@ -281,22 +281,19 @@ const IntroScreen: React.FC<Props> = ({
             <span className="absolute -top-0.5 -right-0.5 w-2 h-2 rounded-full bg-amber-400" />
           </button>
 
-          {/* Admin Meetup & Venue Map (Google Maps Grounding - Admin Only) */}
-          {isAdminUser(user?.email) && (
-            <button
-              id="header-admin-map-btn"
-              onClick={() => {
-                sound.playClick();
-                setIsAdminMeetupMapOpen(true);
-              }}
-              aria-label={isRTL ? 'نقشه کافه‌ها و قرارهای بازی (Google Maps)' : 'Boardgame Cafes & Meetups Map (Google Maps)'}
-              className="w-11 h-11 flex items-center justify-center bg-teal-500/15 hover:bg-teal-500/25 text-[var(--turq)] border border-[var(--turq)] rounded-full shadow-xs active:scale-95 transition-all cursor-pointer relative"
-              title={isRTL ? 'نقشه قرارهای بازی و کافه‌ها با Google Maps (ویژه مدیر)' : 'Boardgame Cafes & Meetups Map with Google Maps (Admin)'}
-            >
-              <MapPin size={20} className="text-[var(--turq)]" />
-              <span className="absolute -top-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-[var(--turq)] border-2 border-[var(--panel)]" />
-            </button>
-          )}
+          {/* Public Nearby Meetups Map (Open to all users) */}
+          <button
+            id="header-meetup-map-btn"
+            onClick={() => {
+              sound.playClick();
+              setIsAdminMeetupMapOpen(true);
+            }}
+            aria-label={isRTL ? 'نقشه دورهمی‌های اطراف (Google Maps)' : 'Nearby Meetups Map (Google Maps)'}
+            className="w-11 h-11 flex items-center justify-center bg-teal-500/15 hover:bg-teal-500/25 text-[var(--turq)] border border-[var(--turq)] rounded-full shadow-xs active:scale-95 transition-all cursor-pointer relative"
+            title={isRTL ? 'دورهمی‌های حضوری اطراف روی نقشه' : 'Find Nearby In-Person Meetups'}
+          >
+            <MapPin size={20} className="text-[var(--turq)]" />
+          </button>
 
           {/* User Profile button (Hosts History, Records & Leaderboard) */}
           <button
@@ -954,17 +951,44 @@ const IntroScreen: React.FC<Props> = ({
                 </div>
                 <ChevronRight size={18} className={isRTL ? 'rotate-180' : ''} />
               </button>
+
+              <button
+                type="button"
+                onClick={() => {
+                  sound.playClick();
+                  setIsPartyChoiceModalOpen(false);
+                  setIsAdminMeetupMapOpen(true);
+                }}
+                className="w-full p-3.5 rounded-2xl bg-[var(--bg)] hover:bg-[var(--line)]/50 border border-[var(--line)] text-[var(--ink)] flex items-center justify-between active:scale-98 transition-all shadow-2xs text-start cursor-pointer"
+              >
+                <div className="flex items-center gap-3 min-w-0">
+                  <div className="w-10 h-10 rounded-xl bg-amber-50 dark:bg-amber-950/40 text-amber-600 flex items-center justify-center shrink-0">
+                    <MapPin size={20} />
+                  </div>
+                  <div>
+                    <h4 className="font-bold text-sm leading-tight text-[var(--ink)]">
+                      {isRTL ? 'یافتن دورهمی‌های اطراف (نقشه)' : 'Find Nearby Meetups (Map)'}
+                    </h4>
+                    <p className="text-[11px] text-[var(--mute)] font-normal mt-0.5">
+                      {isRTL ? 'دورهمی‌های حضوری در کافه‌ها، کتابخانه‌ها و پارک‌ها' : 'In-person meetups at public cafés, libraries & parks'}
+                    </p>
+                  </div>
+                </div>
+                <ChevronRight size={18} className={isRTL ? 'rotate-180' : ''} />
+              </button>
             </div>
           </div>
         </div>
       )}
 
-      {/* Admin Meetup & Boardgame Cafe Map (Google Maps Grounding - Admin Only) */}
-      <AdminMeetupMapModal
+      {/* Public Nearby Meetups Map Modal */}
+      <MeetupMapModal
         isOpen={isAdminMeetupMapOpen}
         onClose={() => setIsAdminMeetupMapOpen(false)}
         language={language}
         isRTL={isRTL}
+        defaultTargetLanguage={settings?.targetLanguages?.[0] || settings?.targetLanguage || 'en'}
+        defaultCefrLevel={settings?.cefrLevel || 'A1'}
       />
 
       {/* AI Language Coach & Referee Chatbot (Gemini AI) */}
