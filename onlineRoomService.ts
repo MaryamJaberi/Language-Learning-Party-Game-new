@@ -1,3 +1,4 @@
+import { preloadLanguageDecks } from './phraseBank';
 import { 
   doc, 
   setDoc, 
@@ -318,6 +319,7 @@ export const startOnlineGame = async (roomId: string) => {
 
   const room = snap.data() as OnlineRoomState;
 
+  await preloadLanguageDecks(Array.from(new Set([...(room.settings.targetLanguages || ['en-US', 'nl']), room.settings.nativeLanguage || 'fa', 'en'])));
   // Build full card pool
   const pool = buildSessionCardPool(
     room.settings.targetLanguages || ['en-US', 'nl'],

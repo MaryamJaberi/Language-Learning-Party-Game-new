@@ -117,6 +117,21 @@ export async function preloadLanguageDecks(languages: string[]): Promise<void> {
   );
 }
 
+/**
+ * پیش از ساختن جلسه: اگر بانک کارتِ همهٔ این زبان‌ها از قبل بارگذاری شده، undefined برمی‌گرداند
+ * (تا شروع بازی همزمان و بی‌تأخیر بماند)؛ وگرنه Promise بارگذاری را برمی‌گرداند که باید await شود.
+ */
+export function loadDecksIfNeeded(languages: string[]): Promise<void> | undefined {
+  const needed = Array.from(new Set((languages || []).filter(Boolean)));
+  if (typeof process !== 'undefined' && process.env?.VITEST) {
+    getMetaCardsSync();
+    needed.forEach((l) => getLanguageDeckSync(l));
+    return undefined;
+  }
+  if (cachedMeta && needed.every((l) => cachedDecks[l])) return undefined;
+  return preloadLanguageDecks(needed);
+}
+
 export function isLanguageDeckLoaded(lang: string): boolean {
   return Boolean(cachedDecks[lang]);
 }
