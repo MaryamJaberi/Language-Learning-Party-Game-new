@@ -51,6 +51,7 @@ export type PowerCardType = 'time_boost' | 'hint_clue' | 'mirror_challenge';
 
 export interface LanguageCard {
   id: string;
+  conceptId?: string; // شناسهٔ مفهوم؛ تصویر کارت با همین شناسه پیدا می‌شود
   nativeLanguage?: Language;
   targetLanguage: Language;
   cefrLevel: Exclude<CEFRLevel, 'all'>;
@@ -190,6 +191,8 @@ export interface OnlinePlayer {
   deviceId: string;
   avatar?: string;
   joinedAt?: number;
+  /** Computer-controlled teammate added to fill a room. */
+  isAi?: boolean;
 }
 
 export interface RoomReaction {

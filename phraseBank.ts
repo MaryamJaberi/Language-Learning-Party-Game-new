@@ -238,7 +238,7 @@ function getMatchingCuratedMeta(selectedLevel: CEFRLevel): CardMetaItem[] {
   if (selectedLevel === 'C1') {
     return meta.filter((c) => {
       const lvl = c.rawLevel || c.level;
-      return (lvl === 'C1') && lvl !== 'C2';
+      return lvl === 'C1';
     });
   }
 
@@ -312,6 +312,7 @@ export function cardsFromPhraseBank(
 
       pool.push({
         id: `${c.id}_${target}`,
+        conceptId: cardKey,
         nativeLanguage,
         targetLanguage: target,
         cefrLevel: (cefrLevel === 'all' ? (c.rawLevel || c.level || 'A1') : cefrLevel) as Exclude<CEFRLevel, 'all'>,
