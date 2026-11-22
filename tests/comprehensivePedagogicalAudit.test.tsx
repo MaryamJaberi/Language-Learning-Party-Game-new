@@ -4,6 +4,7 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import SinglePlayerScreen from '../screens/SinglePlayerScreen';
 import { LanguagePickerModal } from '../components/LanguagePickerModal';
 import { LanguageCard, SinglePlayerSettings } from '../types';
+import { generateChallengingReflexOptions } from '../utils/testQuestionEngine';
 
 describe('Comprehensive Pedagogical & UI Audit Tests', () => {
   beforeEach(() => {
@@ -232,5 +233,99 @@ describe('Comprehensive Pedagogical & UI Audit Tests', () => {
     expect(checkBtn).toBeInTheDocument();
     expect(skipBtn).toBeInTheDocument();
     expect(speakBtn).toBeInTheDocument();
+  });
+
+  test('6. Distractor engine prevents semantic collision / synonym duplicates', () => {
+    const thankCard: LanguageCard = {
+      id: 'test-dank-1',
+      targetText: 'Dank je wel',
+      translation: 'متشکرم',
+      targetLanguage: 'nl',
+      nativeLanguage: 'fa',
+      cefrLevel: 'A1',
+      topic: 'CAT_SOCIAL',
+      contentType: 'Phrase',
+      learningMode: 'Translate',
+      prompt: 'ترجمه متشکرم',
+      difficulty: 'easy',
+      points: 10
+    };
+
+    const bedanktCard: LanguageCard = {
+      id: 'test-bedankt-2',
+      targetText: 'Bedankt',
+      translation: 'متشکرم / مرسی',
+      targetLanguage: 'nl',
+      nativeLanguage: 'fa',
+      cefrLevel: 'A1',
+      topic: 'CAT_SOCIAL',
+      contentType: 'Phrase',
+      learningMode: 'Translate',
+      prompt: 'ترجمه متشکرم',
+      difficulty: 'easy',
+      points: 10
+    };
+
+    const options = generateChallengingReflexOptions(thankCard, [thankCard, bedanktCard], 'nl');
+    expect(options).toContain('Dank je wel');
+    // "Bedankt" has identical meaning "متشکرم / مرسی" and must not be a distractor for "Dank je wel"
+    expect(options).not.toContain('Bedankt');
+  });
+
+  test('7. A1 card distractors do NOT pull advanced B2/C1 vocabulary', () => {
+    const waterCard: LanguageCard = {
+      id: 'test-water-1',
+      targetText: 'Koud water',
+      translation: 'آب سرد',
+      targetLanguage: 'nl',
+      nativeLanguage: 'fa',
+      cefrLevel: 'A1',
+      topic: 'CAT_FOOD',
+      contentType: 'Vocabulary',
+      learningMode: 'Translate',
+      prompt: 'ترجمه',
+      difficulty: 'easy',
+      points: 10
+    };
+
+    const c1Card: LanguageCard = {
+      id: 'test-c1-work',
+      targetText: 'Succesvolle samenwerking',
+      translation: 'همکاری موفقیت‌آمیز',
+      targetLanguage: 'nl',
+      nativeLanguage: 'fa',
+      cefrLevel: 'C1',
+      topic: 'CAT_WORK',
+      contentType: 'Phrase',
+      learningMode: 'Translate',
+      prompt: 'ترجمه',
+      difficulty: 'hard',
+      points: 20
+    };
+
+    const options = generateChallengingReflexOptions(waterCard, [waterCard, c1Card], 'nl');
+    expect(options).not.toContain('Succesvolle samenwerking');
+  });
+
+  test('8. Category-aware synthetic foils generate domain-appropriate distractors for Food', () => {
+    const soupCard: LanguageCard = {
+      id: 'test-soup-1',
+      targetText: 'Warme soep',
+      translation: 'سوپ گرم',
+      targetLanguage: 'nl',
+      nativeLanguage: 'fa',
+      cefrLevel: 'A1',
+      topic: 'CAT_FOOD',
+      contentType: 'Vocabulary',
+      learningMode: 'Translate',
+      prompt: 'ترجمه',
+      difficulty: 'easy',
+      points: 10
+    };
+
+    const options = generateChallengingReflexOptions(soupCard, [soupCard], 'nl');
+    expect(options.length).toBeGreaterThanOrEqual(2);
+    // Should NOT contain random social goodbyes like "Tot morgenochtend"
+    expect(options).not.toContain('Tot morgenochtend');
   });
 });

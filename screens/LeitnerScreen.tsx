@@ -1,5 +1,5 @@
 import { loadDecksIfNeeded } from '../phraseBank';
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { 
   Box, 
   Flame, 
@@ -57,6 +57,32 @@ export const LeitnerScreen: React.FC<Props> = ({
   const [showNotificationModal, setShowNotificationModal] = useState(false);
   const [notificationStatus, setNotificationStatus] = useState<boolean>(leitnerState.notificationsEnabled);
   const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
+  const answerTimeoutRef = useRef<any>(null);
+
+  // Clear timeout on unmount
+  useEffect(() => {
+    return () => {
+      if (answerTimeoutRef.current) {
+        clearTimeout(answerTimeoutRef.current);
+      }
+    };
+  }, []);
+
+  const proceedToNextLeitnerCard = () => {
+    if (answerTimeoutRef.current) {
+      clearTimeout(answerTimeoutRef.current);
+      answerTimeoutRef.current = null;
+    }
+    setLeitnerState(getLeitnerState());
+    setIsFlipped(false);
+    setReviewResult(null);
+    setSelectedAnswer(null);
+    if (activeCardIndex + 1 < dueQuestions.length) {
+      setActiveCardIndex(prev => prev + 1);
+    } else {
+      setActiveCardIndex(0);
+    }
+  };
 
   // Due Cards for Today
   const dueQuestions = useMemo(() => {
@@ -118,26 +144,25 @@ export const LeitnerScreen: React.FC<Props> = ({
       sound.playCorrect();
       sound.hapticFeedback('success');
       setReviewResult('success');
+      recordLeitnerCardReview(currentDueItem.item.cardId, isCorrect);
+      answerTimeoutRef.current = setTimeout(() => {
+        proceedToNextLeitnerCard();
+      }, 1100);
     } else {
       sound.playBuzzer();
       sound.hapticFeedback('error');
       setReviewResult('fail');
-    }
-
-    recordLeitnerCardReview(currentDueItem.item.cardId, isCorrect);
-
-    // Refresh state after 1.1s
-    setTimeout(() => {
-      setLeitnerState(getLeitnerState());
-      setIsFlipped(false);
-      setReviewResult(null);
-      setSelectedAnswer(null);
-      if (activeCardIndex + 1 < dueQuestions.length) {
-        setActiveCardIndex(prev => prev + 1);
-      } else {
-        setActiveCardIndex(0);
+      // On mistake, reveal card for remediation, play pronunciation, and give learning time
+      setIsFlipped(true);
+      if (sound.isVoiceSupportedFor(currentDueItem.item.card.targetLanguage)) {
+        sound.speakNative(currentDueItem.item.card.targetText, currentDueItem.item.card.targetLanguage);
       }
-    }, 1100);
+      recordLeitnerCardReview(currentDueItem.item.cardId, isCorrect);
+      // Give 3.5s to review translation/grammar or let user tap "متوجه شدم (بعدی)"
+      answerTimeoutRef.current = setTimeout(() => {
+        proceedToNextLeitnerCard();
+      }, 3500);
+    }
   };
 
   // Keyboard navigation & audio hotkeys for Leitner flow state
@@ -249,7 +274,7 @@ export const LeitnerScreen: React.FC<Props> = ({
           <div className="flex items-center justify-between text-xs font-black">
             <span className="flex items-center gap-1 text-[var(--ink)]">
               <Layers size={14} className="text-[var(--lapis)]" />
-              <span>{isRTL ? 'وضعیت ۵ خانه لایتنر:' : 'Leitner 5-Box Compartments:'}</span>
+              <span>{isRTL ? `وضعیت ${LEITNER_INTERVALS.length} خانه لایتنر:` : `Leitner ${LEITNER_INTERVALS.length}-Box Compartments:`}</span>
             </span>
             <span className="text-[11px] text-emerald-600 font-bold flex items-center gap-1">
               <Trophy size={13} />
@@ -257,7 +282,7 @@ export const LeitnerScreen: React.FC<Props> = ({
             </span>
           </div>
 
-          <div className="grid grid-cols-5 gap-1.5 text-center">
+          <div className={`grid gap-1.5 text-center ${LEITNER_INTERVALS.length === 3 ? 'grid-cols-3' : 'grid-cols-5'}`}>
             {LEITNER_INTERVALS.map((interval, idx) => {
               const count = boxCounts[idx] || 0;
               const isMasterBox = idx === LEITNER_INTERVALS.length - 1;
@@ -303,7 +328,7 @@ export const LeitnerScreen: React.FC<Props> = ({
               {/* Box Tag & Question Type */}
               <div className="flex items-center justify-between">
                 <span className="px-2.5 py-0.5 bg-[var(--lapis)]/10 text-[var(--lapis)] border border-[var(--lapis)]/20 rounded-full text-[10px] font-black">
-                  {isRTL ? `خانه ${currentDueItem.item.boxIndex + 1} از ۵` : `Box ${currentDueItem.item.boxIndex + 1} of 5`}
+                  {isRTL ? `خانه ${Math.min(currentDueItem.item.boxIndex + 1, LEITNER_INTERVALS.length)} از ${LEITNER_INTERVALS.length}` : `Box ${Math.min(currentDueItem.item.boxIndex + 1, LEITNER_INTERVALS.length)} of ${LEITNER_INTERVALS.length}`}
                 </span>
                 <span className="text-[11px] font-bold text-[var(--mute)]">
                   {isRTL ? `کارت ${activeCardIndex + 1} از ${dueQuestions.length}` : `Card ${activeCardIndex + 1} of ${dueQuestions.length}`}
@@ -432,6 +457,34 @@ export const LeitnerScreen: React.FC<Props> = ({
                 >
                   <Check size={16} />
                   <span>{isRTL ? 'بلد بودم (صعود به خانه بعد)' : 'Mastered (Next Box)'}</span>
+                </button>
+              </div>
+            )}
+
+            {/* Pedagogical Remediation & Feedback Banner on Mistake */}
+            {reviewResult === 'fail' && (
+              <div className="mt-3 p-3 rounded-2xl bg-rose-50 dark:bg-rose-950/40 border border-rose-300 dark:border-rose-800 text-xs text-rose-800 dark:text-rose-200 animate-fade-in flex items-center justify-between gap-2.5 shadow-xs">
+                <div className="flex-1 min-w-0 text-start">
+                  <div className="font-black text-rose-700 dark:text-rose-300 flex items-center gap-1.5">
+                    <X size={14} className="text-rose-600 shrink-0" />
+                    <span>{isRTL ? 'پاسخ صحیح:' : 'Correct Answer:'} «{currentDueItem.item.card.targetText}»</span>
+                  </div>
+                  <div className="text-[11px] text-[var(--mute)] mt-0.5 leading-relaxed">
+                    <span>{isRTL ? 'ترجمه:' : 'Translation:'} {currentDueItem.item.card.translation}</span>
+                    {currentDueItem.item.card.grammarPoint && (
+                      <span className="block mt-0.5 text-amber-600 dark:text-amber-400 font-semibold">
+                        💡 {currentDueItem.item.card.grammarPoint}
+                      </span>
+                    )}
+                  </div>
+                </div>
+
+                <button
+                  type="button"
+                  onClick={proceedToNextLeitnerCard}
+                  className="btn-turq !min-h-[38px] !h-9 !py-1 !px-3.5 text-xs font-bold shrink-0 cursor-pointer shadow-xs"
+                >
+                  <span>{isRTL ? 'متوجه شدم (بعدی)' : 'Got it (Next)'}</span>
                 </button>
               </div>
             )}

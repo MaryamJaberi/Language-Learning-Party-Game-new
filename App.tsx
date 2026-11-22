@@ -675,7 +675,7 @@ const App: React.FC = () => {
 
   const handleStartSinglePlayer = async (config: SinglePlayerSettings, customCards?: LanguageCard[]) => {
     setIsSingleSetupOpen(false);
-    const effectiveNative = config.nativeLanguage || settings.nativeLanguage || (settings.language !== 'fa' ? settings.language : 'en');
+    const effectiveNative = config.nativeLanguage || settings.nativeLanguage || settings.language || 'fa';
     // کارت‌های زبانِ انتخاب‌شده باید پیش از ساختن جلسه بارگذاری شده باشند
     const decksPending = loadDecksIfNeeded([config.targetLanguage, effectiveNative, 'en']);
     if (decksPending) await decksPending;
@@ -721,7 +721,7 @@ const App: React.FC = () => {
     setSinglePlayerCards(weakCards);
     setSinglePlayerSettings(prev => ({
       ...prev,
-      nativeLanguage: prev.nativeLanguage || settings.nativeLanguage || (settings.language !== 'fa' ? settings.language : 'en')
+      nativeLanguage: prev.nativeLanguage || settings.nativeLanguage || settings.language || 'fa'
     }));
     setCurrentScreen('SINGLE_PLAYER');
   };
@@ -734,8 +734,7 @@ const App: React.FC = () => {
   const handleStartDuel = async (duelSet: DuelSettings) => {
     setDuelSettings(duelSet);
     setIsDuelSetupOpen(false);
-    const isEn = settings.language === 'en' || settings.language === 'en-US' || !isRtlLang(settings.language);
-    const effectiveNative = isEn ? 'en' : (duelSet.nativeLanguage || settings.nativeLanguage || settings.language || 'fa');
+    const effectiveNative = duelSet.nativeLanguage || settings.nativeLanguage || settings.language || 'fa';
     const decksPending = loadDecksIfNeeded([duelSet.targetLanguage, effectiveNative, 'en']);
     if (decksPending) await decksPending;
     const cards = getUniqueCardsForSession(
@@ -762,7 +761,7 @@ const App: React.FC = () => {
     try {
       if (roomCode === '__matchmake__') {
         const targetLang = settings.targetLanguages?.[0] || 'nl';
-        const effectiveNative = isRtlLang(settings.language) ? 'fa' : 'en';
+        const effectiveNative = settings.nativeLanguage || settings.language || (isRtlLang(settings.language) ? 'fa' : 'en');
         const decksPending = loadDecksIfNeeded([targetLang, effectiveNative, 'en']);
         if (decksPending) await decksPending;
         const match = await findOnlineDuelMatch(
@@ -791,7 +790,7 @@ const App: React.FC = () => {
         setCurrentScreen('ONLINE_DUEL');
       } else {
         const targetLang = settings.targetLanguages?.[0] || 'nl';
-        const effectiveNative = isRtlLang(settings.language) ? 'fa' : 'en';
+        const effectiveNative = settings.nativeLanguage || settings.language || (isRtlLang(settings.language) ? 'fa' : 'en');
         const decksPending = loadDecksIfNeeded([targetLang, effectiveNative, 'en']);
         if (decksPending) await decksPending;
         const cards = getUniqueCardsForSession(

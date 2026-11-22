@@ -32,14 +32,23 @@ function cleanText(t: string): string {
   return t.trim().toLowerCase().replace(/[.,!?;:]/g, '');
 }
 
+const CEFR_LEVEL_ORDER = [
+  'Pre-A1', 'A0', 'A0+', 'A1', 'A1+', 'A2', 'A2+', 'B1', 'B1+', 'B2', 'B2+', 'C1', 'C1+', 'C2'
+];
+
 /**
  * Synthesizes plausible near-miss distractors for sentences or phrases
  * when the local bank doesn't have enough matching grammatical frames.
+ * Respects topic category (Food, Travel, Work, Social) to prevent comical/irrelevant options.
  */
-function synthesizeParallelFoils(correct: string, lang: Language | string): string[] {
+function synthesizeParallelFoils(correct: string, lang: Language | string, topic?: string): string[] {
   const isQ = isQuestionText(correct);
   const words = correct.trim().split(/\s+/);
   const synthesized: string[] = [];
+
+  const isFood = topic === 'CAT_FOOD' || topic === 'CAT_RESTAURANT';
+  const isTravel = topic === 'CAT_TRAVEL' || topic === 'CAT_TRANSPORT';
+  const isWork = topic === 'CAT_WORK';
 
   // Dutch (nl) Foil Generation
   if (lang === 'nl') {
@@ -66,13 +75,37 @@ function synthesizeParallelFoils(correct: string, lang: Language | string): stri
         synthesized.push('Is dit de juiste richting?');
       }
     } else if (words.length >= 4) {
-      synthesized.push('Ik wil graag wat bestellen.');
-      synthesized.push('Ik ga morgen naar kantoor.');
-      synthesized.push('Het duurt ongeveer een uur.');
+      if (isFood) {
+        synthesized.push('Ik wil graag wat bestellen.');
+        synthesized.push('Mag ik een glas water?');
+        synthesized.push('Het eten smaakt erg lekker.');
+      } else if (isTravel) {
+        synthesized.push('Ik zoek het treinstation.');
+        synthesized.push('De bus vertrekt over tien minuten.');
+        synthesized.push('Hoe ver is het lopen?');
+      } else {
+        synthesized.push('Ik ga morgen naar kantoor.');
+        synthesized.push('Het duurt ongeveer een uur.');
+        synthesized.push('We zien elkaar later vandaag.');
+      }
     } else if (words.length >= 2) {
-      synthesized.push('Tot morgenochtend');
-      synthesized.push('Een fijne dag nog');
-      synthesized.push('Met veel plezier');
+      if (isFood) {
+        synthesized.push('Een warme maaltijd');
+        synthesized.push('Koud mineraalwater');
+        synthesized.push('Een vers broodje');
+      } else if (isTravel) {
+        synthesized.push('Het centraal station');
+        synthesized.push('Een enkele reis');
+        synthesized.push('De volgende halte');
+      } else if (isWork) {
+        synthesized.push('Een belangrijk verslag');
+        synthesized.push('De wekelijkse vergadering');
+        synthesized.push('Een nieuw project');
+      } else {
+        synthesized.push('Tot morgenochtend');
+        synthesized.push('Een fijne dag nog');
+        synthesized.push('Met veel plezier');
+      }
     }
   }
 
@@ -97,13 +130,37 @@ function synthesizeParallelFoils(correct: string, lang: Language | string): stri
         synthesized.push('Is this the right way?');
       }
     } else if (words.length >= 4) {
-      synthesized.push('I would like to order now.');
-      synthesized.push('I am going there tomorrow morning.');
-      synthesized.push('It takes about half an hour.');
+      if (isFood) {
+        synthesized.push('I would like to order now.');
+        synthesized.push('Could I have the check please?');
+        synthesized.push('The food is very delicious.');
+      } else if (isTravel) {
+        synthesized.push('Where does this train go?');
+        synthesized.push('It takes about half an hour.');
+        synthesized.push('The airport is far away.');
+      } else {
+        synthesized.push('I would like to order now.');
+        synthesized.push('I am going there tomorrow morning.');
+        synthesized.push('It takes about half an hour.');
+      }
     } else if (words.length >= 2) {
-      synthesized.push('See you tomorrow morning');
-      synthesized.push('Have a wonderful day');
-      synthesized.push('With great pleasure');
+      if (isFood) {
+        synthesized.push('A cup of coffee');
+        synthesized.push('Fresh bread and butter');
+        synthesized.push('Cold mineral water');
+      } else if (isTravel) {
+        synthesized.push('A one-way ticket');
+        synthesized.push('The next train');
+        synthesized.push('Central railway station');
+      } else if (isWork) {
+        synthesized.push('An important report');
+        synthesized.push('The weekly meeting');
+        synthesized.push('A successful project');
+      } else {
+        synthesized.push('See you tomorrow morning');
+        synthesized.push('Have a wonderful day');
+        synthesized.push('With great pleasure');
+      }
     }
   }
 
@@ -114,9 +171,25 @@ function synthesizeParallelFoils(correct: string, lang: Language | string): stri
       synthesized.push('Wo ist die nächste Haltestelle?');
       synthesized.push('Kann ich mit Karte zahlen?');
     } else if (words.length >= 3) {
-      synthesized.push('Ich möchte bitte bezahlen.');
-      synthesized.push('Wir sehen uns morgen wieder.');
-      synthesized.push('Das ist eine gute Idee.');
+      if (isFood) {
+        synthesized.push('Ich möchte bitte bezahlen.');
+        synthesized.push('Ein Glas Wasser bitte.');
+        synthesized.push('Das Essen schmeckt sehr gut.');
+      } else {
+        synthesized.push('Ich möchte bitte bezahlen.');
+        synthesized.push('Wir sehen uns morgen wieder.');
+        synthesized.push('Das ist eine gute Idee.');
+      }
+    } else if (words.length >= 2) {
+      if (isFood) {
+        synthesized.push('Eine Tasse Kaffee');
+        synthesized.push('Frisches Brot');
+        synthesized.push('Kaltes Mineralwasser');
+      } else {
+        synthesized.push('Bis morgen früh');
+        synthesized.push('Einen schönen Tag');
+        synthesized.push('Mit großem Vergnügen');
+      }
     }
   }
 
@@ -127,9 +200,25 @@ function synthesizeParallelFoils(correct: string, lang: Language | string): stri
       synthesized.push('Où se trouve la station ?');
       synthesized.push('Puis-je payer par carte ?');
     } else if (words.length >= 3) {
-      synthesized.push("Je voudrais régler l'addition.");
-      synthesized.push('On se voit demain matin.');
-      synthesized.push("C'est une très bonne idée.");
+      if (isFood) {
+        synthesized.push("Je voudrais régler l'addition.");
+        synthesized.push('Un verre de vin blanc, s’il vous plaît.');
+        synthesized.push('Le plat principal est délicieux.');
+      } else {
+        synthesized.push("Je voudrais régler l'addition.");
+        synthesized.push('On se voit demain matin.');
+        synthesized.push("C'est une très bonne idée.");
+      }
+    } else if (words.length >= 2) {
+      if (isFood) {
+        synthesized.push('Une tasse de café');
+        synthesized.push('Du pain frais');
+        synthesized.push('De l’eau minérale');
+      } else {
+        synthesized.push('À demain matin');
+        synthesized.push('Bonne journée');
+        synthesized.push('Avec grand plaisir');
+      }
     }
   }
 
@@ -140,9 +229,46 @@ function synthesizeParallelFoils(correct: string, lang: Language | string): stri
       synthesized.push('¿Dónde está la estación?');
       synthesized.push('¿Puedo pagar con tarjeta?');
     } else if (words.length >= 3) {
-      synthesized.push('Me gustaría pedir la cuenta.');
-      synthesized.push('Nos vemos mañana por la mañana.');
-      synthesized.push('Es una excelente idea.');
+      if (isFood) {
+        synthesized.push('Me gustaría pedir la cuenta.');
+        synthesized.push('Un vaso de agua fría por favor.');
+        synthesized.push('La comida está muy sabrosa.');
+      } else {
+        synthesized.push('Me gustaría pedir la cuenta.');
+        synthesized.push('Nos vemos mañana por la mañana.');
+        synthesized.push('Es una excelente idea.');
+      }
+    } else if (words.length >= 2) {
+      if (isFood) {
+        synthesized.push('Una taza de café');
+        synthesized.push('Pan recién horneado');
+        synthesized.push('Agua mineral fría');
+      } else {
+        synthesized.push('Hasta mañana por la mañana');
+        synthesized.push('Que tengas un buen día');
+        synthesized.push('Con mucho gusto');
+      }
+    }
+  }
+
+  // Persian (fa) Foil Generation
+  if (lang === 'fa') {
+    if (isQ) {
+      synthesized.push('ساعت چند شروع می‌شود؟');
+      synthesized.push('نزدیک‌ترین ایستگاه کجاست؟');
+      synthesized.push('می‌توانم با کارت پرداخت کنم؟');
+    } else if (words.length >= 3) {
+      synthesized.push('من می‌خواهم یک سفارش ثبت کنم.');
+      synthesized.push('فردا صبح همدیگر را می‌بینیم.');
+      synthesized.push('این ایده بسیار خوبی است.');
+    } else if (words.length >= 2) {
+      synthesized.push('روز خوبی داشته باشید');
+      synthesized.push('صبح شما بخیر');
+      synthesized.push('با کمال میل');
+    } else {
+      synthesized.push('سلام');
+      synthesized.push('متشکرم');
+      synthesized.push('خواهش می‌کنم');
     }
   }
 
@@ -152,15 +278,35 @@ function synthesizeParallelFoils(correct: string, lang: Language | string): stri
 /**
  * Main Test Design function to generate 4 challenging options
  */
+/**
+ * دو گزینه برای تمرین «انتخاب از دو»: همیشه پاسخ درست و بهترین گزینهٔ غلط.
+ * جای پاسخ درست (اول یا دوم) از روی متن کارت ثابت است تا با هر بار رندر عوض نشود.
+ */
+export function pickTwoChoiceOptions(options: string[], correctText: string): string[] {
+  const clean = cleanText(correctText.trim());
+  const correct = options.find((o) => cleanText(o) === clean) ?? correctText.trim();
+  let distractor = options.find((o) => cleanText(o) !== clean);
+  if (!distractor) {
+    // اگر گزینه‌ها حاوی گزینهٔ غلط نبودند، یک گزینهٔ انحرافی مطمئن بساز
+    distractor = correct === 'بله' ? 'خیر' : correct === 'Yes' ? 'No' : `${correct} (گزینه دوم)`;
+  }
+  let h = 0;
+  for (const ch of correct) h = (h * 31 + ch.charCodeAt(0)) | 0;
+  return h % 2 === 0 ? [correct, distractor] : [distractor, correct];
+}
+
 export function generateChallengingReflexOptions(
   currentCard: LanguageCard,
   sessionPool: LanguageCard[] = [],
-  targetLangOverride?: Language
+  targetLangOverride?: Language,
+  expectedAnswerOverride?: string
 ): string[] {
-  if (!currentCard || !currentCard.targetText) return [];
+  if (!currentCard || (!currentCard.targetText && !currentCard.translation)) return [];
 
-  const correct = currentCard.targetText.trim();
   const lang = targetLangOverride || currentCard.targetLanguage || 'nl';
+  const isReverse = (targetLangOverride && targetLangOverride === currentCard.nativeLanguage) ||
+    (currentCard.nativeLanguage && targetLangOverride !== currentCard.targetLanguage && targetLangOverride === 'fa');
+  const correct = (expectedAnswerOverride || (isReverse ? currentCard.translation : currentCard.targetText) || currentCard.targetText || '').trim();
   const isQ = isQuestionText(correct);
   const correctWordsCount = correct.split(/\s+/).length;
   const correctCharLen = correct.length;
@@ -174,7 +320,7 @@ export function generateChallengingReflexOptions(
 
   const candidateMap = new Map<string, number>();
 
-  const evaluateAndAdd = (text: string, topic?: string, level?: string) => {
+  const evaluateAndAdd = (text: string, topic?: string, level?: string, candTranslation?: string) => {
     if (!text) return;
     const t = text.trim();
     if (!t) return;
@@ -183,6 +329,20 @@ export function generateChallengingReflexOptions(
     // A distractor that contains the answer (or is contained in it) is also correct in practice:
     // "Die Speisekarte" vs "Die Speisekarte, bitte!" — never offer both.
     if (cleanT.length > 1 && cleanCorrect.length > 1 && (cleanT.includes(cleanCorrect) || cleanCorrect.includes(cleanT))) return;
+
+    // RULE 0: SEMANTIC COLLISION & SYNONYM EXCLUSION
+    // A distractor must not share the same meaning or translation with the correct answer
+    // (e.g. "Dank je wel" vs "Bedankt", "Hallo" vs "Hoi", "Tot ziens" vs "Dag", "Check, please" vs "The bill, please")
+    if (candTranslation && currentCard.translation) {
+      const cleanCandTrans = cleanText(candTranslation);
+      const cleanCardTrans = cleanText(currentCard.translation);
+      if (cleanCandTrans && cleanCardTrans) {
+        if (cleanCandTrans === cleanCardTrans) return;
+        if (cleanCandTrans.length > 2 && cleanCardTrans.length > 2) {
+          if (cleanCandTrans.includes(cleanCardTrans) || cleanCardTrans.includes(cleanCandTrans)) return;
+        }
+      }
+    }
 
     const candIsQ = isQuestionText(t);
     const candWordsCount = t.split(/\s+/).length;
@@ -200,12 +360,25 @@ export function generateChallengingReflexOptions(
     if (correctWordsCount >= 4 && candWordsCount <= 1) return;
     if (correctWordsCount >= 3 && candWordsCount <= 1) return;
 
+    // RULE 3: STRICT CEFR LEVEL HORIZON
+    // Beginner learners (A1) must NOT be bombarded with B2/C1 academic/formal distractors
+    if (currentCard.cefrLevel && level) {
+      const cardLevelIdx = CEFR_LEVEL_ORDER.indexOf(currentCard.cefrLevel);
+      const candLevelIdx = CEFR_LEVEL_ORDER.indexOf(level);
+      if (cardLevelIdx >= 0 && candLevelIdx >= 0) {
+        const diff = candLevelIdx - cardLevelIdx;
+        // Never present distractors > 1 CEFR level above the student's current card level
+        if (cardLevelIdx <= 4 && diff > 1) return;
+        if (diff > 2) return;
+      }
+    }
+
     // Base score
     let score = 50;
 
-    // Topic affinity bonus
+    // Topic affinity bonus (same domain: food, directions, schedule, greetings)
     if (topic && currentCard.topic && topic === currentCard.topic) {
-      score += 40;
+      score += 45;
     }
 
     // Length proximity bonus
@@ -222,8 +395,15 @@ export function generateChallengingReflexOptions(
     else if (wordDiff === 1) score += 15;
 
     // CEFR level affinity bonus
-    if (level && currentCard.cefrLevel && level === currentCard.cefrLevel) {
-      score += 10;
+    if (level && currentCard.cefrLevel) {
+      const cardLevelIdx = CEFR_LEVEL_ORDER.indexOf(currentCard.cefrLevel);
+      const candLevelIdx = CEFR_LEVEL_ORDER.indexOf(level);
+      if (cardLevelIdx >= 0 && candLevelIdx >= 0) {
+        const diff = Math.abs(candLevelIdx - cardLevelIdx);
+        if (diff === 0) score += 25;
+        else if (diff === 1) score += 10;
+        else score -= 15;
+      }
     }
 
     // Initial letter similarity (subtle cognitive trap)
@@ -237,12 +417,14 @@ export function generateChallengingReflexOptions(
     }
   };
 
-  
-
   // 2. Search curated language cards for same language
   for (const card of CURATED_LANGUAGE_CARDS) {
-    if (card.targetLanguage === lang && card.targetText) {
-      evaluateAndAdd(card.targetText, card.topic, card.cefrLevel);
+    if (isReverse && lang === 'fa') {
+      if (card.translation) {
+        evaluateAndAdd(card.translation, card.topic, card.cefrLevel, card.targetText);
+      }
+    } else if (card.targetLanguage === lang && card.targetText) {
+      evaluateAndAdd(card.targetText, card.topic, card.cefrLevel, card.translation);
     }
   }
 
@@ -250,15 +432,16 @@ export function generateChallengingReflexOptions(
   for (const concept of UNIVERSAL_CONCEPTS) {
     const conceptWord = concept.words?.[lang];
     if (conceptWord) {
-      // If the current card is a short word / phrase, this gives authentic, category-matched distractors
-      evaluateAndAdd(conceptWord, concept.topic, concept.level);
+      const conceptTrans = concept.words?.[currentCard.nativeLanguage || 'fa'] || concept.words?.en;
+      evaluateAndAdd(conceptWord, concept.topic, concept.level, conceptTrans);
     }
   }
 
   // 4. Search session pool cards
   for (const c of sessionPool) {
-    if (c.targetText && c.targetLanguage === lang) {
-      evaluateAndAdd(c.targetText, c.topic, c.cefrLevel);
+    const poolText = isReverse ? c.translation : (c.targetLanguage === lang ? c.targetText : undefined);
+    if (poolText) {
+      evaluateAndAdd(poolText, c.topic, c.cefrLevel, isReverse ? c.targetText : c.translation);
     }
   }
 
@@ -281,7 +464,7 @@ export function generateChallengingReflexOptions(
 
   // If we still have fewer than 3 distractors, supplement with synthesized foils
   if (chosenDistractors.length < 3) {
-    const synth = synthesizeParallelFoils(correct, lang);
+    const synth = synthesizeParallelFoils(correct, lang, currentCard.topic);
     for (const s of synth) {
       const cleanS = cleanText(s);
       if (cleanS !== cleanCorrect && !chosenDistractors.some(d => cleanText(d) === cleanS)) {

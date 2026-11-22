@@ -649,6 +649,14 @@ export function runPipeline() {
     nounArticles = JSON.parse(fs.readFileSync(nounArticlesPath, 'utf-8')).articles || {};
   }
   let nounArticlesFilled = 0;
+
+  // اصلاح متن کارت‌ها (برای همهٔ نوع کارت‌ها)
+  const textOverridesPath = path.resolve('data/sources/text_overrides.json');
+  let textOverrides: Record<string, Record<string, string>> = {};
+  if (fs.existsSync(textOverridesPath)) {
+    textOverrides = JSON.parse(fs.readFileSync(textOverridesPath, 'utf-8')).overrides || {};
+  }
+  let textOverridesApplied = 0;
   let nounArticlesCorrected = 0;
 
   // Load C1_FINAL expansion concepts that are not in the C1 Sync file
@@ -919,6 +927,16 @@ export function runPipeline() {
       }
     }
 
+    if (textOverrides[cid]) {
+      for (const [oLang, oText] of Object.entries(textOverrides[cid])) {
+        if (oLang.startsWith('_') || !mergedTranslations[oLang]) continue;
+        if (mergedTranslations[oLang].text !== oText) {
+          mergedTranslations[oLang].text = oText;
+          textOverridesApplied++;
+        }
+      }
+    }
+
     // جنسیت بازبینی‌شده: خالی را پر می‌کند و نادرست را اصلاح می‌کند
     if (finalType === 'vocabulary' && nounArticles[cid]) {
       for (const [nLang, fix] of Object.entries(nounArticles[cid])) {
@@ -1087,6 +1105,7 @@ export function runPipeline() {
   console.log(`C1_FINAL expansion concepts marked excluded: ${c1FinalOnlyConceptIds.size}`);
   console.log(`Parenthetical explanations moved to note field: ${parenExplanationsCount}`);
   console.log(`Vocabulary case leftovers cleaned: ${vocabCaseCleanedCount}`);
+  console.log(`Text overrides (text_overrides.json): ${textOverridesApplied} applied`);
   console.log(`Noun articles (noun_articles.json): ${nounArticlesFilled} filled, ${nounArticlesCorrected} corrected`);
 
   return merged_cards;

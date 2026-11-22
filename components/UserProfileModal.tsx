@@ -872,20 +872,20 @@ export const UserProfileModal: React.FC<Props> = ({
                   </div>
                 </div>
 
-                {/* 5-Boxes Distribution Visualizer */}
+                {/* 3-Boxes Distribution Visualizer */}
                 <div className="space-y-1.5">
                   <div className="flex items-center justify-between text-[11px] font-medium text-[var(--mute)]">
-                    <span>{isRTL ? 'توزیع کارت‌ها در ۵ خانه لایتنر:' : '5 Leitner Boxes:'}</span>
-                    <span>{isRTL ? '۱ • ۲ • ۴ • ۸ • ۱۶ روز' : '1 • 2 • 4 • 8 • 16 days'}</span>
+                    <span>{isRTL ? 'توزیع کارت‌ها در ۳ خانه لایتنر:' : '3 Leitner Boxes:'}</span>
+                    <span>{isRTL ? '۱ • ۳ • ۷ روز' : '1 • 3 • 7 days'}</span>
                   </div>
-                  <div className="grid grid-cols-5 gap-1.5 text-center">
-                    {[0, 1, 2, 3, 4].map(bIdx => {
+                  <div className="grid grid-cols-3 gap-1.5 text-center">
+                    {[0, 1, 2].map(bIdx => {
                       const count = leitnerState.cards.filter(c => c.boxIndex === bIdx).length;
                       return (
                         <div 
                           key={`box-${bIdx}`}
                           className={`p-1.5 rounded-[12px] border text-center transition-all ${
-                            bIdx === 4
+                            bIdx === 2
                               ? 'bg-emerald-500/10 border-emerald-500/30 text-emerald-600'
                               : 'bg-[var(--panel)] border-[var(--line)] text-[var(--ink)]'
                           }`}
