@@ -292,6 +292,20 @@ const SinglePlayerScreen: React.FC<Props> = ({
           setCurrentBucket(turnCard.bucket);
           setCurrentMode(turnCard.mode);
 
+          // Synchronize active card with adaptive engine's chosen item (aligns requeues & level pacing)
+          const chosenId = turnCard.item.id;
+          setCards(prevCards => {
+            const targetIdx = prevCards.findIndex(c => c.id === chosenId);
+            if (targetIdx >= 0 && targetIdx !== currentIndex) {
+              const updated = [...prevCards];
+              const temp = updated[currentIndex];
+              updated[currentIndex] = updated[targetIdx];
+              updated[targetIdx] = temp;
+              return updated;
+            }
+            return prevCards;
+          });
+
           // Auto-hint for scaffold in easier / rescue modes
           if (turnCard.hint) {
             setShowHintSection(true);
@@ -310,13 +324,15 @@ const SinglePlayerScreen: React.FC<Props> = ({
   // 4 Smart multiple-choice options powered by pedagogical test question engine (or 2 for choice2 scaffold)
   const quickQuizOptions = useMemo(() => {
     if (!currentCard) return [];
-    const targetLang = settings.displayMode === 'translate_to_native'
+    const isReverse = settings.displayMode === 'translate_to_native';
+    const targetLang = isReverse
       ? (currentCard.nativeLanguage || settings.nativeLanguage || (isRTL ? 'fa' : 'en'))
       : (currentCard.targetLanguage || settings.targetLanguage || 'en');
-    const all = generateChallengingReflexOptions(currentCard, cards, targetLang);
+    const expected = (isReverse ? currentCard.translation : currentCard.targetText || '').trim();
+    const all = generateChallengingReflexOptions(currentCard, cards, targetLang, expected);
     if (currentExerciseType === 'choice2') {
-      // دو گزینه: همیشه پاسخ درست + یک گزینهٔ غلط (برش سادهٔ دو گزینهٔ اول گاهی پاسخ درست را حذف می‌کرد)
-      return pickTwoChoiceOptions(all, currentCard.targetText || '');
+      // دو گزینه: همیشه پاسخ درست + یک گزینهٔ غلط
+      return pickTwoChoiceOptions(all, expected);
     }
     return all;
   }, [currentCard, cards, settings.displayMode, settings.nativeLanguage, settings.targetLanguage, isRTL, currentExerciseType]);

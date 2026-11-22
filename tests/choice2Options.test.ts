@@ -33,4 +33,23 @@ describe('تمرین دوگزینه‌ای', () => {
     const b = pickTwoChoiceOptions(['x', card.targetText, 'y'], card.targetText);
     expect(a).toEqual(b);
   });
+
+  it('در حالت ترجمه به زبان مادری (reverse)، پاسخ درست به زبان مادری در گزینه‌ها هست', () => {
+    const nlCard: any = {
+      id: 'c_good_morning',
+      targetText: 'Goedemorgen',
+      translation: 'صبح بخیر',
+      targetLanguage: 'nl',
+      nativeLanguage: 'fa',
+      topic: 'CAT_GREETINGS',
+      cefrLevel: 'A1',
+    };
+    for (let i = 0; i < 20; i++) {
+      const all = generateChallengingReflexOptions(nlCard, [nlCard], 'fa', nlCard.translation);
+      const two = pickTwoChoiceOptions(all, nlCard.translation);
+      expect(two).toHaveLength(2);
+      expect(two).toContain('صبح بخیر');
+      expect(two).not.toContain('Goedemorgen'); // متن هلندی نباید گزینهٔ ترجمهٔ فارسی باشد
+    }
+  });
 });

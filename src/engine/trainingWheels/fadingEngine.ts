@@ -55,7 +55,9 @@ export function getFadingStageForCard(
     const leitner = getLeitnerState();
     const item = leitner.cards.find((c) => c.cardId === cardId || c.id === cardId || c.card?.id === cardId);
     if (item) {
-      if (item.boxIndex >= 3) return 3; // Mastered: normal text
+      if (item.boxIndex >= 3 || (item.reviewHistory && item.reviewHistory.length >= 3 && item.reviewHistory.slice(-3).every(h => h.success))) {
+        return 3; // Mastered: normal text (training wheels completely faded)
+      }
       if (item.boxIndex === 2) return 2; // Near mastery: thin colored underline
       if (item.boxIndex === 1) return 1; // Moderate: color + shape
       return 0; // Box 0: full aids

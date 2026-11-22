@@ -234,7 +234,8 @@ const LEVEL_ORDER = ['Pre-A1', 'A0+', 'A1', 'A1+', 'A2', 'A2+', 'B1', 'B1+', 'B2
 /** true when cardLevel is at or below the chosen level (unknown levels pass). */
 function isWithinLevel(cardLevel: string | undefined, chosen: CEFRLevel): boolean {
   if (chosen === 'all' || !cardLevel) return true;
-  const c = LEVEL_ORDER.indexOf(cardLevel), m = LEVEL_ORDER.indexOf(chosen);
+  const normalizedLevel = cardLevel === 'easy' ? 'A1' : cardLevel === 'medium' ? 'A2' : (cardLevel === 'hard' || cardLevel === 'Collocation') ? 'B2' : cardLevel;
+  const c = LEVEL_ORDER.indexOf(normalizedLevel), m = LEVEL_ORDER.indexOf(chosen);
   if (c < 0 || m < 0) return true;
   return c <= m;
 }
@@ -247,6 +248,10 @@ function generateDynamicCards(targetLang: Language, nativeLang: Language, count:
     if (concepts.length > 0) {
       const shuffled = [...concepts].sort(() => Math.random() - 0.5);
       return shuffled.slice(0, count);
+    }
+    // Never leak English template target text into non-English learning sessions
+    if (targetLang !== 'en' && targetLang !== 'en-US') {
+      return [];
     }
   }
 

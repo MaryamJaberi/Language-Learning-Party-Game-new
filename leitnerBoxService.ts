@@ -112,7 +112,7 @@ export function checkAndApplyDailyDecay(state: LeitnerState): LeitnerState {
 
   // Demote all unmastered cards back to Box 0 (House 1)
   state.cards = state.cards.map(c => {
-    if (c.boxIndex < 4) {
+    if (c.boxIndex < LEITNER_INTERVALS.length) {
       return {
         ...c,
         boxIndex: 0,
@@ -193,9 +193,9 @@ export function getDueLeitnerCards(state: LeitnerState): Array<{
 }> {
   const today = getTodayDateString();
 
-  // Find cards where nextReviewDate <= today and boxIndex < 4 (not already mastered)
+  // Find cards where nextReviewDate <= today and boxIndex < LEITNER_INTERVALS.length (not already mastered)
   const dueItems = state.cards.filter(c => {
-    if (c.boxIndex >= 4) return false;
+    if (c.boxIndex >= LEITNER_INTERVALS.length) return false;
     return !c.nextReviewDate || c.nextReviewDate <= today;
   });
 
@@ -264,18 +264,20 @@ export function recordLeitnerCardReview(
   item.reviewHistory.push({ date: today, success: isCorrect });
 
   if (isCorrect) {
-    // Advance to next box (max Box 3, index 2)
-    const nextBox = Math.min(item.boxIndex + 1, 2);
+    // Advance to next box (Boxes 1 to 3, index 0 to 2; boxIndex >= 3 is Mastered)
+    const prevBox = item.boxIndex;
+    const nextBox = Math.min(prevBox + 1, LEITNER_INTERVALS.length);
     item.boxIndex = nextBox;
-    const intervalDays = LEITNER_INTERVALS[nextBox] || 7;
+    const isMastered = nextBox >= LEITNER_INTERVALS.length;
+    const intervalDays = LEITNER_INTERVALS[Math.min(nextBox, LEITNER_INTERVALS.length - 1)] || 7;
     item.nextReviewDate = addDaysToDateString(today, intervalDays);
 
-    if (nextBox === 2) {
+    if (isMastered && prevBox < LEITNER_INTERVALS.length) {
       state.totalCardsMastered += 1;
     }
 
     saveLeitnerState(state);
-    return { promotedToBox: nextBox + 1, isMastered: nextBox === 2 };
+    return { promotedToBox: Math.min(nextBox + 1, LEITNER_INTERVALS.length), isMastered };
   } else {
     // Demote back to Box 0 (House 1) for spaced re-learning
     item.boxIndex = 0;

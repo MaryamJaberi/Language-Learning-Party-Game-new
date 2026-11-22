@@ -1,0 +1,806 @@
+{
+  "total_curated_cards": 8918,
+  "active_cards_count": 6910,
+  "excluded_cards_count": 2008,
+  "duplicate_card_ids": {},
+  "duplicate_concept_ids_all": 0,
+  "duplicate_concept_ids_active": {},
+  "duplicate_base_en_active_count": 4,
+  "duplicate_base_en_top_samples": [
+    [
+      "how much does this cost?",
+      2
+    ],
+    [
+      "can i pay by card?",
+      2
+    ],
+    [
+      "it costs an arm and a leg",
+      2
+    ],
+    [
+      "the bill, please",
+      2
+    ]
+  ],
+  "level_distribution_curated_all": {
+    "easy": 131,
+    "medium": 72,
+    "hard": 39,
+    "A1": 468,
+    "A2": 983,
+    "B1": 979,
+    "B2": 1524,
+    "C1": 3842,
+    "A1+": 64,
+    "A0": 133,
+    "A0+": 63,
+    "A2+": 43,
+    "B1+": 21,
+    "B2+": 21,
+    "C1+": 21,
+    "C2": 467,
+    "Collocation": 47
+  },
+  "level_distribution_curated_active": {
+    "easy": 131,
+    "medium": 72,
+    "hard": 39,
+    "A1": 468,
+    "A2": 983,
+    "B1": 979,
+    "B2": 1524,
+    "C1": 1881,
+    "A1+": 64,
+    "A0": 133,
+    "A0+": 63,
+    "A2+": 43,
+    "B1+": 21,
+    "B2+": 21,
+    "C1+": 21,
+    "C2": 467
+  },
+  "languages_in_curated": [
+    "ar",
+    "de",
+    "en",
+    "en-GB",
+    "en-US",
+    "es",
+    "fa",
+    "fr",
+    "hi",
+    "it",
+    "ja",
+    "ko",
+    "nl",
+    "pl",
+    "pt",
+    "tr",
+    "uk",
+    "zh"
+  ],
+  "missing_translations_active_by_lang": {},
+  "empty_translations_active_by_lang": {},
+  "untranslated_english_count_by_lang": {
+    "nl": 30,
+    "it": 13,
+    "pt": 7,
+    "fr": 20,
+    "es": 6,
+    "de": 27,
+    "tr": 3,
+    "pl": 9
+  },
+  "untranslated_english_samples": {
+    "nl": [
+      {
+        "conceptId": "c_oven",
+        "base_en": "oven",
+        "text": "oven"
+      },
+      {
+        "conceptId": "c_samovar",
+        "base_en": "samovar",
+        "text": "samovar"
+      },
+      {
+        "conceptId": "c_shampoo",
+        "base_en": "shampoo",
+        "text": "shampoo"
+      },
+      {
+        "conceptId": "c_hamburger",
+        "base_en": "hamburger",
+        "text": "hamburger"
+      },
+      {
+        "conceptId": "c_kebab",
+        "base_en": "kebab",
+        "text": "kebab"
+      }
+    ],
+    "it": [
+      {
+        "conceptId": "c_samovar",
+        "base_en": "samovar",
+        "text": "samovar"
+      },
+      {
+        "conceptId": "c_shampoo",
+        "base_en": "shampoo",
+        "text": "shampoo"
+      },
+      {
+        "conceptId": "c_yogurt",
+        "base_en": "yogurt",
+        "text": "yogurt"
+      },
+      {
+        "conceptId": "c_banana",
+        "base_en": "banana",
+        "text": "banana"
+      },
+      {
+        "conceptId": "c_hamburger",
+        "base_en": "hamburger",
+        "text": "hamburger"
+      }
+    ],
+    "pt": [
+      {
+        "conceptId": "c_samovar",
+        "base_en": "samovar",
+        "text": "samovar"
+      },
+      {
+        "conceptId": "c_chocolate",
+        "base_en": "chocolate",
+        "text": "chocolate"
+      },
+      {
+        "conceptId": "c_banana",
+        "base_en": "banana",
+        "text": "banana"
+      },
+      {
+        "conceptId": "c_kebab",
+        "base_en": "kebab",
+        "text": "kebab"
+      },
+      {
+        "conceptId": "c_hospital",
+        "base_en": "hospital",
+        "text": "hospital"
+      }
+    ],
+    "fr": [
+      {
+        "conceptId": "c_samovar",
+        "base_en": "samovar",
+        "text": "samovar"
+      },
+      {
+        "conceptId": "c_table",
+        "base_en": "table",
+        "text": "table"
+      },
+      {
+        "conceptId": "c_orange",
+        "base_en": "orange",
+        "text": "orange"
+      },
+      {
+        "conceptId": "c_hamburger",
+        "base_en": "hamburger",
+        "text": "hamburger"
+      },
+      {
+        "conceptId": "c_kebab",
+        "base_en": "kebab",
+        "text": "kebab"
+      }
+    ],
+    "es": [
+      {
+        "conceptId": "c_samovar",
+        "base_en": "samovar",
+        "text": "samovar"
+      },
+      {
+        "conceptId": "c_chocolate",
+        "base_en": "chocolate",
+        "text": "chocolate"
+      },
+      {
+        "conceptId": "c_kebab",
+        "base_en": "kebab",
+        "text": "kebab"
+      },
+      {
+        "conceptId": "c_hospital",
+        "base_en": "hospital",
+        "text": "hospital"
+      },
+      {
+        "conceptId": "c_pasta_alfredo",
+        "base_en": "Pasta Alfredo",
+        "text": "pasta alfredo"
+      }
+    ],
+    "de": [
+      {
+        "conceptId": "c_shampoo",
+        "base_en": "shampoo",
+        "text": "Shampoo"
+      },
+      {
+        "conceptId": "c_sofa",
+        "base_en": "sofa",
+        "text": "Sofa"
+      },
+      {
+        "conceptId": "c_orange",
+        "base_en": "orange",
+        "text": "Orange"
+      },
+      {
+        "conceptId": "c_hamburger",
+        "base_en": "hamburger",
+        "text": "Hamburger"
+      },
+      {
+        "conceptId": "c_kebab",
+        "base_en": "kebab",
+        "text": "Kebab"
+      }
+    ],
+    "tr": [
+      {
+        "conceptId": "c_hamburger",
+        "base_en": "hamburger",
+        "text": "Hamburger"
+      },
+      {
+        "conceptId": "c_pilot",
+        "base_en": "pilot",
+        "text": "Pilot"
+      },
+      {
+        "conceptId": "c_park",
+        "base_en": "park",
+        "text": "park"
+      }
+    ],
+    "pl": [
+      {
+        "conceptId": "c_hamburger",
+        "base_en": "hamburger",
+        "text": "Hamburger"
+      },
+      {
+        "conceptId": "c_kebab",
+        "base_en": "kebab",
+        "text": "Kebab"
+      },
+      {
+        "conceptId": "c_pilot",
+        "base_en": "pilot",
+        "text": "Pilot"
+      },
+      {
+        "conceptId": "c_hot_dog",
+        "base_en": "hot dog",
+        "text": "Hot dog"
+      },
+      {
+        "conceptId": "c_park",
+        "base_en": "park",
+        "text": "park"
+      }
+    ]
+  },
+  "total_curated_deck_cards": 8918,
+  "deck_files_stats": {
+    "ar": {
+      "type": "dict",
+      "count": 8918,
+      "empty_texts": 0,
+      "has_articles": 12,
+      "has_notes": 0,
+      "has_alternatives": 153
+    },
+    "de": {
+      "type": "dict",
+      "count": 8918,
+      "empty_texts": 0,
+      "has_articles": 339,
+      "has_notes": 2,
+      "has_alternatives": 102
+    },
+    "en-GB": {
+      "type": "dict",
+      "count": 8918,
+      "empty_texts": 0,
+      "has_articles": 0,
+      "has_notes": 0,
+      "has_alternatives": 15
+    },
+    "en-US": {
+      "type": "dict",
+      "count": 8918,
+      "empty_texts": 0,
+      "has_articles": 0,
+      "has_notes": 0,
+      "has_alternatives": 33
+    },
+    "en": {
+      "type": "dict",
+      "count": 8918,
+      "empty_texts": 0,
+      "has_articles": 0,
+      "has_notes": 1,
+      "has_alternatives": 5
+    },
+    "es": {
+      "type": "dict",
+      "count": 8918,
+      "empty_texts": 0,
+      "has_articles": 333,
+      "has_notes": 0,
+      "has_alternatives": 78
+    },
+    "fa": {
+      "type": "dict",
+      "count": 8918,
+      "empty_texts": 0,
+      "has_articles": 0,
+      "has_notes": 7,
+      "has_alternatives": 174
+    },
+    "fr": {
+      "type": "dict",
+      "count": 8918,
+      "empty_texts": 0,
+      "has_articles": 338,
+      "has_notes": 1,
+      "has_alternatives": 107
+    },
+    "hi": {
+      "type": "dict",
+      "count": 8918,
+      "empty_texts": 0,
+      "has_articles": 0,
+      "has_notes": 0,
+      "has_alternatives": 123
+    },
+    "it": {
+      "type": "dict",
+      "count": 8918,
+      "empty_texts": 0,
+      "has_articles": 333,
+      "has_notes": 0,
+      "has_alternatives": 83
+    },
+    "ja": {
+      "type": "dict",
+      "count": 8918,
+      "empty_texts": 0,
+      "has_articles": 0,
+      "has_notes": 0,
+      "has_alternatives": 146
+    },
+    "ko": {
+      "type": "dict",
+      "count": 8918,
+      "empty_texts": 0,
+      "has_articles": 0,
+      "has_notes": 0,
+      "has_alternatives": 162
+    },
+    "meta": {
+      "type": "list",
+      "count": 8918,
+      "active_count": 6910,
+      "excluded_count": 2008
+    },
+    "nl": {
+      "type": "dict",
+      "count": 8918,
+      "empty_texts": 0,
+      "has_articles": 338,
+      "has_notes": 1,
+      "has_alternatives": 84
+    },
+    "pl": {
+      "type": "dict",
+      "count": 8918,
+      "empty_texts": 0,
+      "has_articles": 0,
+      "has_notes": 1,
+      "has_alternatives": 99
+    },
+    "pt": {
+      "type": "dict",
+      "count": 8918,
+      "empty_texts": 0,
+      "has_articles": 333,
+      "has_notes": 0,
+      "has_alternatives": 121
+    },
+    "ru": {
+      "type": "dict",
+      "count": 0,
+      "empty_texts": 0,
+      "has_articles": 0,
+      "has_notes": 0,
+      "has_alternatives": 0
+    },
+    "tr": {
+      "type": "dict",
+      "count": 8918,
+      "empty_texts": 0,
+      "has_articles": 0,
+      "has_notes": 0,
+      "has_alternatives": 110
+    },
+    "uk": {
+      "type": "dict",
+      "count": 8918,
+      "empty_texts": 0,
+      "has_articles": 0,
+      "has_notes": 0,
+      "has_alternatives": 119
+    },
+    "zh": {
+      "type": "dict",
+      "count": 8918,
+      "empty_texts": 0,
+      "has_articles": 0,
+      "has_notes": 0,
+      "has_alternatives": 122
+    }
+  },
+  "meta_count": 8918,
+  "meta_active_count": 6910,
+  "meta_curated_id_diff": {
+    "in_meta_not_in_curated": 0,
+    "in_curated_not_in_meta": 0
+  },
+  "noun_articles_concept_count": 334,
+  "noun_articles_coverage": {
+    "in_all_curated": 334,
+    "in_active_curated": 334,
+    "missing_from_curated_count": 0,
+    "missing_from_curated_samples": []
+  },
+  "article_mismatches_count": {},
+  "article_mismatches_samples": {},
+  "level_distribution_by_lang": {
+    "ar": {
+      "easy": 131,
+      "medium": 72,
+      "hard": 39,
+      "A1": 468,
+      "A2": 983,
+      "B1": 979,
+      "B2": 1524,
+      "C1": 1881,
+      "A1+": 64,
+      "A0": 133,
+      "A0+": 63,
+      "A2+": 43,
+      "B1+": 21,
+      "B2+": 21,
+      "C1+": 21,
+      "C2": 467
+    },
+    "de": {
+      "easy": 131,
+      "medium": 72,
+      "hard": 39,
+      "A1": 468,
+      "A2": 983,
+      "B1": 979,
+      "B2": 1524,
+      "C1": 1881,
+      "A1+": 64,
+      "A0": 133,
+      "A0+": 63,
+      "A2+": 43,
+      "B1+": 21,
+      "B2+": 21,
+      "C1+": 21,
+      "C2": 467
+    },
+    "en-GB": {
+      "easy": 131,
+      "medium": 72,
+      "hard": 39,
+      "A1": 468,
+      "A2": 983,
+      "B1": 979,
+      "B2": 1524,
+      "C1": 1881,
+      "A1+": 64,
+      "A0": 133,
+      "A0+": 63,
+      "A2+": 43,
+      "B1+": 21,
+      "B2+": 21,
+      "C1+": 21,
+      "C2": 467
+    },
+    "en-US": {
+      "easy": 131,
+      "medium": 72,
+      "hard": 39,
+      "A1": 468,
+      "A2": 983,
+      "B1": 979,
+      "B2": 1524,
+      "C1": 1881,
+      "A1+": 64,
+      "A0": 133,
+      "A0+": 63,
+      "A2+": 43,
+      "B1+": 21,
+      "B2+": 21,
+      "C1+": 21,
+      "C2": 467
+    },
+    "en": {
+      "easy": 131,
+      "medium": 72,
+      "hard": 39,
+      "A1": 468,
+      "A2": 983,
+      "B1": 979,
+      "B2": 1524,
+      "C1": 1881,
+      "A1+": 64,
+      "A0": 133,
+      "A0+": 63,
+      "A2+": 43,
+      "B1+": 21,
+      "B2+": 21,
+      "C1+": 21,
+      "C2": 467
+    },
+    "es": {
+      "easy": 131,
+      "medium": 72,
+      "hard": 39,
+      "A1": 468,
+      "A2": 983,
+      "B1": 979,
+      "B2": 1524,
+      "C1": 1881,
+      "A1+": 64,
+      "A0": 133,
+      "A0+": 63,
+      "A2+": 43,
+      "B1+": 21,
+      "B2+": 21,
+      "C1+": 21,
+      "C2": 467
+    },
+    "fa": {
+      "easy": 131,
+      "medium": 72,
+      "hard": 39,
+      "A1": 468,
+      "A2": 983,
+      "B1": 979,
+      "B2": 1524,
+      "C1": 1881,
+      "A1+": 64,
+      "A0": 133,
+      "A0+": 63,
+      "A2+": 43,
+      "B1+": 21,
+      "B2+": 21,
+      "C1+": 21,
+      "C2": 467
+    },
+    "fr": {
+      "easy": 131,
+      "medium": 72,
+      "hard": 39,
+      "A1": 468,
+      "A2": 983,
+      "B1": 979,
+      "B2": 1524,
+      "C1": 1881,
+      "A1+": 64,
+      "A0": 133,
+      "A0+": 63,
+      "A2+": 43,
+      "B1+": 21,
+      "B2+": 21,
+      "C1+": 21,
+      "C2": 467
+    },
+    "hi": {
+      "easy": 131,
+      "medium": 72,
+      "hard": 39,
+      "A1": 468,
+      "A2": 983,
+      "B1": 979,
+      "B2": 1524,
+      "C1": 1881,
+      "A1+": 64,
+      "A0": 133,
+      "A0+": 63,
+      "A2+": 43,
+      "B1+": 21,
+      "B2+": 21,
+      "C1+": 21,
+      "C2": 467
+    },
+    "it": {
+      "easy": 131,
+      "medium": 72,
+      "hard": 39,
+      "A1": 468,
+      "A2": 983,
+      "B1": 979,
+      "B2": 1524,
+      "C1": 1881,
+      "A1+": 64,
+      "A0": 133,
+      "A0+": 63,
+      "A2+": 43,
+      "B1+": 21,
+      "B2+": 21,
+      "C1+": 21,
+      "C2": 467
+    },
+    "ja": {
+      "easy": 131,
+      "medium": 72,
+      "hard": 39,
+      "A1": 468,
+      "A2": 983,
+      "B1": 979,
+      "B2": 1524,
+      "C1": 1881,
+      "A1+": 64,
+      "A0": 133,
+      "A0+": 63,
+      "A2+": 43,
+      "B1+": 21,
+      "B2+": 21,
+      "C1+": 21,
+      "C2": 467
+    },
+    "ko": {
+      "easy": 131,
+      "medium": 72,
+      "hard": 39,
+      "A1": 468,
+      "A2": 983,
+      "B1": 979,
+      "B2": 1524,
+      "C1": 1881,
+      "A1+": 64,
+      "A0": 133,
+      "A0+": 63,
+      "A2+": 43,
+      "B1+": 21,
+      "B2+": 21,
+      "C1+": 21,
+      "C2": 467
+    },
+    "nl": {
+      "easy": 131,
+      "medium": 72,
+      "hard": 39,
+      "A1": 468,
+      "A2": 983,
+      "B1": 979,
+      "B2": 1524,
+      "C1": 1881,
+      "A1+": 64,
+      "A0": 133,
+      "A0+": 63,
+      "A2+": 43,
+      "B1+": 21,
+      "B2+": 21,
+      "C1+": 21,
+      "C2": 467
+    },
+    "pl": {
+      "easy": 131,
+      "medium": 72,
+      "hard": 39,
+      "A1": 468,
+      "A2": 983,
+      "B1": 979,
+      "B2": 1524,
+      "C1": 1881,
+      "A1+": 64,
+      "A0": 133,
+      "A0+": 63,
+      "A2+": 43,
+      "B1+": 21,
+      "B2+": 21,
+      "C1+": 21,
+      "C2": 467
+    },
+    "pt": {
+      "easy": 131,
+      "medium": 72,
+      "hard": 39,
+      "A1": 468,
+      "A2": 983,
+      "B1": 979,
+      "B2": 1524,
+      "C1": 1881,
+      "A1+": 64,
+      "A0": 133,
+      "A0+": 63,
+      "A2+": 43,
+      "B1+": 21,
+      "B2+": 21,
+      "C1+": 21,
+      "C2": 467
+    },
+    "tr": {
+      "easy": 131,
+      "medium": 72,
+      "hard": 39,
+      "A1": 468,
+      "A2": 983,
+      "B1": 979,
+      "B2": 1524,
+      "C1": 1881,
+      "A1+": 64,
+      "A0": 133,
+      "A0+": 63,
+      "A2+": 43,
+      "B1+": 21,
+      "B2+": 21,
+      "C1+": 21,
+      "C2": 467
+    },
+    "uk": {
+      "easy": 131,
+      "medium": 72,
+      "hard": 39,
+      "A1": 468,
+      "A2": 983,
+      "B1": 979,
+      "B2": 1524,
+      "C1": 1881,
+      "A1+": 64,
+      "A0": 133,
+      "A0+": 63,
+      "A2+": 43,
+      "B1+": 21,
+      "B2+": 21,
+      "C1+": 21,
+      "C2": 467
+    },
+    "zh": {
+      "easy": 131,
+      "medium": 72,
+      "hard": 39,
+      "A1": 468,
+      "A2": 983,
+      "B1": 979,
+      "B2": 1524,
+      "C1": 1881,
+      "A1+": 64,
+      "A0": 133,
+      "A0+": 63,
+      "A2+": 43,
+      "B1+": 21,
+      "B2+": 21,
+      "C1+": 21,
+      "C2": 467
+    }
+  }
+}

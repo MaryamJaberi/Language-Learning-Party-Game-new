@@ -1,11 +1,51 @@
 {
- "_about": "اصلاح متن کارت‌ها در خط تولید داده. هر مورد: conceptId → زبان → متن درست. importDatabase.ts این را بعد از ادغام همهٔ منبع‌ها اعمال می‌کند. دلیل هر اصلاح در _why.",
- "overrides": {
-  "c_dinner_menu": {
-   "en": "Restaurant menu",
-   "en-GB": "Restaurant menu",
-   "en-US": "Restaurant menu",
-   "_why": "فارسی، فرانسوی، اسپانیایی، ایتالیایی، لهستانی و اوکراینی همه «منوی رستوران» اند؛ فقط انگلیسی «Dinner menu» بود و جواب درست «Restaurant menu» را رد می‌کرد."
+  "_about": "اصلاح متن کارت‌ها در خط تولید داده. هر مورد: conceptId → زبان → متن درست. importDatabase.ts این را بعد از ادغام همهٔ منبع‌ها اعمال می‌کند. دلیل هر اصلاح در _why.",
+  "overrides": {
+    "c_dinner_menu": {
+      "en": "Restaurant menu",
+      "en-GB": "Restaurant menu",
+      "en-US": "Restaurant menu",
+      "_why": "فارسی، فرانسوی، اسپانیایی، ایتالیایی، لهستانی و اوکراینی همه «منوی رستوران» اند؛ فقط انگلیسی «Dinner menu» بود و جواب درست «Restaurant menu» را رد می‌کرد."
+    },
+    "c_the_feedback_was_vague_on_purpose": {
+      "ar": "التقييم كان غامضاً عن قصد",
+      "_why": "اصلاح خطای واژه الفیedback در عربی"
+    },
+    "c_the_feedback_came_back_three_weeks_late": {
+      "ar": "التقييم رجع متأخراً ثلاثة أسابيع",
+      "_why": "اصلاح خطای واژه الفیedback در عربی"
+    },
+    "c_ill_defrost_the_freezer_this_weekend_before_it_ices_over": {
+      "ar": "سأذيب ثلج الفريزر في عطلة نهاية الأسبوع قبل أن يتجمد تماماً",
+      "_why": "اصلاح خطای واژه هفrost در عربی"
+    },
+    "c_is_there_a_vegetarian_dessert": {
+      "hi": "क्या कोई शाकाहारी डिज़र्ट है?",
+      "_why": "اصلاح خطای واژه डessert در هندی"
+    },
+    "c_they_won_the_highlights_and_lost_the_ninety_which_the_clip_w": {
+      "ar": "كسبوا اللقطات وخسروا التسعين، والكليب مش هيعترف",
+      "_why": "اصلاح حرف پ فارسی به ب در عربی"
+    },
+    "c_ill_bcc_the_wider_list_and_cc_only_those_who_must_act_a_crow": {
+      "ar": "سأضع القائمة الأوسع في BCC ومن يجب أن يتصرفوا فقط في CC؛ خانة «إلى» المزدحمة تحول الملاحظة إلى استعراض.",
+      "_why": "اصلاح حروف فارسی به عربی"
+    },
+    "c_would_they_freeze_the_spec_on_the_same_page_as_the_discount_": {
+      "ar": "هل سيجمدون المواصفات في نفس صفحة الخصم، أم أن الرقم الأرخص باب يرجع للبنود الإضافية؟",
+      "_why": "اصلاح حروف فارسی فی به في عربی"
+    },
+    "c_ill_fill_the_form_in_the_browser_they_named_then_save_a_pdf_": {
+      "ar": "سأملأ النموذج في المتصفح الذي حددوه ثم أحفظ PDF؛ استخدام التطبيق بعد أن بدأت ليس قاعدة فاتتني على الباب.",
+      "_why": "اصلاح حروف فارسی و ترجمه صحیح عربی"
+    },
+    "c_ill_name_the_uncertainty_in_the_same_sentence_as_the_recomme": {
+      "ar": "سأذكر عدم اليقين في نفس جملة التوصية؛ الإغلاق الواثق الذي يخفي الاحتمال يجعل المجلس يرث تخميناً.",
+      "_why": "اصلاح حروف فارسی فی به في عربی"
+    },
+    "c_ill_recap_the_maybe_before_i_recap_the_yes_a_note_that_only_": {
+      "ar": "سألخص الاحتمال قبل أن ألخص الموافقة؛ المحضر الذي يسجل الابتسامة فقط يجعل التحفظ يتبخر.",
+      "_why": "اصلاح حروف فارسی به عربی"
+    }
   }
- }
 }

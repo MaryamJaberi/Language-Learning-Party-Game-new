@@ -69,7 +69,6 @@ export const LanguageAndCefrDropdowns: React.FC<Props> = ({
     onSave({
       ...settings,
       nativeLanguage: lang,
-      language: lang,
       playerNames: newPlayerNames,
       targetLanguages: newTargets
     });
@@ -77,17 +76,9 @@ export const LanguageAndCefrDropdowns: React.FC<Props> = ({
 
   const setAppLanguage = (lang: Language) => {
     sound.playToggle();
-    const newPlayerNames = getRandomCharacters(lang, 8);
-    let targets = (settings.targetLanguages || []).filter(t => t !== lang && !(lang.startsWith('en') && t.startsWith('en')));
-    if (targets.length === 0) {
-      targets = lang.startsWith('en') ? ['es', 'fr'] : ['en', 'es'];
-    }
     onSave({
       ...settings,
-      language: lang,
-      nativeLanguage: lang,
-      playerNames: newPlayerNames,
-      targetLanguages: targets
+      language: lang
     });
   };
 

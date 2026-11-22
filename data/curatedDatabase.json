@@ -321783,7 +321783,7 @@
         "text": "채식 디저트 있어요?"
       },
       "hi": {
-        "text": "क्या शाकाहारी डessert है?"
+        "text": "क्या कोई शाकाहारी डिज़र्ट है?"
       },
       "pt": {
         "text": "Tem sobremesa vegetariana?"
@@ -321874,8 +321874,8 @@
         "lengthClass": "short"
       },
       "hi": {
-        "units": 4,
-        "readSec": 1.7,
+        "units": 5,
+        "readSec": 2.1,
         "lengthClass": "short"
       },
       "pt": {
@@ -583389,7 +583389,7 @@
         "text": "The feedback was vague on purpose"
       },
       "ar": {
-        "text": "الفیedback كان غامض عن قصد"
+        "text": "التقييم كان غامضاً عن قصد"
       },
       "fa": {
         "text": "بازخورد عمداً مبهم بود"
@@ -591050,7 +591050,7 @@
         "text": "The feedback came back three weeks late"
       },
       "ar": {
-        "text": "الفیedback رجع متأخر ثلاثة أسابيع"
+        "text": "التقييم رجع متأخراً ثلاثة أسابيع"
       },
       "fa": {
         "text": "بازخورد سه هفته دیر برگشت"
@@ -723080,7 +723080,7 @@
         "text": "I'll defrost the freezer this weekend before it ices over"
       },
       "ar": {
-        "text": "هفrost الفريزر الويكند قبل ما يتلج خالص"
+        "text": "سأذيب ثلج الفريزر في عطلة نهاية الأسبوع قبل أن يتجمد تماماً"
       },
       "fa": {
         "text": "آخر هفته فریزر رو یخ‌زدایی می‌کنم قبل از اینکه یخ بزنه"
@@ -723145,9 +723145,9 @@
         "lengthClass": "medium"
       },
       "ar": {
-        "units": 7,
-        "readSec": 2.2,
-        "lengthClass": "short"
+        "units": 11,
+        "readSec": 3.5,
+        "lengthClass": "medium"
       },
       "fa": {
         "units": 11,
@@ -918957,7 +918957,7 @@
         "text": "I'll BCC the wider list and CC only those who must act; a crowded To field turns a note into a performance."
       },
       "ar": {
-        "text": "هحط القائمة الكبيرة BCC واللی لازم يتصرفوا CC؛ خانة إلى المزدحمة بتحوّل الملاحظة عرض."
+        "text": "سأضع القائمة الأوسع في BCC ومن يجب أن يتصرفوا فقط في CC؛ خانة «إلى» المزدحمة تحول الملاحظة إلى استعراض."
       },
       "fa": {
         "text": "فهرست وسیع را بی‌سی‌سی می‌گذارم و فقط کسانی که باید عمل کنند سی‌سی؛ فیلد شلوغِ To یک یادداشت را نمایش می‌کند."
@@ -919022,8 +919022,8 @@
         "lengthClass": "medium"
       },
       "ar": {
-        "units": 14,
-        "readSec": 3.8,
+        "units": 19,
+        "readSec": 5.2,
         "lengthClass": "medium"
       },
       "fa": {
@@ -982587,7 +982587,7 @@
         "text": "Would they freeze the spec on the same page as the discount, or is the cheaper number a door back into extras?"
       },
       "ar": {
-        "text": "هيجمّدوا المواصفات فی نفس صفحة الخصم، ولا الرقم الأرخص باب يرجع لل extras؟"
+        "text": "هل سيجمدون المواصفات في نفس صفحة الخصم، أم أن الرقم الأرخص باب يرجع للبنود الإضافية؟"
       },
       "fa": {
         "text": "مشخصات را همان صفحهٔ تخفیف قفل می‌کنند، یا عدد ارزان‌تر دری است به اضافه‌ها؟"
@@ -982652,9 +982652,9 @@
         "lengthClass": "medium"
       },
       "ar": {
-        "units": 13,
-        "readSec": 3.5,
-        "lengthClass": "short"
+        "units": 15,
+        "readSec": 4.1,
+        "lengthClass": "medium"
       },
       "fa": {
         "units": 14,
@@ -991226,7 +991226,7 @@
         "text": "I'll fill the form in the browser they named, then save a PDF; a use-our-app banner that appears after I started is not a rule I missed at the door."
       },
       "ar": {
-        "text": "هعبّی الفورم فی المتصفح اللی سموه وبعدين أحفظ PDF؛ بنر استخدم التطبيق بعد ما بدأت مش قاعدة فاتتنی على الباب."
+        "text": "سأملأ النموذج في المتصفح الذي حددوه ثم أحفظ PDF؛ استخدام التطبيق بعد أن بدأت ليس قاعدة فاتتني على الباب."
       },
       "fa": {
         "text": "فرم را در مرورگری که گفتند پر می‌کنم بعد پی‌دی‌اف می‌گیرم؛ بنر «اپ ما را استفاده کن» بعد از شروع قاعده‌ای نیست که دم در از قلم انداختم."
@@ -991291,8 +991291,8 @@
         "lengthClass": "long"
       },
       "ar": {
-        "units": 20,
-        "readSec": 5.5,
+        "units": 19,
+        "readSec": 5.2,
         "lengthClass": "medium"
       },
       "fa": {
@@ -1030714,7 +1030714,7 @@
         "text": "I'll name the uncertainty in the same sentence as the recommendation; a confident close that hides the maybe is how a board inherits a guess."
       },
       "ar": {
-        "text": "هسمّی عدم اليقين فی نفس جملة التوصية؛ قفل واثق بيخبّی الـmaybe بيخلّی المجلس يورث تخمين."
+        "text": "سأذكر عدم اليقين في نفس جملة التوصية؛ الإغلاق الواثق الذي يخفي الاحتمال يجعل المجلس يرث تخميناً."
       },
       "fa": {
         "text": "عدم قطعیت را در همان جملهٔ توصیه می‌گویم؛ پایان مطمئنی که شاید را پنهان کند هیئت را وارث حدس می‌کند."
@@ -1030779,8 +1030779,8 @@
         "lengthClass": "long"
       },
       "ar": {
-        "units": 15,
-        "readSec": 4.1,
+        "units": 16,
+        "readSec": 4.4,
         "lengthClass": "medium"
       },
       "fa": {
@@ -1033974,7 +1033974,7 @@
         "text": "I'll recap the maybe before I recap the yes; a note that only records the smile is how a reservation evaporates."
       },
       "ar": {
-        "text": "هلخّص الـmaybe قبل ما ألخّص الأه؛ محضر بيسجّل الابتسامة بس بيخلّی التحفّظ يتبخر."
+        "text": "سألخص الاحتمال قبل أن ألخص الموافقة؛ المحضر الذي يسجل الابتسامة فقط يجعل التحفظ يتبخر."
       },
       "fa": {
         "text": "شاید را پیش از بله جمع می‌کنم؛ یادداشتی که فقط لبخند را ثبت کند قید را بخار می‌کند."
@@ -1034039,9 +1034039,9 @@
         "lengthClass": "medium"
       },
       "ar": {
-        "units": 13,
-        "readSec": 3.5,
-        "lengthClass": "short"
+        "units": 14,
+        "readSec": 3.8,
+        "lengthClass": "medium"
       },
       "fa": {
         "units": 18,
@@ -1387465,7 +1387465,7 @@
         "text": "They won the highlights and lost the ninety, which the clip will not admit."
       },
       "ar": {
-        "text": "كسبوا اللقطات وخسروا التسعين، والكليپ مش هيعترف"
+        "text": "كسبوا اللقطات وخسروا التسعين، والكليب مش هيعترف"
       },
       "fa": {
         "text": "هایلایت را بردند و نود دقیقه را باختند، و کلیپ این را اعتراف نخواهد کرد"

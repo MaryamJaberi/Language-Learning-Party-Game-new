@@ -419,10 +419,25 @@ export function evaluateAnswer(
   if (missingWords.length > 0 && missingWords.length <= 3) {
     guidanceFa += ` (کلمات جا افتاده یا متفاوت: ${missingWords.join('، ')})`;
   }
+  if (card.translation && targetAnswer !== card.translation) {
+    guidanceFa += ` — معنی: «${card.translation}»`;
+  }
+  if (card.pronunciation && uiLanguage === 'fa') {
+    guidanceFa += ` [تلفظ: ${card.pronunciation}]`;
+  }
+  if (card.grammarPoint && uiLanguage === 'fa') {
+    guidanceFa += ` 💡 نکته: ${card.grammarPoint}`;
+  }
 
   let guidanceEn = `Your answer: "${userNorm}" — Expected: "${targetAnswer}"`;
   if (missingWords.length > 0 && missingWords.length <= 3) {
     guidanceEn += ` (Missing or different words: ${missingWords.join(', ')})`;
+  }
+  if (card.translation && targetAnswer !== card.translation) {
+    guidanceEn += ` — Meaning: "${card.translation}"`;
+  }
+  if (card.grammarPoint && uiLanguage !== 'fa') {
+    guidanceEn += ` 💡 Tip: ${card.grammarPoint}`;
   }
 
   return {
