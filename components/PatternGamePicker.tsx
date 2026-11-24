@@ -48,7 +48,7 @@ export default function PatternGamePicker({ mode, targetLanguage, nativeLanguage
 
       {!ready || cats.length === 0 ? (
         <div className="text-[11px] text-[var(--mute)] font-medium">
-          {tx(isRTL, 'فعلاً برای یادگیری انگلیسی و هلندی با زبان مادری فارسی آماده است؛ زبان‌های دیگر به‌زودی.', 'Ready for learning English and Dutch with Persian as native language for now; more languages soon.')}
+          {tx(isRTL, 'فعلاً برای یادگیری انگلیسی، هلندی و آلمانی با زبان مادری فارسی آماده است؛ زبان‌های دیگر به‌زودی.', 'Ready for learning English, Dutch and German with Persian as native language for now; more languages soon.')}
         </div>
       ) : (
         <>

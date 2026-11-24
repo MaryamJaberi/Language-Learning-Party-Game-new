@@ -31,7 +31,7 @@ describe('بازی‌های الگو: داده', () => {
     }
   });
 
-  it.each(['en', 'nl'])('کارت‌های %s شناسهٔ یکتا و تکه‌هایی دارند که کنار هم همان جمله می‌شوند', (lang) => {
+  it.each(['en', 'nl', 'de'])('کارت‌های %s شناسهٔ یکتا و تکه‌هایی دارند که کنار هم همان جمله می‌شوند', (lang) => {
     const ids = getPatternCategories(lang).map((c) => c.id);
     const cards = getPatternCards(lang, 'fa', ids);
     expect(cards.length).toBeGreaterThan(100);
@@ -45,9 +45,10 @@ describe('بازی‌های الگو: داده', () => {
   it('برای جفت‌زبانی که محتوا ندارد چیزی برنمی‌گرداند', () => {
     expect(hasPatternDeck('en-US', 'fa')).toBe(true);
     expect(hasPatternDeck('nl', 'fa')).toBe(true);
-    expect(hasPatternDeck('de', 'fa')).toBe(false);
-    expect(getPatternCards('de', 'fa', allIds)).toEqual([]);
-    expect(firstPatternTarget(['de', 'nl', 'en-US'], 'fa')).toBe('nl');
+    expect(hasPatternDeck('de', 'fa')).toBe(true);
+    expect(hasPatternDeck('es', 'fa')).toBe(false);
+    expect(getPatternCards('es', 'fa', allIds)).toEqual([]);
+    expect(firstPatternTarget(['es', 'nl', 'en-US'], 'fa')).toBe('nl');
   });
 });
 
@@ -71,9 +72,9 @@ describe('بازی‌های الگو: انتخاب در هر حالت بازی',
 
   it('اگر زبان هدف محتوا نداشته باشد به کارت‌های معمول برمی‌گردد', () => {
     setPatternPrefs('group', ['PAT_FRAMES']);
-    const fallback = [{ id: 'de1' } as any];
-    expect(applyPatternDeck('group', ['de'], 'fa', () => fallback)).toBe(fallback);
-    expect(applyPatternDeck('group', ['de', 'en-US'], 'fa', () => fallback)[0].topic).toBe('PAT_FRAMES');
+    const fallback = [{ id: 'es1' } as any];
+    expect(applyPatternDeck('group', ['es'], 'fa', () => fallback)).toBe(fallback);
+    expect(applyPatternDeck('group', ['es', 'en-US'], 'fa', () => fallback)[0].topic).toBe('PAT_FRAMES');
     setPatternPrefs('group', ['PAT_SEPARABLE']);
     const nl = applyPatternDeck('group', ['nl'], 'fa', () => fallback);
     expect(nl[0].targetLanguage).toBe('nl');
@@ -82,7 +83,7 @@ describe('بازی‌های الگو: انتخاب در هر حالت بازی',
 });
 
 describe('بازی دونفره: کدام درست است؟', () => {
-  it.each(['en', 'nl'])('%s: چهار گزینه = جواب درست + سه اشتباه رایج، و روی هر دو گوشی یک ترتیب', (lang) => {
+  it.each(['en', 'nl', 'de'])('%s: چهار گزینه = جواب درست + سه اشتباه رایج، و روی هر دو گوشی یک ترتیب', (lang) => {
     for (const card of getPatternCards(lang, 'fa', getPatternCategories(lang).map((c) => c.id))) {
       const a = generateChallengingReflexOptions(card, [], lang as any);
       const b = generateChallengingReflexOptions(JSON.parse(JSON.stringify(card)), [card], lang as any);
@@ -105,6 +106,9 @@ describe('تکه‌بندی خودکار: قالب آغازین یک تکه می
     expect(parts.join(' ')).toBe('It would be great if we could meet on Friday morning');
     expect(parts).toHaveLength(5);
   });
+  it('Es wäre schön, wenn (آلمانی)', () => {
+    expect(chunkSentence('Es wäre schön, wenn wir nächste Woche zusammen essen könnten', 'de', 4)[0]).toBe('Es wäre schön, wenn');
+  });
   it('Zou je / Het zou fijn zijn als (هلندی)', () => {
     expect(chunkSentence('Zou je morgen even langs kunnen komen bij mijn moeder thuis', 'nl', 3)[0]).toBe('Zou je');
     expect(chunkSentence('Het zou fijn zijn als we volgende week samen konden eten', 'nl', 5)[0]).toBe('Het zou fijn zijn als');
@@ -124,7 +128,7 @@ describe('انتخابگر بازی الگو', () => {
   });
 
   it('برای زبانی که هنوز آماده نیست دکمه‌ای نشان نمی‌دهد', () => {
-    render(<PatternGamePicker mode="solo" targetLanguage="de" nativeLanguage="fa" isRTL />);
+    render(<PatternGamePicker mode="solo" targetLanguage="es" nativeLanguage="fa" isRTL />);
     expect(screen.queryAllByRole('button')).toHaveLength(0);
   });
 });

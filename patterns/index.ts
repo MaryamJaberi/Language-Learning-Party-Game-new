@@ -9,9 +9,10 @@ import type { LanguageCard, Language } from '../types';
 import type { PatternCategory, PatternDeck, PatternMode } from './types';
 import { EN_PATTERNS } from './en';
 import { NL_PATTERNS } from './nl';
+import { DE_PATTERNS } from './de';
 import { tx } from '../i18n/runtime';
 
-const DECKS: Record<string, PatternDeck> = { en: EN_PATTERNS, nl: NL_PATTERNS };
+const DECKS: Record<string, PatternDeck> = { en: EN_PATTERNS, nl: NL_PATTERNS, de: DE_PATTERNS };
 
 /** همهٔ دسته‌های آماده (برای تست‌ها و ابزارها) */
 export function getAllPatternDecks(): PatternDeck[] {
@@ -21,7 +22,7 @@ export function getAllPatternDecks(): PatternDeck[] {
 const NATIVE_READY = new Set(['fa']);
 const PREF_KEY = 'dor_pattern_games_v1';
 
-const deckLang = (target: string) => (target.startsWith('en-') ? 'en' : target.startsWith('nl-') ? 'nl' : target);
+const deckLang = (target: string) => (target.startsWith('en-') ? 'en' : target.startsWith('nl-') ? 'nl' : target.startsWith('de-') ? 'de' : target);
 
 /** اولین زبان هدفی که برای این زبان مادری بازی الگو دارد */
 export function firstPatternTarget(targets: Array<string | undefined>, native: string): string | undefined {

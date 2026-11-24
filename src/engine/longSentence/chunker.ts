@@ -71,11 +71,17 @@ const NL_FRAME_OPENERS = [
   'het hangt af van', 'volgens mij', 'zou je', 'kun je', 'kunt u', 'heb je zin om', 'ik wil graag',
 ].map((f) => f.split(' '));
 
+/** قالب‌های آغازین پرکاربرد آلمانی */
+const DE_FRAME_OPENERS = [
+  'es wäre schön wenn', 'kannst du mal nachsehen ob', 'darf ich fragen', 'meiner meinung nach', 'im vergleich zum',
+  'abgesehen vom', 'könntest du', 'können sie', 'kannst du', 'hast du lust', 'ich hätte gern',
+].map((f) => f.split(' '));
+
+const OPENERS_BY_LANG: Record<string, string[][]> = { en: EN_FRAME_OPENERS, nl: NL_FRAME_OPENERS, de: DE_FRAME_OPENERS };
+
 function frameOpenerLength(toks: string[], lang: string): number {
-  const isEn = lang === 'en' || lang.startsWith('en-');
-  const isNl = lang === 'nl' || lang.startsWith('nl-');
-  if (!isEn && !isNl) return 0;
-  const openers = isEn ? EN_FRAME_OPENERS : NL_FRAME_OPENERS;
+  const openers = OPENERS_BY_LANG[lang.split('-')[0]];
+  if (!openers) return 0;
   const norm = toks.map((t) => t.toLowerCase().replace(/[’`]/g, "'").replace(/[.,!?;:]+$/, ''));
   let best = 0;
   for (const f of openers) {
