@@ -30,6 +30,7 @@ import {
   Zap
 } from 'lucide-react';
 import { tx, txt, langName } from '../i18n/runtime';
+import PatternGamePicker from './PatternGamePicker';
 
 interface Props {
   isOpen: boolean;
@@ -497,6 +498,7 @@ const SinglePlayerSetupModal: React.FC<Props> = ({
               </div>
             )}
           </div>
+          <PatternGamePicker mode="solo" targetLanguage={settings.targetLanguage} nativeLanguage={settings.nativeLanguage || (isRTL ? 'fa' : 'en')} isRTL={isRTL} />
         </div>
 
         {/* Start Button */}

@@ -5,6 +5,7 @@ import { SUPPORTED_LANGUAGES, ARCADE_AVATARS, ARCADE_CHARACTERS, CEFR_LEVELS, ge
 import { sound } from '../soundManager';
 import { toPersianDigits } from '../ui';
 import { tx, txt, uiDigits, langName } from '../i18n/runtime';
+import PatternGamePicker from './PatternGamePicker';
 
 export interface DuelSettings {
   player1Name: string;
@@ -276,6 +277,8 @@ export const DuelSetupModal: React.FC<Props> = ({
               />
             </div>
           </div>
+
+          <PatternGamePicker mode="duel" targetLanguage={targetLanguage} nativeLanguage={isEn ? 'en' : 'fa'} isRTL={!!isRTL} />
 
           {/* Match Score Target */}
           <div className="bg-[var(--bg)] p-3 rounded-2xl border border-[var(--line)] space-y-2">

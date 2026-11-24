@@ -75,6 +75,8 @@ export interface LanguageCard {
   article?: string; // Grammatical article for vocabulary cards (e.g., "het", "de", "der", "die", "das")
   note?: string; // Additional linguistic note or explanation (extracted from parenthetical glosses)
   alternatives?: string[]; // Valid alternative answers
+  puzzleChunks?: string[]; // بازی‌های الگو: مرز تکه‌های پازل («See if you can | push it | to next week.»)
+  fixedOptions?: string[]; // بازی‌های الگو: گزینه‌های نادرستِ ثابت (اشتباه‌های رایج)
 }
 
 export interface Player {

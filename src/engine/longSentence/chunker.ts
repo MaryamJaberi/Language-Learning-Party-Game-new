@@ -53,8 +53,49 @@ function isBoundary(tok: string): boolean {
  * جمله را به حداکثر `pieces` تکهٔ پشت‌سرهم می‌شکند. اول از مرزهای طبیعی (ویرگول، نقطه‌ویرگول، …)،
  * و اگر تکه‌ای هنوز بزرگ بود، از وسط. چسباندن دوبارهٔ تکه‌ها همان جملهٔ اصلی را می‌دهد.
  */
+/**
+ * قالب‌های آغازین پرکاربرد انگلیسی. اگر جمله با یکی از این‌ها شروع شود، همان قالب یک تکهٔ کامل می‌ماند
+ * («See if you can | … »، «It would be great if | …») تا بازیکن قالب را به شکل یک واحد یاد بگیرد.
+ */
+const EN_FRAME_OPENERS = [
+  'it would be great if', 'see if you can', 'could you check if', 'when it comes to', 'as far as i know',
+  'would you mind if', 'do you mind if', 'i was wondering if', 'is there any chance', 'how long do i have',
+  'check if', 'if i may', 'by when', 'in terms of', 'apart from', 'aside from', 'regardless of',
+  'compared to', 'depending on', 'not to mention', 'instead of', 'you should have', 'you could have',
+  'why should i', 'i have been', "i've been", 'let me', 'could you', 'would you',
+].map((f) => f.split(' '));
+
+/** قالب‌های آغازین پرکاربرد هلندی */
+const NL_FRAME_OPENERS = [
+  'het zou fijn zijn als', 'kun je even kijken of', 'mag ik vragen', 'in vergelijking met', 'afgezien van',
+  'het hangt af van', 'volgens mij', 'zou je', 'kun je', 'kunt u', 'heb je zin om', 'ik wil graag',
+].map((f) => f.split(' '));
+
+/** قالب‌های آغازین پرکاربرد آلمانی */
+const DE_FRAME_OPENERS = [
+  'es wäre schön wenn', 'kannst du mal nachsehen ob', 'darf ich fragen', 'meiner meinung nach', 'im vergleich zum',
+  'abgesehen vom', 'könntest du', 'können sie', 'kannst du', 'hast du lust', 'ich hätte gern',
+].map((f) => f.split(' '));
+
+const OPENERS_BY_LANG: Record<string, string[][]> = { en: EN_FRAME_OPENERS, nl: NL_FRAME_OPENERS, de: DE_FRAME_OPENERS };
+
+function frameOpenerLength(toks: string[], lang: string): number {
+  const openers = OPENERS_BY_LANG[lang.split('-')[0]];
+  if (!openers) return 0;
+  const norm = toks.map((t) => t.toLowerCase().replace(/[’`]/g, "'").replace(/[.,!?;:]+$/, ''));
+  let best = 0;
+  for (const f of openers) {
+    if (f.length > best && f.length < toks.length && f.every((w, i) => norm[i] === w)) best = f.length;
+  }
+  return best;
+}
+
 export function chunkSentence(text: string, lang: string, pieces: number): string[] {
   const toks = tokens(text, lang);
+  const opener = frameOpenerLength(toks, lang);
+  if (opener > 0 && pieces >= 3 && toks.length - opener >= 2) {
+    return [toks.slice(0, opener).join(' '), ...chunkSentence(toks.slice(opener).join(' '), lang, pieces - 1)];
+  }
   const joiner = NO_SPACE_LANGS.has(lang) && !/\s/.test(text.trim()) ? '' : ' ';
   if (toks.length <= 1) return toks;
   const target = Math.max(2, Math.min(pieces, toks.length));

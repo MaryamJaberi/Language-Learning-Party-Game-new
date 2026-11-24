@@ -30,6 +30,7 @@ import {
 import { buildSessionCardPool } from './cardsData';
 import { getRandomCharacters } from './characters';
 import { getUniqueCardsForSession } from './contentEngine';
+import { applyPatternDeck } from './patterns';
 
 /**
  * Get or generate a persistent local device ID for the player
@@ -321,13 +322,14 @@ export const startOnlineGame = async (roomId: string) => {
 
   await preloadLanguageDecks(Array.from(new Set([...(room.settings.targetLanguages || ['en-US', 'nl']), room.settings.nativeLanguage || 'fa', 'en'])));
   // Build full card pool
-  const pool = buildSessionCardPool(
+  // اتاق آنلاین: میزبان کارت‌ها را می‌سازد؛ اگر «بازی الگو» را انتخاب کرده باشد همان‌ها به همه می‌رسد
+  const pool = applyPatternDeck('group', room.settings.targetLanguages || ['en-US', 'nl'], room.settings.nativeLanguage || room.settings.language || 'fa', () => buildSessionCardPool(
     room.settings.targetLanguages || ['en-US', 'nl'],
     room.settings.selectedCategories,
     room.settings.cefrLevel || 'all',
     room.settings.nativeLanguage || room.settings.language || 'fa',
     room.settings.cardGameMode || 'mixed'
-  );
+  ));
 
   const firstCard = pool.length > 0 ? pool[0] : null;
 

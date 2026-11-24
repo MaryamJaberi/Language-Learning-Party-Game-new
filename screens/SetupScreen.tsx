@@ -9,6 +9,8 @@ import { SoundHeaderButton } from '../components/SoundHeaderButton';
 import { MeetupMapModal } from '../components/MeetupMapModal';
 import { ArrowLeft, ArrowRight, ArrowRightLeft, Check, Search, X, ChevronDown, ChevronUp, Settings, Award, AlertTriangle, Smartphone, Globe, Wifi, BookOpen, MapPin } from 'lucide-react';
 import { tx, txt , uiDigits } from '../i18n/runtime';
+import PatternGamePicker from '../components/PatternGamePicker';
+import { firstPatternTarget } from '../patterns';
 
 interface Props {
   settings: GameSettings;
@@ -1396,6 +1398,10 @@ const SetupScreen: React.FC<Props> = ({ settings, onSave, onNext, onBack, onOpen
             }}
           />
         </div>
+
+        <hr className="border-0 border-t border-[var(--line)] my-2" />
+
+        <PatternGamePicker mode="group" targetLanguage={firstPatternTarget(settings.targetLanguages || [], settings.nativeLanguage || settings.language || 'fa') || settings.targetLanguages?.[0] || 'en'} nativeLanguage={settings.nativeLanguage || settings.language || 'fa'} isRTL={isRTL} />
 
         <hr className="border-0 border-t border-[var(--line)] my-2" />
 
