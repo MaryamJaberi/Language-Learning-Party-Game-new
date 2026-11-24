@@ -69,11 +69,14 @@ function normalizeText(text: string): string {
   return t;
 }
 
-function normalizeUnicode(s: string): string {
+function normalizeUnicode(s: string, lang?: string): string {
   if (!s) return '';
   let text = String(s).trim();
-  text = text.replace(/\u064A/g, '\u06CC'); // Arabic Yeh to Persian Yeh
-  text = text.replace(/\u0643/g, '\u06A9'); // Arabic Kaf to Persian Keheh
+  // «ي/ك» عربی فقط برای فارسی به «ی/ک» تبدیل می‌شود؛ متن عربی باید با حروف عربی بماند
+  if (lang === undefined || lang === 'fa') {
+    text = text.replace(/\u064A/g, '\u06CC'); // Arabic Yeh to Persian Yeh
+    text = text.replace(/\u0643/g, '\u06A9'); // Arabic Kaf to Persian Keheh
+  }
   text = text.replace(/[ \t\r\f\v]+/g, ' ');
   return text.trim();
 }
@@ -159,7 +162,18 @@ function parseSlashVariants(rawText: string): { text: string; alternatives?: str
   if (!rawText || !rawText.includes('/')) {
     return { text: rawText };
   }
-  const parts = rawText.split('/').map((s) => s.trim()).filter(Boolean);
+  // فقط « / » با فاصله (یا متن تک‌کلمه‌ای مثل «a/b») جداکنندهٔ گزینه‌هاست.
+  // اسلشِ داخل جمله («Estimado/a señor/a»، «en/of») جزو خود متن است و نباید جمله را ببُرد.
+  const hasSpace = /\s/.test(rawText.trim());
+  const sep = /\s\/\s/.test(rawText) ? /\s\/\s/ : (!hasSpace ? /\// : null);
+  if (!sep) return { text: rawText };
+  const parts = rawText.split(sep).map((s) => s.trim()).filter(Boolean);
+  // اگر بریدن، گیومه یا پرانتزی را نیمه‌کاره بگذارد («السيد / السيدة»)، اسلش جزو متن است
+  const balanced = (x: string) =>
+    x.split('«').length === x.split('»').length &&
+    x.split('(').length === x.split(')').length &&
+    x.split('“').length === x.split('”').length;
+  if (!parts.every(balanced)) return { text: rawText };
   if (parts.length <= 1) {
     return { text: parts[0] || rawText };
   }
@@ -333,7 +347,7 @@ export function runPipeline() {
         for (const [langKey, colName] of csvLangMapping) {
           const cIdx = colMap[colName];
           if (cIdx !== undefined && cIdx < row.length && row[cIdx]?.trim()) {
-            let t = normalizeUnicode(row[cIdx].trim());
+            let t = normalizeUnicode(row[cIdx].trim(), langKey);
             let art: string | undefined;
             if (finalType === 'vocabulary') {
               const artRes = extractArticleForVocab(t, langKey);
@@ -472,7 +486,7 @@ export function runPipeline() {
             en: parseSlashVariants(normalizeUnicode(base_en))
           };
           if (r.length > 7 && String(r[7] || '').trim()) {
-            trans.ar = parseSlashVariants(normalizeUnicode(String(r[7])));
+            trans.ar = parseSlashVariants(normalizeUnicode(String(r[7]), 'ar'));
           }
           if (r.length > 8 && String(r[8] || '').trim()) {
             trans.fa = parseSlashVariants(normalizeUnicode(String(r[8])));
@@ -481,7 +495,7 @@ export function runPipeline() {
           langs_order.forEach((lk, offsetIdx) => {
             const col = 9 + offsetIdx;
             if (col < r.length && String(r[col] || '').trim()) {
-              trans[lk] = parseSlashVariants(normalizeUnicode(String(r[col])));
+              trans[lk] = parseSlashVariants(normalizeUnicode(String(r[col]), lk));
             }
           });
 
@@ -525,7 +539,7 @@ export function runPipeline() {
           langs_order.forEach((lk, offsetIdx) => {
             const col = (fa_col_idx || 9) + offsetIdx;
             if (col < r.length && String(r[col] || '').trim()) {
-              trans[lk] = parseSlashVariants(normalizeUnicode(String(r[col])));
+              trans[lk] = parseSlashVariants(normalizeUnicode(String(r[col]), lk));
             }
           });
 
@@ -580,7 +594,7 @@ export function runPipeline() {
         const trans: Record<string, { text: string; article?: string; alternatives?: string[] }> = {};
         for (const [lk, c_idx] of Object.entries(lang_idx_map)) {
           if (c_idx < r.length && String(r[c_idx] || '').trim()) {
-            let t = normalizeUnicode(String(r[c_idx]));
+            let t = normalizeUnicode(String(r[c_idx]), lk);
             let art: string | undefined;
             if (ctype === 'vocabulary') {
               const artRes = extractArticleForVocab(t, lk);
