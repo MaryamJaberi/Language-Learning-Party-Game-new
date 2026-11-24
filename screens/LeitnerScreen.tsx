@@ -90,13 +90,18 @@ export const LeitnerScreen: React.FC<Props> = ({
   }, [leitnerState]);
 
   const currentDueItem = dueQuestions[activeCardIndex] || null;
+  const isReverseDue = currentDueItem?.gameType === 'reverse_flip';
+  const expectedLeitnerAnswer = currentDueItem?.item?.card
+    ? (isReverseDue ? currentDueItem.item.card.translation : currentDueItem.item.card.targetText)
+    : '';
 
   // Generate 4 challenging reflex options for the active card
   const reflexChoices = useMemo(() => {
     if (!currentDueItem?.item?.card) return [];
     const pool = leitnerState.cards.map(c => c.card);
-    return generateChallengingReflexOptions(currentDueItem.item.card, pool, leitnerState.targetLanguage);
-  }, [currentDueItem?.item?.cardId, leitnerState.targetLanguage, leitnerState.cards]);
+    const choiceLang = isReverseDue ? leitnerState.nativeLanguage : leitnerState.targetLanguage;
+    return generateChallengingReflexOptions(currentDueItem.item.card, pool, choiceLang, expectedLeitnerAnswer);
+  }, [currentDueItem?.item?.cardId, isReverseDue, expectedLeitnerAnswer, leitnerState.targetLanguage, leitnerState.nativeLanguage, leitnerState.cards]);
 
   // Compartment card counts (5 Boxes: 1, 2, 4, 8, 16 days)
   const boxCounts = useMemo(() => {
@@ -154,7 +159,7 @@ export const LeitnerScreen: React.FC<Props> = ({
       setReviewResult('fail');
       // On mistake, reveal card for remediation, play pronunciation, and give learning time
       setIsFlipped(true);
-      if (sound.isVoiceSupportedFor(currentDueItem.item.card.targetLanguage)) {
+      if (sound.isVoiceSupportedSync(currentDueItem.item.card.targetLanguage)) {
         sound.speakNative(currentDueItem.item.card.targetText, currentDueItem.item.card.targetLanguage);
       }
       recordLeitnerCardReview(currentDueItem.item.cardId, isCorrect);
@@ -178,27 +183,27 @@ export const LeitnerScreen: React.FC<Props> = ({
       } else if (e.key.toLowerCase() === 'v') {
         sound.speakNative(currentDueItem.item.card.targetText, leitnerState.targetLanguage);
       } else if (e.key === '1' && reflexChoices[0]) {
-        const isCorrect = reflexChoices[0].trim().toLowerCase() === currentDueItem.item.card.targetText.trim().toLowerCase();
+        const isCorrect = reflexChoices[0].trim().toLowerCase() === expectedLeitnerAnswer.trim().toLowerCase();
         handleAnswer(isCorrect, reflexChoices[0]);
       } else if (e.key === '2' && reflexChoices[1]) {
-        const isCorrect = reflexChoices[1].trim().toLowerCase() === currentDueItem.item.card.targetText.trim().toLowerCase();
+        const isCorrect = reflexChoices[1].trim().toLowerCase() === expectedLeitnerAnswer.trim().toLowerCase();
         handleAnswer(isCorrect, reflexChoices[1]);
       } else if (e.key === '3' && reflexChoices[2]) {
-        const isCorrect = reflexChoices[2].trim().toLowerCase() === currentDueItem.item.card.targetText.trim().toLowerCase();
+        const isCorrect = reflexChoices[2].trim().toLowerCase() === expectedLeitnerAnswer.trim().toLowerCase();
         handleAnswer(isCorrect, reflexChoices[2]);
       } else if (e.key === '4' && reflexChoices[3]) {
-        const isCorrect = reflexChoices[3].trim().toLowerCase() === currentDueItem.item.card.targetText.trim().toLowerCase();
+        const isCorrect = reflexChoices[3].trim().toLowerCase() === expectedLeitnerAnswer.trim().toLowerCase();
         handleAnswer(isCorrect, reflexChoices[3]);
       }
     };
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [reviewResult, currentDueItem, reflexChoices, leitnerState.targetLanguage]);
+  }, [reviewResult, currentDueItem, reflexChoices, expectedLeitnerAnswer, leitnerState.targetLanguage]);
 
   return (
     <div 
-      className="w-full max-w-md sm:max-w-lg md:max-w-xl mx-auto min-h-screen px-3 sm:px-4 py-4 font-ui flex flex-col justify-between select-none relative"
+      className="w-full max-w-md sm:max-w-lg md:max-w-xl mx-auto min-h-[100dvh] px-3 sm:px-4 py-4 font-ui flex flex-col justify-between select-none relative"
       dir={isRTL ? 'rtl' : 'ltr'}
     >
       {/* Top Header */}
@@ -208,7 +213,8 @@ export const LeitnerScreen: React.FC<Props> = ({
             <button
               type="button"
               onClick={() => setShowExitModal(true)}
-              className="w-8 h-8 rounded-xl bg-[var(--bg)] border border-[var(--line)] text-[var(--ink)] flex items-center justify-center hover:bg-rose-500/10 hover:text-rose-500 cursor-pointer transition-colors"
+              aria-label={isRTL ? 'بازگشت' : 'Back'}
+              className="w-10 h-10 rounded-xl bg-[var(--bg)] border border-[var(--line)] text-[var(--ink)] flex items-center justify-center hover:bg-rose-500/10 hover:text-rose-500 cursor-pointer transition-colors"
             >
               <ArrowLeft size={16} className={isRTL ? 'rotate-180' : ''} />
             </button>
@@ -351,7 +357,7 @@ export const LeitnerScreen: React.FC<Props> = ({
                           ? 3
                           : (currentDueItem.item.boxIndex as any)
                       }
-                      uiLanguage={uiLanguage}
+                      uiLanguage={language}
                     />
                   ) : (
                     currentDueItem.item.card.prompt || currentDueItem.item.card.translation
@@ -379,7 +385,7 @@ export const LeitnerScreen: React.FC<Props> = ({
                   <span>{isFlipped ? (isRTL ? 'صورت سؤال' : 'Question') : (isRTL ? 'پشت کارت' : 'Flip')}</span>
                 </button>
 
-                {sound.isVoiceSupportedFor(leitnerState.targetLanguage) && (
+                {sound.isVoiceSupportedSync(leitnerState.targetLanguage) && (
                   <>
                     <button
                       type="button"
@@ -415,7 +421,7 @@ export const LeitnerScreen: React.FC<Props> = ({
             {reflexChoices.length >= 4 ? (
               <div className="grid grid-cols-2 gap-2">
                 {reflexChoices.map((choice, cIdx) => {
-                  const isCorrect = choice.trim().toLowerCase() === currentDueItem.item.card.targetText.trim().toLowerCase();
+                  const isCorrect = choice.trim().toLowerCase() === expectedLeitnerAnswer.trim().toLowerCase();
                   const isSelected = selectedAnswer === choice;
                   const showGreen = reviewResult && isCorrect;
                   const showRed = isSelected && !isCorrect;

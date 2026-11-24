@@ -145,8 +145,8 @@ const App: React.FC = () => {
         });
       } else {
         setShakeStyle({
-          transform: 'translate3d(0, 0, 0)',
-          transition: 'transform 80ms ease-out'
+          transform: undefined,
+          transition: undefined
         });
       }
     });
@@ -831,9 +831,38 @@ const App: React.FC = () => {
     }
   };
 
+  // Android hardware/gesture back button navigation support via History API
+  useEffect(() => {
+    if (typeof window === 'undefined' || !window.history?.pushState) return;
+    const isSubView =
+      currentScreen !== 'INTRO' ||
+      isSingleSetupOpen ||
+      isDuelSetupOpen;
+    if (isSubView && window.history.state?.dourScreen !== currentScreen) {
+      try {
+        window.history.pushState({ dourScreen: currentScreen }, '');
+      } catch {
+        // ignore history errors in sandboxed iframes
+      }
+    }
+  }, [currentScreen, isSingleSetupOpen, isDuelSetupOpen]);
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const handlePopState = () => {
+      if (isSingleSetupOpen) { setIsSingleSetupOpen(false); return; }
+      if (isDuelSetupOpen) { setIsDuelSetupOpen(false); return; }
+      if (currentScreen !== 'INTRO') {
+        setCurrentScreen('INTRO');
+      }
+    };
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, [currentScreen, isSingleSetupOpen, isDuelSetupOpen]);
+
   return (
     <main 
-      className="w-full max-w-lg sm:max-w-xl md:max-w-2xl mx-auto flex flex-col relative bg-[var(--bg)] text-[var(--ink)] min-h-0 flex-1 min-h-screen overflow-x-hidden overflow-y-auto" 
+      className="w-full max-w-lg sm:max-w-xl md:max-w-2xl mx-auto flex flex-col relative bg-[var(--bg)] text-[var(--ink)] min-h-0 flex-1 overflow-x-hidden overflow-y-auto" 
       style={{ 
         height: '100%', 
         maxHeight: '100dvh',

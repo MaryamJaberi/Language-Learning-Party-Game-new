@@ -1054,6 +1054,15 @@ export const UserProfileModal: React.FC<Props> = ({
                     </>
                   )}
                 </button>
+
+                <a
+                  href="https://github.com/MaryamJaberi/Language-Learning-Party-Game-new/releases/latest"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block text-center text-[11px] font-semibold text-[var(--lapis)] hover:underline pt-0.5"
+                >
+                  {isRTL ? 'مشاهده صفحهٔ آخرین انتشار در GitHub Releases ↗' : 'View latest release on GitHub Releases ↗'}
+                </a>
               </div>
 
               {/* Direct APK Card */}

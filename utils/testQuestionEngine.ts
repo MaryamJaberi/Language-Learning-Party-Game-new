@@ -333,9 +333,10 @@ export function generateChallengingReflexOptions(
     // RULE 0: SEMANTIC COLLISION & SYNONYM EXCLUSION
     // A distractor must not share the same meaning or translation with the correct answer
     // (e.g. "Dank je wel" vs "Bedankt", "Hallo" vs "Hoi", "Tot ziens" vs "Dag", "Check, please" vs "The bill, please")
-    if (candTranslation && currentCard.translation) {
+    const expectedRefText = isReverse ? currentCard.targetText : currentCard.translation;
+    if (candTranslation && expectedRefText) {
       const cleanCandTrans = cleanText(candTranslation);
-      const cleanCardTrans = cleanText(currentCard.translation);
+      const cleanCardTrans = cleanText(expectedRefText);
       if (cleanCandTrans && cleanCardTrans) {
         if (cleanCandTrans === cleanCardTrans) return;
         if (cleanCandTrans.length > 2 && cleanCardTrans.length > 2) {
@@ -492,15 +493,17 @@ export function generateChallengingReflexOptions(
     }
   }
 
-  // If still fewer than 3, fallback to best remaining from pool without breaking length rule
+  // If still fewer than 3, fallback to best remaining from pool without breaking length/language rule
   if (chosenDistractors.length < 3) {
     for (const c of sessionPool) {
-      if (c.targetText && c.targetText !== correct && !chosenDistractors.includes(c.targetText)) {
+      const candText = (isReverse ? c.translation : c.targetText)?.trim();
+      if (!isReverse && c.targetLanguage && c.targetLanguage !== lang) continue;
+      if (candText && candText !== correct && !chosenDistractors.includes(candText)) {
         // Enforce basic sentence vs word rule
-        const candWords = c.targetText.split(/\s+/).length;
+        const candWords = candText.split(/\s+/).length;
         if (correctWordsCount >= 3 && candWords < 2) continue;
         if (correctWordsCount === 1 && candWords > 2) continue;
-        chosenDistractors.push(c.targetText);
+        chosenDistractors.push(candText);
         if (chosenDistractors.length === 3) break;
       }
     }

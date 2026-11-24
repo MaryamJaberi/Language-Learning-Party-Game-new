@@ -735,7 +735,7 @@ const GameplayScreen: React.FC<Props> = ({
                     : (isRTL ? 'کارت متعادل' : 'Balanced card')
               }
             >
-              <span>{cardIndicator === 'review' ? '🌱 مرور' : cardIndicator === 'challenge' ? '🔥 چالش' : '⚖️ متعادل'}</span>
+              <span>{cardIndicator === 'review' ? (isRTL ? '🌱 مرور' : '🌱 Review') : cardIndicator === 'challenge' ? (isRTL ? '🔥 چالش' : '🔥 Challenge') : (isRTL ? '⚖️ متعادل' : '⚖️ Balanced')}</span>
             </div>
 
             {/* Clean Learning Mode Badge */}
@@ -832,7 +832,7 @@ const GameplayScreen: React.FC<Props> = ({
                       {currentCard?.targetText || '---'}
                     </h2>
                     
-                    {currentCard?.targetText && sound.isVoiceSupportedFor(currentCard?.targetLanguage) && (
+                    {currentCard?.targetText && sound.isVoiceSupportedSync(currentCard?.targetLanguage) && (
                       <button
                         type="button"
                         aria-label={isRTL ? "پخش تلفظ صوتی" : "Audio Pronunciation"}

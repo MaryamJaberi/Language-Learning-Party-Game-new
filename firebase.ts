@@ -8,6 +8,7 @@ import {
   signOut, 
   onAuthStateChanged,
   deleteUser,
+  reauthenticateWithPopup,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   sendPasswordResetEmail,
@@ -78,18 +79,15 @@ export const isInIframe = (): boolean => {
   }
 };
 
-// Safe Firestore profile sync
+// Safe Firestore profile sync (never writes privileged role/isAdmin fields from client)
 export const syncUserProfileToCloud = async (user: User): Promise<void> => {
   try {
     const userRef = doc(db, 'users', user.uid);
-    const isAdmin = isAdminUser(user.email);
     await setDoc(userRef, {
       uid: user.uid,
       displayName: user.displayName || 'Player',
       email: user.email || '',
       photoURL: user.photoURL || '',
-      role: isAdmin ? 'admin' : 'user',
-      isAdmin: isAdmin,
       lastLoginAt: new Date().toISOString()
     }, { merge: true });
   } catch (dbErr) {
@@ -320,30 +318,69 @@ export const fetchSettingsFromCloud = async (userId: string): Promise<GameSettin
 // Permanently delete user account and cloud data (Google Play Policy Compliance)
 export const deleteUserAccountAndData = async (userId?: string): Promise<boolean> => {
   try {
-    const uid = userId || auth.currentUser?.uid;
+    const currentUser = auth.currentUser;
+    const uid = userId || currentUser?.uid;
     if (!uid) return true;
 
-    // 1. Delete all matches in subcollection
-    const matchesCol = collection(db, 'users', uid, 'matches');
-    const matchesSnap = await getDocs(matchesCol);
-    const deletePromises = matchesSnap.docs.map(docSnap => deleteDoc(doc(db, 'users', uid, 'matches', docSnap.id)));
-    await Promise.all(deletePromises);
-
-    // 2. Delete user profile document
-    await deleteDoc(doc(db, 'users', uid));
-
-    // 3. Clear local storage records
-    try {
-      localStorage.removeItem('dour_match_history');
-      localStorage.removeItem('dour_personal_records');
-      localStorage.removeItem('dour_game_settings');
-    } catch (e) {
-      console.warn('Local storage clear notice:', e);
+    // 1. Delete user subcollections (matches, weak_cards, mistakes) before revoking Auth
+    const subcollections = ['matches', 'weak_cards', 'mistakes'];
+    for (const sub of subcollections) {
+      try {
+        const snap = await getDocs(collection(db, 'users', uid, sub));
+        await Promise.all(snap.docs.map(docSnap => deleteDoc(doc(db, 'users', uid, sub, docSnap.id))));
+      } catch (subErr) {
+        console.warn(`Cleanup notice for ${sub}:`, subErr);
+      }
     }
 
-    // 4. Delete the Firebase Auth User
-    if (auth.currentUser && auth.currentUser.uid === uid) {
-      await deleteUser(auth.currentUser);
+    // 2. Delete user profile document
+    try {
+      await deleteDoc(doc(db, 'users', uid));
+    } catch (docErr) {
+      console.warn('User profile doc cleanup notice:', docErr);
+    }
+
+    // 3. Delete the Firebase Auth User (re-authenticate via Google popup if session is stale)
+    if (currentUser && currentUser.uid === uid) {
+      try {
+        await deleteUser(currentUser);
+      } catch (authErr: any) {
+        if (authErr?.code === 'auth/requires-recent-login') {
+          const isGoogle = currentUser.providerData?.some(p => p.providerId === 'google.com');
+          if (isGoogle) {
+            await reauthenticateWithPopup(currentUser, googleProvider);
+            await deleteUser(currentUser);
+          } else {
+            throw authErr;
+          }
+        } else {
+          throw authErr;
+        }
+      }
+    }
+
+    // 4. Clear all local storage records (both current dor_* and legacy dour_* keys)
+    try {
+      const keysToClear = [
+        'dor_history',
+        'dor_game_history',
+        'dor_personal_records',
+        'dor_settings',
+        'dor_weak_cards',
+        'dor_mistakes_bank',
+        'dor_seen_cards',
+        'dor_local_leaderboard',
+        'dor_device_id',
+        'dor_leitner_state',
+        'dor_training_wheels_config_v1',
+        'dour_local_profile',
+        'dour_match_history',
+        'dour_personal_records',
+        'dour_game_settings'
+      ];
+      keysToClear.forEach(k => localStorage.removeItem(k));
+    } catch (e) {
+      console.warn('Local storage clear notice:', e);
     }
 
     return true;

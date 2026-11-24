@@ -527,15 +527,18 @@ export async function submitScoreToLeaderboard(entry: Omit<LeaderboardEntry, 'id
     console.warn('Failed to save local leaderboard:', e);
   }
 
-  // Firestore
-  try {
-    const col = collection(db, 'leaderboard');
-    await addDoc(col, {
-      ...newEntry,
-      createdAt: serverTimestamp()
-    });
-  } catch (e) {
-    console.warn('Could not post score to cloud leaderboard:', e);
+  // Firestore (only when signed in, attaching required uid for Firestore rules)
+  if (auth.currentUser) {
+    try {
+      const col = collection(db, 'leaderboard');
+      await addDoc(col, {
+        ...newEntry,
+        uid: auth.currentUser.uid,
+        createdAt: serverTimestamp()
+      });
+    } catch (e) {
+      console.warn('Could not post score to cloud leaderboard:', e);
+    }
   }
 
   return newEntry;

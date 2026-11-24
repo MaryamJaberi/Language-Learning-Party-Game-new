@@ -4,6 +4,7 @@ import { FadingStage, WordAidsAnnotation } from '../../src/engine/trainingWheels
 import { getFadingStageForCard } from '../../src/engine/trainingWheels/fadingEngine';
 import { getTrainingWheelsSettings } from '../../src/engine/trainingWheels/trainingWheelsService';
 import { analyzeLanguageAids } from '../../src/engine/trainingWheels/languages';
+import { isRtlLang } from '../../ui';
 
 interface TrainingWheelTextProps {
   card: LanguageCard;
@@ -111,6 +112,7 @@ export const TrainingWheelText: React.FC<TrainingWheelTextProps> = ({
 
       {/* Main Target Phrase Display with Word-level annotations */}
       <div
+        dir={isRtlLang(card.targetLanguage) ? 'rtl' : 'ltr'}
         className={`flex items-center justify-center flex-wrap gap-x-1.5 gap-y-1 ${wordTextStyle}`}
         style={
           effectiveStage === 2 && genderAid

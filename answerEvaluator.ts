@@ -345,13 +345,21 @@ export function evaluateAnswer(
     if (isExact) break;
   }
 
-  // Base points calculation scaled by card CEFR level (A1 -> C1/C2) as requested
+  // Base points calculation scaled by card CEFR level (Pre-A1 -> C2, including + bands)
   const cefrMultipliers: Record<string, number> = {
+    'Pre-A1': 0.85,
+    'A0': 0.9,
+    'A0+': 0.95,
     'A1': 1.0,
+    'A1+': 1.15,
     'A2': 1.35,
+    'A2+': 1.55,
     'B1': 1.8,
+    'B1+': 2.1,
     'B2': 2.4,
+    'B2+': 2.8,
     'C1': 3.2,
+    'C1+': 3.5,
     'C2': 3.8
   };
   const levelMult = cefrMultipliers[card.cefrLevel] || 1.0;
@@ -371,7 +379,7 @@ export function evaluateAnswer(
       feedbackMessage: uiLanguage === 'fa'
         ? `❌ برای پاسخ‌های کوتاه، تطابق کامل نیاز است. پاسخ شما: "${userNorm}" — پاسخ مورد انتظار: "${targetAnswer}"`
         : `❌ Short answers require an exact match. Your answer: "${userNorm}" — Expected: "${targetAnswer}"`,
-      suggestedCorrection: card.targetText,
+      suggestedCorrection: targetAnswer,
       pointsAwarded: 0
     };
   }
@@ -448,7 +456,7 @@ export function evaluateAnswer(
     feedbackMessage: uiLanguage === 'fa'
       ? `❌ هنوز دقیق نیست! ${guidanceFa}. می‌تونی جوابت رو تصحیح کنی!`
       : `❌ Not quite! ${guidanceEn}. You can try again to correct it!`,
-    suggestedCorrection: card.targetText,
+    suggestedCorrection: targetAnswer,
     pointsAwarded: 0
   };
 }
