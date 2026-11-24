@@ -6,20 +6,39 @@
  * چون خروجی فقط «کارت» است، هر جا کارت‌ها می‌روند (از جمله اتاق و دوئل آنلاین) این بازی‌ها هم می‌روند.
  */
 import type { LanguageCard, Language } from '../types';
-import type { PatternCategory, PatternDeck, PatternMode } from './types';
+import type { NativePack, PatternCategory, PatternDeck, PatternMode } from './types';
+import { NATIVE_EN } from './natives/en';
+import { NATIVE_NL } from './natives/nl';
+import { NATIVE_DE } from './natives/de';
 import { EN_PATTERNS } from './en';
 import { NL_PATTERNS } from './nl';
 import { DE_PATTERNS } from './de';
-import { tx } from '../i18n/runtime';
 
 const DECKS: Record<string, PatternDeck> = { en: EN_PATTERNS, nl: NL_PATTERNS, de: DE_PATTERNS };
 
 /** همهٔ دسته‌های آماده (برای تست‌ها و ابزارها) */
+export function getAllNativePacks(): NativePack[] {
+  return Object.values(NATIVES);
+}
+
 export function getAllPatternDecks(): PatternDeck[] {
   return Object.values(DECKS);
 }
-/** زبان‌های مادری‌ای که معنی/موقعیتِ کارت‌ها برایشان نوشته شده */
-const NATIVE_READY = new Set(['fa']);
+/** زبان‌های مادری غیر از فارسی (فارسی داخل خود دسته‌هاست) */
+const NATIVES: Record<string, NativePack> = { en: NATIVE_EN, nl: NATIVE_NL, de: NATIVE_DE };
+
+/** زبان‌های مادری که بازی الگو برایشان آماده است */
+export function patternNativeLanguages(): string[] {
+  return ['fa', ...Object.keys(NATIVES)];
+}
+
+/** متن «جمله را برسان» به زبان مادری */
+const GROUP_PROMPT: Record<string, string> = {
+  fa: 'این جمله را طوری به هم‌تیمی‌ات برسان که همین را بگوید',
+  en: 'Get this sentence across so your teammate says it',
+  nl: 'Breng deze zin over zodat je teamgenoot hem zegt',
+  de: 'Bring diesen Satz rüber, damit dein Teammitglied ihn sagt',
+};
 const PREF_KEY = 'dor_pattern_games_v1';
 
 const deckLang = (target: string) => (target.startsWith('en-') ? 'en' : target.startsWith('nl-') ? 'nl' : target.startsWith('de-') ? 'de' : target);
@@ -29,8 +48,16 @@ export function firstPatternTarget(targets: Array<string | undefined>, native: s
   return targets.find((t): t is string => !!t && hasPatternDeck(t, native));
 }
 
+/** «en-US» ← «en»؛ زبان مادری بدون گونهٔ منطقه‌ای */
+const nativeKey = (native: string) => (native || '').split('-')[0];
+
 export function hasPatternDeck(target: string, native: string): boolean {
-  return !!DECKS[deckLang(target)] && NATIVE_READY.has(native);
+  native = nativeKey(native);
+  const lang = deckLang(target);
+  if (!DECKS[lang]) return false;
+  if (native === 'fa') return true;
+  if (deckLang(native) === lang) return false;
+  return !!NATIVES[native]?.decks[lang];
 }
 
 export function getPatternCategories(target: string): PatternCategory[] {
@@ -47,11 +74,21 @@ const POINTS: Record<string, [LanguageCard['difficulty'], number]> = {
 
 export function getPatternCards(target: Language | string, native: Language | string, categoryIds: string[]): LanguageCard[] {
   if (!hasPatternDeck(target, native)) return [];
+  const nk = nativeKey(String(native));
   const out: LanguageCard[] = [];
   for (const cat of getPatternCategories(target)) {
     if (!categoryIds.includes(cat.id)) continue;
     const [difficulty, points] = POINTS[cat.level] || ['medium', 2];
-    cat.items.forEach(([text, fa, wrong, noteFa], i) => {
+    const pack = nk === 'fa' ? undefined : NATIVES[nk]?.decks[deckLang(target)]?.[cat.id];
+    cat.items.forEach(([text, fa, wrong, noteFa, noteEn], i) => {
+      let meaning = fa;
+      let note = noteFa;
+      if (nk !== 'fa') {
+        const entry = pack?.[i];
+        if (!entry) return; // ترجمهٔ این ردیف هنوز نیست
+        meaning = Array.isArray(entry) ? entry[0] : entry;
+        note = Array.isArray(entry) ? entry[1] : noteEn;
+      }
       const chunks = text.split('|').map((s) => s.trim()).filter(Boolean);
       const card: any = {
         id: `pat_${deckLang(target)}_${cat.id.slice(4).toLowerCase()}_${i + 1}`,
@@ -61,10 +98,10 @@ export function getPatternCards(target: Language | string, native: Language | st
         topic: cat.id,
         contentType: 'Sentence',
         learningMode: 'Translate',
-        prompt: tx(native === 'fa', 'این جمله را طوری به هم‌تیمی‌ات برسان که همین را بگوید', 'Get this sentence across so your teammate says it'),
+        prompt: GROUP_PROMPT[nk] || GROUP_PROMPT.en,
         targetText: chunks.join(' '),
-        translation: fa,
-        grammarPoint: noteFa,
+        translation: meaning,
+        grammarPoint: note,
         difficulty,
         points,
         // فیلدهای ویژهٔ بازی‌های الگو

@@ -1184,6 +1184,7 @@ const App: React.FC = () => {
         onStartOnlineDuel={handleStartOnlineDuel}
         currentLanguage={settings.targetLanguages?.[0] || 'nl'}
         uiLanguage={settings.language}
+        nativeLanguage={settings.nativeLanguage}
         isRTL={isRtlLang(settings.language)}
       />
 

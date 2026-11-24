@@ -27,6 +27,8 @@ interface Props {
   onStartOnlineDuel?: (roomCode?: string) => void;
   currentLanguage: Language;
   uiLanguage?: Language;
+  /** زبان مادری از تنظیمات؛ اگر نباشد از زبان برنامه حدس زده می‌شود */
+  nativeLanguage?: Language;
   isRTL?: boolean;
 }
 
@@ -37,9 +39,11 @@ export const DuelSetupModal: React.FC<Props> = ({
   onStartOnlineDuel,
   currentLanguage,
   uiLanguage = 'fa',
+  nativeLanguage,
   isRTL = true
 }) => {
   const isEn = uiLanguage === 'en' || uiLanguage === 'en-US' || !isRTL;
+  const duelNative: Language = nativeLanguage || (isEn ? 'en' : 'fa');
   const defaultP1 = tx(!isEn, 'بازیکن ۱ (آبی)', 'Player 1 (Blue)');
   const defaultP2 = tx(!isEn, 'بازیکن ۲ (قرمز)', 'Player 2 (Red)');
 
@@ -95,7 +99,7 @@ export const DuelSetupModal: React.FC<Props> = ({
       player2Name: player2Name.trim() || tx(!isEn, 'بازیکن ۲', 'Player 2'),
       player2Avatar: '',
       targetLanguage,
-      nativeLanguage: isEn ? 'en' : 'fa',
+      nativeLanguage: duelNative,
       cefrLevel,
       winningScore,
       faceToFaceRotation: true,
@@ -278,7 +282,7 @@ export const DuelSetupModal: React.FC<Props> = ({
             </div>
           </div>
 
-          <PatternGamePicker mode="duel" targetLanguage={targetLanguage} nativeLanguage={isEn ? 'en' : 'fa'} isRTL={!!isRTL} />
+          <PatternGamePicker mode="duel" targetLanguage={targetLanguage} nativeLanguage={duelNative} isRTL={!!isRTL} />
 
           {/* Match Score Target */}
           <div className="bg-[var(--bg)] p-3 rounded-2xl border border-[var(--line)] space-y-2">

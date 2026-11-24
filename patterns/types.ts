@@ -13,3 +13,13 @@ export interface PatternDeck {
 }
 
 export type PatternMode = 'solo' | 'duel' | 'group';
+
+/**
+ * بستهٔ یک زبان مادری غیر از فارسی: برای هر زبان هدف، برای هر دسته، به ترتیب ردیف‌ها
+ * یا فقط معنی (وقتی نکته از ستون noteEn می‌آید) یا [معنی، نکته].
+ */
+export type NativeEntry = string | [meaning: string, note: string];
+export interface NativePack {
+  native: string;
+  decks: Record<string, Record<string, NativeEntry[]>>;
+}
