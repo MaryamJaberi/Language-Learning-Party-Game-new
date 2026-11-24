@@ -15,6 +15,7 @@ import {
   Lightbulb
 } from 'lucide-react';
 import { sound } from '../soundManager';
+import { tx, txt } from '../i18n/runtime';
 
 interface Props {
   isOpen: boolean;
@@ -57,11 +58,11 @@ export const PracticeTourModal: React.FC<Props> = ({
         <div className="flex items-center justify-center gap-2 py-2">
           <div className="px-4 py-2 rounded-xl bg-[var(--lapis)] text-white text-xs font-black flex items-center gap-2 shadow-xs">
             <Volume2 size={16} />
-            <span>{isRTL ? 'پخش تلفظ صوتی' : 'Play Audio'}</span>
+            <span>{tx(isRTL, 'پخش تلفظ صوتی', 'Play Audio')}</span>
           </div>
           <div className="px-3 py-2 rounded-xl bg-[var(--panel)] border border-[var(--line)] text-xs font-black flex items-center gap-1.5 shadow-2xs">
             <Volume1 size={15} className="text-[var(--turq)]" />
-            <span>{isRTL ? 'شمرده' : 'Slow'}</span>
+            <span>{tx(isRTL, 'شمرده', 'Slow')}</span>
           </div>
         </div>
       )
@@ -79,7 +80,7 @@ export const PracticeTourModal: React.FC<Props> = ({
         <div className="flex items-center justify-center py-2">
           <div className="px-5 py-2.5 rounded-xl bg-rose-500 text-white text-xs font-black flex items-center gap-2 shadow-md">
             <Mic size={16} />
-            <span>{isRTL ? 'لمس برای صحبت' : 'Touch to Speak'}</span>
+            <span>{tx(isRTL, 'لمس برای صحبت', 'Touch to Speak')}</span>
           </div>
         </div>
       )
@@ -96,10 +97,10 @@ export const PracticeTourModal: React.FC<Props> = ({
       exampleUi: (
         <div className="flex items-center justify-center gap-2 py-2 w-full max-w-xs mx-auto">
           <div className="flex-1 bg-[var(--panel)] border border-[var(--line)] px-3 py-1.5 rounded-xl text-xs text-[var(--mute)] font-medium text-start">
-            {isRTL ? 'پاسخ را بنویسید...' : 'Type answer...'}
+            {tx(isRTL, 'پاسخ را بنویسید...', 'Type answer...')}
           </div>
           <div className="px-3 py-1.5 rounded-xl bg-[var(--lapis)] text-white text-xs font-bold">
-            {isRTL ? 'ثبت' : 'Check'}
+            {tx(isRTL, 'ثبت', 'Check')}
           </div>
         </div>
       )
@@ -117,7 +118,7 @@ export const PracticeTourModal: React.FC<Props> = ({
         <div className="flex items-center justify-center py-2">
           <div className="px-4 py-2 rounded-xl bg-[var(--panel)] border border-[var(--line)] text-[var(--mute)] text-xs font-black flex items-center gap-2 shadow-2xs">
             <SkipForward size={15} />
-            <span>{isRTL ? 'رد کردن' : 'Skip'}</span>
+            <span>{tx(isRTL, 'رد کردن', 'Skip')}</span>
           </div>
         </div>
       )
@@ -135,7 +136,7 @@ export const PracticeTourModal: React.FC<Props> = ({
         <div className="flex items-center justify-center py-2">
           <div className="px-4 py-2 rounded-xl bg-[var(--panel)] border border-amber-500/30 text-[var(--ink)] text-xs font-black flex items-center gap-2 shadow-2xs">
             <Star size={14} className="text-amber-500" />
-            <span>{isRTL ? 'نکات و تلفظ فارسی (بیشتر)' : 'More Details (Grammar & Hints)'}</span>
+            <span>{tx(isRTL, 'نکات و تلفظ فارسی (بیشتر)', 'More Details (Grammar & Hints)')}</span>
           </div>
         </div>
       )
@@ -172,7 +173,7 @@ export const PracticeTourModal: React.FC<Props> = ({
   return (
     <div 
       className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/60 backdrop-blur-sm animate-fade-in"
-      dir={isRTL ? 'rtl' : 'ltr'}
+      dir={((isRTL ? 'rtl' : 'ltr'))}
       onClick={handleComplete}
     >
       <div 
@@ -187,10 +188,10 @@ export const PracticeTourModal: React.FC<Props> = ({
             </div>
             <div>
               <h3 className="text-xs font-black text-[var(--ink)]">
-                {isRTL ? 'راهنمای دکمه‌های تمرین' : 'Practice Guide & Buttons'}
+                {tx(isRTL, 'راهنمای دکمه‌های تمرین', 'Practice Guide & Buttons')}
               </h3>
               <span className="text-[10px] font-bold text-[var(--mute)]">
-                {isRTL ? `مرحله ${currentStep + 1} از ${steps.length}` : `Step ${currentStep + 1} of ${steps.length}`}
+                {txt(isRTL, 'مرحله {0} از {1}', 'Step {0} of {1}', [currentStep + 1, steps.length])}
               </span>
             </div>
           </div>
@@ -199,7 +200,7 @@ export const PracticeTourModal: React.FC<Props> = ({
             type="button"
             onClick={handleComplete}
             className="p-1.5 rounded-xl hover:bg-[var(--bg)] text-[var(--mute)] hover:text-[var(--ink)] transition-colors cursor-pointer"
-            aria-label={isRTL ? 'بستن راهنما' : 'Close Guide'}
+            aria-label={tx(isRTL, 'بستن راهنما', 'Close Guide')}
           >
             <X size={18} />
           </button>
@@ -209,7 +210,7 @@ export const PracticeTourModal: React.FC<Props> = ({
         <div className="py-5 text-center flex flex-col items-center">
           {/* Step Kicker */}
           <div className="text-[11px] font-black text-[var(--lapis)] uppercase tracking-wider mb-3">
-            {isRTL ? step.badgeFa : step.badgeEn}
+            {tx(isRTL, step.badgeFa, step.badgeEn)}
           </div>
 
           {/* Animated Large Icon */}
@@ -219,12 +220,12 @@ export const PracticeTourModal: React.FC<Props> = ({
 
           {/* Title */}
           <h4 className="text-base font-black text-[var(--ink)] mb-2">
-            {isRTL ? step.titleFa : step.titleEn}
+            {tx(isRTL, step.titleFa, step.titleEn)}
           </h4>
 
           {/* Description */}
           <p className="text-xs text-[var(--mute)] leading-relaxed max-w-xs mb-3">
-            {isRTL ? step.descFa : step.descEn}
+            {tx(isRTL, step.descFa, step.descEn)}
           </p>
 
           {/* Interactive UI Preview */}
@@ -262,10 +263,10 @@ export const PracticeTourModal: React.FC<Props> = ({
             <button
               type="button"
               onClick={handleComplete}
-              aria-label={isRTL ? 'رد شدن از تور راهنما' : 'Skip Tour'}
+              aria-label={tx(isRTL, 'رد شدن از تور راهنما', 'Skip Tour')}
               className="px-3 py-2 text-xs font-bold text-[var(--mute)] hover:text-[var(--ink)] transition-colors cursor-pointer"
             >
-              {isRTL ? 'رد شدن از تور' : 'Skip Tour'}
+              {tx(isRTL, 'رد شدن از تور', 'Skip Tour')}
             </button>
 
             {currentStep > 0 && (
@@ -273,9 +274,9 @@ export const PracticeTourModal: React.FC<Props> = ({
                 type="button"
                 onClick={handlePrev}
                 className="w-9 h-9 rounded-xl border border-[var(--line)] bg-[var(--panel)] text-[var(--ink)] flex items-center justify-center cursor-pointer active:scale-95 shadow-2xs"
-                aria-label={isRTL ? 'قبلی' : 'Previous'}
+                aria-label={tx(isRTL, 'قبلی', 'Previous')}
               >
-                <ArrowRight size={15} className={isRTL ? '' : 'rotate-180'} />
+                <ArrowRight size={15} className={((isRTL ? '' : 'rotate-180'))} />
               </button>
             )}
 
@@ -284,11 +285,11 @@ export const PracticeTourModal: React.FC<Props> = ({
               onClick={handleNext}
               className="px-4 py-2 rounded-xl bg-[var(--lapis)] hover:brightness-110 text-white text-xs font-black flex items-center gap-1.5 shadow-sm active:scale-95 cursor-pointer"
             >
-              <span>{isLast ? (isRTL ? 'شروع تمرین!' : 'Get Started!') : (isRTL ? 'بعدی' : 'Next')}</span>
+              <span>{isLast ? (tx(isRTL, 'شروع تمرین!', 'Get Started!')) : (tx(isRTL, 'بعدی', 'Next'))}</span>
               {isLast ? (
                 <Check size={14} />
               ) : (
-                <ArrowLeft size={14} className={isRTL ? '' : 'rotate-180'} />
+                <ArrowLeft size={14} className={((isRTL ? '' : 'rotate-180'))} />
               )}
             </button>
           </div>

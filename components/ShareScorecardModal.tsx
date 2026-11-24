@@ -20,6 +20,7 @@ import {
   Zap,
   ExternalLink
 } from 'lucide-react';
+import { tx, txt, formatDate } from '../i18n/runtime';
 
 interface Props {
   isOpen: boolean;
@@ -52,7 +53,7 @@ export const ShareScorecardModal: React.FC<Props> = ({
   const winnerPlayerNames = players
     .filter(p => winners.some(w => w.id === p.teamId))
     .map(p => p.name)
-    .join(' و ');
+    .join(tx(isRTL, ' و ', ' & '));
 
   const totalCards = playedCards.length;
   const correctCards = playedCards.filter(c => c.guessedCorrectly).length;
@@ -91,18 +92,24 @@ export const ShareScorecardModal: React.FC<Props> = ({
   const appUrl = typeof window !== 'undefined' ? window.location.origin : 'https://aistudio.google.com';
   
   const generateShareText = () => {
+    // متن اشتراک‌گذاری به زبان برنامه (پیش‌تر برای همهٔ زبان‌ها فارسی بود)
+    const teamColor =
+      winnerColor === 'BLUE' ? tx(isRTL, 'آبی 💙', 'Blue 💙')
+      : winnerColor === 'RED' ? tx(isRTL, 'قرمز ❤️', 'Red ❤️')
+      : winnerColor === 'GREEN' ? tx(isRTL, 'سبز 💚', 'Green 💚')
+      : tx(isRTL, 'زرد 💛', 'Yellow 💛');
     return [
-      `🎉 کارنامه مسابقه بازی دور (DOŪR - Language Party Game)`,
+      tx(isRTL, '🎉 کارنامه مسابقه بازی دور (DOŪR - Language Party Game)', '🎉 DOŪR match scorecard (Language Party Game)'),
       `━━━━━━━━━━━━━━━━━━━━━━`,
-      `🏆 تیم برنده: تیم ${winnerColor === 'BLUE' ? 'آبی 💙' : winnerColor === 'RED' ? 'قرمز ❤️' : winnerColor === 'GREEN' ? 'سبز 💚' : 'زرد 💛'} (${winnerPlayerNames})`,
-      `⭐ امتیاز کل: ${totalPoints} امتیاز`,
-      `🎯 دقت پاسخ‌ها: ${accuracy}% (${correctCards} از ${totalCards} کلمه درست)`,
-      mvpName ? `🥇 ستاره مسابقه (MVP): ${mvpName} با ${mvpPoints} امتیاز!` : '',
+      txt(isRTL, '🏆 تیم برنده: تیم {0} ({1})', '🏆 Winning team: {0} ({1})', [teamColor, winnerPlayerNames]),
+      txt(isRTL, '⭐ امتیاز کل: {0} امتیاز', '⭐ Total score: {0} points', [totalPoints]),
+      txt(isRTL, '🎯 دقت پاسخ‌ها: {0}% ({1} از {2} کلمه درست)', '🎯 Accuracy: {0}% ({1} of {2} words correct)', [accuracy, correctCards, totalCards]),
+      mvpName ? txt(isRTL, '🥇 ستاره مسابقه (MVP): {0} با {1} امتیاز!', '🥇 MVP: {0} with {1} points!', [mvpName, mvpPoints]) : '',
       `━━━━━━━━━━━━━━━━━━━━━━`,
-      `📚 نمونه کلمات یادگرفته شده:`,
+      tx(isRTL, '📚 نمونه کلمات یادگرفته شده:', '📚 Some words we learned:'),
       ...learnedWords.map(w => `• ${w}`),
       `━━━━━━━━━━━━━━━━━━━━━━`,
-      `⚡ همین حالا آنلاین بازی کنید:`,
+      tx(isRTL, '⚡ همین حالا آنلاین بازی کنید:', '⚡ Play online now:'),
       `${appUrl}`
     ].filter(Boolean).join('\n');
   };
@@ -163,7 +170,7 @@ export const ShareScorecardModal: React.FC<Props> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/50 backdrop-blur-xs animate-fade-in font-ui" dir={isRTL ? 'rtl' : 'ltr'}>
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/50 backdrop-blur-xs animate-fade-in font-ui" dir={((isRTL ? 'rtl' : 'ltr'))}>
       <div className="w-full max-w-sm bg-[var(--panel)] text-[var(--ink)] rounded-[20px] border border-[var(--line)] shadow-[var(--shadow)] p-4 flex flex-col max-h-[90vh] overflow-y-auto">
         
         {/* Header with Close */}
@@ -203,7 +210,7 @@ export const ShareScorecardModal: React.FC<Props> = ({
               <span className="text-[10px] text-[var(--mute)] font-bold">DOŪR GAME</span>
             </div>
             <span className="text-[10px] font-bold text-[var(--mute)]">
-              {new Date().toLocaleDateString('fa-IR')}
+              {formatDate(new Date(), language)}
             </span>
           </div>
 

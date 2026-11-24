@@ -22,6 +22,7 @@ import {
   Check,
   Swords
 } from 'lucide-react';
+import { tx, txt } from '../i18n/runtime';
 
 interface Props {
   report: SinglePlayerSessionReport;
@@ -49,7 +50,7 @@ const SinglePlayerReportScreen: React.FC<Props> = ({
   const isRTL = isRtlLang(activeLang);
 
   const [playerName, setPlayerName] = useState(() => {
-    return localStorage.getItem('dor_single_player_name') || t.languagePro || (isRTL ? 'قهرمان زبان' : 'Language Pro');
+    return localStorage.getItem('dor_single_player_name') || t.languagePro || (tx(isRTL, 'قهرمان زبان', 'Language Pro'));
   });
   const [isScoreSubmitted, setIsScoreSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -58,10 +59,10 @@ const SinglePlayerReportScreen: React.FC<Props> = ({
 
   // Grade calculation
   const getGrade = (acc: number) => {
-    if (acc >= 95) return { grade: 'A+', color: '#15803d', label: isRTL ? 'فوق‌العاده!' : 'Outstanding!' };
-    if (acc >= 80) return { grade: 'A', color: '#1E9E93', label: isRTL ? 'بسیار عالی' : 'Great!' };
-    if (acc >= 65) return { grade: 'B', color: '#b45309', label: isRTL ? 'خوب' : 'Good' };
-    return { grade: 'C', color: '#E0603F', label: isRTL ? 'نیاز به تمرین' : 'Needs Practice' };
+    if (acc >= 95) return { grade: 'A+', color: '#15803d', label: tx(isRTL, 'فوق‌العاده!', 'Outstanding!') };
+    if (acc >= 80) return { grade: 'A', color: '#1E9E93', label: tx(isRTL, 'بسیار عالی', 'Great!') };
+    if (acc >= 65) return { grade: 'B', color: '#b45309', label: tx(isRTL, 'خوب', 'Good') };
+    return { grade: 'C', color: '#E0603F', label: tx(isRTL, 'نیاز به تمرین', 'Needs Practice') };
   };
 
   const gradeInfo = getGrade(report.accuracy);
@@ -97,7 +98,7 @@ const SinglePlayerReportScreen: React.FC<Props> = ({
   return (
     <div 
       className="w-full max-w-md sm:max-w-lg md:max-w-xl mx-auto h-full min-h-0 flex-1 flex flex-col justify-between p-3 sm:p-4 text-[var(--ink)] bg-[var(--bg)] select-none overflow-y-auto overscroll-contain font-ui"
-      dir={isRTL ? 'rtl' : 'ltr'}
+      dir={((isRTL ? 'rtl' : 'ltr'))}
     >
       {/* Top Header */}
       <div className="flex items-center justify-between shrink-0 mb-2 font-ui">
@@ -108,8 +109,8 @@ const SinglePlayerReportScreen: React.FC<Props> = ({
           }}
           className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[var(--panel)] hover:bg-[var(--bg)] border border-[var(--line)] text-xs font-bold text-[var(--ink)] shadow-xs transition-all active:scale-95 cursor-pointer"
         >
-          <ArrowLeft size={14} className={isRTL ? 'rotate-180' : ''} />
-          <span>{isRTL ? 'منوی اصلی' : 'Main Menu'}</span>
+          <ArrowLeft size={14} className={((isRTL ? 'rotate-180' : ''))} />
+          <span>{tx(isRTL, 'منوی اصلی', 'Main Menu')}</span>
         </button>
 
         <div className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl bg-[var(--panel)] border border-[var(--line)] shadow-xs">
@@ -136,7 +137,7 @@ const SinglePlayerReportScreen: React.FC<Props> = ({
               <span className="text-2xl font-black font-display" style={{ color: gradeInfo.color }}>
                 {gradeInfo.grade}
               </span>
-              <span className="text-[9px] text-[var(--mute)] font-bold">{isRTL ? 'رتبه' : 'Grade'}</span>
+              <span className="text-[9px] text-[var(--mute)] font-bold">{tx(isRTL, 'رتبه', 'Grade')}</span>
             </div>
 
             <div className="text-left rtl:text-right">
@@ -145,7 +146,7 @@ const SinglePlayerReportScreen: React.FC<Props> = ({
               </div>
               <div className="text-xs font-bold text-[var(--turq)] flex items-center gap-1">
                 <Sparkles size={12} />
-                <span>{isRTL ? 'مجموع امتیاز مسابقه' : 'Total Score Earned'}</span>
+                <span>{tx(isRTL, 'مجموع امتیاز مسابقه', 'Total Score Earned')}</span>
               </div>
             </div>
           </div>
@@ -154,10 +155,10 @@ const SinglePlayerReportScreen: React.FC<Props> = ({
           <div className="my-2 p-2.5 rounded-xl bg-[var(--bg)] border border-[var(--line)] flex items-center justify-between text-xs">
             <div className="flex items-center gap-1.5 text-[var(--ink)] font-bold">
               <Trophy size={14} className="text-[var(--saffron)]" />
-              <span>{isRTL ? 'بهترین رکورد شما:' : 'Your Personal Best:'}</span>
+              <span>{tx(isRTL, 'بهترین رکورد شما:', 'Your Personal Best:')}</span>
             </div>
             <div className="font-mono font-bold text-[var(--turq)] text-sm">
-              {Math.max(personalRecords.highestScore, report.totalScore).toLocaleString()} {t.pointsUnit || (isRTL ? 'امتیاز' : 'PTS')}
+              {Math.max(personalRecords.highestScore, report.totalScore).toLocaleString()} {t.pointsUnit || (tx(isRTL, 'امتیاز', 'PTS'))}
             </div>
           </div>
 
@@ -166,7 +167,7 @@ const SinglePlayerReportScreen: React.FC<Props> = ({
             <div className="flex items-center justify-between text-[11px] font-bold text-[var(--mute)] mb-2">
               <span className="flex items-center gap-1 text-[var(--ink)]">
                 <Sparkles size={13} className="text-[var(--turq)]" />
-                <span>{isRTL ? 'نقشه راه پیشرفت سطح CEFR:' : 'CEFR Level Roadmap:'}</span>
+                <span>{tx(isRTL, 'نقشه راه پیشرفت سطح CEFR:', 'CEFR Level Roadmap:')}</span>
               </span>
               <span className="text-[var(--turq)] font-mono font-black">{report.settings?.cefrLevel || 'A1'}</span>
             </div>
@@ -195,7 +196,7 @@ const SinglePlayerReportScreen: React.FC<Props> = ({
                     <div>{lvl}</div>
                     <div className="text-[8px] mt-0.5 flex items-center justify-center">
                       {isCurrent ? (
-                        isRTL ? 'فعلی' : 'Current'
+                        tx(isRTL, 'فعلی', 'Current')
                       ) : isPassed ? (
                         <Check size={10} />
                       ) : (
@@ -208,9 +209,7 @@ const SinglePlayerReportScreen: React.FC<Props> = ({
             </div>
 
             <div className="mt-2 text-[10.5px] text-[var(--mute)] font-medium text-center">
-              {isRTL 
-                ? `با تکرار و بازی‌های گروهی، در حال تثبیت سطح ${report.settings?.cefrLevel || 'A1'} در حافظه بلندمدت هستید!` 
-                : `Solidifying your ${report.settings?.cefrLevel || 'A1'} mastery in long-term memory!`}
+              {txt(isRTL, 'با تکرار و بازی‌های گروهی، در حال تثبیت سطح {0} در حافظه بلندمدت هستید!', 'Solidifying your {0} mastery in long-term memory!', [report.settings?.cefrLevel || 'A1'])}
             </div>
           </div>
 
@@ -219,9 +218,7 @@ const SinglePlayerReportScreen: React.FC<Props> = ({
             type="button"
             onClick={async () => {
               sound.playClick();
-              const shareText = isRTL 
-                ? `من در بازی زبانی دور (DOŪR) به امتیاز ${report.totalScore.toLocaleString()} در سطح ${report.settings?.cefrLevel || 'A1'} رسیدم! می‌تونی رکوردمو بزنی؟`
-                : `I reached ${report.totalScore.toLocaleString()} points at ${report.settings?.cefrLevel || 'A1'} level in DOŪR! Can you beat my score?`;
+              const shareText = txt(isRTL, 'من در بازی زبانی دور (DOŪR) به امتیاز {0} در سطح {1} رسیدم! می‌تونی رکوردمو بزنی؟', 'I reached {0} points at {1} level in DOŪR! Can you beat my score?', [report.totalScore.toLocaleString(), report.settings?.cefrLevel || 'A1']);
               
               if (navigator.share) {
                 try {
@@ -244,13 +241,13 @@ const SinglePlayerReportScreen: React.FC<Props> = ({
             className="w-full min-h-[44px] py-2.5 px-3 rounded-xl bg-gradient-to-r from-[var(--lapis)] to-[var(--turq)] text-white font-bold text-xs shadow-xs hover:opacity-95 active:scale-98 transition-all flex items-center justify-center gap-2 cursor-pointer mb-2"
           >
             <Swords size={14} className="text-[var(--saffron)]" />
-            <span>{isRTL ? 'دعوت و چالش با دوستان (ارسال به واتساپ/تلگرام)' : 'Challenge Friends (Share to WhatsApp/Telegram)'}</span>
+            <span>{tx(isRTL, 'دعوت و چالش با دوستان (ارسال به واتساپ/تلگرام)', 'Challenge Friends (Share to WhatsApp/Telegram)')}</span>
           </button>
 
           {isAllTimeBest && (
             <div className="mb-2 p-2 rounded-xl bg-emerald-50 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-800/40 text-emerald-600 dark:text-emerald-400 text-xs font-bold text-center flex items-center justify-center gap-1.5 animate-pulse">
               <Sparkles size={14} />
-              <span>{isRTL ? 'رکورد شخصی جدید! شما بهترین امتیاز خود را ثبت کردید!' : 'New Personal Record! You achieved your highest score ever!'}</span>
+              <span>{tx(isRTL, 'رکورد شخصی جدید! شما بهترین امتیاز خود را ثبت کردید!', 'New Personal Record! You achieved your highest score ever!')}</span>
             </div>
           )}
 
@@ -262,21 +259,21 @@ const SinglePlayerReportScreen: React.FC<Props> = ({
             </div>
             <div className="bg-[var(--bg)] p-2.5 rounded-xl border border-[var(--line)]">
               <div className="text-base font-black text-[var(--turq)]">{report.correctFirstTry} / {report.totalCards}</div>
-              <div className="text-[10px] text-[var(--mute)] font-bold">{isRTL ? 'درست بار اول' : 'First Try'}</div>
+              <div className="text-[10px] text-[var(--mute)] font-bold">{tx(isRTL, 'درست بار اول', 'First Try')}</div>
             </div>
             <div className="bg-[var(--bg)] p-2.5 rounded-xl border border-[var(--line)]">
               <div className="text-base font-black text-[var(--saffron)]">{report.correctedCount}</div>
-              <div className="text-[10px] text-[var(--mute)] font-bold">{isRTL ? 'تصحیح‌شده' : 'Corrected'}</div>
+              <div className="text-[10px] text-[var(--mute)] font-bold">{tx(isRTL, 'تصحیح‌شده', 'Corrected')}</div>
             </div>
             <div className="bg-[var(--bg)] p-2.5 rounded-xl border border-[var(--line)]">
               <div className="text-base font-black text-[var(--ink)] font-mono">
                 {report.totalDurationSeconds !== undefined
                   ? `${Math.floor(report.totalDurationSeconds / 60)}:${(report.totalDurationSeconds % 60).toString().padStart(2, '0')}`
-                  : `${Math.round(report.results.reduce((acc, r) => acc + (r.timeSpentSeconds || 0), 0))}${isRTL ? ' ثانیه' : 's'}`}
+                  : `${Math.round(report.results.reduce((acc, r) => acc + (r.timeSpentSeconds || 0), 0))}${tx(isRTL, ' ثانیه', 's')}`}
               </div>
               <div className="text-[10px] text-[var(--mute)] font-bold flex items-center justify-center gap-0.5">
                 <Clock size={10} className="text-[var(--turq)]" />
-                <span>{isRTL ? 'زمان کل' : 'Duration'}</span>
+                <span>{tx(isRTL, 'زمان کل', 'Duration')}</span>
               </div>
             </div>
           </div>
@@ -287,10 +284,10 @@ const SinglePlayerReportScreen: React.FC<Props> = ({
           <div className="text-xs font-bold text-[var(--ink)] mb-2 flex items-center justify-between">
             <div className="flex items-center gap-1.5">
               <Trophy size={14} className="text-[var(--saffron)]" />
-              <span>{isRTL ? 'ثبت رکورد در رده‌بندی جهانی' : 'Post to Leaderboard'}</span>
+              <span>{tx(isRTL, 'ثبت رکورد در رده‌بندی جهانی', 'Post to Leaderboard')}</span>
             </div>
             <span className="text-[10px] text-[var(--mute)] font-medium">
-              {isRTL ? 'مشاهده در پروفایل کاربر' : 'View in User Profile'}
+              {tx(isRTL, 'مشاهده در پروفایل کاربر', 'View in User Profile')}
             </span>
           </div>
 
@@ -300,7 +297,7 @@ const SinglePlayerReportScreen: React.FC<Props> = ({
               value={playerName}
               onChange={e => setPlayerName(e.target.value)}
               disabled={isScoreSubmitted || isSubmitting}
-              placeholder={isRTL ? 'نام خود را وارد کنید...' : 'Enter player name...'}
+              placeholder={tx(isRTL, 'نام خود را وارد کنید...', 'Enter player name...')}
               className="flex-1 bg-[var(--bg)] text-[var(--ink)] px-3 py-2 rounded-xl border border-[var(--line)] text-xs font-bold focus:border-[var(--lapis)] focus:outline-hidden"
             />
             <button
@@ -315,12 +312,12 @@ const SinglePlayerReportScreen: React.FC<Props> = ({
               {isScoreSubmitted ? (
                 <>
                   <CheckCircle size={14} />
-                  <span>{isRTL ? 'ثبت شد' : 'Posted'}</span>
+                  <span>{tx(isRTL, 'ثبت شد', 'Posted')}</span>
                 </>
               ) : (
                 <>
                   <Send size={14} />
-                  <span>{isRTL ? 'ثبت' : 'Submit'}</span>
+                  <span>{tx(isRTL, 'ثبت', 'Submit')}</span>
                 </>
               )}
             </button>
@@ -380,7 +377,7 @@ const SinglePlayerReportScreen: React.FC<Props> = ({
           className="w-full py-3.5 rounded-2xl bg-[var(--lapis)] hover:brightness-105 text-[var(--on-lapis)] font-extrabold text-sm sm:text-base shadow-md uppercase tracking-wider flex items-center justify-center gap-2 cursor-pointer transition-all active:scale-98"
         >
           <RotateCcw size={18} />
-          <span className="whitespace-nowrap">{isRTL ? 'تمرین مجدد' : 'Play Again'}</span>
+          <span className="whitespace-nowrap">{tx(isRTL, 'تمرین مجدد', 'Play Again')}</span>
           <Flame size={16} className="text-[var(--saffron)]" />
         </button>
 
@@ -395,7 +392,7 @@ const SinglePlayerReportScreen: React.FC<Props> = ({
               className="py-3 px-2 rounded-xl text-xs sm:text-sm font-bold bg-[var(--panel)] hover:bg-[var(--bg)] text-[var(--ink)] border border-[var(--line)] shadow-xs flex items-center justify-center gap-1.5 cursor-pointer active:scale-98 transition-all"
             >
               <Sliders size={15} className="text-[var(--lapis)]" />
-              <span>{isRTL ? 'تنظیمات تمرین' : 'Settings'}</span>
+              <span>{tx(isRTL, 'تنظیمات تمرین', 'Settings')}</span>
             </button>
           )}
 
@@ -408,7 +405,7 @@ const SinglePlayerReportScreen: React.FC<Props> = ({
             className="w-full py-3 rounded-xl text-xs sm:text-sm font-bold bg-[var(--panel)] hover:bg-[var(--bg)] text-[var(--ink)] border border-[var(--line)] shadow-xs flex items-center justify-center gap-1.5 cursor-pointer active:scale-98 transition-all"
           >
             <Home size={15} />
-            <span>{isRTL ? 'بازگشت به منوی اصلی' : 'Back to Main Menu'}</span>
+            <span>{tx(isRTL, 'بازگشت به منوی اصلی', 'Back to Main Menu')}</span>
           </button>
         </div>
       </div>

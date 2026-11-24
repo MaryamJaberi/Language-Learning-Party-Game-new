@@ -9,6 +9,7 @@ import { onAuthStateChanged, User } from 'firebase/auth';
 import { Trophy, Crown, Zap, ArrowRight, ArrowLeft, Cloud, HardDrive, Calendar, Users, ChevronUp, Share2, LogIn } from 'lucide-react';
 import { useGoogleScrollBars } from '../useGoogleScrollBars';
 import ShareScorecardModal from '../components/ShareScorecardModal';
+import { tx, txt } from '../i18n/runtime';
 
 interface Props {
   language: Language;
@@ -43,7 +44,7 @@ const HistoryScreen: React.FC<Props> = ({ language, history, onBack }) => {
   const displayedHistory = activeTab === 'cloud' && currentUser ? cloudHistory : history;
 
   return (
-    <div className="w-full max-w-md sm:max-w-lg md:max-w-xl mx-auto h-full min-h-0 flex-1 flex flex-col bg-[var(--bg)] text-[var(--ink)] overflow-hidden select-none relative font-ui" dir={isRTL ? 'rtl' : 'ltr'}>
+    <div className="w-full max-w-md sm:max-w-lg md:max-w-xl mx-auto h-full min-h-0 flex-1 flex flex-col bg-[var(--bg)] text-[var(--ink)] overflow-hidden select-none relative font-ui" dir={((isRTL ? 'rtl' : 'ltr'))}>
       {/* Header Panel with Google-style dynamic auto-hide/reveal */}
       <div 
         className={`transition-all duration-300 ease-in-out transform origin-top shrink-0 z-20 ${
@@ -84,7 +85,7 @@ const HistoryScreen: React.FC<Props> = ({ language, history, onBack }) => {
             }`}
           >
             <HardDrive size={14} />
-            <span>{language === 'fa' ? 'سوابق این دستگاه' : 'Local Matches'} ({history.length})</span>
+            <span>{tx((language === 'fa'), 'سوابق این دستگاه', 'Local Matches')} ({history.length})</span>
           </button>
 
           <button
@@ -96,14 +97,14 @@ const HistoryScreen: React.FC<Props> = ({ language, history, onBack }) => {
             }`}
           >
             <Cloud size={14} />
-            <span>{language === 'fa' ? 'سوابق ابری' : 'Cloud Matches'} ({cloudHistory.length})</span>
+            <span>{tx((language === 'fa'), 'سوابق ابری', 'Cloud Matches')} ({cloudHistory.length})</span>
           </button>
         </div>
       ) : (
         <div className="p-2.5 bg-[var(--panel)] text-[var(--ink)] border-b border-[var(--line)] flex items-center justify-between gap-2 shrink-0 z-10 font-ui">
           <div className="flex items-center gap-2 text-xs font-bold text-[var(--ink)]">
             <Cloud size={16} className="text-[var(--turq)]" />
-            <span className="text-[11px] sm:text-xs">{language === 'fa' ? 'برای همگام‌سازی ابری تاریخچه وارد شوید:' : 'Sign in to sync your match history:'}</span>
+            <span className="text-[11px] sm:text-xs">{tx((language === 'fa'), 'برای همگام‌سازی ابری تاریخچه وارد شوید:', 'Sign in to sync your match history:')}</span>
           </div>
           <button
             onClick={async () => {
@@ -117,7 +118,7 @@ const HistoryScreen: React.FC<Props> = ({ language, history, onBack }) => {
             className="px-3 py-1.5 rounded-xl bg-[var(--turq)] hover:brightness-105 text-white font-bold text-xs shadow-xs active:scale-95 flex items-center gap-1 shrink-0 cursor-pointer"
           >
             <LogIn size={13} />
-            <span>{language === 'fa' ? 'ورود با گوگل' : 'Sign In'}</span>
+            <span>{tx((language === 'fa'), 'ورود با گوگل', 'Sign In')}</span>
           </button>
         </div>
       )}
@@ -131,7 +132,7 @@ const HistoryScreen: React.FC<Props> = ({ language, history, onBack }) => {
         {isLoadingCloud ? (
           <div className="flex flex-col items-center justify-center py-12 text-center space-y-2">
             <div className="w-8 h-8 border-3 border-[var(--lapis)] border-t-transparent rounded-full animate-spin" />
-            <p className="text-xs font-bold text-[var(--mute)]">{language === 'fa' ? 'در حال بارگذاری از پایگاه داده فایربیس...' : 'Loading from Firebase Firestore...'}</p>
+            <p className="text-xs font-bold text-[var(--mute)]">{tx((language === 'fa'), 'در حال بارگذاری از پایگاه داده فایربیس...', 'Loading from Firebase Firestore...')}</p>
           </div>
         ) : displayedHistory.length === 0 ? (
           /* Empty scoreboard state */
@@ -237,7 +238,7 @@ const HistoryScreen: React.FC<Props> = ({ language, history, onBack }) => {
           className="absolute bottom-2 left-1/2 -translate-x-1/2 z-30 px-3.5 py-1.5 bg-[var(--ink)] text-[var(--bg)] rounded-full text-[11px] font-bold shadow-lg flex items-center gap-1 backdrop-blur-xs font-ui cursor-pointer"
         >
           <ChevronUp size={14} />
-          <span>{language === 'fa' ? 'بازگشت' : 'Back'}</span>
+          <span>{tx((language === 'fa'), 'بازگشت', 'Back')}</span>
         </button>
       )}
 

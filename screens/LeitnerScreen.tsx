@@ -37,6 +37,7 @@ import { FlagIcon } from '../components/FlagIcon';
 import ExitConfirmModal from '../components/ExitConfirmModal';
 import { generateChallengingReflexOptions } from '../utils/testQuestionEngine';
 import ConfettiCelebration from '../components/ConfettiCelebration';
+import { tx, txt } from '../i18n/runtime';
 
 interface Props {
   language: Language;
@@ -204,7 +205,7 @@ export const LeitnerScreen: React.FC<Props> = ({
   return (
     <div 
       className="w-full max-w-md sm:max-w-lg md:max-w-xl mx-auto min-h-[100dvh] px-3 sm:px-4 py-4 font-ui flex flex-col justify-between select-none relative"
-      dir={isRTL ? 'rtl' : 'ltr'}
+      dir={((isRTL ? 'rtl' : 'ltr'))}
     >
       {/* Top Header */}
       <div className="space-y-3">
@@ -213,10 +214,10 @@ export const LeitnerScreen: React.FC<Props> = ({
             <button
               type="button"
               onClick={() => setShowExitModal(true)}
-              aria-label={isRTL ? 'بازگشت' : 'Back'}
+              aria-label={tx(isRTL, 'بازگشت', 'Back')}
               className="w-10 h-10 rounded-xl bg-[var(--bg)] border border-[var(--line)] text-[var(--ink)] flex items-center justify-center hover:bg-rose-500/10 hover:text-rose-500 cursor-pointer transition-colors"
             >
-              <ArrowLeft size={16} className={isRTL ? 'rotate-180' : ''} />
+              <ArrowLeft size={16} className={((isRTL ? 'rotate-180' : ''))} />
             </button>
             <div className="flex items-center gap-1.5">
               <div className="w-8 h-8 rounded-xl bg-[var(--lapis)]/15 text-[var(--lapis)] flex items-center justify-center">
@@ -224,10 +225,10 @@ export const LeitnerScreen: React.FC<Props> = ({
               </div>
               <div>
                 <h1 className="text-sm font-black text-[var(--ink)] leading-none">
-                  {isRTL ? 'جعبه لایتنر ۵ خانه' : '5-Box Leitner Spaced Repetition'}
+                  {tx(isRTL, 'جعبه لایتنر ۵ خانه', '5-Box Leitner Spaced Repetition')}
                 </h1>
                 <span className="text-[10px] font-bold text-[var(--mute)]">
-                  {isRTL ? 'مرور هوشمند و ملکه شدن در حافظه' : 'Smart spaced memory review (1, 2, 4, 8, 16 days)'}
+                  {tx(isRTL, 'مرور هوشمند و ملکه شدن در حافظه', 'Smart spaced memory review (1, 2, 4, 8, 16 days)')}
                 </span>
               </div>
             </div>
@@ -237,7 +238,7 @@ export const LeitnerScreen: React.FC<Props> = ({
           <div className="flex items-center gap-2">
             <div className="flex items-center gap-1 px-2.5 py-1 bg-amber-500/15 border border-amber-500/30 rounded-xl text-amber-600 text-xs font-black">
               <Flame size={14} className="animate-bounce" />
-              <span>{leitnerState.consecutiveStreak} {isRTL ? 'روز متوالی' : 'days streak'}</span>
+              <span>{leitnerState.consecutiveStreak} {tx(isRTL, 'روز متوالی', 'days streak')}</span>
             </div>
 
             <button
@@ -251,7 +252,7 @@ export const LeitnerScreen: React.FC<Props> = ({
                   ? 'bg-emerald-500/15 border-emerald-500/30 text-emerald-600'
                   : 'bg-[var(--bg)] border-[var(--line)] text-[var(--mute)] hover:text-[var(--ink)]'
               }`}
-              title={isRTL ? 'اعلان یادآوری روزانه' : 'Daily Reminder Notification'}
+              title={tx(isRTL, 'اعلان یادآوری روزانه', 'Daily Reminder Notification')}
             >
               {notificationStatus ? <Bell size={15} /> : <BellOff size={15} />}
             </button>
@@ -264,12 +265,10 @@ export const LeitnerScreen: React.FC<Props> = ({
             <AlertTriangle size={18} className="shrink-0 mt-0.5" />
             <div>
               <strong className="block font-black">
-                {isRTL ? 'متأسفانه یک روز غیبت داشتید!' : 'You missed a day!'}
+                {tx(isRTL, 'متأسفانه یک روز غیبت داشتید!', 'You missed a day!')}
               </strong>
               <p className="mt-0.5 leading-relaxed text-[11px] text-rose-500/90">
-                {isRTL 
-                  ? 'طبق قانون جعبه لایتنر، برای جلوگیری از فراموشی، دوره جاری ریست شد و کارت‌ها به خانه ۱ بازگشتند تا از نو ملکه ذهن شوند.'
-                  : 'According to Leitner rules, missed days reset the streak and cards drop back to Box 1 for complete mastery.'}
+                {tx(isRTL, 'طبق قانون جعبه لایتنر، برای جلوگیری از فراموشی، دوره جاری ریست شد و کارت‌ها به خانه ۱ بازگشتند تا از نو ملکه ذهن شوند.', 'According to Leitner rules, missed days reset the streak and cards drop back to Box 1 for complete mastery.')}
               </p>
             </div>
           </div>
@@ -280,11 +279,11 @@ export const LeitnerScreen: React.FC<Props> = ({
           <div className="flex items-center justify-between text-xs font-black">
             <span className="flex items-center gap-1 text-[var(--ink)]">
               <Layers size={14} className="text-[var(--lapis)]" />
-              <span>{isRTL ? `وضعیت ${LEITNER_INTERVALS.length} خانه لایتنر:` : `Leitner ${LEITNER_INTERVALS.length}-Box Compartments:`}</span>
+              <span>{txt(isRTL, 'وضعیت {0} خانه لایتنر:', 'Leitner {0}-Box Compartments:', [LEITNER_INTERVALS.length])}</span>
             </span>
             <span className="text-[11px] text-emerald-600 font-bold flex items-center gap-1">
               <Trophy size={13} />
-              <span>{leitnerState.totalCardsMastered} {isRTL ? 'کارت مسلط‌شده' : 'Mastered'}</span>
+              <span>{leitnerState.totalCardsMastered} {tx(isRTL, 'کارت مسلط‌شده', 'Mastered')}</span>
             </span>
           </div>
 
@@ -302,13 +301,13 @@ export const LeitnerScreen: React.FC<Props> = ({
                   }`}
                 >
                   <span className="text-[10px] font-bold text-[var(--mute)]">
-                    {interval} {isRTL ? 'روزه' : 'day'}
+                    {interval} {tx(isRTL, 'روزه', 'day')}
                   </span>
                   <span className={`text-base font-black my-0.5 ${isMasterBox ? 'text-amber-500' : 'text-[var(--ink)]'}`}>
                     {count}
                   </span>
                   <span className="text-[10px] font-bold text-[var(--mute)]">
-                    {isRTL ? `خانه ${idx + 1}` : `Box ${idx + 1}`}
+                    {txt(isRTL, 'خانه {0}', 'Box {0}', [idx + 1])}
                   </span>
                 </div>
               );
@@ -334,10 +333,10 @@ export const LeitnerScreen: React.FC<Props> = ({
               {/* Box Tag & Question Type */}
               <div className="flex items-center justify-between">
                 <span className="px-2.5 py-0.5 bg-[var(--lapis)]/10 text-[var(--lapis)] border border-[var(--lapis)]/20 rounded-full text-[10px] font-black">
-                  {isRTL ? `خانه ${Math.min(currentDueItem.item.boxIndex + 1, LEITNER_INTERVALS.length)} از ${LEITNER_INTERVALS.length}` : `Box ${Math.min(currentDueItem.item.boxIndex + 1, LEITNER_INTERVALS.length)} of ${LEITNER_INTERVALS.length}`}
+                  {txt(isRTL, 'خانه {0} از {1}', 'Box {0} of {1}', [Math.min(currentDueItem.item.boxIndex + 1, LEITNER_INTERVALS.length), LEITNER_INTERVALS.length])}
                 </span>
                 <span className="text-[11px] font-bold text-[var(--mute)]">
-                  {isRTL ? `کارت ${activeCardIndex + 1} از ${dueQuestions.length}` : `Card ${activeCardIndex + 1} of ${dueQuestions.length}`}
+                  {txt(isRTL, 'کارت {0} از {1}', 'Card {0} of {1}', [activeCardIndex + 1, dueQuestions.length])}
                 </span>
               </div>
 
@@ -379,10 +378,10 @@ export const LeitnerScreen: React.FC<Props> = ({
                     setIsFlipped(!isFlipped);
                   }}
                   className="py-1.5 px-3.5 bg-[var(--bg)] hover:bg-[var(--line)] rounded-full text-xs font-bold text-[var(--mute)] hover:text-[var(--ink)] inline-flex items-center gap-1.5 transition-colors cursor-pointer"
-                  title={isRTL ? 'پشت‌ورو کردن کارت [Space]' : 'Flip Card [Space]'}
+                  title={tx(isRTL, 'پشت‌ورو کردن کارت [Space]', 'Flip Card [Space]')}
                 >
                   <RotateCw size={13} />
-                  <span>{isFlipped ? (isRTL ? 'صورت سؤال' : 'Question') : (isRTL ? 'پشت کارت' : 'Flip')}</span>
+                  <span>{isFlipped ? (tx(isRTL, 'صورت سؤال', 'Question')) : (tx(isRTL, 'پشت کارت', 'Flip'))}</span>
                 </button>
 
                 {sound.isVoiceSupportedSync(leitnerState.targetLanguage) && (
@@ -394,10 +393,10 @@ export const LeitnerScreen: React.FC<Props> = ({
                         sound.speakNative(currentDueItem.item.card.targetText, leitnerState.targetLanguage);
                       }}
                       className="py-1.5 px-2.5 bg-[var(--bg)] hover:bg-[var(--line)] rounded-full text-xs font-bold text-[var(--mute)] hover:text-[var(--ink)] inline-flex items-center gap-1 transition-colors cursor-pointer"
-                      title={isRTL ? 'پخش تلفظ صوتی [کلید V]' : 'Audio pronunciation [Key V]'}
+                      title={tx(isRTL, 'پخش تلفظ صوتی [کلید V]', 'Audio pronunciation [Key V]')}
                     >
                       <Volume2 size={13} />
-                      <span>{isRTL ? 'تلفظ' : 'Audio'}</span>
+                      <span>{tx(isRTL, 'تلفظ', 'Audio')}</span>
                     </button>
 
                     <button
@@ -407,7 +406,7 @@ export const LeitnerScreen: React.FC<Props> = ({
                         sound.speakSlow(currentDueItem.item.card.targetText, leitnerState.targetLanguage);
                       }}
                       className="py-1.5 px-2.5 bg-[var(--bg)] hover:bg-[var(--line)] rounded-full text-[11px] font-bold text-[var(--mute)] hover:text-[var(--ink)] inline-flex items-center gap-1 transition-colors cursor-pointer"
-                      title={isRTL ? 'پخش آهسته ۰.۷x برای تفکیک هجاها [کلید S]' : 'Slow audio 0.7x [Key S]'}
+                      title={tx(isRTL, 'پخش آهسته ۰.۷x برای تفکیک هجاها [کلید S]', 'Slow audio 0.7x [Key S]')}
                     >
                       <Volume1 size={13} className="text-[var(--turq)]" />
                       <span>0.7x</span>
@@ -454,7 +453,7 @@ export const LeitnerScreen: React.FC<Props> = ({
                   className="py-3 px-3 bg-rose-500/10 hover:bg-rose-500/20 border-2 border-rose-500/30 text-rose-600 rounded-2xl font-black text-xs flex items-center justify-center gap-1.5 cursor-pointer shadow-xs active:scale-95"
                 >
                   <X size={16} />
-                  <span>{isRTL ? 'بلد نبودم (برگشت به خانه ۱)' : 'Forgot (Drop to Box 1)'}</span>
+                  <span>{tx(isRTL, 'بلد نبودم (برگشت به خانه ۱)', 'Forgot (Drop to Box 1)')}</span>
                 </button>
                 <button
                   type="button"
@@ -462,7 +461,7 @@ export const LeitnerScreen: React.FC<Props> = ({
                   className="py-3 px-3 bg-emerald-500 hover:bg-emerald-600 text-white rounded-2xl font-black text-xs flex items-center justify-center gap-1.5 cursor-pointer shadow-md active:scale-95"
                 >
                   <Check size={16} />
-                  <span>{isRTL ? 'بلد بودم (صعود به خانه بعد)' : 'Mastered (Next Box)'}</span>
+                  <span>{tx(isRTL, 'بلد بودم (صعود به خانه بعد)', 'Mastered (Next Box)')}</span>
                 </button>
               </div>
             )}
@@ -473,10 +472,10 @@ export const LeitnerScreen: React.FC<Props> = ({
                 <div className="flex-1 min-w-0 text-start">
                   <div className="font-black text-rose-700 dark:text-rose-300 flex items-center gap-1.5">
                     <X size={14} className="text-rose-600 shrink-0" />
-                    <span>{isRTL ? 'پاسخ صحیح:' : 'Correct Answer:'} «{currentDueItem.item.card.targetText}»</span>
+                    <span>{tx(isRTL, 'پاسخ صحیح:', 'Correct Answer:')} «{currentDueItem.item.card.targetText}»</span>
                   </div>
                   <div className="text-[11px] text-[var(--mute)] mt-0.5 leading-relaxed">
-                    <span>{isRTL ? 'ترجمه:' : 'Translation:'} {currentDueItem.item.card.translation}</span>
+                    <span>{tx(isRTL, 'ترجمه:', 'Translation:')} {currentDueItem.item.card.translation}</span>
                     {currentDueItem.item.card.grammarPoint && (
                       <span className="block mt-0.5 text-amber-600 dark:text-amber-400 font-semibold">
                         💡 {currentDueItem.item.card.grammarPoint}
@@ -490,7 +489,7 @@ export const LeitnerScreen: React.FC<Props> = ({
                   onClick={proceedToNextLeitnerCard}
                   className="btn-turq !min-h-[38px] !h-9 !py-1 !px-3.5 text-xs font-bold shrink-0 cursor-pointer shadow-xs"
                 >
-                  <span>{isRTL ? 'متوجه شدم (بعدی)' : 'Got it (Next)'}</span>
+                  <span>{tx(isRTL, 'متوجه شدم (بعدی)', 'Got it (Next)')}</span>
                 </button>
               </div>
             )}
@@ -505,12 +504,10 @@ export const LeitnerScreen: React.FC<Props> = ({
 
             <div>
               <h3 className="text-lg font-black text-[var(--ink)]">
-                {isRTL ? 'آفرین! کارت‌های امروز لایتنر کامل شد!' : 'All Due Cards Reviewed for Today!'}
+                {tx(isRTL, 'آفرین! کارت‌های امروز لایتنر کامل شد!', 'All Due Cards Reviewed for Today!')}
               </h3>
               <p className="text-xs text-[var(--mute)] mt-1.5 leading-relaxed">
-                {isRTL 
-                  ? 'فردا حتماً سر بزن تا دوره‌ات نسوزه و کارت‌های جدید آماده مرور بشن!'
-                  : 'Visit again tomorrow to keep your streak alive and review next interval cards!'}
+                {tx(isRTL, 'فردا حتماً سر بزن تا دوره‌ات نسوزه و کارت‌های جدید آماده مرور بشن!', 'Visit again tomorrow to keep your streak alive and review next interval cards!')}
               </p>
             </div>
 
@@ -521,7 +518,7 @@ export const LeitnerScreen: React.FC<Props> = ({
                 className="w-full py-3 bg-[var(--lapis)] hover:bg-[#1a38a0] text-white text-xs font-black rounded-xl flex items-center justify-center gap-2 shadow-md cursor-pointer"
               >
                 <Plus size={16} />
-                <span>{isRTL ? 'افزودن ۱۵ کارت جدید به جعبه لایتنر' : 'Add 15 New Cards to Deck'}</span>
+                <span>{tx(isRTL, 'افزودن ۱۵ کارت جدید به جعبه لایتنر', 'Add 15 New Cards to Deck')}</span>
               </button>
 
               <button
@@ -529,7 +526,7 @@ export const LeitnerScreen: React.FC<Props> = ({
                 onClick={onExit}
                 className="w-full py-2.5 border border-[var(--line)] text-xs font-bold text-[var(--mute)] hover:text-[var(--ink)] rounded-xl cursor-pointer"
               >
-                {isRTL ? 'بازگشت به منوی اصلی' : 'Back to Menu'}
+                {tx(isRTL, 'بازگشت به منوی اصلی', 'Back to Menu')}
               </button>
             </div>
           </div>
@@ -540,7 +537,7 @@ export const LeitnerScreen: React.FC<Props> = ({
       {showNotificationModal && (
         <div 
           className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-xs animate-fade-in font-ui"
-          dir={isRTL ? 'rtl' : 'ltr'}
+          dir={((isRTL ? 'rtl' : 'ltr'))}
           onClick={() => setShowNotificationModal(false)}
         >
           <div 
@@ -553,12 +550,10 @@ export const LeitnerScreen: React.FC<Props> = ({
 
             <div>
               <h3 className="text-base font-black text-[var(--ink)]">
-                {isRTL ? 'یادآوری روزانه جعبه لایتنر' : 'Daily Leitner Reminder'}
+                {tx(isRTL, 'یادآوری روزانه جعبه لایتنر', 'Daily Leitner Reminder')}
               </h3>
               <p className="text-xs text-[var(--mute)] mt-1.5 leading-relaxed">
-                {isRTL 
-                  ? 'با فعال‌سازی اعلان، هر شب یک پیام کوتاه دریافت می‌کنی تا دوره لایتنرت نسوزه و کارت‌ها به خانه ۱ برنگردند!'
-                  : 'Enable reminders to get a daily alert so you never miss a day and lose your Leitner streak!'}
+                {tx(isRTL, 'با فعال‌سازی اعلان، هر شب یک پیام کوتاه دریافت می‌کنی تا دوره لایتنرت نسوزه و کارت‌ها به خانه ۱ برنگردند!', 'Enable reminders to get a daily alert so you never miss a day and lose your Leitner streak!')}
               </p>
             </div>
 
@@ -568,14 +563,14 @@ export const LeitnerScreen: React.FC<Props> = ({
                 onClick={() => setShowNotificationModal(false)}
                 className="py-2.5 rounded-xl border border-[var(--line)] text-xs font-bold hover:bg-[var(--bg)] cursor-pointer"
               >
-                {isRTL ? 'فعلاً نه' : 'Not Now'}
+                {tx(isRTL, 'فعلاً نه', 'Not Now')}
               </button>
               <button
                 type="button"
                 onClick={handleEnableNotifications}
                 className="py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-black shadow-md cursor-pointer"
               >
-                {isRTL ? 'فعال‌سازی اعلان' : 'Enable'}
+                {tx(isRTL, 'فعال‌سازی اعلان', 'Enable')}
               </button>
             </div>
           </div>

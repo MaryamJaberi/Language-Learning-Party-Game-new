@@ -46,6 +46,7 @@ import { GameSettings } from '../types';
 import { CEFR_LEVELS, isAdminUser } from '../constants';
 import { AICoachChatModal } from '../components/AICoachChatModal';
 import { MeetupMapModal } from '../components/MeetupMapModal';
+import { tx, txt } from '../i18n/runtime';
 
 interface Props {
   language: Language;
@@ -222,7 +223,7 @@ const IntroScreen: React.FC<Props> = ({
   };
 
   return (
-    <div className="w-full max-w-md sm:max-w-lg md:max-w-xl mx-auto h-full min-h-0 flex-1 flex flex-col items-center justify-between p-3.5 sm:p-4 text-center select-none overflow-y-auto overscroll-contain bg-[var(--bg)] text-[var(--ink)] font-ui relative" dir={isRTL ? 'rtl' : 'ltr'}>
+    <div className="w-full max-w-md sm:max-w-lg md:max-w-xl mx-auto h-full min-h-0 flex-1 flex flex-col items-center justify-between p-3.5 sm:p-4 text-center select-none overflow-y-auto overscroll-contain bg-[var(--bg)] text-[var(--ink)] font-ui relative" dir={((isRTL ? 'rtl' : 'ltr'))}>
       {/* Retro Arcade Ambient Background (Exclusive to Intro Page) */}
       <ArcadeBackground />
       
@@ -239,7 +240,7 @@ const IntroScreen: React.FC<Props> = ({
           }}
           className="w-11 h-11 flex items-center justify-center bg-[var(--panel)] hover:bg-slate-100 dark:hover:bg-slate-800 rounded-full border border-[var(--line)] shadow-xs text-xs font-bold text-[var(--ink)] active:scale-95 transition-all cursor-pointer shrink-0"
           title={`${t.changeLanguage} (${currentLangInfo.nativeName || currentLangInfo.name})`}
-          aria-label={t.changeLanguage || (isRTL ? 'تغییر زبان' : 'Change Language')}
+          aria-label={t.changeLanguage || (tx(isRTL, 'تغییر زبان', 'Change Language'))}
         >
           <FlagIcon language={language} size={22} />
         </button>
@@ -253,9 +254,9 @@ const IntroScreen: React.FC<Props> = ({
           <button
             id="header-guide-btn"
             onClick={handleOpenHelpWithNudge}
-            aria-label={t.guide || (isRTL ? 'راهنما' : 'Guide')}
+            aria-label={t.guide || (tx(isRTL, 'راهنما', 'Guide'))}
             className="w-11 h-11 flex items-center justify-center bg-[var(--panel)] hover:bg-slate-100 dark:hover:bg-slate-800 text-[var(--ink)] border border-[var(--line)] rounded-full shadow-xs active:scale-95 transition-all cursor-pointer relative"
-            title={t.gameRules || (isRTL ? 'راهنمای بازی' : 'Game Rules')}
+            title={t.gameRules || (tx(isRTL, 'راهنمای بازی', 'Game Rules'))}
           >
             <BookOpen size={20} className={!hasSeenGuideNudge ? 'text-[var(--lapis)] animate-pulse' : ''} />
             {!hasSeenGuideNudge && (
@@ -273,9 +274,9 @@ const IntroScreen: React.FC<Props> = ({
               sound.playClick();
               setIsAICoachOpen(true);
             }}
-            aria-label={isRTL ? 'مربی و داور هوشمند دور (Gemini AI)' : 'Turn AI Coach & Game Referee (Gemini AI)'}
+            aria-label={tx(isRTL, 'مربی و داور هوشمند دور (Gemini AI)', 'Turn AI Coach & Game Referee (Gemini AI)')}
             className="w-11 h-11 flex items-center justify-center bg-[var(--panel)] hover:bg-slate-100 dark:hover:bg-slate-800 text-amber-500 border border-amber-400/40 rounded-full shadow-xs active:scale-95 transition-all cursor-pointer relative"
-            title={isRTL ? 'مربی هوشمند و داور بازی دور (Gemini AI)' : 'Turn AI Coach & Game Referee (Gemini AI)'}
+            title={tx(isRTL, 'مربی هوشمند و داور بازی دور (Gemini AI)', 'Turn AI Coach & Game Referee (Gemini AI)')}
           >
             <Bot size={20} className="text-amber-500" />
             <span className="absolute -top-0.5 -right-0.5 w-2 h-2 rounded-full bg-amber-400" />
@@ -288,9 +289,9 @@ const IntroScreen: React.FC<Props> = ({
               sound.playClick();
               setIsAdminMeetupMapOpen(true);
             }}
-            aria-label={isRTL ? 'نقشه دورهمی‌های اطراف (Google Maps)' : 'Nearby Meetups Map (Google Maps)'}
+            aria-label={tx(isRTL, 'نقشه دورهمی‌های اطراف (Google Maps)', 'Nearby Meetups Map (Google Maps)')}
             className="w-11 h-11 flex items-center justify-center bg-teal-500/15 hover:bg-teal-500/25 text-[var(--turq)] border border-[var(--turq)] rounded-full shadow-xs active:scale-95 transition-all cursor-pointer relative"
-            title={isRTL ? 'دورهمی‌های حضوری اطراف روی نقشه' : 'Find Nearby In-Person Meetups'}
+            title={tx(isRTL, 'دورهمی‌های حضوری اطراف روی نقشه', 'Find Nearby In-Person Meetups')}
           >
             <MapPin size={20} className="text-[var(--turq)]" />
           </button>
@@ -299,9 +300,9 @@ const IntroScreen: React.FC<Props> = ({
           <button
             id="header-profile-btn"
             onClick={handleHistoryClick}
-            aria-label={t.userProfileTitle || (isRTL ? 'پروفایل کاربری' : 'User Profile')}
+            aria-label={t.userProfileTitle || (tx(isRTL, 'پروفایل کاربری', 'User Profile'))}
             className="w-11 h-11 flex items-center justify-center bg-[var(--panel)] hover:bg-slate-100 dark:hover:bg-slate-800 text-[var(--ink)] border border-[var(--line)] rounded-full shadow-xs active:scale-95 transition-all cursor-pointer relative"
-            title={t.userProfileTitle || (isRTL ? 'پروفایل کاربری' : 'User Profile')}
+            title={t.userProfileTitle || (tx(isRTL, 'پروفایل کاربری', 'User Profile'))}
           >
             {user?.photoURL ? (
               <img src={user.photoURL} alt="avatar" className="w-7 h-7 rounded-full border border-[var(--line)] object-cover" referrerPolicy="no-referrer" />
@@ -328,16 +329,16 @@ const IntroScreen: React.FC<Props> = ({
             </div>
             <div className="min-w-0">
               <div className="text-xs font-black text-[var(--ink)] flex items-center gap-1.5 truncate">
-                <span>{isRTL ? 'با ۴ سبک جذاب بازی «دور» آشنا شوید!' : 'Discover the 4 exciting game modes!'}</span>
+                <span>{tx(isRTL, 'با ۴ سبک جذاب بازی «دور» آشنا شوید!', 'Discover the 4 exciting game modes!')}</span>
               </div>
               <div className="text-[10px] text-[var(--mute)] font-medium truncate">
-                {isRTL ? 'دورهمی تیمی • دوئل دونفره • چالش تک‌نفره • جعبه لایتنر' : 'Team Party • 2P Duel • Single-Player • Leitner Box'}
+                {tx(isRTL, 'دورهمی تیمی • دوئل دونفره • چالش تک‌نفره • جعبه لایتنر', 'Team Party • 2P Duel • Single-Player • Leitner Box')}
               </div>
             </div>
           </div>
           <div className="flex items-center gap-1 shrink-0">
             <span className="text-[10px] bg-[var(--lapis)] text-white font-black px-2.5 py-1 rounded-lg shadow-2xs group-hover:brightness-110 flex items-center gap-1">
-              <span>{isRTL ? 'راهنما' : 'Guide'}</span>
+              <span>{tx(isRTL, 'راهنما', 'Guide')}</span>
             </span>
             <button
               type="button"
@@ -350,8 +351,8 @@ const IntroScreen: React.FC<Props> = ({
                 } catch {}
               }}
               className="p-1 rounded-full text-[var(--mute)] hover:text-[var(--ink)] hover:bg-[var(--line)]/50 cursor-pointer"
-              aria-label={t.dismiss || (isRTL ? 'رد کردن' : 'Dismiss')}
-              title={t.dismiss || (isRTL ? 'رد کردن' : 'Dismiss')}
+              aria-label={t.dismiss || (tx(isRTL, 'رد کردن', 'Dismiss'))}
+              title={t.dismiss || (tx(isRTL, 'رد کردن', 'Dismiss'))}
             >
               <X size={13} />
             </button>
@@ -368,7 +369,7 @@ const IntroScreen: React.FC<Props> = ({
             <div 
               onClick={handleMascotClick}
               className="cursor-pointer transition-transform hover:scale-105 active:scale-95 inline-block relative mb-2.5 select-none"
-              title={isRTL ? 'برای شادی بزن روی کاراکتر!' : 'Tap mascot for party cheer!'}
+              title={tx(isRTL, 'برای شادی بزن روی کاراکتر!', 'Tap mascot for party cheer!')}
             >
               <TeamMascot color="BLUE" size={60} className={mascotBounce ? 'animate-bounce' : ''} />
               {partyEmote && (
@@ -380,7 +381,7 @@ const IntroScreen: React.FC<Props> = ({
               {t.title || 'دور'}
             </h1>
             <h2 className="text-sm sm:text-base font-bold text-[var(--lapis)] leading-snug font-display max-w-xs mx-auto">
-              {t.subtitle || (isRTL ? 'هیجان حدس کلمات و یادگیری زبان' : 'Word Guessing Party Game')}
+              {t.subtitle || (tx(isRTL, 'هیجان حدس کلمات و یادگیری زبان', 'Word Guessing Party Game'))}
             </h2>
           </div>
         </div>
@@ -395,7 +396,7 @@ const IntroScreen: React.FC<Props> = ({
               <div className="flex items-center gap-2">
                 <History size={16} className="text-amber-600 shrink-0" />
                 <span className="text-xs sm:text-sm font-black text-[var(--ink)]">
-                  {(t.resumePrevMatch || (isRTL ? 'ادامه بازی قبلی ({round}/{total})' : 'Resume Previous Match ({round}/{total})'))
+                  {(t.resumePrevMatch || (tx(isRTL, 'ادامه بازی قبلی ({round}/{total})', 'Resume Previous Match ({round}/{total})')))
                     .replace('{round}', String(savedSession.round))
                     .replace('{total}', String(savedSession.maxRounds))}
                 </span>
@@ -410,7 +411,7 @@ const IntroScreen: React.FC<Props> = ({
                   onDiscardSession?.();
                 }}
                 className="text-xs font-bold text-[var(--mute)] hover:text-rose-500 p-1.5 min-w-[36px] min-h-[36px] flex items-center justify-center"
-                title={t.startFreshBtn || (isRTL ? 'شروع از نو' : 'Discard')}
+                title={t.startFreshBtn || (tx(isRTL, 'شروع از نو', 'Discard'))}
               >
                 <X size={15} />
               </button>
@@ -424,7 +425,7 @@ const IntroScreen: React.FC<Props> = ({
                 }}
                 className="flex-1 min-h-[44px] py-2 px-3 rounded-xl bg-amber-500 hover:bg-amber-600 text-white font-bold text-xs flex items-center justify-center gap-1.5 shadow-xs cursor-pointer active:scale-98 transition-all"
               >
-                <span>{t.resumeMatchBtn || (isRTL ? 'ادامه بازی' : 'Resume Match')}</span>
+                <span>{t.resumeMatchBtn || (tx(isRTL, 'ادامه بازی', 'Resume Match'))}</span>
               </button>
               <button
                 type="button"
@@ -437,7 +438,7 @@ const IntroScreen: React.FC<Props> = ({
                 }}
                 className="min-h-[44px] py-2 px-3 rounded-xl bg-[var(--panel)] hover:bg-[var(--line)] border border-[var(--line)] text-[var(--mute)] font-bold text-xs cursor-pointer flex items-center justify-center"
               >
-                <span>{t.startFreshBtn || (isRTL ? 'شروع از نو' : 'Start Fresh')}</span>
+                <span>{t.startFreshBtn || (tx(isRTL, 'شروع از نو', 'Start Fresh'))}</span>
               </button>
             </div>
           </div>
@@ -448,7 +449,7 @@ const IntroScreen: React.FC<Props> = ({
           id="intro-party-btn"
           role="button"
           tabIndex={0}
-          aria-label={t.startNewGame || (isRTL ? 'شروع بازی دورهمی' : 'Start New Game')}
+          aria-label={t.startNewGame || (tx(isRTL, 'شروع بازی دورهمی', 'Start New Game'))}
           onClick={() => {
             sound.playStartGame();
             onNext();
@@ -460,7 +461,7 @@ const IntroScreen: React.FC<Props> = ({
               <Users size={22} />
             </div>
             <span className="text-base sm:text-lg font-black text-[var(--ink)] leading-tight truncate">
-              {t.startNewGame || (isRTL ? 'شروع بازی دورهمی' : 'Start New Game')}
+              {t.startNewGame || (tx(isRTL, 'شروع بازی دورهمی', 'Start New Game'))}
             </span>
           </div>
 
@@ -474,7 +475,7 @@ const IntroScreen: React.FC<Props> = ({
           id="intro-duel-btn"
           role="button"
           tabIndex={0}
-          aria-label={t.duelModeTitle || (isRTL ? 'دوئل سرعتی دونفره' : '1v1 Speed Duel')}
+          aria-label={t.duelModeTitle || (tx(isRTL, 'دوئل سرعتی دونفره', '1v1 Speed Duel'))}
           onClick={() => {
             sound.playClick();
             onOpenDuel?.();
@@ -486,7 +487,7 @@ const IntroScreen: React.FC<Props> = ({
               <Swords size={22} />
             </div>
             <span className="text-base sm:text-lg font-black text-[var(--ink)] leading-tight truncate">
-              {t.duelModeTitle || (isRTL ? 'دوئل سرعتی دونفره' : '1v1 Speed Duel')}
+              {t.duelModeTitle || (tx(isRTL, 'دوئل سرعتی دونفره', '1v1 Speed Duel'))}
             </span>
           </div>
 
@@ -500,7 +501,7 @@ const IntroScreen: React.FC<Props> = ({
           id="intro-single-player-btn"
           role="button"
           tabIndex={0}
-          aria-label={t.soloChallengeTitle || (isRTL ? 'چالش انفرادی و یادگیری' : 'Solo Challenge')}
+          aria-label={t.soloChallengeTitle || (tx(isRTL, 'چالش انفرادی و یادگیری', 'Solo Challenge'))}
           onClick={() => {
             sound.playClick();
             onOpenSinglePlayer();
@@ -512,7 +513,7 @@ const IntroScreen: React.FC<Props> = ({
               <GraduationCap size={22} />
             </div>
             <span className="text-base sm:text-lg font-black text-[var(--ink)] leading-tight truncate">
-              {t.soloChallengeTitle || (isRTL ? 'چالش انفرادی و یادگیری' : 'Solo Challenge')}
+              {t.soloChallengeTitle || (tx(isRTL, 'چالش انفرادی و یادگیری', 'Solo Challenge'))}
             </span>
           </div>
 
@@ -531,7 +532,7 @@ const IntroScreen: React.FC<Props> = ({
             }}
             className="hover:text-[var(--ink)] underline underline-offset-4 transition-colors cursor-pointer py-1 px-1.5"
           >
-            {t.privacyPolicy || (isRTL ? 'حریم خصوصی' : 'Privacy Policy')}
+            {t.privacyPolicy || (tx(isRTL, 'حریم خصوصی', 'Privacy Policy'))}
           </button>
           <span>•</span>
           <a
@@ -540,7 +541,7 @@ const IntroScreen: React.FC<Props> = ({
             rel="noopener noreferrer"
             className="hover:text-[var(--ink)] underline underline-offset-4 transition-colors cursor-pointer py-1 px-1.5"
           >
-            {t.webPolicy || (isRTL ? 'نسخه وب' : 'Web Policy')}
+            {t.webPolicy || (tx(isRTL, 'نسخه وب', 'Web Policy'))}
           </a>
           <span>•</span>
           <button
@@ -550,10 +551,10 @@ const IntroScreen: React.FC<Props> = ({
               setProfileInitialTab('privacy');
               setIsProfileModalOpen(true);
             }}
-            title={isRTL ? 'نسخه ۱.۰.۵ — یکپارچه‌سازی کامل فارسی، بهبود دکمه‌های موبایل و انیمیشن امتیازدهی' : 'v1.0.5 — Unified UI, mobile ergonomics & score animations'}
+            title={tx(isRTL, 'نسخه ۱.۰.۵ — یکپارچه‌سازی کامل فارسی، بهبود دکمه‌های موبایل و انیمیشن امتیازدهی', 'v1.0.5 — Unified UI, mobile ergonomics & score animations')}
             className="px-2 py-0.5 rounded-full bg-[var(--panel)] border border-[var(--line)] text-[10.5px] font-mono font-bold text-[var(--mute)] hover:text-[var(--lapis)] hover:border-[var(--lapis)] transition-colors cursor-pointer"
           >
-            {isRTL ? 'نسخه ۱.۰.۵' : 'v1.0.5'}
+            {tx(isRTL, 'نسخه ۱.۰.۵', 'v1.0.5')}
           </button>
         </div>
       </div>
@@ -594,8 +595,8 @@ const IntroScreen: React.FC<Props> = ({
           setIsLanguageModalOpen(false);
         }}
         mode="single"
-        title={t.languageSelectTitle || (isRTL ? 'انتخاب زبان برنامه و بازی' : 'Select App & Game Language')}
-        subtitle={t.all38Languages || (isRTL ? 'پشتیبانی از بیش از ۳۵ زبان دنیا' : 'Over 35 supported languages')}
+        title={t.languageSelectTitle || (tx(isRTL, 'انتخاب زبان برنامه و بازی', 'Select App & Game Language'))}
+        subtitle={t.all38Languages || (tx(isRTL, 'پشتیبانی از بیش از ۳۵ زبان دنیا', 'Over 35 supported languages'))}
         isRTL={isRTL}
       />
 
@@ -603,7 +604,7 @@ const IntroScreen: React.FC<Props> = ({
       {isGameModeModalOpen && (
         <div 
           className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/60 backdrop-blur-xs animate-fade-in font-ui"
-          dir={isRTL ? 'rtl' : 'ltr'}
+          dir={((isRTL ? 'rtl' : 'ltr'))}
           onClick={() => setIsGameModeModalOpen(false)}
         >
           <div 
@@ -618,17 +619,17 @@ const IntroScreen: React.FC<Props> = ({
                 </div>
                 <div className="text-start">
                   <h2 className="text-base sm:text-lg font-bold font-display tracking-tight text-[var(--ink)]">
-                    {t.chooseGameMode || (isRTL ? 'نوع بازی را انتخاب کنید' : 'Choose Game Mode')}
+                    {t.chooseGameMode || (tx(isRTL, 'نوع بازی را انتخاب کنید', 'Choose Game Mode'))}
                   </h2>
                   <p className="text-[11px] text-[var(--mute)] font-medium">
-                    {t.selectChallengeMode || (isRTL ? 'حالت مسابقه مورد نظر خود را آغاز نمایید' : 'Select your preferred challenge mode')}
+                    {t.selectChallengeMode || (tx(isRTL, 'حالت مسابقه مورد نظر خود را آغاز نمایید', 'Select your preferred challenge mode'))}
                   </p>
                 </div>
               </div>
               <button 
                 type="button"
-                aria-label={t.close || (isRTL ? 'بستن' : 'Close')}
-                title={t.close || (isRTL ? 'بستن' : 'Close')}
+                aria-label={t.close || (tx(isRTL, 'بستن', 'Close'))}
+                title={t.close || (tx(isRTL, 'بستن', 'Close'))}
                 onClick={() => {
                   sound.playClick();
                   setIsGameModeModalOpen(false);
@@ -658,21 +659,19 @@ const IntroScreen: React.FC<Props> = ({
                     </div>
                     <div>
                       <h3 className="text-sm font-bold text-[var(--ink)]">
-                        {t.localPartyMode || (isRTL ? '۱. بازی دورهمی تیمی' : '1. Team Party Game')}
+                        {t.localPartyMode || (tx(isRTL, '۱. بازی دورهمی تیمی', '1. Team Party Game'))}
                       </h3>
                       <span className="text-[10px] text-[var(--teal)] font-bold">
-                        {t.localPartyDesc || (isRTL ? '۲ تا ۸ بازیکن • مسابقه تیمی دورهمی' : '2 to 8 players • Team match')}
+                        {t.localPartyDesc || (tx(isRTL, '۲ تا ۸ بازیکن • مسابقه تیمی دورهمی', '2 to 8 players • Team match'))}
                       </span>
                     </div>
                   </div>
                   <span className="text-xs font-bold bg-[var(--saffron)] text-[var(--ink)] px-2.5 py-1 rounded-xl shadow-[var(--shadow-sm)] border border-[var(--line)]">
-                    {t.start || (isRTL ? 'شروع ➔' : 'Start ➔')}
+                    {t.start || (tx(isRTL, 'شروع ➔', 'Start ➔'))}
                   </span>
                 </div>
                 <p className="text-[11px] text-[var(--mute)] font-medium leading-relaxed text-start">
-                  {t.localPartySub || (isRTL 
-                    ? 'مسابقه جذاب تیمی! تایمر زنگ‌دار، چرخ شانس موضوعات و کارت‌های واژگان برای دورهمی‌های پرشور دوستانه و خانوادگی.'
-                    : 'Energetic team match! Buzzer timer, category wheel, and vocabulary cards for friends and family gatherings.')}
+                  {t.localPartySub || (tx(isRTL, 'مسابقه جذاب تیمی! تایمر زنگ‌دار، چرخ شانس موضوعات و کارت‌های واژگان برای دورهمی‌های پرشور دوستانه و خانوادگی.', 'Energetic team match! Buzzer timer, category wheel, and vocabulary cards for friends and family gatherings.'))}
                 </p>
               </div>
 
@@ -692,21 +691,19 @@ const IntroScreen: React.FC<Props> = ({
                     </div>
                     <div>
                       <h3 className="text-sm font-bold text-[var(--ink)]">
-                        {t.singlePlayer || (isRTL ? '۲. یادگیری و تمرین تک‌نفره' : '2. Solo Study & Practice')}
+                        {t.singlePlayer || (tx(isRTL, '۲. یادگیری و تمرین تک‌نفره', '2. Solo Study & Practice'))}
                       </h3>
                       <span className="text-[10px] text-[var(--teal)] font-bold">
-                        {t.singlePlayerSub || (isRTL ? 'فلش‌کارت، تستی، تایپ، تلفظ صوتی و لایتنر' : 'Flashcards, Quiz, Typing, Voice & Leitner')}
+                        {t.singlePlayerSub || (tx(isRTL, 'فلش‌کارت، تستی، تایپ، تلفظ صوتی و لایتنر', 'Flashcards, Quiz, Typing, Voice & Leitner'))}
                       </span>
                     </div>
                   </div>
                   <span className="text-xs font-bold bg-[var(--vermilion)] text-white px-2.5 py-1 rounded-xl shadow-[var(--shadow-sm)]">
-                    {t.start || (isRTL ? 'شروع ➔' : 'Start ➔')}
+                    {t.start || (tx(isRTL, 'شروع ➔', 'Start ➔'))}
                   </span>
                 </div>
                 <p className="text-[11px] text-[var(--mute)] font-medium leading-relaxed text-start">
-                  {t.singlePlayerDetail || (isRTL 
-                    ? 'پکیج کامل یادگیری زبان: آزمون‌های ۴ گزینه‌ای، املا و تایپ، سنجش تلفظ با گفتار، مرور با جعبه لایتنر و ثبت رکورد در لیدربرد.'
-                    : 'Complete learning suite: 4-choice quizzes, spelling & typing, speech pronunciation scoring, Leitner spaced repetition, and leaderboard records.')}
+                  {t.singlePlayerDetail || (tx(isRTL, 'پکیج کامل یادگیری زبان: آزمون‌های ۴ گزینه‌ای، املا و تایپ، سنجش تلفظ با گفتار، مرور با جعبه لایتنر و ثبت رکورد در لیدربرد.', 'Complete learning suite: 4-choice quizzes, spelling & typing, speech pronunciation scoring, Leitner spaced repetition, and leaderboard records.'))}
                 </p>
               </div>
 
@@ -726,21 +723,19 @@ const IntroScreen: React.FC<Props> = ({
                     </div>
                     <div>
                       <h3 className="text-sm font-bold text-[var(--ink)]">
-                        {t.onlineMultiplayer || (isRTL ? '۳. بازی آنلاین چندنفره (از راه دور)' : '3. Online Multiplayer (Remote Rooms)')}
+                        {t.onlineMultiplayer || (tx(isRTL, '۳. بازی آنلاین چندنفره (از راه دور)', '3. Online Multiplayer (Remote Rooms)'))}
                       </h3>
                       <span className="text-[10px] text-[var(--mute)] font-bold">
-                        {t.onlineMultiplayerDesc || (isRTL ? 'اتاق‌های مجازی • کد دعوت ۶ رقمی' : 'Virtual rooms • 6-digit invite code')}
+                        {t.onlineMultiplayerDesc || (tx(isRTL, 'اتاق‌های مجازی • کد دعوت ۶ رقمی', 'Virtual rooms • 6-digit invite code'))}
                       </span>
                     </div>
                   </div>
                   <span className="text-xs font-bold bg-[var(--teal)] text-white px-2.5 py-1 rounded-xl shadow-[var(--shadow-sm)]">
-                    {t.joinGameBtn || (isRTL ? 'ورود ➔' : 'Join ➔')}
+                    {t.joinGameBtn || (tx(isRTL, 'ورود ➔', 'Join ➔'))}
                   </span>
                 </div>
                 <p className="text-[11px] text-[var(--mute)] font-medium leading-relaxed text-start">
-                  {t.onlineMultiplayerSub || (isRTL 
-                    ? 'از هر فاصله‌ای با دوستان خود بازی کنید! ساخت اتاق اختصاصی یا ورود با کد دعوت جهت مسابقه آنلاین تیمی.'
-                    : 'Play with friends from anywhere! Host a custom room or join via invite code for real-time multiplayer.')}
+                  {t.onlineMultiplayerSub || (tx(isRTL, 'از هر فاصله‌ای با دوستان خود بازی کنید! ساخت اتاق اختصاصی یا ورود با کد دعوت جهت مسابقه آنلاین تیمی.', 'Play with friends from anywhere! Host a custom room or join via invite code for real-time multiplayer.'))}
                 </p>
               </div>
 
@@ -760,21 +755,19 @@ const IntroScreen: React.FC<Props> = ({
                     </div>
                     <div>
                       <h3 className="text-sm font-bold text-[var(--ink)]">
-                        {isRTL ? '۴. دوئل دونفره (حضوری یا مچ آنلاین)' : '4. 1v1 Duel (Local & Online Match)'}
+                        {tx(isRTL, '۴. دوئل دونفره (حضوری یا مچ آنلاین)', '4. 1v1 Duel (Local & Online Match)')}
                       </h3>
                       <span className="text-[10px] text-[#E0533C] font-bold">
-                        {isRTL ? 'مسابقه همزمان دو نفره • حضوری یا آنلاین' : 'Head-to-head reflex race • Local or online'}
+                        {tx(isRTL, 'مسابقه همزمان دو نفره • حضوری یا آنلاین', 'Head-to-head reflex race • Local or online')}
                       </span>
                     </div>
                   </div>
                   <span className="text-xs font-bold bg-[#E0533C] text-white px-2.5 py-1 rounded-xl shadow-[var(--shadow-sm)]">
-                    {isRTL ? 'دوئل' : 'Duel'}
+                    {tx(isRTL, 'دوئل', 'Duel')}
                   </span>
                 </div>
                 <p className="text-[11px] text-[var(--mute)] font-medium leading-relaxed text-start">
-                  {isRTL 
-                    ? 'مسابقه سرعتی دو نفره به صورت حضوری یا مچ آنلاین اینترنتی! پاسخ سریع‌تر به واژگان، طناب‌کشی امتیازی و راند نهایی.'
-                    : 'Fast-paced 1v1 duel playable locally or via online matchmaking! Fastest reflex to tap the correct target word wins the round.'}
+                  {tx(isRTL, 'مسابقه سرعتی دو نفره به صورت حضوری یا مچ آنلاین اینترنتی! پاسخ سریع‌تر به واژگان، طناب‌کشی امتیازی و راند نهایی.', 'Fast-paced 1v1 duel playable locally or via online matchmaking! Fastest reflex to tap the correct target word wins the round.')}
                 </p>
               </div>
 
@@ -787,7 +780,7 @@ const IntroScreen: React.FC<Props> = ({
                 onClick={() => setIsGameModeModalOpen(false)}
                 className="text-xs font-bold text-[var(--mute)] hover:text-[var(--ink)] transition-colors"
               >
-                {t.close || (isRTL ? 'بستن پنجره' : 'Close')}
+                {t.close || (tx(isRTL, 'بستن پنجره', 'Close'))}
               </button>
             </div>
           </div>
@@ -798,7 +791,7 @@ const IntroScreen: React.FC<Props> = ({
       {isHistoryLoginModalOpen && (
         <div 
           className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/60 backdrop-blur-xs animate-fade-in font-ui"
-          dir={isRTL ? 'rtl' : 'ltr'}
+          dir={((isRTL ? 'rtl' : 'ltr'))}
           onClick={() => setIsHistoryLoginModalOpen(false)}
         >
           <div 
@@ -810,15 +803,13 @@ const IntroScreen: React.FC<Props> = ({
                 <History size={24} />
               </div>
               <h3 className="text-base font-bold text-[var(--ink)]">
-                {t.signInForHistory || (isRTL ? 'ورود به حساب برای مشاهده تاریخچه' : 'Sign in to access Game History')}
+                {t.signInForHistory || (tx(isRTL, 'ورود به حساب برای مشاهده تاریخچه', 'Sign in to access Game History'))}
               </h3>
             </div>
 
             <div className="p-4 space-y-3 text-center">
               <p className="text-xs text-[var(--mute)] font-medium leading-relaxed">
-                {t.signInHistoryDesc || (isRTL 
-                  ? 'سوابق مسابقات، امتیازات تیمی، کلمات یادگرفته‌شده و رکوردهای شما به صورت ابری ذخیره می‌شوند. برای مشاهده تاریخچه و ادامه، با حساب گوگل خود وارد شوید.'
-                  : 'Your match logs, scores, learned vocabulary, and records are saved to the cloud. Please sign in with your Google account to access your history.')}
+                {t.signInHistoryDesc || (tx(isRTL, 'سوابق مسابقات، امتیازات تیمی، کلمات یادگرفته‌شده و رکوردهای شما به صورت ابری ذخیره می‌شوند. برای مشاهده تاریخچه و ادامه، با حساب گوگل خود وارد شوید.', 'Your match logs, scores, learned vocabulary, and records are saved to the cloud. Please sign in with your Google account to access your history.'))}
               </p>
 
               <div className="space-y-2">
@@ -840,7 +831,7 @@ const IntroScreen: React.FC<Props> = ({
                   title="مخصوص گوشی‌های سامسونگ S23+ و مرورگرهایی که پاپ‌آپ را مسدود می‌کنند"
                 >
                   <Smartphone size={15} />
-                  <span>{isRTL ? 'ورود مستقیم بدون پاپ‌آپ (مخصوص سامسونگ)' : 'Direct Mobile Sign-in (No Popup)'}</span>
+                  <span>{tx(isRTL, 'ورود مستقیم بدون پاپ‌آپ (مخصوص سامسونگ)', 'Direct Mobile Sign-in (No Popup)')}</span>
                 </button>
 
                 <button
@@ -851,7 +842,7 @@ const IntroScreen: React.FC<Props> = ({
                   }}
                   className="w-full py-2 bg-slate-100 dark:bg-slate-800 text-[var(--ink)] font-bold text-xs rounded-[12px] hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors cursor-pointer"
                 >
-                  <span>{isRTL ? 'مشاهده تاریخچه محلی این دستگاه (آفلاین)' : 'View Local Device History (Offline)'}</span>
+                  <span>{tx(isRTL, 'مشاهده تاریخچه محلی این دستگاه (آفلاین)', 'View Local Device History (Offline)')}</span>
                 </button>
               </div>
 
@@ -860,7 +851,7 @@ const IntroScreen: React.FC<Props> = ({
                 onClick={() => setIsHistoryLoginModalOpen(false)}
                 className="w-full py-1.5 text-xs font-bold text-[var(--mute)] hover:text-[var(--ink)] transition-colors cursor-pointer"
               >
-                {t.cancel || (isRTL ? 'انصراف' : 'Cancel')}
+                {t.cancel || (tx(isRTL, 'انصراف', 'Cancel'))}
               </button>
             </div>
           </div>
@@ -871,7 +862,7 @@ const IntroScreen: React.FC<Props> = ({
       {isPartyChoiceModalOpen && (
         <div
           className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/60 backdrop-blur-xs animate-fade-in font-ui"
-          dir={isRTL ? 'rtl' : 'ltr'}
+          dir={((isRTL ? 'rtl' : 'ltr'))}
           onClick={() => setIsPartyChoiceModalOpen(false)}
         >
           <div
@@ -885,10 +876,10 @@ const IntroScreen: React.FC<Props> = ({
                 </div>
                 <div className="text-start">
                   <h3 className="font-bold text-base text-[var(--ink)]">
-                    {isRTL ? 'انتخاب سبک دورهمی گروهی' : 'Choose Group Party Style'}
+                    {tx(isRTL, 'انتخاب سبک دورهمی گروهی', 'Choose Group Party Style')}
                   </h3>
                   <p className="text-[11px] text-[var(--mute)] font-medium">
-                    {isRTL ? 'حضوری دور یک میز یا آنلاین از راه دور؟' : 'Local or Remote Room?'}
+                    {tx(isRTL, 'حضوری دور یک میز یا آنلاین از راه دور؟', 'Local or Remote Room?')}
                   </p>
                 </div>
               </div>
@@ -917,14 +908,14 @@ const IntroScreen: React.FC<Props> = ({
                   </div>
                   <div>
                     <h4 className="font-bold text-sm leading-tight">
-                      {isRTL ? 'بازی دورهمی حضوری (یک گوشی)' : 'Pass & Play (1 Phone)'}
+                      {tx(isRTL, 'بازی دورهمی حضوری (یک گوشی)', 'Pass & Play (1 Phone)')}
                     </h4>
                     <p className="text-[11px] text-white/80 font-normal mt-0.5">
-                      {isRTL ? '۴ تا ۸ بازیکن دور هم، دست به دست کردن گوشی' : 'Pass phone around table'}
+                      {tx(isRTL, '۴ تا ۸ بازیکن دور هم، دست به دست کردن گوشی', 'Pass phone around table')}
                     </p>
                   </div>
                 </div>
-                <ChevronRight size={18} className={isRTL ? 'rotate-180' : ''} />
+                <ChevronRight size={18} className={((isRTL ? 'rotate-180' : ''))} />
               </button>
 
               <button
@@ -942,14 +933,14 @@ const IntroScreen: React.FC<Props> = ({
                   </div>
                   <div>
                     <h4 className="font-bold text-sm leading-tight text-[var(--ink)]">
-                      {isRTL ? 'اتاق آنلاین تیمی (از راه دور)' : 'Online Room (Multi-Device)'}
+                      {tx(isRTL, 'اتاق آنلاین تیمی (از راه دور)', 'Online Room (Multi-Device)')}
                     </h4>
                     <p className="text-[11px] text-[var(--mute)] font-normal mt-0.5">
-                      {isRTL ? 'ورود با کد اتاق مشترک روی چند گوشی' : 'Join shared room via code'}
+                      {tx(isRTL, 'ورود با کد اتاق مشترک روی چند گوشی', 'Join shared room via code')}
                     </p>
                   </div>
                 </div>
-                <ChevronRight size={18} className={isRTL ? 'rotate-180' : ''} />
+                <ChevronRight size={18} className={((isRTL ? 'rotate-180' : ''))} />
               </button>
 
               <button
@@ -967,14 +958,14 @@ const IntroScreen: React.FC<Props> = ({
                   </div>
                   <div>
                     <h4 className="font-bold text-sm leading-tight text-[var(--ink)]">
-                      {isRTL ? 'یافتن دورهمی‌های اطراف (نقشه)' : 'Find Nearby Meetups (Map)'}
+                      {tx(isRTL, 'یافتن دورهمی‌های اطراف (نقشه)', 'Find Nearby Meetups (Map)')}
                     </h4>
                     <p className="text-[11px] text-[var(--mute)] font-normal mt-0.5">
-                      {isRTL ? 'دورهمی‌های حضوری در کافه‌ها، کتابخانه‌ها و پارک‌ها' : 'In-person meetups at public cafés, libraries & parks'}
+                      {tx(isRTL, 'دورهمی‌های حضوری در کافه‌ها، کتابخانه‌ها و پارک‌ها', 'In-person meetups at public cafés, libraries & parks')}
                     </p>
                   </div>
                 </div>
-                <ChevronRight size={18} className={isRTL ? 'rotate-180' : ''} />
+                <ChevronRight size={18} className={((isRTL ? 'rotate-180' : ''))} />
               </button>
             </div>
           </div>

@@ -49,7 +49,9 @@ import { onAuthStateChanged } from 'firebase/auth';
 import { migrateGuestWeakCardsToCloud } from './contentEngine';
 import { getRandomCharacters } from './characters';
 import { isRtlLang } from './ui';
+import { setUiLanguage } from './i18n/runtime';
 import { PLAYER_AVATARS, DEFAULT_SETTINGS } from './constants';
+import { tx, txt } from './i18n/runtime';
 
 type ScreenType = 'INTRO' | 'LANGUAGE_SELECT' | 'CATEGORIES' | 'SETUP' | 'PLAYERS' | 'SEATING_CONFIRM' | 'GAME' | 'HISTORY' | 'HELP' | 'ONLINE_LOBBY' | 'ONLINE_GAME' | 'SINGLE_PLAYER' | 'SINGLE_REPORT' | 'DUEL_GAME' | 'ONLINE_DUEL' | 'LEITNER';
 
@@ -58,6 +60,8 @@ const App: React.FC = () => {
   const [prevScreen, setPrevScreen] = useState<ScreenType>('INTRO');
   const [activeHelpSection, setActiveHelpSection] = useState<string>('intro');
   const [settings, setSettings] = useState<GameSettings>(DEFAULT_SETTINGS);
+  // زبان برنامه برای tx()/txt() — پیش از رندر فرزندان، در همین رندر تنظیم می‌شود
+  setUiLanguage(settings.language);
   const [history, setHistory] = useState<GameHistoryEntry[]>([]);
   const [gmpQuotaExceeded, setGmpQuotaExceeded] = useState(false);
 
@@ -128,7 +132,7 @@ const App: React.FC = () => {
   useEffect(() => {
     if (typeof document !== 'undefined') {
       const isRTL = isRtlLang(settings.language);
-      document.documentElement.dir = isRTL ? 'rtl' : 'ltr';
+      document.documentElement.dir = ((isRTL ? 'rtl' : 'ltr'));
       document.documentElement.lang = settings.language;
     }
   }, [settings.language]);
@@ -286,9 +290,10 @@ const App: React.FC = () => {
   };
 
   const handleGlobalLanguageChange = (newLang: Language) => {
+    setUiLanguage(newLang);
     const isRTL = isRtlLang(newLang);
     if (typeof document !== 'undefined') {
-      document.documentElement.dir = isRTL ? 'rtl' : 'ltr';
+      document.documentElement.dir = ((isRTL ? 'rtl' : 'ltr'));
       document.documentElement.lang = newLang;
     }
 
@@ -765,7 +770,7 @@ const App: React.FC = () => {
         const decksPending = loadDecksIfNeeded([targetLang, effectiveNative, 'en']);
         if (decksPending) await decksPending;
         const match = await findOnlineDuelMatch(
-          settings.playerName || (isRtlLang(settings.language) ? 'بازیکن ۱' : 'Player 1'),
+          settings.playerName || (tx(isRtlLang(settings.language), 'بازیکن ۱', 'Player 1')),
           '🕹️',
           targetLang,
           effectiveNative,
@@ -778,7 +783,7 @@ const App: React.FC = () => {
       } else if (roomCode) {
         const joinResult = await joinOnlineDuelRoom(
           roomCode,
-          settings.playerName || (isRtlLang(settings.language) ? 'بازیکن ۲' : 'Player 2'),
+          settings.playerName || (tx(isRtlLang(settings.language), 'بازیکن ۲', 'Player 2')),
           '👾'
         );
         if ('error' in joinResult) {
@@ -812,7 +817,7 @@ const App: React.FC = () => {
         });
 
         const room = await createOnlineDuelRoom(
-          settings.playerName || (isRtlLang(settings.language) ? 'میزبان' : 'Host'),
+          settings.playerName || (tx(isRtlLang(settings.language), 'میزبان', 'Host')),
           '🕹️',
           targetLang,
           effectiveNative,
@@ -827,7 +832,7 @@ const App: React.FC = () => {
       }
     } catch (e: any) {
       console.error('Error starting online duel:', e);
-      alert(isRtlLang(settings.language) ? 'خطا در برقراری ارتباط با سرور آنلاین' : 'Failed to connect to online room');
+      alert(tx(isRtlLang(settings.language), 'خطا در برقراری ارتباط با سرور آنلاین', 'Failed to connect to online room'));
     }
   };
 

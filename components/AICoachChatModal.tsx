@@ -4,6 +4,7 @@ import { chatWithGemini, transcribeAudioBlob, AudioRecorder, ChatMessage } from 
 import { sound } from '../soundManager';
 import { SUPPORTED_LANGUAGES } from '../constants';
 import { isRtlLang } from '../ui';
+import { tx, txt } from '../i18n/runtime';
 
 interface AICoachChatModalProps {
   isOpen: boolean;
@@ -382,12 +383,13 @@ function findLanguageInfo(rawCodeOrName: string) {
 }
 
 function resolveUiLangKey(uiLanguage?: string, guideLanguage?: string, isRTL?: boolean): string {
-  const candidate = uiLanguage || guideLanguage || (isRTL ? 'fa' : 'en');
+  const candidate = uiLanguage || guideLanguage || (((isRTL ? 'fa' : 'en')));
   const info = findLanguageInfo(candidate);
   const code = info ? info.code : candidate.toLowerCase();
   if (code === 'en-us' || code === 'en-gb' || code === 'en') return 'en';
   if (COACH_LOCALES[code]) return code;
-  return isRtlLang(code) ? 'fa' : 'en';
+  // فقط فارسی‌زبان‌ها متن فارسی می‌گیرند؛ عربی/اردو/عبری انگلیسی
+  return code === 'fa' ? 'fa' : 'en';
 }
 
 function getLocalizedLanguageDisplayName(rawLang: string, uiLangKey: string): string {

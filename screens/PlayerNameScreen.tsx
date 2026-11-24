@@ -19,6 +19,7 @@ import {
   Dices,
   RefreshCw
 } from 'lucide-react';
+import { tx, txt } from '../i18n/runtime';
 
 interface Props {
   settings: GameSettings;
@@ -138,11 +139,11 @@ const PlayerNameScreen: React.FC<Props> = ({ settings, onSave, onStart, onBack, 
     : 'pirate';
 
   const activePlayerNameForModal = avatarPickerIndex !== null
-    ? settings.playerNames[avatarPickerIndex] || (isRTL ? `بازیکن ${avatarPickerIndex + 1}` : `Player ${avatarPickerIndex + 1}`)
+    ? settings.playerNames[avatarPickerIndex] || (txt(isRTL, 'بازیکن {0}', 'Player {0}', [avatarPickerIndex + 1]))
     : '';
 
   return (
-    <div className="w-full max-w-md sm:max-w-lg md:max-w-xl mx-auto h-full min-h-0 flex-1 flex flex-col p-3 sm:p-4 select-none overflow-hidden relative font-ui text-[var(--ink)] bg-[var(--bg)]" dir={isRTL ? 'rtl' : 'ltr'}>
+    <div className="w-full max-w-md sm:max-w-lg md:max-w-xl mx-auto h-full min-h-0 flex-1 flex flex-col p-3 sm:p-4 select-none overflow-hidden relative font-ui text-[var(--ink)] bg-[var(--bg)]" dir={((isRTL ? 'rtl' : 'ltr'))}>
       
       {/* Fixed Stable Header */}
       <header className="shrink-0 mb-2 font-ui">
@@ -156,7 +157,7 @@ const PlayerNameScreen: React.FC<Props> = ({ settings, onSave, onStart, onBack, 
                 {t.playerNames}
               </h1>
               <span className="text-[10px] text-[var(--lapis)] font-bold block">
-                {isRTL ? 'مرحله ۴ از ۴: چیدمان و نام اعضا' : 'Step 4 of 4: Team Lineup & Names'}
+                {tx(isRTL, 'مرحله ۴ از ۴: چیدمان و نام اعضا', 'Step 4 of 4: Team Lineup & Names')}
               </span>
             </div>
           </div>
@@ -182,9 +183,7 @@ const PlayerNameScreen: React.FC<Props> = ({ settings, onSave, onStart, onBack, 
         <div className="flex items-center gap-1.5 min-w-0">
           <Sparkles size={15} className="text-[var(--saffron)] shrink-0" />
           <span className="text-[11px] font-bold text-[var(--mute)] truncate">
-            {isRTL 
-              ? 'نام بازیکنان هر تیم را وارد کنید یا تصادفی انتخاب کنید' 
-              : 'Enter player names for each team or randomize'}
+            {tx(isRTL, 'نام بازیکنان هر تیم را وارد کنید یا تصادفی انتخاب کنید', 'Enter player names for each team or randomize')}
           </span>
         </div>
         <button
@@ -193,7 +192,7 @@ const PlayerNameScreen: React.FC<Props> = ({ settings, onSave, onStart, onBack, 
           className="shrink-0 px-2.5 py-1.5 bg-[var(--turq)] hover:brightness-105 active:scale-95 text-white rounded-xl font-bold text-[11px] shadow-xs flex items-center gap-1 transition-all cursor-pointer"
         >
           <Dices size={14} />
-          <span>{isRTL ? 'اسامی تصادفی' : 'Randomize'}</span>
+          <span>{tx(isRTL, 'اسامی تصادفی', 'Randomize')}</span>
         </button>
       </div>
 
@@ -202,7 +201,7 @@ const PlayerNameScreen: React.FC<Props> = ({ settings, onSave, onStart, onBack, 
         {Array.from({ length: settings.playerCount }).map((_, i) => {
           const color = getTeamColor(i);
           const colorConfig = COLORS_MAP[color];
-          const placeholderName = defaultsList[i] || (isRTL ? `بازیکن ${i + 1}` : `Player ${i + 1}`);
+          const placeholderName = defaultsList[i] || (txt(isRTL, 'بازیکن {0}', 'Player {0}', [i + 1]));
           
           return (
             <div key={i} className="flex items-center gap-2.5 bg-[var(--panel)] p-2.5 border border-[var(--line)] rounded-2xl shadow-xs">
@@ -236,7 +235,7 @@ const PlayerNameScreen: React.FC<Props> = ({ settings, onSave, onStart, onBack, 
                   const randomPick = singlePool[Math.floor(Math.random() * singlePool.length)];
                   updateName(i, randomPick);
                 }}
-                title={isRTL ? 'تغییر نام' : 'Randomize name'}
+                title={tx(isRTL, 'تغییر نام', 'Randomize name')}
                 className="p-2.5 bg-[var(--bg)] hover:bg-[var(--line)]/60 active:scale-95 text-[var(--ink)] border border-[var(--line)] rounded-xl shrink-0 flex items-center justify-center transition-all cursor-pointer"
               >
                 <RefreshCw size={14} />

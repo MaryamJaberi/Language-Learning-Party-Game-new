@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { feedbackDirector, FloatingScoreEvent, ParticleParticle, FantasyToast } from '../feedbackDirector';
+import { tx } from '../i18n/runtime';
 
 export const FeedbackOverlay: React.FC = () => {
   const [, setTick] = useState(0);
@@ -23,7 +24,7 @@ export const FeedbackOverlay: React.FC = () => {
     >
       {/* LAYER 3: Non-Intrusive Fantasy Board Toasts (Top Center / Corner) */}
       <aside 
-        aria-label="اعلان‌های وضعیت جدول"
+        aria-label={tx(false, 'اعلان‌های وضعیت جدول', 'Game status announcements')}
         className="absolute top-3 sm:top-5 right-2 left-2 sm:left-auto sm:right-4 sm:max-w-xs flex flex-col items-center sm:items-end gap-2 pointer-events-none"
       >
         {toasts.map((toast) => (

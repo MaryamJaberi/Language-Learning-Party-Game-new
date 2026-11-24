@@ -18,6 +18,7 @@ import {
   Plus,
   LayoutGrid
 } from 'lucide-react';
+import { tx, txt } from '../i18n/runtime';
 
 interface Props {
   settings: GameSettings;
@@ -112,7 +113,7 @@ export const LanguageAndCefrDropdowns: React.FC<Props> = ({
   };
 
   return (
-    <div className="space-y-3 select-none font-ui" dir={isRTL ? 'rtl' : 'ltr'}>
+    <div className="space-y-3 select-none font-ui" dir={((isRTL ? 'rtl' : 'ltr'))}>
       
       {/* 1. TARGET LANGUAGES: In-Place Search & Tagged Chips */}
       <div className="bg-[var(--panel)] border border-[var(--line)] shadow-[var(--shadow-sm)] rounded-[18px] p-3 sm:p-3.5 space-y-2.5">
@@ -223,7 +224,7 @@ export const LanguageAndCefrDropdowns: React.FC<Props> = ({
                       <div className="flex items-center gap-2">
                         <FlagIcon language={lang.code} size={16} />
                         <span className="font-bold">{lang.nativeName}</span>
-                        <span className="text-[10px] text-[var(--mute)] font-medium">({lang.name} • {lang.persianName})</span>
+                        <span className="text-[10px] text-[var(--mute)] font-medium">({tx(false, `${lang.name} • ${lang.persianName}`, lang.name)})</span>
                       </div>
                       <span className="text-[10px] px-1.5 py-0.5 rounded font-bold border border-[var(--line)]">
                         {isAlreadyAdded ? t.added : t.add}

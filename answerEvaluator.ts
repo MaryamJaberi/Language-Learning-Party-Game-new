@@ -1,4 +1,5 @@
 import { LanguageCard, Language } from './types';
+import { tx, txt } from './i18n/runtime';
 
 export interface EvaluationResult {
   isCorrect: boolean;
@@ -17,6 +18,13 @@ export function normalizeText(str: string): string {
   if (!str) return '';
   return str
     .toLowerCase()
+    // Turkish "İ".toLowerCase() → "i̇" (i + combining dot): drop the dot so "İstanbul" = "istanbul"
+    .replace(/\u0307/g, '')
+    // Persian (۰-۹) and Arabic-Indic (٠-٩) digits → ASCII, so "۲" = "2"
+    .replace(/[\u06F0-\u06F9]/g, (d) => String(d.charCodeAt(0) - 0x06F0))
+    .replace(/[\u0660-\u0669]/g, (d) => String(d.charCodeAt(0) - 0x0660))
+    // Hebrew vowel points / cantillation
+    .replace(/[\u0591-\u05C7]/g, '')
     .replace(/[’‘`´]/g, "'")
     .replace(/[“”"«»]/g, '')
     // CRITICAL: Strip ZWNJ and zero-width spaces without inserting a space,
@@ -28,7 +36,7 @@ export function normalizeText(str: string): string {
     .replace(/\u0643/g, '\u06a9')           // Arabic kaf -> Persian kaf (ك -> ک)
     .replace(/[آأإ]/g, 'ا')                 // Normalize alif with hamza / madda
     .replace(/[ةۀ]/g, 'ه')                  // Teh marbuta & heh with hamza
-    .replace(/[؟?!\.,;:\-_—\(\)\[\]\{\}\/\\#\*~…⋯]/g, ' ')
+    .replace(/[؟?!\.,;:\-_—\(\)\[\]\{\}\/\\#\*~…⋯¿¡،؛。、！？，．：；「」『』（）《》〈〉・।]/g, ' ')
     // Unify "می " and "نمی " prefixes so "می تونی" -> "میتونی"
     .replace(/(^|[\s\p{P}])می\s+/gu, '$1می')
     .replace(/(^|[\s\p{P}])نمی\s+/gu, '$1نمی')
@@ -282,7 +290,7 @@ export function evaluateAnswer(
       similarity: 0,
       userAnswerNormalized: '',
       expectedAnswerNormalized: normalizeText(targetAnswer),
-      feedbackMessage: uiLanguage === 'fa' ? 'هیچ پاسخی دریافت نشد. لطفاً صحبت کنید یا بنویسید.' : 'No answer provided. Please speak or type.',
+      feedbackMessage: tx((uiLanguage === 'fa'), 'هیچ پاسخی دریافت نشد. لطفاً صحبت کنید یا بنویسید.', 'No answer provided. Please speak or type.'),
       pointsAwarded: 0
     };
   }
@@ -376,9 +384,7 @@ export function evaluateAnswer(
       similarity: bestSimilarity,
       userAnswerNormalized: userNorm,
       expectedAnswerNormalized: bestMatch,
-      feedbackMessage: uiLanguage === 'fa'
-        ? `❌ برای پاسخ‌های کوتاه، تطابق کامل نیاز است. پاسخ شما: "${userNorm}" — پاسخ مورد انتظار: "${targetAnswer}"`
-        : `❌ Short answers require an exact match. Your answer: "${userNorm}" — Expected: "${targetAnswer}"`,
+      feedbackMessage: txt((uiLanguage === 'fa'), '❌ برای پاسخ‌های کوتاه، تطابق کامل نیاز است. پاسخ شما: "{0}" — پاسخ مورد انتظار: "{1}"', '❌ Short answers require an exact match. Your answer: "{0}" — Expected: "{1}"', [userNorm, targetAnswer]),
       suggestedCorrection: targetAnswer,
       pointsAwarded: 0
     };
@@ -409,9 +415,7 @@ export function evaluateAnswer(
       userAnswerNormalized: userNorm,
       expectedAnswerNormalized: bestMatch,
       matchedAlternative: bestMatch,
-      feedbackMessage: uiLanguage === 'fa'
-        ? `✨ نزدیک بود! پاسخ پذیرفته شد (پاسخ دقیق: "${bestMatch}").`
-        : `✨ Almost! Accepted with partial credit (exact match: "${bestMatch}").`,
+      feedbackMessage: txt((uiLanguage === 'fa'), '✨ نزدیک بود! پاسخ پذیرفته شد (پاسخ دقیق: "{0}").', '✨ Almost! Accepted with partial credit (exact match: "{0}").', [bestMatch]),
       pointsAwarded: Math.round(totalPoints * 0.75)
     };
   }
@@ -453,9 +457,7 @@ export function evaluateAnswer(
     similarity: bestSimilarity,
     userAnswerNormalized: userNorm,
     expectedAnswerNormalized: bestMatch,
-    feedbackMessage: uiLanguage === 'fa'
-      ? `❌ هنوز دقیق نیست! ${guidanceFa}. می‌تونی جوابت رو تصحیح کنی!`
-      : `❌ Not quite! ${guidanceEn}. You can try again to correct it!`,
+    feedbackMessage: txt((uiLanguage === 'fa'), '❌ هنوز دقیق نیست! {1}. می‌تونی جوابت رو تصحیح کنی!', '❌ Not quite! {0}. You can try again to correct it!', [guidanceEn, guidanceFa]),
     suggestedCorrection: targetAnswer,
     pointsAwarded: 0
   };

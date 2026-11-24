@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { OnlineRoomState, OnlinePlayer, Language, TeamColor, LanguageCard, PlayedCardRecord } from '../types';
-import { COLORS_MAP, SUPPORTED_LANGUAGES } from '../constants';
+import { COLORS_MAP, SUPPORTED_LANGUAGES, getSpeechLanguageCode } from '../constants';
 import { TRANSLATIONS } from '../translations';
 import { isRtlLang, tUI, tf } from '../ui';
 import { TeamMascot } from '../components/Mascots';
@@ -34,6 +34,7 @@ import {
   Crown,
   Pause
 } from 'lucide-react';
+import { tx, txt } from '../i18n/runtime';
 
 interface Props {
   initialRoom: OnlineRoomState;
@@ -176,7 +177,7 @@ export const OnlineGameplayScreen: React.FC<Props> = ({
   const handlePronounce = (text: string, lang: string) => {
     if ('speechSynthesis' in window) {
       const utterance = new SpeechSynthesisUtterance(text);
-      utterance.lang = lang === 'fa' ? 'fa-IR' : lang === 'nl' ? 'nl-NL' : 'en-US';
+      utterance.lang = getSpeechLanguageCode(lang);
       window.speechSynthesis.speak(utterance);
     }
   };
@@ -189,7 +190,7 @@ export const OnlineGameplayScreen: React.FC<Props> = ({
   const winners = room.teams.filter(t => (t.score || 0) === maxScore);
 
   return (
-    <div className="w-full max-w-md sm:max-w-lg md:max-w-xl mx-auto h-full min-h-0 flex-1 flex flex-col justify-between p-2.5 sm:p-4 text-center select-none relative overflow-y-auto overscroll-contain bg-[var(--bg)] text-[var(--ink)] font-ui" dir={isRTL ? 'rtl' : 'ltr'}>
+    <div className="w-full max-w-md sm:max-w-lg md:max-w-xl mx-auto h-full min-h-0 flex-1 flex flex-col justify-between p-2.5 sm:p-4 text-center select-none relative overflow-y-auto overscroll-contain bg-[var(--bg)] text-[var(--ink)] font-ui" dir={((isRTL ? 'rtl' : 'ltr'))}>
       
       {/* Floating Emoji Reactions Overlay */}
       <div className="absolute inset-0 pointer-events-none z-40 overflow-hidden">
@@ -216,7 +217,7 @@ export const OnlineGameplayScreen: React.FC<Props> = ({
             className="flex items-center gap-1.5 bg-[#1E9E93] text-white px-2.5 py-1.5 rounded-[12px] text-xs font-bold shadow-[var(--shadow-sm)] active:translate-y-0.5"
           >
             <Headphones size={13} />
-            <span>{language === 'fa' ? 'تماس صوتی فعال' : 'Voice call active'}</span>
+            <span>{tx((language === 'fa'), 'تماس صوتی فعال', 'Voice call active')}</span>
             <ExternalLink size={11} />
           </a>
         )}
@@ -224,7 +225,7 @@ export const OnlineGameplayScreen: React.FC<Props> = ({
         {/* Round Badge */}
         <div className="flex items-center gap-1.5 bg-[var(--saffron)] text-[var(--ink)] px-3 py-1.5 rounded-[12px] text-xs font-bold border border-[var(--line)] shadow-[var(--shadow-sm)]">
           <Clock size={13} />
-          <span>{language === 'fa' ? `راند ${room.currentRound} از ${room.settings.roundsCount || 3}` : `Round ${room.currentRound} of ${room.settings.roundsCount || 3}`}</span>
+          <span>{txt((language === 'fa'), 'راند {0} از {1}', 'Round {0} of {1}', [room.currentRound, room.settings.roundsCount || 3])}</span>
         </div>
 
         {/* Room Code & Stop Game Button */}
@@ -239,11 +240,11 @@ export const OnlineGameplayScreen: React.FC<Props> = ({
               setShowExitConfirm(true);
             }}
             className="h-8 px-2.5 rounded-xl bg-[var(--panel)] border border-[var(--line)] text-[var(--ink)] hover:bg-[var(--lapis-soft)] flex items-center justify-center gap-1 cursor-pointer transition-colors font-extrabold text-xs"
-            title={language === 'fa' ? 'توقف بازی' : 'Pause Game'}
-            aria-label={language === 'fa' ? 'توقف بازی' : 'Pause Game'}
+            title={tx((language === 'fa'), 'توقف بازی', 'Pause Game')}
+            aria-label={tx((language === 'fa'), 'توقف بازی', 'Pause Game')}
           >
             <Pause size={14} className="text-[var(--lapis)] shrink-0" />
-            <span>{language === 'fa' ? 'توقف بازی' : 'Pause'}</span>
+            <span>{tx((language === 'fa'), 'توقف بازی', 'Pause')}</span>
           </button>
         </div>
       </div>
@@ -252,9 +253,7 @@ export const OnlineGameplayScreen: React.FC<Props> = ({
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-1.5 my-2 shrink-0 font-ui">
         {room.teams.map(t => {
           const isActive = t.id === activeTeam.id;
-          const teamLabel = language === 'fa'
-            ? `تیم ${t.color === 'BLUE' ? 'آبی' : t.color === 'RED' ? 'قرمز' : t.color === 'GREEN' ? 'سبز' : 'زرد'}`
-            : `Team ${t.color === 'BLUE' ? 'Blue' : t.color === 'RED' ? 'Red' : t.color === 'GREEN' ? 'Green' : 'Yellow'}`;
+          const teamLabel = txt((language === 'fa'), 'تیم {1}', 'Team {0}', [t.color === 'BLUE' ? 'Blue' : t.color === 'RED' ? 'Red' : t.color === 'GREEN' ? 'Green' : 'Yellow', t.color === 'BLUE' ? 'آبی' : t.color === 'RED' ? 'قرمز' : t.color === 'GREEN' ? 'سبز' : 'زرد']);
 
           return (
             <div
@@ -285,12 +284,12 @@ export const OnlineGameplayScreen: React.FC<Props> = ({
           <div className="p-5 bg-[var(--panel)] rounded-[20px] border border-[var(--line)] shadow-[var(--shadow)] w-full max-w-sm space-y-3">
             <Trophy size={48} className="text-[var(--saffron)] mx-auto drop-shadow-md" />
             <h2 className="text-xl font-bold text-[var(--ink)] font-display">
-              {language === 'fa' ? 'پایان مسابقه آنلاین! 🏆' : 'Online Match Complete! 🏆'}
+              {tx((language === 'fa'), 'پایان مسابقه آنلاین! 🏆', 'Online Match Complete! 🏆')}
             </h2>
             <div className="p-3 bg-[var(--bg)] rounded-[14px] border border-[var(--line)]">
-              <span className="text-xs font-bold text-[var(--vermilion)] block">{language === 'fa' ? 'تیم قهرمان:' : 'Champion Team:'}</span>
+              <span className="text-xs font-bold text-[var(--vermilion)] block">{tx((language === 'fa'), 'تیم قهرمان:', 'Champion Team:')}</span>
               <span className="text-sm font-bold text-[var(--ink)]">
-                {winners.map(w => language === 'fa' ? `تیم ${w.color === 'BLUE' ? 'آبی' : w.color === 'RED' ? 'قرمز' : w.color === 'GREEN' ? 'سبز' : 'زرد'}` : `Team ${w.color}`).join(language === 'fa' ? ' و ' : ' & ')}
+                {winners.map(w => txt((language === 'fa'), 'تیم {1}', 'Team {0}', [w.color, w.color === 'BLUE' ? 'آبی' : w.color === 'RED' ? 'قرمز' : w.color === 'GREEN' ? 'سبز' : 'زرد'])).join(tx((language === 'fa'), ' و ', ' & '))}
               </span>
             </div>
 
@@ -303,7 +302,7 @@ export const OnlineGameplayScreen: React.FC<Props> = ({
               className="w-full py-2.5 bg-[var(--vermilion)] hover:bg-[#c94b2a] text-white font-bold text-xs uppercase flex items-center justify-center gap-1.5 rounded-[12px] shadow-[var(--shadow-sm)] active:translate-y-0.5 transition-all"
             >
               <Share2 size={16} />
-              <span>{language === 'fa' ? 'اشتراک‌گذاری کارنامه مسابقه 📤' : 'Share Match Scorecard 📤'}</span>
+              <span>{tx((language === 'fa'), 'اشتراک‌گذاری کارنامه مسابقه 📤', 'Share Match Scorecard 📤')}</span>
             </button>
 
             <button
@@ -313,7 +312,7 @@ export const OnlineGameplayScreen: React.FC<Props> = ({
               }}
               className="w-full py-2 bg-[var(--bg)] hover:bg-[var(--panel)] text-[var(--ink)] rounded-[12px] font-bold text-xs border border-[var(--line)] shadow-[var(--shadow-sm)] active:translate-y-0.5 transition-all"
             >
-              {language === 'fa' ? 'خروج به صفحه اصلی' : 'Exit to Main Menu'}
+              {tx((language === 'fa'), 'خروج به صفحه اصلی', 'Exit to Main Menu')}
             </button>
           </div>
         </div>
@@ -328,7 +327,7 @@ export const OnlineGameplayScreen: React.FC<Props> = ({
             <div className="flex items-center gap-2">
               <TeamMascot color={activeTeam.color} size={28} />
               <div className="text-start">
-                <span className="text-[10px] text-[var(--mute)] font-bold uppercase block">{language === 'fa' ? 'نوبت توضیح و حدس:' : 'Active Guesser / Turn:'}</span>
+                <span className="text-[10px] text-[var(--mute)] font-bold uppercase block">{tx((language === 'fa'), 'نوبت توضیح و حدس:', 'Active Guesser / Turn:')}</span>
                 <span className="text-xs font-bold text-[var(--ink)]">{activePlayer?.name}</span>
               </div>
             </div>
@@ -351,12 +350,10 @@ export const OnlineGameplayScreen: React.FC<Props> = ({
 
                 <div className="space-y-1">
                   <h3 className="text-lg font-bold text-[var(--ink)] font-display">
-                    {language === 'fa' ? '🙈 نوبت حدس زدن شماست!' : "🙈 It's your turn to guess!"}
+                    {tx((language === 'fa'), '🙈 نوبت حدس زدن شماست!', "🙈 It's your turn to guess!")}
                   </h3>
                   <p className="text-xs text-[var(--mute)] leading-relaxed font-medium">
-                    {language === 'fa' 
-                      ? 'کارت از روی صفحه شما مخفی است تا بازی لو نرود. به صدای هم‌تیمی‌هایتان در تماس صوتی (گوگل میت / دیسکورد) گوش دهید و کلمه هدف را حدس بزنید!' 
-                      : 'The card is hidden on your screen to avoid spoilers. Listen to your teammates on the voice call and guess the target word!'}
+                    {tx((language === 'fa'), 'کارت از روی صفحه شما مخفی است تا بازی لو نرود. به صدای هم‌تیمی‌هایتان در تماس صوتی (گوگل میت / دیسکورد) گوش دهید و کلمه هدف را حدس بزنید!', 'The card is hidden on your screen to avoid spoilers. Listen to your teammates on the voice call and guess the target word!')}
                   </p>
                 </div>
 
@@ -369,7 +366,7 @@ export const OnlineGameplayScreen: React.FC<Props> = ({
                 </div>
 
                 <div className="text-[10px] text-[var(--ink)] font-bold bg-[var(--bg)] px-3 py-1 rounded-[12px] border border-[var(--line)]">
-                  {language === 'fa' ? '🎙️ در حال گوش دادن به هم‌تیمی‌ها...' : '🎙️ Listening to teammates...'}
+                  {tx((language === 'fa'), '🎙️ در حال گوش دادن به هم‌تیمی‌ها...', '🎙️ Listening to teammates...')}
                 </div>
               </div>
             ) : (

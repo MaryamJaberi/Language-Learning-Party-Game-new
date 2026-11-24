@@ -18,6 +18,7 @@ import {
   X, 
   Check 
 } from 'lucide-react';
+import { tx, txt, uiDigits } from '../i18n/runtime';
 
 interface Props {
   settings: GameSettings;
@@ -73,7 +74,7 @@ export const SeatingConfirmScreen: React.FC<Props> = ({
   const handleSavePlayerEdit = () => {
     if (editingPlayerIndex === null) return;
     sound.playPowerUp();
-    const trimmed = editNameInput.trim() || (isRTL ? `بازیکن ${editingPlayerIndex + 1}` : `Player ${editingPlayerIndex + 1}`);
+    const trimmed = editNameInput.trim() || (txt(isRTL, 'بازیکن {0}', 'Player {0}', [editingPlayerIndex + 1]));
     onUpdatePlayer?.(editingPlayerIndex, trimmed, editAvatarInput);
     setEditingPlayerIndex(null);
   };
@@ -81,7 +82,7 @@ export const SeatingConfirmScreen: React.FC<Props> = ({
   return (
     <div 
       className="w-full max-w-md sm:max-w-lg md:max-w-xl mx-auto h-full max-h-[100dvh] min-h-0 flex-1 flex flex-col justify-between p-2.5 sm:p-3 select-none overflow-hidden font-ui bg-[var(--bg)] text-[var(--ink)]" 
-      dir={isRTL ? 'rtl' : 'ltr'}
+      dir={((isRTL ? 'rtl' : 'ltr'))}
     >
       {/* 1. Header Bar with Exit and Help buttons */}
       <div className="flex items-center justify-between bg-[var(--panel)] text-[var(--ink)] p-2.5 sm:p-3 border border-[var(--line)] rounded-[20px] shadow-xs shrink-0 font-ui">
@@ -94,7 +95,7 @@ export const SeatingConfirmScreen: React.FC<Props> = ({
               {t.tableSeatingTitle}
             </h2>
             <span className="text-[11px] text-[var(--mute)] font-bold block">
-              {isRTL ? 'برای تغییر نام بازیکن روی صندلی بزنید' : 'Tap any seat to edit player name'}
+              {tx(isRTL, 'برای تغییر نام بازیکن روی صندلی بزنید', 'Tap any seat to edit player name')}
             </span>
           </div>
         </div>
@@ -104,14 +105,14 @@ export const SeatingConfirmScreen: React.FC<Props> = ({
           <button
             type="button"
             aria-label="Exit Game"
-            title={isRTL ? 'خروج از بازی' : 'Exit Match'}
+            title={tx(isRTL, 'خروج از بازی', 'Exit Match')}
             onClick={() => {
               sound.playClick();
               setShowExitConfirm(true);
             }}
             className="w-10 h-10 rounded-full border border-rose-200 dark:border-rose-900/40 bg-rose-50 dark:bg-rose-950/30 text-rose-600 dark:text-rose-400 hover:bg-rose-100 flex items-center justify-center transition-all active:scale-95 shadow-xs cursor-pointer"
           >
-            <LogOut size={16} className={isRTL ? 'rotate-180' : ''} />
+            <LogOut size={16} className={((isRTL ? 'rotate-180' : ''))} />
           </button>
 
           {/* Guide / Help */}
@@ -144,10 +145,10 @@ export const SeatingConfirmScreen: React.FC<Props> = ({
               onRandomizePlayers();
             }}
             className="min-h-[38px] px-2.5 py-1.5 bg-[var(--bg)] hover:bg-[var(--line)] text-[var(--ink)] border border-[var(--line)] rounded-xl text-xs font-black flex items-center gap-1.5 shadow-2xs cursor-pointer active:scale-95 shrink-0"
-            title={isRTL ? 'تغییر تصادفی نام‌ها و آواتارها' : 'Randomize names and avatars'}
+            title={tx(isRTL, 'تغییر تصادفی نام‌ها و آواتارها', 'Randomize names and avatars')}
           >
             <Shuffle size={13} className="text-[var(--turq)]" />
-            <span>{t.randomize || (isRTL ? 'اسامی تصادفی' : 'Randomize')}</span>
+            <span>{t.randomize || (tx(isRTL, 'اسامی تصادفی', 'Randomize'))}</span>
           </button>
         )}
       </div>
@@ -207,7 +208,7 @@ export const SeatingConfirmScreen: React.FC<Props> = ({
             fill="var(--lapis)" 
             className="text-[10px] font-black uppercase tracking-widest select-none pointer-events-none"
           >
-            {t.tableCenter || (isRTL ? 'میز بازی' : 'TABLE')}
+            {t.tableCenter || (tx(isRTL, 'میز بازی', 'TABLE'))}
           </text>
 
           {/* Player Seats with Number Badges & High-Contrast Name Pills */}
@@ -227,7 +228,7 @@ export const SeatingConfirmScreen: React.FC<Props> = ({
                 data-testid={`player-seat-${i}`}
                 role="button"
                 tabIndex={0}
-                aria-label={isRTL ? `ویرایش ${p.name}` : `Edit ${p.name}`}
+                aria-label={txt(isRTL, 'ویرایش {0}', 'Edit {0}', [p.name])}
                 className="cursor-pointer group"
                 onClick={() => openPlayerEditor(i)}
                 onKeyDown={(e) => {
@@ -256,7 +257,7 @@ export const SeatingConfirmScreen: React.FC<Props> = ({
                   fill="#ffffff"
                   className="text-xs font-black select-none pointer-events-none"
                 >
-                  {p.avatar || `#${isRTL ? toPersianDigits(i + 1) : i + 1}`}
+                  {p.avatar || `#${uiDigits(isRTL, i + 1)}`}
                 </text>
 
                 {/* High-Contrast Name Pill Background */}
@@ -289,7 +290,7 @@ export const SeatingConfirmScreen: React.FC<Props> = ({
         {/* Small subtle tap-to-edit hint indicator */}
         <div className="absolute bottom-2 right-2.5 text-[10px] font-bold text-[var(--mute)] flex items-center gap-1 opacity-80">
           <Edit3 size={11} />
-          <span>{(t.tapToEdit || (isRTL ? 'ویرایش نام' : 'Tap to edit')).replace(/✏️/g, '').trim()}</span>
+          <span>{(t.tapToEdit || (tx(isRTL, 'ویرایش نام', 'Tap to edit'))).replace(/✏️/g, '').trim()}</span>
         </div>
       </div>
 
@@ -357,7 +358,7 @@ export const SeatingConfirmScreen: React.FC<Props> = ({
       {editingPlayerIndex !== null && (
         <div 
           className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/70 backdrop-blur-xs animate-fade-in font-ui"
-          dir={isRTL ? 'rtl' : 'ltr'}
+          dir={((isRTL ? 'rtl' : 'ltr'))}
           onClick={() => setEditingPlayerIndex(null)}
         >
           <div 
@@ -368,7 +369,7 @@ export const SeatingConfirmScreen: React.FC<Props> = ({
             <div className="flex items-center justify-between border-b border-[var(--line)] pb-2.5">
               <div>
                 <h3 className="text-sm sm:text-base font-black text-[var(--ink)]">
-                  {isRTL ? `ویرایش بازیکن ${toPersianDigits(editingPlayerIndex + 1)}` : `Edit Player ${editingPlayerIndex + 1}`}
+                  {txt(isRTL, 'ویرایش بازیکن {1}', 'Edit Player {0}', [editingPlayerIndex + 1, toPersianDigits(editingPlayerIndex + 1)])}
                 </h3>
               </div>
               <button
@@ -383,7 +384,7 @@ export const SeatingConfirmScreen: React.FC<Props> = ({
             {/* Name Input */}
             <div className="space-y-1.5">
               <label className="text-xs font-bold text-[var(--mute)] block">
-                {isRTL ? 'نام بازیکن:' : 'Player Name:'}
+                {tx(isRTL, 'نام بازیکن:', 'Player Name:')}
               </label>
               <input 
                 type="text"
@@ -394,7 +395,7 @@ export const SeatingConfirmScreen: React.FC<Props> = ({
                 }}
                 maxLength={16}
                 className="w-full py-2.5 px-3 rounded-xl bg-[var(--bg)] border border-[var(--line)] text-sm font-black text-[var(--ink)] outline-none focus:border-[var(--lapis)]"
-                placeholder={isRTL ? 'نام بازیکن' : 'Name'}
+                placeholder={tx(isRTL, 'نام بازیکن', 'Name')}
                 autoFocus
               />
             </div>
@@ -402,7 +403,7 @@ export const SeatingConfirmScreen: React.FC<Props> = ({
                         {/* Avatar Picker Grid */}
             <div className="space-y-1.5">
               <label className="text-xs font-bold text-[var(--mute)] block">
-                {isRTL ? 'انتخاب نماد:' : 'Select Symbol / Avatar:'}
+                {tx(isRTL, 'انتخاب نماد:', 'Select Symbol / Avatar:')}
               </label>
               <div className="flex flex-wrap gap-2 justify-center py-1">
                 {['🦊', '🦁', '🦉', '🐼', '🐨', '🐯', '🐰', '🐸'].map(av => (
@@ -427,7 +428,7 @@ export const SeatingConfirmScreen: React.FC<Props> = ({
                 onClick={() => setEditingPlayerIndex(null)}
                 className="btn-ghost flex-1 !min-h-[44px]"
               >
-                {t.cancel || (isRTL ? 'انصراف' : 'Cancel')}
+                {t.cancel || (tx(isRTL, 'انصراف', 'Cancel'))}
               </button>
               <button
                 type="button"

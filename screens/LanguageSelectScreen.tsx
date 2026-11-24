@@ -10,6 +10,7 @@ import {
   ArrowRight, 
   ArrowLeft
 } from 'lucide-react';
+import { tx, txt } from '../i18n/runtime';
 
 interface Props {
   settings: GameSettings;
@@ -30,7 +31,7 @@ const LanguageSelectScreen: React.FC<Props> = ({
   const isRTL = isRtlLang(settings.language);
 
   return (
-    <div className="w-full max-w-md sm:max-w-lg md:max-w-xl mx-auto h-full min-h-0 flex-1 flex flex-col p-3 sm:p-4 select-none overflow-hidden relative font-ui bg-[var(--bg)] text-[var(--ink)]" dir={isRTL ? 'rtl' : 'ltr'}>
+    <div className="w-full max-w-md sm:max-w-lg md:max-w-xl mx-auto h-full min-h-0 flex-1 flex flex-col p-3 sm:p-4 select-none overflow-hidden relative font-ui bg-[var(--bg)] text-[var(--ink)]" dir={((isRTL ? 'rtl' : 'ltr'))}>
       
       {/* Fixed Header */}
       <header className="shrink-0 mb-2 font-ui">

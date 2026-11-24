@@ -1,4 +1,5 @@
 import React from 'react';
+import { tx, txt } from '../../i18n/runtime';
 
 interface BicycleIllustrationProps {
   progressPercent: number; // 0 to 100 (% ride without wheels)
@@ -21,7 +22,7 @@ export const BicycleIllustration: React.FC<BicycleIllustrationProps> = ({
     <div
       data-testid="bicycle-training-wheels-illustration"
       className="relative flex flex-col items-center justify-center p-4 bg-gradient-to-b from-indigo-50/60 to-purple-50/40 dark:from-neutral-900/60 dark:to-neutral-950/60 rounded-2xl border border-indigo-200/50 dark:border-neutral-800 shadow-sm w-full max-w-lg mx-auto"
-      dir={isRtl ? 'rtl' : 'ltr'}
+      dir={((isRtl ? 'rtl' : 'ltr'))}
     >
       {/* SVG Canvas for Bicycle */}
       <svg
@@ -151,7 +152,7 @@ export const BicycleIllustration: React.FC<BicycleIllustrationProps> = ({
       {/* Riding Without Wheels Progress Bar */}
       <div className="w-full mt-3 px-2">
         <div className="flex items-center justify-between text-xs font-bold text-[var(--ink)] mb-1">
-          <span>{isRtl ? 'میزان دوچرخه‌سواری مستقل شما:' : 'How far you ride without training wheels:'}</span>
+          <span>{tx(isRtl, 'میزان دوچرخه‌سواری مستقل شما:', 'How far you ride without training wheels:')}</span>
           <span className="text-indigo-600 dark:text-indigo-400 font-black">{progress}%</span>
         </div>
         <div className="w-full bg-neutral-200 dark:bg-neutral-800 h-2.5 rounded-full overflow-hidden">
@@ -161,8 +162,8 @@ export const BicycleIllustration: React.FC<BicycleIllustrationProps> = ({
           />
         </div>
         <div className="flex items-center justify-between text-[11px] text-neutral-500 dark:text-neutral-400 mt-1">
-          <span>{isRtl ? `${wheelsRemoved} چرخ کمکی باز شده` : `${wheelsRemoved} wheels removed`}</span>
-          <span>{isRtl ? `${activeWheelsCount} چرخ کمکی فعال` : `${activeWheelsCount} active`}</span>
+          <span>{txt(isRtl, '{0} چرخ کمکی باز شده', '{0} wheels removed', [wheelsRemoved])}</span>
+          <span>{txt(isRtl, '{0} چرخ کمکی فعال', '{0} active', [activeWheelsCount])}</span>
         </div>
       </div>
     </div>

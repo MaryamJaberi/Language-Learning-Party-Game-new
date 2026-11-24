@@ -29,6 +29,7 @@ import {
   Target,
   Zap
 } from 'lucide-react';
+import { tx, txt, langName } from '../i18n/runtime';
 
 interface Props {
   isOpen: boolean;
@@ -103,7 +104,7 @@ const SinglePlayerSetupModal: React.FC<Props> = ({
     <>
     <div 
       className="fixed inset-0 z-50 flex items-center justify-center p-3 bg-black/60 backdrop-blur-xs animate-fade-in font-ui"
-      dir={isRTL ? 'rtl' : 'ltr'}
+      dir={((isRTL ? 'rtl' : 'ltr'))}
       onClick={onClose}
     >
       <div 
@@ -118,7 +119,7 @@ const SinglePlayerSetupModal: React.FC<Props> = ({
             </div>
             <div>
               <h2 className="text-sm font-extrabold tracking-tight font-display">{t.singlePlayer}</h2>
-              <p className="text-[10px] text-[var(--mute)] font-bold">{isRTL ? 'فلش‌کارت انفرادی و چالش گفتار' : 'Flashcard & Voice Challenge'}</p>
+              <p className="text-[10px] text-[var(--mute)] font-bold">{tx(isRTL, 'فلش‌کارت انفرادی و چالش گفتار', 'Flashcard & Voice Challenge')}</p>
             </div>
           </div>
           <button 
@@ -128,8 +129,8 @@ const SinglePlayerSetupModal: React.FC<Props> = ({
               onClose();
             }}
             className="w-8 h-8 rounded-full bg-[var(--panel)] hover:bg-[var(--bg)] text-[var(--ink)] border border-[var(--line)] flex items-center justify-center transition-all cursor-pointer"
-            aria-label={t.close || (isRTL ? 'بستن' : 'Close')}
-            title={t.close || (isRTL ? 'بستن' : 'Close')}
+            aria-label={t.close || (tx(isRTL, 'بستن', 'Close'))}
+            title={t.close || (tx(isRTL, 'بستن', 'Close'))}
           >
             <X size={16} />
           </button>
@@ -144,16 +145,14 @@ const SinglePlayerSetupModal: React.FC<Props> = ({
               <div className="flex items-center justify-between">
                 <span className="text-xs font-black text-rose-600 flex items-center gap-1.5">
                   <RotateCcw size={14} />
-                  <span>{isRTL ? `بانک اشتباهات: ${unmasteredCount} کارت` : `Mistakes Bank: ${unmasteredCount} cards`}</span>
+                  <span>{txt(isRTL, 'بانک اشتباهات: {0} کارت', 'Mistakes Bank: {0} cards', [unmasteredCount])}</span>
                 </span>
                 <span className="text-[10px] bg-rose-500/20 text-rose-600 px-2 py-0.5 rounded-full font-bold">
-                  {isRTL ? 'نیاز به دوره' : 'Review'}
+                  {tx(isRTL, 'نیاز به دوره', 'Review')}
                 </span>
               </div>
               <p className="text-[10.5px] text-[var(--mute)] leading-relaxed">
-                {isRTL 
-                  ? 'کارت‌هایی که قبلاً اشتباه پاسخ داده‌اید، به همراه سؤالات مشابه آماده دوره هستند.' 
-                  : 'Cards you missed are ready with parallel grammar variants.'}
+                {tx(isRTL, 'کارت‌هایی که قبلاً اشتباه پاسخ داده‌اید، به همراه سؤالات مشابه آماده دوره هستند.', 'Cards you missed are ready with parallel grammar variants.')}
               </p>
               <button
                 type="button"
@@ -164,7 +163,7 @@ const SinglePlayerSetupModal: React.FC<Props> = ({
                 className="w-full py-2 bg-rose-600 hover:bg-rose-700 text-white text-xs font-black rounded-xl shadow-xs flex items-center justify-center gap-1.5 cursor-pointer active:scale-98 transition-transform"
               >
                 <Sparkles size={14} />
-                <span>{isRTL ? 'دوره این اشتباهات + سؤالات مشابه' : 'Practice Mistakes & Variants'}</span>
+                <span>{tx(isRTL, 'دوره این اشتباهات + سؤالات مشابه', 'Practice Mistakes & Variants')}</span>
               </button>
             </div>
           )}
@@ -178,10 +177,10 @@ const SinglePlayerSetupModal: React.FC<Props> = ({
                 </div>
                 <div className="min-w-0">
                   <span className="text-xs font-black text-amber-700 dark:text-amber-400 block truncate">
-                    {isRTL ? 'جعبه لایتنر ۵ خانه (مرور روزانه)' : '5-Box Leitner Daily Review'}
+                    {tx(isRTL, 'جعبه لایتنر ۵ خانه (مرور روزانه)', '5-Box Leitner Daily Review')}
                   </span>
                   <span className="text-[10px] text-[var(--mute)] block truncate">
-                    {isRTL ? 'جلوگیری از فراموشی با فواصل زمانی' : 'Spaced repetition practice'}
+                    {tx(isRTL, 'جلوگیری از فراموشی با فواصل زمانی', 'Spaced repetition practice')}
                   </span>
                 </div>
               </div>
@@ -194,7 +193,7 @@ const SinglePlayerSetupModal: React.FC<Props> = ({
                 }}
                 className="px-3 py-1.5 bg-amber-500 hover:bg-amber-600 text-white text-xs font-black rounded-xl shrink-0 shadow-xs active:scale-95 transition-transform cursor-pointer"
               >
-                <span>{isRTL ? 'ورود' : 'Enter'}</span>
+                <span>{tx(isRTL, 'ورود', 'Enter')}</span>
               </button>
             </div>
           )}
@@ -204,10 +203,10 @@ const SinglePlayerSetupModal: React.FC<Props> = ({
             <div className="flex items-center justify-between text-xs font-bold text-[var(--ink)]">
               <span className="flex items-center gap-1.5">
                 <Globe size={13} className="text-[var(--lapis)]" />
-                <span>{isRTL ? 'انتخاب زبان‌ها:' : 'Languages:'}</span>
+                <span>{tx(isRTL, 'انتخاب زبان‌ها:', 'Languages:')}</span>
               </span>
               <span className="text-[10px] text-[var(--mute)] font-medium">
-                {isRTL ? '۳۸ زبان بین‌المللی' : '38 Languages'}
+                {tx(isRTL, '۳۸ زبان بین‌المللی', '38 Languages')}
               </span>
             </div>
 
@@ -222,7 +221,7 @@ const SinglePlayerSetupModal: React.FC<Props> = ({
                 className="p-2 rounded-xl bg-[var(--panel)] hover:bg-[var(--line)]/40 border border-[var(--line)] text-start shadow-xs active:scale-98 transition-all cursor-pointer min-w-0"
               >
                 <div className="text-[9.5px] text-[var(--mute)] font-bold mb-1 flex items-center justify-between">
-                  <span>{isRTL ? 'زبان تمرین (هدف)' : 'Target'}</span>
+                  <span>{tx(isRTL, 'زبان تمرین (هدف)', 'Target')}</span>
                   <span className="text-[9px] text-[var(--lapis)]">▾</span>
                 </div>
                 <div className="flex items-center gap-2 min-w-0">
@@ -230,7 +229,7 @@ const SinglePlayerSetupModal: React.FC<Props> = ({
                     <FlagIcon language={settings.targetLanguage} size={15} />
                   </div>
                   <span className="font-extrabold text-xs text-[var(--ink)] truncate">
-                    {isRTL ? (currentTargetLangInfo.persianName || currentTargetLangInfo.nativeName.split(' ')[0]) : currentTargetLangInfo.nativeName.split(' ')[0]}
+                    {tx(isRTL, currentTargetLangInfo.persianName || currentTargetLangInfo.nativeName.split(' ')[0], currentTargetLangInfo.nativeName.split(' ')[0])}
                   </span>
                 </div>
               </button>
@@ -247,7 +246,7 @@ const SinglePlayerSetupModal: React.FC<Props> = ({
                   }));
                 }}
                 className="w-7 h-7 rounded-full bg-[var(--panel)] border border-[var(--line)] hover:border-[var(--lapis)] text-[var(--ink)] flex items-center justify-center shadow-2xs active:scale-90 transition-all cursor-pointer"
-                title={isRTL ? 'جابجایی زبان‌ها' : 'Swap languages'}
+                title={tx(isRTL, 'جابجایی زبان‌ها', 'Swap languages')}
               >
                 <ArrowRightLeft size={12} className="text-[var(--mute)]" />
               </button>
@@ -262,7 +261,7 @@ const SinglePlayerSetupModal: React.FC<Props> = ({
                 className="p-2 rounded-xl bg-[var(--panel)] hover:bg-[var(--line)]/40 border border-[var(--line)] text-start shadow-xs active:scale-98 transition-all cursor-pointer min-w-0"
               >
                 <div className="text-[9.5px] text-[var(--mute)] font-bold mb-1 flex items-center justify-between">
-                  <span>{isRTL ? 'زبان راهنما (مبدأ)' : 'Guide'}</span>
+                  <span>{tx(isRTL, 'زبان راهنما (مبدأ)', 'Guide')}</span>
                   <span className="text-[9px] text-[var(--turq)]">▾</span>
                 </div>
                 <div className="flex items-center gap-2 min-w-0">
@@ -270,7 +269,7 @@ const SinglePlayerSetupModal: React.FC<Props> = ({
                     <FlagIcon language={settings.nativeLanguage} size={15} />
                   </div>
                   <span className="font-extrabold text-xs text-[var(--ink)] truncate">
-                    {isRTL ? (currentNativeLangInfo.persianName || currentNativeLangInfo.nativeName.split(' ')[0]) : currentNativeLangInfo.nativeName.split(' ')[0]}
+                    {tx(isRTL, currentNativeLangInfo.persianName || currentNativeLangInfo.nativeName.split(' ')[0], currentNativeLangInfo.nativeName.split(' ')[0])}
                   </span>
                 </div>
               </button>
@@ -281,7 +280,7 @@ const SinglePlayerSetupModal: React.FC<Props> = ({
           <div className="space-y-1 p-2.5 bg-[var(--bg)] border border-[var(--line)] rounded-2xl">
             <label htmlFor="sp-style-select" className="text-[11px] font-bold text-[var(--ink)] flex items-center gap-1">
               <Languages size={12} className="text-[var(--lapis)]" />
-              <span>{isRTL ? 'سبک تمرین:' : 'Practice Style:'}</span>
+              <span>{tx(isRTL, 'سبک تمرین:', 'Practice Style:')}</span>
             </label>
             <select
               id="sp-style-select"
@@ -292,10 +291,10 @@ const SinglePlayerSetupModal: React.FC<Props> = ({
               }}
               className="w-full bg-[var(--panel)] text-[var(--ink)] border border-[var(--line)] rounded-xl px-2.5 py-2 text-xs font-bold focus:outline-none focus:border-[var(--lapis)] cursor-pointer"
             >
-              <option value="translate_to_target">{isRTL ? `ترجمه به ${currentTargetLangInfo.persianName} (${currentNativeLangInfo.code.toUpperCase()} ← ${currentTargetLangInfo.code.toUpperCase()})` : `Translate to ${currentTargetLangInfo.name} (${currentNativeLangInfo.code.toUpperCase()} → ${currentTargetLangInfo.code.toUpperCase()})`}</option>
-              <option value="translate_to_native">{isRTL ? `ترجمه به ${currentNativeLangInfo.persianName} (${currentTargetLangInfo.code.toUpperCase()} ← ${currentNativeLangInfo.code.toUpperCase()})` : `Translate to ${currentNativeLangInfo.name} (${currentTargetLangInfo.code.toUpperCase()} → ${currentNativeLangInfo.code.toUpperCase()})`}</option>
-              <option value="text_and_audio">{isRTL ? 'روخوانی و تمرین تلفظ' : 'Reading & Pronunciation'}</option>
-              <option value="audio_only">{isRTL ? 'چالش شنیداری (فقط صدا)' : 'Listening Challenge (Audio Only)'}</option>
+              <option value="translate_to_target">{txt(isRTL, 'ترجمه به {3} ({1} ← {2})', 'Translate to {0} ({1} → {2})', [langName(currentTargetLangInfo, isRTL), currentNativeLangInfo.code.toUpperCase(), currentTargetLangInfo.code.toUpperCase(), currentTargetLangInfo.persianName])}</option>
+              <option value="translate_to_native">{txt(isRTL, 'ترجمه به {3} ({1} ← {2})', 'Translate to {0} ({1} → {2})', [langName(currentNativeLangInfo, isRTL), currentTargetLangInfo.code.toUpperCase(), currentNativeLangInfo.code.toUpperCase(), currentNativeLangInfo.persianName])}</option>
+              <option value="text_and_audio">{tx(isRTL, 'روخوانی و تمرین تلفظ', 'Reading & Pronunciation')}</option>
+              <option value="audio_only">{tx(isRTL, 'چالش شنیداری (فقط صدا)', 'Listening Challenge (Audio Only)')}</option>
             </select>
           </div>
 
@@ -304,7 +303,7 @@ const SinglePlayerSetupModal: React.FC<Props> = ({
             <div className="flex items-center justify-between">
               <label className="text-[11px] font-bold text-[var(--ink)] flex items-center gap-1.5">
                 <Layers size={13} className="text-[var(--turq)]" />
-                <span>{isRTL ? 'انتخاب سطح دشواری (CEFR):' : 'Select Level (CEFR):'}</span>
+                <span>{tx(isRTL, 'انتخاب سطح دشواری (CEFR):', 'Select Level (CEFR):')}</span>
               </label>
               <span className="text-[10px] font-black px-2 py-0.5 rounded-lg bg-[var(--lapis-soft)] text-[var(--lapis)]">
                 <bdi dir="ltr">{selectedLevel}</bdi>
@@ -328,7 +327,7 @@ const SinglePlayerSetupModal: React.FC<Props> = ({
                     return (
                       <div key={band.key} className="flex items-center gap-1.5">
                         <span className="w-12 shrink-0 text-[10px] font-bold text-[var(--mute)] leading-tight">
-                          {isRTL ? band.fa : band.en}
+                          {tx(isRTL, band.fa, band.en)}
                         </span>
                         <div className="flex-1 grid grid-cols-6 gap-1">
                           {levels.map(lvl => {
@@ -381,10 +380,10 @@ const SinglePlayerSetupModal: React.FC<Props> = ({
             <div className="flex items-center justify-between text-xs font-bold text-[var(--ink)]">
               <span className="flex items-center gap-1.5">
                 <Clock size={13} className="text-[var(--saffron)]" />
-                <span>{isRTL ? 'قالب تمرین و زمان:' : 'Match Format & Time:'}</span>
+                <span>{tx(isRTL, 'قالب تمرین و زمان:', 'Match Format & Time:')}</span>
               </span>
               <span className="text-[10px] text-[var(--mute)] font-medium">
-                {settings.matchMode === 'timed_match' ? (isRTL ? 'مسابقه لیدربرد' : 'Leaderboard Match') : (isRTL ? 'تمرین آزاد' : 'Free Practice')}
+                {settings.matchMode === 'timed_match' ? (tx(isRTL, 'مسابقه لیدربرد', 'Leaderboard Match')) : (tx(isRTL, 'تمرین آزاد', 'Free Practice'))}
               </span>
             </div>
 
@@ -408,7 +407,7 @@ const SinglePlayerSetupModal: React.FC<Props> = ({
                 }`}
               >
                 <Zap size={13} />
-                <span>{isRTL ? 'مسابقه زمان کل' : 'Timed Match'}</span>
+                <span>{tx(isRTL, 'مسابقه زمان کل', 'Timed Match')}</span>
               </button>
 
               <button
@@ -430,7 +429,7 @@ const SinglePlayerSetupModal: React.FC<Props> = ({
                 }`}
               >
                 <Layers size={13} />
-                <span>{isRTL ? 'تعداد کارت ثابت' : 'Fixed Cards'}</span>
+                <span>{tx(isRTL, 'تعداد کارت ثابت', 'Fixed Cards')}</span>
               </button>
             </div>
 
@@ -438,7 +437,7 @@ const SinglePlayerSetupModal: React.FC<Props> = ({
             {settings.matchMode === 'timed_match' ? (
               <div className="space-y-1 pt-0.5">
                 <div className="text-[10px] text-[var(--mute)] font-bold">
-                  {isRTL ? 'زمان کل مسابقه:' : 'Total match duration:'}
+                  {tx(isRTL, 'زمان کل مسابقه:', 'Total match duration:')}
                 </div>
                 <div className="grid grid-cols-4 gap-1.5 text-center">
                   {[30, 60, 90, 120].map(sec => {
@@ -461,7 +460,7 @@ const SinglePlayerSetupModal: React.FC<Props> = ({
                             : 'bg-[var(--panel)] border-[var(--line)] text-[var(--ink)] hover:bg-[var(--bg)]'
                         }`}
                       >
-                        {sec} {isRTL ? 'ثانیه' : 's'}
+                        {sec} {tx(isRTL, 'ثانیه', 's')}
                       </button>
                     );
                   })}
@@ -471,7 +470,7 @@ const SinglePlayerSetupModal: React.FC<Props> = ({
               /* Fixed Card Count Options */
               <div className="space-y-1 pt-0.5">
                 <div className="text-[10px] text-[var(--mute)] font-bold">
-                  {isRTL ? 'تعداد کارت‌های این جلسه:' : 'Number of cards:'}
+                  {tx(isRTL, 'تعداد کارت‌های این جلسه:', 'Number of cards:')}
                 </div>
                 <div className="grid grid-cols-4 gap-1.5 text-center">
                   {[5, 10, 15, 20].map(cnt => {
@@ -490,7 +489,7 @@ const SinglePlayerSetupModal: React.FC<Props> = ({
                             : 'bg-[var(--panel)] border-[var(--line)] text-[var(--ink)] hover:bg-[var(--bg)]'
                         }`}
                       >
-                        {cnt} {isRTL ? 'کارت' : 'cards'}
+                        {cnt} {tx(isRTL, 'کارت', 'cards')}
                       </button>
                     );
                   })}
@@ -504,9 +503,7 @@ const SinglePlayerSetupModal: React.FC<Props> = ({
         <div className="p-3 bg-[var(--panel)] border-t border-[var(--line)] shrink-0">
           {!langsReady && (
             <p className="text-[11px] font-bold text-[var(--vermilion)] text-center mb-2">
-              {isRTL
-                ? `کارت‌های ${!isPracticeReady(settings.targetLanguage) ? currentTargetLangInfo.persianName : currentNativeLangInfo.persianName} هنوز آماده نیست؛ زبان دیگری انتخاب کن.`
-                : `Cards for ${!isPracticeReady(settings.targetLanguage) ? currentTargetLangInfo.name : currentNativeLangInfo.name} are not ready yet; pick another language.`}
+              {txt(isRTL, 'کارت‌های {1} هنوز آماده نیست؛ زبان دیگری انتخاب کن.', 'Cards for {0} are not ready yet; pick another language.', [langName(!isPracticeReady(settings.targetLanguage) ? currentTargetLangInfo : currentNativeLangInfo, isRTL), !isPracticeReady(settings.targetLanguage) ? currentTargetLangInfo.persianName : currentNativeLangInfo.persianName])}
             </p>
           )}
           <button
@@ -516,7 +513,7 @@ const SinglePlayerSetupModal: React.FC<Props> = ({
             className="disabled:opacity-50 disabled:cursor-not-allowed w-full min-h-[46px] py-2.5 rounded-2xl bg-[var(--lapis)] hover:brightness-105 text-[var(--on-lapis)] font-extrabold text-sm shadow-md active:scale-98 transition-all flex items-center justify-center gap-2 cursor-pointer"
           >
             <Play size={16} fill="currentColor" />
-            <span>{isRTL ? 'شروع تمرین هوشمند' : 'Start Practice'}</span>
+            <span>{tx(isRTL, 'شروع تمرین هوشمند', 'Start Practice')}</span>
           </button>
         </div>
       </div>
@@ -539,9 +536,9 @@ const SinglePlayerSetupModal: React.FC<Props> = ({
         mode="single"
         practiceOnly
         title={pickerMode === 'target' 
-          ? (isRTL ? 'انتخاب زبان هدف تمرین' : 'Select Target Practice Language')
-          : (isRTL ? 'انتخاب زبان مادری و راهنما' : 'Select Native Language')}
-        subtitle={isRTL ? `${PRACTICE_READY_LANGUAGES.length.toLocaleString('fa-IR')} زبان آمادهٔ تمرین · بقیه به‌زودی` : `${PRACTICE_READY_LANGUAGES.length} languages ready · more coming soon`}
+          ? (tx(isRTL, 'انتخاب زبان هدف تمرین', 'Select Target Practice Language'))
+          : (tx(isRTL, 'انتخاب زبان مادری و راهنما', 'Select Native Language'))}
+        subtitle={txt(isRTL, '{1} زبان آمادهٔ تمرین · بقیه به‌زودی', '{0} languages ready · more coming soon', [PRACTICE_READY_LANGUAGES.length, PRACTICE_READY_LANGUAGES.length.toLocaleString('fa-IR')])}
         isRTL={isRTL}
       />
     )}

@@ -30,6 +30,7 @@ import { FlagIcon } from '../components/FlagIcon';
 import { SUPPORTED_LANGUAGES } from '../constants';
 import { LanguagePickerModal } from '../components/LanguagePickerModal';
 import { TrainingWheelsHelpSection } from '../components/trainingWheels/TrainingWheelsHelpSection';
+import { tx, txt } from '../i18n/runtime';
 
 const RULES_CHALLENGE_AND_COMBO: Record<string, { challenge: string; combo: string; title: string }> = {
   fa: {
@@ -269,7 +270,7 @@ export const HelpScreen: React.FC<Props> = ({
   return (
     <div 
       className="w-full max-w-md sm:max-w-lg md:max-w-xl mx-auto h-full min-h-0 flex-1 flex flex-col bg-[var(--bg)] overflow-hidden select-none relative font-ui text-[var(--ink)]" 
-      dir={isRTL ? 'rtl' : 'ltr'}
+      dir={((isRTL ? 'rtl' : 'ltr'))}
     >
       {/* Header Panel with Google-style dynamic auto-hide/reveal */}
       <div 
@@ -286,10 +287,10 @@ export const HelpScreen: React.FC<Props> = ({
             </div>
             <div>
               <h2 className="text-base sm:text-lg font-black font-display leading-tight">
-                {isRTL ? 'راهنمای بازی «دور»' : 'Game Guide & Rules'}
+                {tx(isRTL, 'راهنمای بازی «دور»', 'Game Guide & Rules')}
               </h2>
               <p className="text-[11px] text-[var(--mute)] font-medium">
-                {isRTL ? 'معرفی بازی و ۴ سبک جذاب، قوانین و امتیازدهی' : 'Game Introduction, 4 Modes & Rules'}
+                {tx(isRTL, 'معرفی بازی و ۴ سبک جذاب، قوانین و امتیازدهی', 'Game Introduction, 4 Modes & Rules')}
               </p>
             </div>
           </div>
@@ -304,7 +305,7 @@ export const HelpScreen: React.FC<Props> = ({
                   setIsLangPickerOpen(true);
                 }}
                 className="h-9 px-2.5 flex items-center gap-1.5 rounded-full bg-[var(--bg)] hover:bg-[var(--line)]/40 border border-[var(--line)] text-xs font-bold text-[var(--ink)] active:scale-95 transition-all cursor-pointer"
-                title={isRTL ? 'تغییر زبان برنامه' : 'Change App Language'}
+                title={tx(isRTL, 'تغییر زبان برنامه', 'Change App Language')}
               >
                 <FlagIcon language={language} size={16} />
                 <span className="text-[10px] font-extrabold hidden sm:inline">{currentLangInfo.nativeName.split(' ')[0]}</span>
@@ -337,7 +338,7 @@ export const HelpScreen: React.FC<Props> = ({
             }`}
           >
             <Sparkles size={13} />
-            <span>{isRTL ? '۴ سبک بازی' : '4 Game Modes'}</span>
+            <span>{tx(isRTL, '۴ سبک بازی', '4 Game Modes')}</span>
           </button>
 
           <button
@@ -353,7 +354,7 @@ export const HelpScreen: React.FC<Props> = ({
             }`}
           >
             <Target size={13} />
-            <span>{isRTL ? 'سختی پویا' : 'Adaptive'}</span>
+            <span>{tx(isRTL, 'سختی پویا', 'Adaptive')}</span>
           </button>
 
           <button
@@ -369,7 +370,7 @@ export const HelpScreen: React.FC<Props> = ({
             }`}
           >
             <Zap size={13} />
-            <span>{isRTL ? 'قوانین و امتیاز' : 'Rules & Scoring'}</span>
+            <span>{tx(isRTL, 'قوانین و امتیاز', 'Rules & Scoring')}</span>
           </button>
 
           <button
@@ -385,7 +386,7 @@ export const HelpScreen: React.FC<Props> = ({
             }`}
           >
             <span>🚲</span>
-            <span>{isRTL ? 'چرخ‌های کمکی' : 'Training Wheels'}</span>
+            <span>{tx(isRTL, 'چرخ‌های کمکی', 'Training Wheels')}</span>
           </button>
 
           <button
@@ -401,7 +402,7 @@ export const HelpScreen: React.FC<Props> = ({
             }`}
           >
             <ShieldCheck size={13} />
-            <span>{isRTL ? 'امنیت و حریم' : 'Privacy'}</span>
+            <span>{tx(isRTL, 'امنیت و حریم', 'Privacy')}</span>
           </button>
         </div>
       </div>
@@ -419,12 +420,10 @@ export const HelpScreen: React.FC<Props> = ({
           <div className="flex-1 min-w-0">
             <span className="text-[10px] bg-[var(--saffron)] text-[#15204A] px-2 py-0.5 rounded-lg font-black uppercase shadow-xs flex items-center gap-1 w-fit">
               <Zap size={11} className="text-[#15204A] fill-[#15204A]" />
-              <span>{isRTL ? 'راز هیجان و موفقیت در بازی' : 'KEY STRATEGY'}</span>
+              <span>{tx(isRTL, 'راز هیجان و موفقیت در بازی', 'KEY STRATEGY')}</span>
             </span>
             <p className="text-[11.5px] font-bold text-[var(--ink)] leading-normal mt-1">
-              {isRTL 
-                ? 'کلمه را سریع به یارتان برسانید و بدون اتلاف وقت گوشی را به نفر بعد بدهید تا زمان تیم شما حفظ شود!' 
-                : 'Pass the device fast! Every second saved keeps your team ahead on the clock!'}
+              {tx(isRTL, 'کلمه را سریع به یارتان برسانید و بدون اتلاف وقت گوشی را به نفر بعد بدهید تا زمان تیم شما حفظ شود!', 'Pass the device fast! Every second saved keeps your team ahead on the clock!')}
             </p>
           </div>
         </div>
@@ -442,15 +441,15 @@ export const HelpScreen: React.FC<Props> = ({
                   </div>
                   <div>
                     <h3 className="text-sm font-black text-[var(--ink)]">
-                      {isRTL ? '۱. بازی دورهمی تیمی' : '1. Team Party Game'}
+                      {tx(isRTL, '۱. بازی دورهمی تیمی', '1. Team Party Game')}
                     </h3>
                     <span className="text-[10px] text-[var(--mute)] font-bold">
-                      {isRTL ? '۴ تا ۸ بازیکن • چرخش گوشی دور میز' : '4-8 Players • Clockwise Passing'}
+                      {tx(isRTL, '۴ تا ۸ بازیکن • چرخش گوشی دور میز', '4-8 Players • Clockwise Passing')}
                     </span>
                   </div>
                 </div>
                 <span className="px-2 py-0.5 rounded-full text-[10px] font-black bg-blue-500/15 text-blue-600 dark:text-blue-400 border border-blue-500/30">
-                  {isRTL ? 'دورهمی حضوری' : 'Local Party'}
+                  {tx(isRTL, 'دورهمی حضوری', 'Local Party')}
                 </span>
               </div>
 
@@ -498,15 +497,15 @@ export const HelpScreen: React.FC<Props> = ({
               <ul className="text-xs text-[var(--ink)] font-medium space-y-1.5 leading-relaxed bg-[var(--bg)] p-3 rounded-xl border border-[var(--line)]">
                 <li className="flex items-start gap-2">
                   <CheckCircle2 size={14} className="text-blue-500 shrink-0 mt-0.5" />
-                  <span>{isRTL ? 'بازیکنان به تیم‌های ۲ نفره تقسیم می‌شوند و روبروی یکدیگر دور میز می‌نشینند.' : 'Players split into 2-person teams sitting across each other.'}</span>
+                  <span>{tx(isRTL, 'بازیکنان به تیم‌های ۲ نفره تقسیم می‌شوند و روبروی یکدیگر دور میز می‌نشینند.', 'Players split into 2-person teams sitting across each other.')}</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <CheckCircle2 size={14} className="text-blue-500 shrink-0 mt-0.5" />
-                  <span>{isRTL ? 'کلمه هدف را برای یارتان توصیف کنید؛ استفاده از کلمات ممنوعه خطاست!' : 'Describe the prompt without uttering taboo words.'}</span>
+                  <span>{tx(isRTL, 'کلمه هدف را برای یارتان توصیف کنید؛ استفاده از کلمات ممنوعه خطاست!', 'Describe the prompt without uttering taboo words.')}</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <CheckCircle2 size={14} className="text-blue-500 shrink-0 mt-0.5" />
-                  <span>{isRTL ? 'به محض حدس درست، «درست بود!» را بزنید و گوشی را تحویل دهید تا زمان تیم شما متوقف شود.' : 'Press "Correct!" and pass immediately so your team clock stops.'}</span>
+                  <span>{tx(isRTL, 'به محض حدس درست، «درست بود!» را بزنید و گوشی را تحویل دهید تا زمان تیم شما متوقف شود.', 'Press "Correct!" and pass immediately so your team clock stops.')}</span>
                 </li>
               </ul>
             </div>
@@ -520,15 +519,15 @@ export const HelpScreen: React.FC<Props> = ({
                   </div>
                   <div>
                     <h3 className="text-sm font-black text-[var(--ink)]">
-                      {isRTL ? '۲. دوئل دونفره (روی ۱ گوشی یا آنلاین)' : '2. 2-Player Duel (Local & Online)'}
+                      {tx(isRTL, '۲. دوئل دونفره (روی ۱ گوشی یا آنلاین)', '2. 2-Player Duel (Local & Online)')}
                     </h3>
                     <span className="text-[10px] text-[var(--mute)] font-bold">
-                      {isRTL ? '۲ بازیکن • رقابت سرعتی رودررو' : '2 Players • Split-Screen / Online Clash'}
+                      {tx(isRTL, '۲ بازیکن • رقابت سرعتی رودررو', '2 Players • Split-Screen / Online Clash')}
                     </span>
                   </div>
                 </div>
                 <span className="px-2 py-0.5 rounded-full text-[10px] font-black bg-rose-500/15 text-rose-600 dark:text-rose-400 border border-rose-500/30">
-                  {isRTL ? 'دوئل سرعتی' : '1v1 Duel'}
+                  {tx(isRTL, 'دوئل سرعتی', '1v1 Duel')}
                 </span>
               </div>
 
@@ -567,15 +566,15 @@ export const HelpScreen: React.FC<Props> = ({
               <ul className="text-xs text-[var(--ink)] font-medium space-y-1.5 leading-relaxed bg-[var(--bg)] p-3 rounded-xl border border-[var(--line)]">
                 <li className="flex items-start gap-2">
                   <CheckCircle2 size={14} className="text-rose-500 shrink-0 mt-0.5" />
-                  <span>{isRTL ? 'روی ۱ گوشی به صورت روبه‌رو (دو طرف گوشی) یا آنلاین بین ۲ گوشی مستقل.' : 'Face-to-face split-screen on one device or online 2-phone match.'}</span>
+                  <span>{tx(isRTL, 'روی ۱ گوشی به صورت روبه‌رو (دو طرف گوشی) یا آنلاین بین ۲ گوشی مستقل.', 'Face-to-face split-screen on one device or online 2-phone match.')}</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <CheckCircle2 size={14} className="text-rose-500 shrink-0 mt-0.5" />
-                  <span>{isRTL ? 'سرعت عمل کلید پیروزی است: اولین کسی که پاسخ درست را لمس کند امتیاز می‌گیرد.' : 'Reflex showdown: First player to tap the correct choice wins points.'}</span>
+                  <span>{tx(isRTL, 'سرعت عمل کلید پیروزی است: اولین کسی که پاسخ درست را لمس کند امتیاز می‌گیرد.', 'Reflex showdown: First player to tap the correct choice wins points.')}</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <CheckCircle2 size={14} className="text-rose-500 shrink-0 mt-0.5" />
-                  <span>{isRTL ? 'اشتباه زدن باعث قفل کوتاه دکمه‌های همان بازیکن می‌شود تا رقیب فرصت پاسخ داشته باشد.' : 'Wrong taps trigger a brief lockout, giving your rival a window to score.'}</span>
+                  <span>{tx(isRTL, 'اشتباه زدن باعث قفل کوتاه دکمه‌های همان بازیکن می‌شود تا رقیب فرصت پاسخ داشته باشد.', 'Wrong taps trigger a brief lockout, giving your rival a window to score.')}</span>
                 </li>
               </ul>
             </div>
@@ -589,15 +588,15 @@ export const HelpScreen: React.FC<Props> = ({
                   </div>
                   <div>
                     <h3 className="text-sm font-black text-[var(--ink)]">
-                      {isRTL ? '۳. چالش تک‌نفره و تست گفتار' : '3. Single-Player & Speech Challenge'}
+                      {tx(isRTL, '۳. چالش تک‌نفره و تست گفتار', '3. Single-Player & Speech Challenge')}
                     </h3>
                     <span className="text-[10px] text-[var(--mute)] font-bold">
-                      {isRTL ? 'انفرادی • تقویت مکالمه، املا و لیدربرد' : 'Solo • Speech, Spelling & Leaderboard'}
+                      {tx(isRTL, 'انفرادی • تقویت مکالمه، املا و لیدربرد', 'Solo • Speech, Spelling & Leaderboard')}
                     </span>
                   </div>
                 </div>
                 <span className="px-2 py-0.5 rounded-full text-[10px] font-black bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30">
-                  {isRTL ? 'لیدربرد سطح‌بندی‌شده' : 'CEFR Ranked'}
+                  {tx(isRTL, 'لیدربرد سطح‌بندی‌شده', 'CEFR Ranked')}
                 </span>
               </div>
 
@@ -651,15 +650,15 @@ export const HelpScreen: React.FC<Props> = ({
               <ul className="text-xs text-[var(--ink)] font-medium space-y-1.5 leading-relaxed bg-[var(--bg)] p-3 rounded-xl border border-[var(--line)]">
                 <li className="flex items-start gap-2">
                   <CheckCircle2 size={14} className="text-emerald-500 shrink-0 mt-0.5" />
-                  <span>{isRTL ? 'تمرین تلفظ صوتی با میکروفون یا نوشتن املای دقیق عبارات به همراه پخش صدای طبیعی و شمرده.' : 'Practice speaking via microphone or typing answers with natural & slow audio playback.'}</span>
+                  <span>{tx(isRTL, 'تمرین تلفظ صوتی با میکروفون یا نوشتن املای دقیق عبارات به همراه پخش صدای طبیعی و شمرده.', 'Practice speaking via microphone or typing answers with natural & slow audio playback.')}</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <CheckCircle2 size={14} className="text-emerald-500 shrink-0 mt-0.5" />
-                  <span>{isRTL ? 'دکمه راهنمایی هوشمند بالای کارت برای دریافت سرنخ شروع عبارت یا راهنمای تلفظ.' : 'Smart hint button on top of the card for starting words or phonetic pronunciation clues.'}</span>
+                  <span>{tx(isRTL, 'دکمه راهنمایی هوشمند بالای کارت برای دریافت سرنخ شروع عبارت یا راهنمای تلفظ.', 'Smart hint button on top of the card for starting words or phonetic pronunciation clues.')}</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <CheckCircle2 size={14} className="text-emerald-500 shrink-0 mt-0.5" />
-                  <span>{isRTL ? 'حالت کارت شمارشی یا مسابقه زمان‌دار با امتیازدهی متناسب با سطح CEFR و ثبت در لیدربرد.' : 'Card count or timed match mode with CEFR-weighted scoring and leaderboard ranking.'}</span>
+                  <span>{tx(isRTL, 'حالت کارت شمارشی یا مسابقه زمان‌دار با امتیازدهی متناسب با سطح CEFR و ثبت در لیدربرد.', 'Card count or timed match mode with CEFR-weighted scoring and leaderboard ranking.')}</span>
                 </li>
               </ul>
             </div>
@@ -673,15 +672,15 @@ export const HelpScreen: React.FC<Props> = ({
                   </div>
                   <div>
                     <h3 className="text-sm font-black text-[var(--ink)]">
-                      {isRTL ? '۴. جعبه لایتنر ۵ خانه (مرور با فواصل زمانی)' : '4. 5-Box Leitner Spaced Repetition'}
+                      {tx(isRTL, '۴. جعبه لایتنر ۵ خانه (مرور با فواصل زمانی)', '4. 5-Box Leitner Spaced Repetition')}
                     </h3>
                     <span className="text-[10px] text-[var(--mute)] font-bold">
-                      {isRTL ? 'مرور روزانه • ثبت دائمی در حافظه بلندمدت' : 'Daily Review • Long-Term Retention'}
+                      {tx(isRTL, 'مرور روزانه • ثبت دائمی در حافظه بلندمدت', 'Daily Review • Long-Term Retention')}
                     </span>
                   </div>
                 </div>
                 <span className="px-2 py-0.5 rounded-full text-[10px] font-black bg-amber-500/15 text-amber-600 dark:text-amber-400 border border-amber-500/30">
-                  {isRTL ? 'روش علمی لایتنر' : 'Scientific System'}
+                  {tx(isRTL, 'روش علمی لایتنر', 'Scientific System')}
                 </span>
               </div>
 
@@ -691,28 +690,28 @@ export const HelpScreen: React.FC<Props> = ({
                   {/* 5 Boxes */}
                   {/* Box 1 (1 Day) */}
                   <rect x="25" y="45" width="46" height="52" rx="8" fill="#f59e0b" fillOpacity="0.15" stroke="#f59e0b" strokeWidth="1.5" />
-                  <text x="48" y="65" textAnchor="middle" fontSize="9.5" fill="#d97706" fontWeight="black">{isRTL ? 'خانه ۱' : 'Box 1'}</text>
-                  <text x="48" y="80" textAnchor="middle" fontSize="8" fill="var(--mute)" fontWeight="bold">{isRTL ? '۱ روز' : 'Day 1'}</text>
+                  <text x="48" y="65" textAnchor="middle" fontSize="9.5" fill="#d97706" fontWeight="black">{tx(isRTL, 'خانه ۱', 'Box 1')}</text>
+                  <text x="48" y="80" textAnchor="middle" fontSize="8" fill="var(--mute)" fontWeight="bold">{tx(isRTL, '۱ روز', 'Day 1')}</text>
 
                   {/* Box 2 (2 Days) */}
                   <rect x="80" y="40" width="46" height="57" rx="8" fill="#f59e0b" fillOpacity="0.25" stroke="#f59e0b" strokeWidth="1.5" />
-                  <text x="103" y="62" textAnchor="middle" fontSize="9.5" fill="#d97706" fontWeight="black">{isRTL ? 'خانه ۲' : 'Box 2'}</text>
-                  <text x="103" y="77" textAnchor="middle" fontSize="8" fill="var(--mute)" fontWeight="bold">{isRTL ? '۲ روز' : 'Day 2'}</text>
+                  <text x="103" y="62" textAnchor="middle" fontSize="9.5" fill="#d97706" fontWeight="black">{tx(isRTL, 'خانه ۲', 'Box 2')}</text>
+                  <text x="103" y="77" textAnchor="middle" fontSize="8" fill="var(--mute)" fontWeight="bold">{tx(isRTL, '۲ روز', 'Day 2')}</text>
 
                   {/* Box 3 (4 Days) */}
                   <rect x="135" y="35" width="46" height="62" rx="8" fill="#f59e0b" fillOpacity="0.35" stroke="#f59e0b" strokeWidth="1.5" />
-                  <text x="158" y="58" textAnchor="middle" fontSize="9.5" fill="#d97706" fontWeight="black">{isRTL ? 'خانه ۳' : 'Box 3'}</text>
-                  <text x="158" y="73" textAnchor="middle" fontSize="8" fill="var(--mute)" fontWeight="bold">{isRTL ? '۴ روز' : 'Day 4'}</text>
+                  <text x="158" y="58" textAnchor="middle" fontSize="9.5" fill="#d97706" fontWeight="black">{tx(isRTL, 'خانه ۳', 'Box 3')}</text>
+                  <text x="158" y="73" textAnchor="middle" fontSize="8" fill="var(--mute)" fontWeight="bold">{tx(isRTL, '۴ روز', 'Day 4')}</text>
 
                   {/* Box 4 (8 Days) */}
                   <rect x="190" y="30" width="46" height="67" rx="8" fill="#f59e0b" fillOpacity="0.45" stroke="#f59e0b" strokeWidth="1.5" />
-                  <text x="213" y="54" textAnchor="middle" fontSize="9.5" fill="#b45309" fontWeight="black">{isRTL ? 'خانه ۴' : 'Box 4'}</text>
-                  <text x="213" y="69" textAnchor="middle" fontSize="8" fill="var(--mute)" fontWeight="bold">{isRTL ? '۸ روز' : 'Day 8'}</text>
+                  <text x="213" y="54" textAnchor="middle" fontSize="9.5" fill="#b45309" fontWeight="black">{tx(isRTL, 'خانه ۴', 'Box 4')}</text>
+                  <text x="213" y="69" textAnchor="middle" fontSize="8" fill="var(--mute)" fontWeight="bold">{tx(isRTL, '۸ روز', 'Day 8')}</text>
 
                   {/* Box 5 (16 Days) */}
                   <rect x="245" y="25" width="48" height="72" rx="8" fill="#f59e0b" fillOpacity="0.6" stroke="#f59e0b" strokeWidth="2" />
-                  <text x="269" y="50" textAnchor="middle" fontSize="9.5" fill="#15204A" fontWeight="black">{isRTL ? 'خانه ۵' : 'Box 5'}</text>
-                  <text x="269" y="65" textAnchor="middle" fontSize="8" fill="#15204A" fontWeight="bold">{isRTL ? '۱۶ روز' : 'Day 16'}</text>
+                  <text x="269" y="50" textAnchor="middle" fontSize="9.5" fill="#15204A" fontWeight="black">{tx(isRTL, 'خانه ۵', 'Box 5')}</text>
+                  <text x="269" y="65" textAnchor="middle" fontSize="8" fill="#15204A" fontWeight="bold">{tx(isRTL, '۱۶ روز', 'Day 16')}</text>
 
                   {/* Flat Mastery Check Badge */}
                   <circle cx="269" cy="15" r="9" fill="#10b981" />
@@ -728,15 +727,15 @@ export const HelpScreen: React.FC<Props> = ({
               <ul className="text-xs text-[var(--ink)] font-medium space-y-1.5 leading-relaxed bg-[var(--bg)] p-3 rounded-xl border border-[var(--line)]">
                 <li className="flex items-start gap-2">
                   <CheckCircle2 size={14} className="text-amber-500 shrink-0 mt-0.5" />
-                  <span>{isRTL ? 'بر پایه فواصل زمانی علمی: مرور در روزهای ۱، ۲، ۴، ۸ و ۱۶ برای تثبیت دائمی.' : 'Spaced interval schedule: Reviews on days 1, 2, 4, 8, and 16.'}</span>
+                  <span>{tx(isRTL, 'بر پایه فواصل زمانی علمی: مرور در روزهای ۱، ۲، ۴، ۸ و ۱۶ برای تثبیت دائمی.', 'Spaced interval schedule: Reviews on days 1, 2, 4, 8, and 16.')}</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <CheckCircle2 size={14} className="text-amber-500 shrink-0 mt-0.5" />
-                  <span>{isRTL ? 'پاسخ درست، کارت را به خانه بالاتر می‌برد؛ پاسخ اشتباه آن را برای مرور مجدد به خانه اول بازمی‌گرداند.' : 'Correct answers promote cards; mistakes return them to Box 1 for retraining.'}</span>
+                  <span>{tx(isRTL, 'پاسخ درست، کارت را به خانه بالاتر می‌برد؛ پاسخ اشتباه آن را برای مرور مجدد به خانه اول بازمی‌گرداند.', 'Correct answers promote cards; mistakes return them to Box 1 for retraining.')}</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <CheckCircle2 size={14} className="text-amber-500 shrink-0 mt-0.5" />
-                  <span>{isRTL ? 'کارت‌های خانه ۵ پس از موفقیت به مقام تسلط کامل (Mastered) فارغ‌التحصیل می‌شوند.' : 'Cards clearing Box 5 graduate to permanent mastery status.'}</span>
+                  <span>{tx(isRTL, 'کارت‌های خانه ۵ پس از موفقیت به مقام تسلط کامل (Mastered) فارغ‌التحصیل می‌شوند.', 'Cards clearing Box 5 graduate to permanent mastery status.')}</span>
                 </li>
               </ul>
             </div>
@@ -751,15 +750,13 @@ export const HelpScreen: React.FC<Props> = ({
             <div className="bg-[var(--panel)] p-4 rounded-2xl border border-[var(--line)] shadow-xs">
               <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-xl bg-teal-500/15 text-[var(--turq)] text-xs font-black mb-2">
                 <Target size={14} />
-                <span>{isRTL ? 'موتور سختی پویا «نزدیکی به تسلط»' : 'Mastery Proximity Adaptive Engine'}</span>
+                <span>{tx(isRTL, 'موتور سختی پویا «نزدیکی به تسلط»', 'Mastery Proximity Adaptive Engine')}</span>
               </div>
               <h3 className="text-base font-black text-[var(--ink)] leading-snug">
-                {isRTL ? 'بازی چطور با توانایی و سطح شما هماهنگ می‌شود؟' : 'How the game continuously adapts to your skill'}
+                {tx(isRTL, 'بازی چطور با توانایی و سطح شما هماهنگ می‌شود؟', 'How the game continuously adapts to your skill')}
               </h3>
               <p className="text-xs text-[var(--mute)] leading-relaxed mt-1">
-                {isRTL
-                  ? 'برخلاف بازی‌های سنتی که سختی را پنهانی برای فروش جان تغییر می‌دهند، در «دور: زبان» هدف موتور حفظ شما در «ناحیه طلایی یادگیری» (حدود ۸۰٪ موفقیت بر پایه مقالات نیچر) است. همه چیز شفاف است و هیچ مجازاتی وجود ندارد.'
-                  : 'Unlike games that secretly manipulate difficulty to sell continues, our engine keeps you in the optimal flow band (~80% success rate based on Nature research). Everything is transparent and penalty-free.'}
+                {tx(isRTL, 'برخلاف بازی‌های سنتی که سختی را پنهانی برای فروش جان تغییر می‌دهند، در «دور: زبان» هدف موتور حفظ شما در «ناحیه طلایی یادگیری» (حدود ۸۰٪ موفقیت بر پایه مقالات نیچر) است. همه چیز شفاف است و هیچ مجازاتی وجود ندارد.', 'Unlike games that secretly manipulate difficulty to sell continues, our engine keeps you in the optimal flow band (~80% success rate based on Nature research). Everything is transparent and penalty-free.')}
               </p>
             </div>
 
@@ -767,7 +764,7 @@ export const HelpScreen: React.FC<Props> = ({
             <div className="bg-[var(--panel)] p-4 rounded-2xl border border-[var(--line)] shadow-xs space-y-3">
               <h4 className="text-xs font-black text-[var(--ink)] flex items-center gap-1.5">
                 <Sparkles size={14} className="text-[var(--lapis)]" />
-                <span>{isRTL ? '۳ نشانگر روی هر کارت چه معنایی دارند؟' : 'The 3 Visible Card Indicators'}</span>
+                <span>{tx(isRTL, '۳ نشانگر روی هر کارت چه معنایی دارند؟', 'The 3 Visible Card Indicators')}</span>
               </h4>
 
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 text-xs">
@@ -777,9 +774,7 @@ export const HelpScreen: React.FC<Props> = ({
                     <span>🌱 مرور (Review)</span>
                   </div>
                   <p className="text-[11px] text-[var(--ink)] leading-relaxed">
-                    {isRTL
-                      ? 'کارت‌هایی که قبلاً یاد گرفته‌اید یا کارت‌های تثبیت و نجات. هدف آن بازیابی آسان، مرور در زمان مناسب (FSRS) و بالا بردن اعتمادبه‌نفس شماست.'
-                      : 'Previously seen or rescue cards. Designed for easy recall and confidence building.'}
+                    {tx(isRTL, 'کارت‌هایی که قبلاً یاد گرفته‌اید یا کارت‌های تثبیت و نجات. هدف آن بازیابی آسان، مرور در زمان مناسب (FSRS) و بالا بردن اعتمادبه‌نفس شماست.', 'Previously seen or rescue cards. Designed for easy recall and confidence building.')}
                   </p>
                 </div>
 
@@ -789,9 +784,7 @@ export const HelpScreen: React.FC<Props> = ({
                     <span>⚖️ متعادل (Balanced)</span>
                   </div>
                   <p className="text-[11px] text-[var(--ink)] leading-relaxed">
-                    {isRTL
-                      ? 'کارت‌های متناسب با سطح تخمینی شما (ناحیه ۷۰ تا ۹۰٪). نه خیلی ساده و نه خسته‌کننده؛ دقیقاً در نقطه‌ای که مغز بیشترین یادگیری را تجربه می‌کند.'
-                      : 'Cards matching your estimated ability in the flow band (70–90% success).'}
+                    {tx(isRTL, 'کارت‌های متناسب با سطح تخمینی شما (ناحیه ۷۰ تا ۹۰٪). نه خیلی ساده و نه خسته‌کننده؛ دقیقاً در نقطه‌ای که مغز بیشترین یادگیری را تجربه می‌کند.', 'Cards matching your estimated ability in the flow band (70–90% success).')}
                   </p>
                 </div>
 
@@ -801,9 +794,7 @@ export const HelpScreen: React.FC<Props> = ({
                     <span>🔥 چالش (Challenge)</span>
                   </div>
                   <p className="text-[11px] text-[var(--ink)] leading-relaxed">
-                    {isRTL
-                      ? 'کارت‌های کمی بالاتر یا تمرین‌های تولیدی. در صورت پاسخ درست امتیاز بیشتری دارند و در صورت اشتباه یا رد کردن، هیچ جریمه و کسر امتیازی ندارند!'
-                      : 'Stretch cards for growth. Higher reward when correct, zero penalty on miss or skip!'}
+                    {tx(isRTL, 'کارت‌های کمی بالاتر یا تمرین‌های تولیدی. در صورت پاسخ درست امتیاز بیشتری دارند و در صورت اشتباه یا رد کردن، هیچ جریمه و کسر امتیازی ندارند!', 'Stretch cards for growth. Higher reward when correct, zero penalty on miss or skip!')}
                   </p>
                 </div>
               </div>
@@ -813,18 +804,16 @@ export const HelpScreen: React.FC<Props> = ({
             <div className="bg-[var(--panel)] p-4 rounded-2xl border border-[var(--line)] shadow-xs space-y-2.5 text-xs">
               <h4 className="font-black text-[var(--ink)] flex items-center gap-1.5">
                 <CheckCircle2 size={14} className="text-emerald-500" />
-                <span>{isRTL ? 'اصول اخلاقی و علمی بازی' : 'Ethical & Scientific Principles'}</span>
+                <span>{tx(isRTL, 'اصول اخلاقی و علمی بازی', 'Ethical & Scientific Principles')}</span>
               </h4>
 
               <div className="space-y-2">
                 <div className="p-2.5 rounded-xl bg-[var(--bg)] border border-[var(--line)] flex items-start gap-2">
                   <span className="text-base shrink-0">🛡️</span>
                   <div>
-                    <strong className="text-[var(--ink)] block">{isRTL ? 'بدون «جان» و بدون مجازات' : 'Zero Penalties & No Lives'}</strong>
+                    <strong className="text-[var(--ink)] block">{tx(isRTL, 'بدون «جان» و بدون مجازات', 'Zero Penalties & No Lives')}</strong>
                     <span className="text-[11px] text-[var(--mute)] leading-relaxed">
-                      {isRTL
-                        ? 'شکست هرگز چیزی را قفل نمی‌کند. کلمه‌ای که پاسخ ندهید، چند کارت بعد با راهنمای بیشتر دوباره ظاهر می‌شود تا به تسلط برسید.'
-                        : 'Misses never lock features. Missed words re-appear 3–5 cards later with scaffolding.'}
+                      {tx(isRTL, 'شکست هرگز چیزی را قفل نمی‌کند. کلمه‌ای که پاسخ ندهید، چند کارت بعد با راهنمای بیشتر دوباره ظاهر می‌شود تا به تسلط برسید.', 'Misses never lock features. Missed words re-appear 3–5 cards later with scaffolding.')}
                     </span>
                   </div>
                 </div>
@@ -832,11 +821,9 @@ export const HelpScreen: React.FC<Props> = ({
                 <div className="p-2.5 rounded-xl bg-[var(--bg)] border border-[var(--line)] flex items-start gap-2">
                   <span className="text-base shrink-0">🏁</span>
                   <div>
-                    <strong className="text-[var(--ink)] block">{isRTL ? 'پایان روی برد (قانون اوج-پایان)' : 'Peak-End Rule (End on a Win)'}</strong>
+                    <strong className="text-[var(--ink)] block">{tx(isRTL, 'پایان روی برد (قانون اوج-پایان)', 'Peak-End Rule (End on a Win)')}</strong>
                     <span className="text-[11px] text-[var(--mute)] leading-relaxed">
-                      {isRTL
-                        ? 'آخرین کارت هر جلسه و هر نوبت طوری تنظیم می‌شود که با موفقیت و احساس تسلط جلسه را به پایان ببرید.'
-                        : 'The final card of every session or turn is calibrated for high success to leave you energized.'}
+                      {tx(isRTL, 'آخرین کارت هر جلسه و هر نوبت طوری تنظیم می‌شود که با موفقیت و احساس تسلط جلسه را به پایان ببرید.', 'The final card of every session or turn is calibrated for high success to leave you energized.')}
                     </span>
                   </div>
                 </div>
@@ -844,11 +831,9 @@ export const HelpScreen: React.FC<Props> = ({
                 <div className="p-2.5 rounded-xl bg-[var(--bg)] border border-[var(--line)] flex items-start gap-2">
                   <span className="text-base shrink-0">⚖️</span>
                   <div>
-                    <strong className="text-[var(--ink)] block">{isRTL ? 'امتیاز منصفانه در بازی دو نفره و گروهی' : 'Fair Scoring for Mixed Levels'}</strong>
+                    <strong className="text-[var(--ink)] block">{tx(isRTL, 'امتیاز منصفانه در بازی دو نفره و گروهی', 'Fair Scoring for Mixed Levels')}</strong>
                     <span className="text-[11px] text-[var(--mute)] leading-relaxed">
-                      {isRTL
-                        ? 'امتیاز هر کارت با سطح سختی‌اش سنجیده می‌شود؛ بنابراین بازیکن A1 در مقابل C1 شانس برد ۴۸٪ دارد و برنده کسی است که بهتر از انتظار سطح خودش ظاهر شود.'
-                        : 'Math-balanced scoring allows beginners (A1) and advanced (C1) players to compete fairly.'}
+                      {tx(isRTL, 'امتیاز هر کارت با سطح سختی‌اش سنجیده می‌شود؛ بنابراین بازیکن A1 در مقابل C1 شانس برد ۴۸٪ دارد و برنده کسی است که بهتر از انتظار سطح خودش ظاهر شود.', 'Math-balanced scoring allows beginners (A1) and advanced (C1) players to compete fairly.')}
                     </span>
                   </div>
                 </div>
@@ -856,11 +841,9 @@ export const HelpScreen: React.FC<Props> = ({
                 <div className="p-2.5 rounded-xl bg-[var(--bg)] border border-[var(--line)] flex items-start gap-2">
                   <span className="text-base shrink-0">🔒</span>
                   <div>
-                    <strong className="text-[var(--ink)] block">{isRTL ? 'حفظ کامل حریم خصوصی' : '100% On-Device & Private'}</strong>
+                    <strong className="text-[var(--ink)] block">{tx(isRTL, 'حفظ کامل حریم خصوصی', '100% On-Device & Private')}</strong>
                     <span className="text-[11px] text-[var(--mute)] leading-relaxed">
-                      {isRTL
-                        ? 'تمام ارزیابی‌ها در مرورگر و دستگاه شما ذخیره می‌شود. هیچ سیستم پولی یا تبلیغاتی به توانایی شما دسترسی ندارد.'
-                        : 'Engine runs entirely client-side. No monetization system can read your learning ability.'}
+                      {tx(isRTL, 'تمام ارزیابی‌ها در مرورگر و دستگاه شما ذخیره می‌شود. هیچ سیستم پولی یا تبلیغاتی به توانایی شما دسترسی ندارد.', 'Engine runs entirely client-side. No monetization system can read your learning ability.')}
                     </span>
                   </div>
                 </div>
@@ -876,12 +859,10 @@ export const HelpScreen: React.FC<Props> = ({
             <section className="bg-[var(--panel)] p-3.5 rounded-2xl border border-[var(--line)] shadow-xs relative">
               <div className="bg-[var(--lapis)] inline-flex items-center gap-1.5 font-bold text-white px-2.5 py-1 text-xs rounded-xl shadow-xs mb-2">
                 <Sparkles size={13} className="text-white" />
-                <span>{isRTL ? 'نحوه چرخش نوبت‌ها' : 'Turn Rotation Rules'}</span>
+                <span>{tx(isRTL, 'نحوه چرخش نوبت‌ها', 'Turn Rotation Rules')}</span>
               </div>
               <p className="text-xs font-medium text-[var(--ink)] leading-relaxed bg-[var(--bg)] p-3 border border-[var(--line)] rounded-xl">
-                {isRTL 
-                  ? 'گوشی در جهت عقربه‌های ساعت بین بازیکنان دست‌به‌دست می‌شود. در نوبت خود کلمه را برای یارتان توصیف کنید بدون گفتن خود کلمه یا ریشه مستقیم آن.'
-                  : 'The device moves clockwise around the table. Describe the prompt to your partner without uttering root or forbidden words.'}
+                {tx(isRTL, 'گوشی در جهت عقربه‌های ساعت بین بازیکنان دست‌به‌دست می‌شود. در نوبت خود کلمه را برای یارتان توصیف کنید بدون گفتن خود کلمه یا ریشه مستقیم آن.', 'The device moves clockwise around the table. Describe the prompt to your partner without uttering root or forbidden words.')}
               </p>
             </section>
 
@@ -889,12 +870,10 @@ export const HelpScreen: React.FC<Props> = ({
             <section className="bg-[var(--panel)] p-3.5 rounded-2xl border border-[var(--line)] shadow-xs relative">
               <div className="bg-[var(--saffron)] inline-flex items-center gap-1.5 font-black text-[#15204A] px-2.5 py-1 text-xs rounded-xl shadow-xs mb-2">
                 <Trophy size={13} className="text-[#15204A]" />
-                <span>{isRTL ? 'امتیازدهی و بمب زمان' : 'Scoring & Time Bomb'}</span>
+                <span>{tx(isRTL, 'امتیازدهی و بمب زمان', 'Scoring & Time Bomb')}</span>
               </div>
               <p className="text-xs font-medium text-[var(--ink)] leading-relaxed bg-[var(--bg)] p-3 border border-[var(--line)] rounded-xl">
-                {isRTL 
-                  ? 'با هر حدس درست، دکمه «درست بود!» را لمس کرده و بلافاصله گوشی را به نفر بعد تحویل دهید. هر تیمی که زمانش زودتر تمام شود، امتیاز آن راند به تیم رقیب می‌رسد.'
-                  : 'Tap "Correct!" on right guesses and hand off the device immediately. If your team timer hits zero, the round goes to rivals.'}
+                {tx(isRTL, 'با هر حدس درست، دکمه «درست بود!» را لمس کرده و بلافاصله گوشی را به نفر بعد تحویل دهید. هر تیمی که زمانش زودتر تمام شود، امتیاز آن راند به تیم رقیب می‌رسد.', 'Tap "Correct!" on right guesses and hand off the device immediately. If your team timer hits zero, the round goes to rivals.')}
               </p>
             </section>
 
@@ -902,12 +881,10 @@ export const HelpScreen: React.FC<Props> = ({
             <section className="bg-[var(--panel)] p-3.5 rounded-2xl border border-[var(--line)] shadow-xs relative">
               <div className="bg-[var(--teal)] inline-flex items-center gap-1.5 font-bold text-white px-2.5 py-1 text-xs rounded-xl shadow-xs mb-2">
                 <Layers size={13} className="text-white" />
-                <span>{isRTL ? 'ضرایب امتیاز بر اساس سطح دشواری کارت‌ها' : 'CEFR Difficulty Weighting'}</span>
+                <span>{tx(isRTL, 'ضرایب امتیاز بر اساس سطح دشواری کارت‌ها', 'CEFR Difficulty Weighting')}</span>
               </div>
               <p className="text-xs font-medium text-[var(--ink)] leading-relaxed bg-[var(--bg)] p-3 border border-[var(--line)] rounded-xl">
-                {isRTL 
-                  ? 'در چالش تک‌نفره، امتیاز هر پاسخ بر اساس سطح کارت (A1 تا C1) ضرب می‌شود: کارت‌های پیشرفته‌تر (B2 و C1) امتیاز بسیار بالاتری دارند و رتبه شما را در لیدربرد جهش می‌دهند.'
-                  : 'In single player, points scale with card CEFR difficulty: A1 (1.0x), A2 (1.35x), B1 (1.8x), B2 (2.4x), C1 (3.2x), boosting your leaderboard rank.'}
+                {tx(isRTL, 'در چالش تک‌نفره، امتیاز هر پاسخ بر اساس سطح کارت (A1 تا C1) ضرب می‌شود: کارت‌های پیشرفته‌تر (B2 و C1) امتیاز بسیار بالاتری دارند و رتبه شما را در لیدربرد جهش می‌دهند.', 'In single player, points scale with card CEFR difficulty: A1 (1.0x), A2 (1.35x), B1 (1.8x), B2 (2.4x), C1 (3.2x), boosting your leaderboard rank.')}
               </p>
             </section>
 
@@ -944,15 +921,13 @@ export const HelpScreen: React.FC<Props> = ({
             <section className="bg-[var(--panel)] p-3.5 rounded-2xl border border-[var(--line)] shadow-xs relative">
               <div className="bg-[var(--lapis)] inline-flex items-center gap-1.5 font-bold text-white px-2.5 py-1 text-xs rounded-xl shadow-xs mb-2">
                 <Globe size={13} className="text-white" />
-                <span>{isRTL ? 'زبان پیش‌فرض و تشخیص سیستم' : 'Default Language Detection'}</span>
+                <span>{tx(isRTL, 'زبان پیش‌فرض و تشخیص سیستم', 'Default Language Detection')}</span>
               </div>
               <p className="text-xs font-medium text-[var(--ink)] leading-relaxed bg-[var(--bg)] p-3 border border-[var(--line)] rounded-xl mb-2.5">
-                {isRTL 
-                  ? 'برنامه به صورت هوشمند زبان سیستم‌عامل کاربر را بررسی کرده و زبان رابط کاربری را هماهنگ می‌سازد. در صورت عدم تطابق، زبان پیش‌فرض انگلیسی آمریکایی است و هر زمان با زدن روی آیکون پرچم بالای صفحه می‌توانید زبان را تغییر دهید.'
-                  : 'The app checks your system language and sets the interface accordingly. By default, it uses US English, and you can switch to any language using the flag icon on top.'}
+                {tx(isRTL, 'برنامه به صورت هوشمند زبان سیستم‌عامل کاربر را بررسی کرده و زبان رابط کاربری را هماهنگ می‌سازد. در صورت عدم تطابق، زبان پیش‌فرض انگلیسی آمریکایی است و هر زمان با زدن روی آیکون پرچم بالای صفحه می‌توانید زبان را تغییر دهید.', 'The app checks your system language and sets the interface accordingly. By default, it uses US English, and you can switch to any language using the flag icon on top.')}
               </p>
               <div className="flex items-center justify-between p-2.5 bg-[var(--bg)] rounded-xl border border-[var(--line)] text-xs font-bold">
-                <span>{isRTL ? 'زبان فعلی فعال:' : 'Active App Language:'}</span>
+                <span>{tx(isRTL, 'زبان فعلی فعال:', 'Active App Language:')}</span>
                 <span className="flex items-center gap-1.5 text-[var(--lapis)]">
                   <FlagIcon language={language} size={16} />
                   <span>{currentLangInfo.nativeName}</span>
@@ -964,12 +939,10 @@ export const HelpScreen: React.FC<Props> = ({
             <section className="bg-[var(--panel)] p-3.5 rounded-2xl border border-[var(--line)] shadow-xs relative overflow-hidden">
               <div className="bg-[var(--turq)] inline-flex items-center gap-1.5 font-bold text-white px-2.5 py-1 text-xs rounded-xl shadow-xs mb-2">
                 <ShieldCheck size={13} className="text-white" />
-                <span>{isRTL ? 'حریم خصوصی و پردازش صدا' : 'Privacy & Voice Security'}</span>
+                <span>{tx(isRTL, 'حریم خصوصی و پردازش صدا', 'Privacy & Voice Security')}</span>
               </div>
               <p className="text-xs font-medium text-[var(--ink)] leading-relaxed bg-[var(--bg)] p-3 border border-[var(--line)] rounded-xl mb-2.5">
-                {isRTL 
-                  ? 'اطلاعات شما با بالاترین استانداردهای امنیتی محافظت می‌شود. هیچ صدای ضبط‌شده‌ای در سرور ذخیره نمی‌شود و پردازش صدا مستقیماً روی دستگاه انجام می‌شود. تشخیص صوت توسط سرویس گفتار مرورگر پردازش می‌شود و به اتصال اینترنت نیاز دارد.' 
-                  : 'Your voice data is processed securely on-device. No recordings are retained or transmitted to external servers. Speech recognition is processed by the browser\'s speech service and needs internet.'}
+                {tx(isRTL, 'اطلاعات شما با بالاترین استانداردهای امنیتی محافظت می‌شود. هیچ صدای ضبط‌شده‌ای در سرور ذخیره نمی‌شود و پردازش صدا مستقیماً روی دستگاه انجام می‌شود. تشخیص صوت توسط سرویس گفتار مرورگر پردازش می‌شود و به اتصال اینترنت نیاز دارد.', 'Your voice data is processed securely on-device. No recordings are retained or transmitted to external servers. Speech recognition is processed by the browser\'s speech service and needs internet.')}
               </p>
               <a
                 href="./privacy.html"
@@ -977,7 +950,7 @@ export const HelpScreen: React.FC<Props> = ({
                 rel="noopener noreferrer"
                 className="w-full py-2 px-3 bg-[var(--lapis-soft)] text-[var(--lapis)] hover:bg-[var(--lapis)] hover:text-white rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 transition-all text-center"
               >
-                <span>{isRTL ? 'مشاهده متن کامل سیاست حریم خصوصی' : 'Read Full Privacy Policy'}</span>
+                <span>{tx(isRTL, 'مشاهده متن کامل سیاست حریم خصوصی', 'Read Full Privacy Policy')}</span>
                 <ExternalLink size={13} />
               </a>
             </section>
@@ -994,7 +967,7 @@ export const HelpScreen: React.FC<Props> = ({
           className="absolute bottom-2 left-1/2 -translate-x-1/2 z-30 px-3 py-1 bg-[var(--ink)] text-[var(--saffron)] border border-[var(--line)] rounded-full text-[11px] font-bold shadow-lg flex items-center gap-1 backdrop-blur-xs animate-pulse font-ui cursor-pointer"
         >
           <ChevronUp size={14} />
-          <span>{t.resume || (isRTL ? 'ادامه' : 'Resume')}</span>
+          <span>{t.resume || (tx(isRTL, 'ادامه', 'Resume'))}</span>
         </button>
       )}
 
@@ -1011,7 +984,7 @@ export const HelpScreen: React.FC<Props> = ({
             onClick={handleClose} 
             className="start-btn w-full"
           >
-            <span>{t?.resume || (isRTL ? 'بازگشت به بازی' : 'Back to Game')}</span>
+            <span>{t?.resume || (tx(isRTL, 'بازگشت به بازی', 'Back to Game'))}</span>
             <Zap size={18} />
           </button>
         </div>
@@ -1028,8 +1001,8 @@ export const HelpScreen: React.FC<Props> = ({
             setIsLangPickerOpen(false);
           }}
           mode="single"
-          title={isRTL ? 'انتخاب زبان برنامه' : 'Select App Language'}
-          subtitle={isRTL ? 'تغییر زبان رابط کاربری' : 'Switch UI Language'}
+          title={tx(isRTL, 'انتخاب زبان برنامه', 'Select App Language')}
+          subtitle={tx(isRTL, 'تغییر زبان رابط کاربری', 'Switch UI Language')}
           isRTL={isRTL}
         />
       )}

@@ -44,6 +44,7 @@ import {
 } from 'lucide-react';
 import { AICoachChatModal } from '../components/AICoachChatModal';
 import CardImage from '../components/CardImage';
+import { tx, txt, formatDate, getUiLanguage, langName } from '../i18n/runtime';
 
 interface UndoSnapshot {
   activePlayerIndex: number;
@@ -329,7 +330,7 @@ const GameplayScreen: React.FC<Props> = ({
 
       const entry: GameHistoryEntry = {
         id: Date.now().toString(),
-        date: new Date().toLocaleDateString(language === 'fa' ? 'fa-IR' : 'en-US'),
+        date: formatDate(new Date(), language),
         players: players.map(p => p.name),
         winnerColor: winnerColor as any,
         winnerNames: winnerNames,
@@ -400,15 +401,13 @@ const GameplayScreen: React.FC<Props> = ({
 
     // Bonus notification banner
     if (isCurrentCardChallenge) {
-      const note = isRTL 
-        ? '⭐ آفرین! پاسخ عالی به کارت چالش (+۲ امتیاز تشویقی)' 
-        : `⭐ Great job! Challenge card answered (+2 Bonus ${t.pointsUnit || 'PTS'})`;
+      const note = txt(isRTL, '⭐ آفرین! پاسخ عالی به کارت چالش (+۲ امتیاز تشویقی)', '⭐ Great job! Challenge card answered (+2 Bonus {0})', [t.pointsUnit || 'PTS']);
       setBonusNotification(note);
       setTimeout(() => setBonusNotification(null), 2000);
     } else if (currentCard?.isGolden || isSpeedBonus || streakCount >= 2) {
       const note = currentCard?.isGolden 
-        ? '🌟 کارت طلایی! (۲ برابر امتیاز)' 
-        : isSpeedBonus ? '⚡ پاداش سرعت! (+۱ امتیاز)' : `🔥 x${streakCount + 1}`;
+        ? tx(isRTL, '🌟 کارت طلایی! (۲ برابر امتیاز)', '🌟 Golden card! (2x points)')
+        : isSpeedBonus ? tx(isRTL, '⚡ پاداش سرعت! (+۱ امتیاز)', '⚡ Speed bonus! (+1 point)') : `🔥 x${streakCount + 1}`;
       setBonusNotification(note);
       setTimeout(() => setBonusNotification(null), 1500);
     }
@@ -495,9 +494,7 @@ const GameplayScreen: React.FC<Props> = ({
         if (activeTeamId !== undefined) {
           setTeamChallengesInRound(prev => ({ ...prev, [activeTeamId]: (prev[activeTeamId] || 0) + 1 }));
         }
-        const note = isRTL 
-          ? '🛡️ کارت چالش بدون امتیاز منفی رد شد! (برای یادگیری و تکرار ذخیره شد)' 
-          : '🛡️ Challenge card skipped with 0 penalty! (Saved for review)';
+        const note = tx(isRTL, '🛡️ کارت چالش بدون امتیاز منفی رد شد! (برای یادگیری و تکرار ذخیره شد)', '🛡️ Challenge card skipped with 0 penalty! (Saved for review)');
         setBonusNotification(note);
         setTimeout(() => setBonusNotification(null), 2500);
       }
@@ -557,12 +554,12 @@ const GameplayScreen: React.FC<Props> = ({
 
     if (type === 'time') {
       setRoundTimer(prev => prev + 10000);
-      setBonusNotification(isRTL ? '⏱️ ۱۰+ ثانیه زمان اضافه شد!' : '⏱️ +10s Time Added!');
+      setBonusNotification(tx(isRTL, '⏱️ ۱۰+ ثانیه زمان اضافه شد!', '⏱️ +10s Time Added!'));
       setTimeout(() => setBonusNotification(null), 1500);
       setPowerCardsUsed(prev => [...prev, 'time']);
     } else if (type === 'hint') {
       setShowHint(true);
-      setBonusNotification(isRTL ? '💡 راهنما فعال شد!' : '💡 Hint Activated!');
+      setBonusNotification(tx(isRTL, '💡 راهنما فعال شد!', '💡 Hint Activated!'));
       setTimeout(() => setBonusNotification(null), 1500);
     }
   };
@@ -610,7 +607,7 @@ const GameplayScreen: React.FC<Props> = ({
   }
 
   return (
-    <div className="w-full max-w-md sm:max-w-xl md:max-w-2xl lg:max-w-3xl mx-auto h-full max-h-[100dvh] min-h-0 flex-1 flex flex-col justify-between p-2 sm:p-2.5 select-none relative overflow-hidden bg-[var(--bg)] text-[var(--ink)] font-ui" dir={isRTL ? 'rtl' : 'ltr'}>
+    <div className="w-full max-w-md sm:max-w-xl md:max-w-2xl lg:max-w-3xl mx-auto h-full max-h-[100dvh] min-h-0 flex-1 flex flex-col justify-between p-2 sm:p-2.5 select-none relative overflow-hidden bg-[var(--bg)] text-[var(--ink)] font-ui" dir={((isRTL ? 'rtl' : 'ltr'))}>
       
       {/* Turn Change Flash Banner */}
       {turnFlash && (
@@ -620,7 +617,7 @@ const GameplayScreen: React.FC<Props> = ({
         >
           <Zap size={18} color="#1a0833" fill="#1a0833" />
           <span className="font-black text-sm text-[#1a0833] uppercase">
-            {language === 'fa' ? `نوبت: ${turnFlash.playerName}!` : `TURN: ${turnFlash.playerName}!`}
+            {txt((language === 'fa'), 'نوبت: {0}!', 'TURN: {0}!', [turnFlash.playerName])}
           </span>
         </div>
       )}
@@ -644,9 +641,7 @@ const GameplayScreen: React.FC<Props> = ({
           <div className="hidden xs:flex items-center gap-1 bg-[var(--bg)] text-[var(--mute)] px-2 py-1 rounded-xl border border-[var(--line)] font-semibold text-[11px]">
             <Users size={12} className="text-[var(--lapis)]" />
             <span>
-              {isRTL 
-                ? `نوبت ${activePlayerIndex + 1}/${players.length}`
-                : `Turn ${activePlayerIndex + 1}/${players.length}`}
+              {txt(isRTL, 'نوبت {0}/{1}', 'Turn {0}/{1}', [activePlayerIndex + 1, players.length])}
             </span>
           </div>
         </div>
@@ -654,7 +649,7 @@ const GameplayScreen: React.FC<Props> = ({
         {/* Center Target Language & CEFR Level Badge */}
         <div className="flex items-center gap-1.5 bg-[var(--bg)] text-[var(--ink)] px-2.5 py-1 rounded-xl border border-[var(--line)] font-bold text-xs min-w-0">
           <FlagIcon language={activeLangCode} size={15} />
-          <span className="truncate max-w-[80px] font-bold">{isRTL ? (targetLangInfo.persianName || targetLangInfo.nativeName) : targetLangInfo.nativeName}</span>
+          <span className="truncate max-w-[80px] font-bold">{tx(isRTL, targetLangInfo.persianName || targetLangInfo.nativeName, targetLangInfo.nativeName)}</span>
           <span className="bg-[var(--lapis-soft)] text-[var(--lapis)] border border-[var(--lapis)]/20 text-[10px] font-bold px-1.5 py-0.5 rounded-md">
             {currentCard?.cefrLevel || 'A1'}
           </span>
@@ -664,8 +659,8 @@ const GameplayScreen: React.FC<Props> = ({
         <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
           <button 
             type="button"
-            aria-label={t.pause || (isRTL ? "توقف بازی" : "Pause")}
-            title={t.pause || (isRTL ? "توقف بازی" : "Pause")}
+            aria-label={t.pause || (tx(isRTL, "توقف بازی", "Pause"))}
+            title={t.pause || (tx(isRTL, "توقف بازی", "Pause"))}
             onClick={() => {
               sound.playClick();
               if (gameStatus === GameStatus.ActiveTurn) {
@@ -677,7 +672,7 @@ const GameplayScreen: React.FC<Props> = ({
             className="h-10 px-3.5 rounded-xl border border-[var(--line)] bg-[var(--panel)] text-[var(--ink)] hover:bg-slate-100 dark:hover:bg-slate-800 flex items-center justify-center gap-1.5 transition-all active:scale-95 shadow-xs cursor-pointer font-extrabold text-xs"
           >
             <Pause size={16} className="text-[var(--lapis)] shrink-0" />
-            <span>{t.pause || (isRTL ? "توقف بازی" : "Pause")}</span>
+            <span>{t.pause || (tx(isRTL, "توقف بازی", "Pause"))}</span>
           </button>
         </div>
 
@@ -702,7 +697,7 @@ const GameplayScreen: React.FC<Props> = ({
                 className="w-2.5 h-2.5 rounded-full shrink-0"
                 style={{ backgroundColor: activeConfig.hex }}
               />
-              <span className="font-black">{activePlayer?.name || (isRTL ? 'بازیکن' : 'Player')}</span>
+              <span className="font-black">{activePlayer?.name || (tx(isRTL, 'بازیکن', 'Player'))}</span>
               <span className="text-[10px] text-[var(--mute)]">({t.teamNames[activeColor]})</span>
             </div>
 
@@ -729,13 +724,13 @@ const GameplayScreen: React.FC<Props> = ({
               }`}
               aria-label={
                 cardIndicator === 'review'
-                  ? (isRTL ? 'کارت مرور - سطح آسان' : 'Review card - easy practice')
+                  ? (tx(isRTL, 'کارت مرور - سطح آسان', 'Review card - easy practice'))
                   : cardIndicator === 'challenge'
-                    ? (isRTL ? 'کارت چالش - امتیاز بیشتر' : 'Challenge card - bonus points')
-                    : (isRTL ? 'کارت متعادل' : 'Balanced card')
+                    ? (tx(isRTL, 'کارت چالش - امتیاز بیشتر', 'Challenge card - bonus points'))
+                    : (tx(isRTL, 'کارت متعادل', 'Balanced card'))
               }
             >
-              <span>{cardIndicator === 'review' ? (isRTL ? '🌱 مرور' : '🌱 Review') : cardIndicator === 'challenge' ? (isRTL ? '🔥 چالش' : '🔥 Challenge') : (isRTL ? '⚖️ متعادل' : '⚖️ Balanced')}</span>
+              <span>{cardIndicator === 'review' ? (tx(isRTL, '🌱 مرور', '🌱 Review')) : cardIndicator === 'challenge' ? (tx(isRTL, '🔥 چالش', '🔥 Challenge')) : (tx(isRTL, '⚖️ متعادل', '⚖️ Balanced'))}</span>
             </div>
 
             {/* Clean Learning Mode Badge */}
@@ -743,10 +738,10 @@ const GameplayScreen: React.FC<Props> = ({
               {currentCard?.isReverse || currentCard?.learningMode === 'Reverse' ? (
                 <>
                   <RotateCcw size={12} className="text-[var(--saffron)]" />
-                  <span>{isRTL ? 'ترجمه معکوس' : 'Reverse Translate'}</span>
+                  <span>{tx(isRTL, 'ترجمه معکوس', 'Reverse Translate')}</span>
                 </>
               ) : (
-                <span>{currentCard?.cefrLevel ? (isRTL ? `سطح ${currentCard.cefrLevel}` : `Level ${currentCard.cefrLevel}`) : (isRTL ? 'گفتار' : 'Speak')}</span>
+                <span>{currentCard?.cefrLevel ? (txt(isRTL, 'سطح {0}', 'Level {0}', [currentCard.cefrLevel])) : (tx(isRTL, 'گفتار', 'Speak'))}</span>
               )}
             </div>
 
@@ -757,10 +752,10 @@ const GameplayScreen: React.FC<Props> = ({
             <div className="w-full my-1 px-3 py-1.5 rounded-xl bg-amber-500/15 border border-amber-400/50 text-amber-800 dark:text-amber-200 text-xs font-bold flex items-center justify-between shrink-0 shadow-xs">
               <div className="flex items-center gap-1.5">
                 <Sparkles size={14} className="text-amber-500 shrink-0" />
-                <span>{isRTL ? 'کارت چالش (+یادگیری)' : 'Challenge Card (+Learning)'}</span>
+                <span>{tx(isRTL, 'کارت چالش (+یادگیری)', 'Challenge Card (+Learning)')}</span>
               </div>
               <span className="text-[10px] text-emerald-700 dark:text-emerald-300 font-semibold">
-                {isRTL ? '۲+ امتیاز تشویقی • بدون جریمه' : '+2 Bonus • No Penalty'}
+                {tx(isRTL, '۲+ امتیاز تشویقی • بدون جریمه', '+2 Bonus • No Penalty')}
               </span>
             </div>
           )}
@@ -774,13 +769,11 @@ const GameplayScreen: React.FC<Props> = ({
               <div className="w-full flex flex-col items-center space-y-2 px-1">
                 {/* Clean Prompt Bubble in Native Language */}
                 <div 
-                  dir={isRtlLang(currentCard.nativeLanguage || settings.nativeLanguage || 'fa') ? 'rtl' : 'ltr'}
+                  dir={isRtlLang(currentCard.nativeLanguage || settings.nativeLanguage || 'fa') ? 'rtl' : 'ltr'} lang={(currentCard.nativeLanguage || settings.nativeLanguage || 'fa') as string}
                   className="w-full max-w-md bg-[var(--bg)] text-[var(--ink)] p-2.5 sm:p-3 rounded-2xl border border-[var(--line)] shadow-xs"
                 >
                   <span className="text-[10.5px] text-[var(--lapis)] font-bold block mb-0.5">
-                    {isRtlLang(currentCard.nativeLanguage || settings.nativeLanguage || 'fa')
-                      ? 'معادل این عبارت را به زبان هدف بگویید:'
-                      : 'Say this phrase in the target language:'}
+                    {tx(isRtlLang(currentCard.nativeLanguage || settings.nativeLanguage || 'fa'), 'معادل این عبارت را به زبان هدف بگویید:', 'Say this phrase in the target language:')}
                   </span>
                   <p className="text-sm sm:text-base font-bold text-[var(--ink)] font-display leading-snug">
                     «{currentCard.translation}»
@@ -790,7 +783,7 @@ const GameplayScreen: React.FC<Props> = ({
                 {/* Target Foreign Answer (Hero text with dynamic dir) */}
                 <div className="flex items-center justify-center gap-2 pt-0.5 px-2 max-w-full">
                   <h2 
-                    dir={isRtlLang(currentCard.targetLanguage) ? 'rtl' : 'ltr'} 
+                    dir={isRtlLang(currentCard.targetLanguage) ? 'rtl' : 'ltr'} lang={(currentCard.targetLanguage) as string} 
                     className="card-target-word text-xl sm:text-2xl md:text-3xl font-extrabold font-card-word tracking-tight leading-snug text-[var(--ink)] break-words flex flex-col items-center"
                   >
                     <TrainingWheelText card={currentCard} uiLanguage={language} />
@@ -799,8 +792,8 @@ const GameplayScreen: React.FC<Props> = ({
                   {/* Pronounce Button */}
                   <button
                     type="button"
-                    aria-label={isRTL ? "پخش تلفظ صوتی" : "Audio Pronunciation"}
-                    title={isRTL ? "پخش تلفظ صوتی" : "Audio Pronunciation"}
+                    aria-label={tx(isRTL, "پخش تلفظ صوتی", "Audio Pronunciation")}
+                    title={tx(isRTL, "پخش تلفظ صوتی", "Audio Pronunciation")}
                     onClick={() => {
                       sound.playClick();
                       sound.speakTargetPhrase(currentCard.targetText, currentCard.targetLanguage);
@@ -826,7 +819,7 @@ const GameplayScreen: React.FC<Props> = ({
                       </span>
                     )}
                     <h2 
-                      dir={isRtlLang(currentCard?.targetLanguage || 'en-US') ? 'rtl' : 'ltr'} 
+                      dir={isRtlLang(currentCard?.targetLanguage || 'en-US') ? 'rtl' : 'ltr'} lang={(currentCard?.targetLanguage || 'en-US') as string} 
                       className="card-target-word text-xl sm:text-3xl font-extrabold font-card-word tracking-tight leading-snug text-[var(--ink)] break-words"
                     >
                       {currentCard?.targetText || '---'}
@@ -835,8 +828,8 @@ const GameplayScreen: React.FC<Props> = ({
                     {currentCard?.targetText && sound.isVoiceSupportedSync(currentCard?.targetLanguage) && (
                       <button
                         type="button"
-                        aria-label={isRTL ? "پخش تلفظ صوتی" : "Audio Pronunciation"}
-                        title={isRTL ? "پخش تلفظ صوتی" : "Audio Pronunciation"}
+                        aria-label={tx(isRTL, "پخش تلفظ صوتی", "Audio Pronunciation")}
+                        title={tx(isRTL, "پخش تلفظ صوتی", "Audio Pronunciation")}
                         onClick={() => {
                           sound.playClick();
                           sound.speakTargetPhrase(currentCard.targetText, currentCard.targetLanguage);
@@ -851,7 +844,7 @@ const GameplayScreen: React.FC<Props> = ({
                   {/* Meaning / Translation in High-Contrast Badge */}
                   {currentCard?.translation && (
                     <div 
-                      dir={isRtlLang(currentCard.nativeLanguage || settings.nativeLanguage || 'fa') ? 'rtl' : 'ltr'}
+                      dir={isRtlLang(currentCard.nativeLanguage || settings.nativeLanguage || 'fa') ? 'rtl' : 'ltr'} lang={(currentCard.nativeLanguage || settings.nativeLanguage || 'fa') as string}
                       className="px-3 py-1 rounded-xl bg-[var(--panel)] text-[var(--ink)] text-sm sm:text-base font-bold border border-[var(--line)] shadow-xs"
                     >
                       {currentCard.translation}
@@ -861,7 +854,7 @@ const GameplayScreen: React.FC<Props> = ({
                   {/* Short Situational Clue in Native Language */}
                   {currentCard?.prompt && !currentCard.prompt.includes('🔄') && !currentCard.prompt.includes('ترجمه به') && (
                     <p 
-                      dir={isRtlLang(currentCard.nativeLanguage || settings.nativeLanguage || 'fa') ? 'rtl' : 'ltr'}
+                      dir={isRtlLang(currentCard.nativeLanguage || settings.nativeLanguage || 'fa') ? 'rtl' : 'ltr'} lang={(currentCard.nativeLanguage || settings.nativeLanguage || 'fa') as string}
                       className="text-[11.5px] text-[var(--mute)] font-medium max-w-xs leading-tight mt-0.5"
                     >
                       {currentCard.prompt}
@@ -882,10 +875,10 @@ const GameplayScreen: React.FC<Props> = ({
                   setIsAICoachOpen(true);
                 }}
                 className="px-2.5 py-1 rounded-lg bg-[var(--panel)] hover:bg-[var(--bg)] border border-amber-400/40 text-amber-500 text-[10.5px] font-bold flex items-center gap-1 active:scale-95 transition-all cursor-pointer shadow-2xs"
-                title={isRTL ? 'مشاوره با مربی و داور هوشمند دور' : 'AI Referee'}
+                title={tx(isRTL, 'مشاوره با مربی و داور هوشمند دور', 'AI Referee')}
               >
                 <Bot size={12} />
-                <span>{isRTL ? 'داور هوشمند' : 'AI Referee'}</span>
+                <span>{tx(isRTL, 'داور هوشمند', 'AI Referee')}</span>
               </button>
             </div>
 
@@ -894,13 +887,13 @@ const GameplayScreen: React.FC<Props> = ({
           {/* Clean Card Footer */}
           <div className="flex items-center justify-between text-[11px] font-bold border-t border-[var(--line)] pt-1.5 shrink-0 font-ui text-[var(--mute)]">
             <span className="inline-flex items-center gap-1.5">
-              <span>{isRTL ? 'یار پاسخ‌دهنده:' : 'Guesser:'}</span>
+              <span>{tx(isRTL, 'یار پاسخ‌دهنده:', 'Guesser:')}</span>
               <span className="inline-flex items-center gap-1 text-[var(--ink)] font-black">
-                <span>{partnerPlayer?.name || (isRTL ? 'هم‌تیمی' : 'Partner')}</span>
+                <span>{partnerPlayer?.name || (tx(isRTL, 'هم‌تیمی', 'Partner'))}</span>
               </span>
             </span>
             <span className="bg-[var(--saffron)] text-[#15204A] px-2 py-0.5 rounded-lg text-[10.5px] font-extrabold shadow-xs">
-              +{currentCard?.isGolden ? (currentCard.points * 2) : (currentCard?.points || 1)} {isRTL ? 'امتیاز' : 'pts'}
+              +{currentCard?.isGolden ? (currentCard.points * 2) : (currentCard?.points || 1)} {tx(isRTL, 'امتیاز', 'pts')}
             </span>
           </div>
 
@@ -928,7 +921,7 @@ const GameplayScreen: React.FC<Props> = ({
             className="min-h-[38px] px-4 py-1.5 bg-[var(--saffron)] text-[#15204A] rounded-full border border-[var(--saffron)] font-bold text-xs shadow-sm flex items-center gap-2 cursor-pointer"
           >
             <RotateCcw size={14} />
-            <span>{isRTL ? `بازگشت کارت قبلی (${undoTimeLeft} ثانیه)` : `Undo Card (${undoTimeLeft}s)`}</span>
+            <span>{txt(isRTL, 'بازگشت کارت قبلی ({0} ثانیه)', 'Undo Card ({0}s)', [undoTimeLeft])}</span>
           </button>
         </div>
       )}
@@ -946,7 +939,7 @@ const GameplayScreen: React.FC<Props> = ({
             className="h-14 sm:h-15 min-h-[52px] px-2 text-xs sm:text-sm font-extrabold uppercase flex flex-col items-center justify-center gap-1 rounded-2xl bg-[var(--panel)] hover:bg-[var(--bg)] text-[var(--ink)] border border-[var(--line)] shadow-xs transition-all active:scale-[0.97] cursor-pointer"
           >
             <X size={18} strokeWidth={2.5} className="text-rose-500" />
-            <span className="leading-none">{isRTL ? 'رد کردن' : 'Skip'}</span>
+            <span className="leading-none">{tx(isRTL, 'رد کردن', 'Skip')}</span>
           </button>
 
           {/* Almost Correct (Crowd Vote) */}
@@ -956,7 +949,7 @@ const GameplayScreen: React.FC<Props> = ({
             className="h-14 sm:h-15 min-h-[52px] px-2 text-xs sm:text-sm font-extrabold uppercase flex flex-col items-center justify-center gap-1 rounded-2xl bg-[var(--saffron)] hover:brightness-105 text-[#15204A] border-0 shadow-xs transition-all active:scale-[0.97] cursor-pointer"
           >
             <ThumbsUp size={18} className="text-[#15204A]" />
-            <span className="leading-none text-center">{t.almostCorrectBtn || (isRTL ? 'تقریباً درست' : 'Almost')}</span>
+            <span className="leading-none text-center">{t.almostCorrectBtn || (tx(isRTL, 'تقریباً درست', 'Almost'))}</span>
           </button>
 
           {/* Correct Answer */}
@@ -966,7 +959,7 @@ const GameplayScreen: React.FC<Props> = ({
             className="h-14 sm:h-15 min-h-[52px] px-2 text-xs sm:text-sm font-extrabold uppercase flex flex-col items-center justify-center gap-1 rounded-2xl bg-[var(--turq)] hover:brightness-105 text-white border-0 shadow-xs transition-all active:scale-[0.97] cursor-pointer"
           >
             <Check size={20} strokeWidth={3} className="text-white" />
-            <span className="leading-none">{isRTL ? 'درست بود!' : 'Correct!'}</span>
+            <span className="leading-none">{tx(isRTL, 'درست بود!', 'Correct!')}</span>
           </button>
 
         </div>
@@ -978,13 +971,11 @@ const GameplayScreen: React.FC<Props> = ({
         <Modal 
           isOpen={showAlmostModal} 
           onClose={() => setShowAlmostModal(false)}
-          title={isRTL ? 'رأی‌گیری جمعی: تقریباً درست؟' : 'Group Vote: Almost Correct?'}
+          title={tx(isRTL, 'رأی‌گیری جمعی: تقریباً درست؟', 'Group Vote: Almost Correct?')}
         >
-          <div className="p-3 text-center space-y-3 font-ui" dir={isRTL ? 'rtl' : 'ltr'}>
+          <div className="p-3 text-center space-y-3 font-ui" dir={((isRTL ? 'rtl' : 'ltr'))}>
             <p className="text-xs font-bold text-[var(--mute)] leading-relaxed">
-              {isRTL 
-                ? 'اگر پاسخ هم‌تیمی با اشتباه گرامری یا تلفظی جزیی گفته شده، آیا بقیه بازیکنان امتیاز را تایید می‌کنند؟'
-                : 'If the teammate made a minor slip in grammar or pronunciation, do other players accept it?'}
+              {tx(isRTL, 'اگر پاسخ هم‌تیمی با اشتباه گرامری یا تلفظی جزیی گفته شده، آیا بقیه بازیکنان امتیاز را تایید می‌کنند؟', 'If the teammate made a minor slip in grammar or pronunciation, do other players accept it?')}
             </p>
             <div className="flex gap-2">
               <button
@@ -995,14 +986,14 @@ const GameplayScreen: React.FC<Props> = ({
                 }}
                 className="btn-turq flex-1 !min-h-[44px]"
               >
-                {isRTL ? 'تایید جمعی (درست)' : 'Accept (Correct)'}
+                {tx(isRTL, 'تایید جمعی (درست)', 'Accept (Correct)')}
               </button>
               <button
                 type="button"
                 onClick={() => setShowAlmostModal(false)}
                 className="btn-ghost flex-1 !min-h-[44px]"
               >
-                {isRTL ? 'انصراف' : 'Cancel'}
+                {tx(isRTL, 'انصراف', 'Cancel')}
               </button>
             </div>
           </div>
@@ -1012,7 +1003,7 @@ const GameplayScreen: React.FC<Props> = ({
       {/* PASS PHONE GUARD SCREEN */}
       {gameStatus === GameStatus.PassPhone && (
         <Modal isOpen={true} onClose={() => {}} title={t.passPhone}>
-          <div className="p-4 text-center space-y-3 font-ui" dir={isRTL ? 'rtl' : 'ltr'}>
+          <div className="p-4 text-center space-y-3 font-ui" dir={((isRTL ? 'rtl' : 'ltr'))}>
             <div
               className="w-14 h-14 mx-auto rounded-2xl text-white flex items-center justify-center text-lg font-black shadow-xs"
               style={{ backgroundColor: activeConfig.hex }}
@@ -1020,16 +1011,16 @@ const GameplayScreen: React.FC<Props> = ({
               #{activePlayerIndex + 1}
             </div>
             <h3 className="text-base font-black text-[var(--ink)]">
-              {isRTL ? (
+              {getUiLanguage() !== 'fa' && getUiLanguage() !== null && getUiLanguage() !== 'en' ? (
+                <>{tx(isRTL, 'گوشی را بدهید به:', 'Pass the phone to:')} <span className="text-[var(--lapis)]">{activePlayer?.name}</span></>
+              ) : isRTL ? (
                 <>گوشی را به <span className="text-[var(--lapis)]">{activePlayer?.name}</span> بدهید!</>
               ) : (
                 <>Pass phone to <span className="text-[var(--lapis)]">{activePlayer?.name}</span>!</>
               )}
             </h3>
             <p className="text-xs text-[var(--mute)] font-bold">
-              {isRTL 
-                ? 'وقتی گوشی به دست نفر جدید رسید، دکمه آماده‌ام را لمس کنید تا کارت نمایش داده شود.'
-                : 'Once the player holds the phone, tap Ready to reveal the secret card.'}
+              {tx(isRTL, 'وقتی گوشی به دست نفر جدید رسید، دکمه آماده‌ام را لمس کنید تا کارت نمایش داده شود.', 'Once the player holds the phone, tap Ready to reveal the secret card.')}
             </p>
             <button
               type="button"
@@ -1039,7 +1030,7 @@ const GameplayScreen: React.FC<Props> = ({
               }}
               className="btn-primary w-full !min-h-[46px]"
             >
-              {isRTL ? 'آماده‌ام، شروع نوبت!' : 'Ready, Start Turn!'}
+              {tx(isRTL, 'آماده‌ام، شروع نوبت!', 'Ready, Start Turn!')}
             </button>
           </div>
         </Modal>
@@ -1079,19 +1070,15 @@ const GameplayScreen: React.FC<Props> = ({
       {/* TEAM ELIMINATED MODAL */}
       {gameStatus === GameStatus.TeamEliminated && (
         <Modal isOpen={true} onClose={() => {}} title={t.eliminated}>
-          <div className="p-4 text-center space-y-3 font-ui" dir={isRTL ? 'rtl' : 'ltr'}>
+          <div className="p-4 text-center space-y-3 font-ui" dir={((isRTL ? 'rtl' : 'ltr'))}>
             <div className="w-14 h-14 mx-auto rounded-2xl bg-rose-500 flex items-center justify-center text-white shadow-sm">
               <Skull size={28} />
             </div>
             <h3 className="text-base font-black text-[var(--ink)]">
-              {isRTL 
-                ? `تیم ${t.teamNames[eliminatedTeamName as TeamColor] || eliminatedTeamName} حذف شد!`
-                : `Team ${t.teamNames[eliminatedTeamName as TeamColor] || eliminatedTeamName} Eliminated!`}
+              {txt(isRTL, 'تیم {0} حذف شد!', 'Team {0} Eliminated!', [t.teamNames[eliminatedTeamName as TeamColor] || eliminatedTeamName])}
             </h3>
             <p className="text-xs text-[var(--mute)] font-bold">
-              {isRTL 
-                ? 'زمان این تیم به پایان رسید. بقیه تیم‌ها به رقابت ادامه می‌دهند.'
-                : 'Their time ran out. The remaining teams keep playing.'}
+              {tx(isRTL, 'زمان این تیم به پایان رسید. بقیه تیم‌ها به رقابت ادامه می‌دهند.', 'Their time ran out. The remaining teams keep playing.')}
             </p>
             <button
               type="button"
@@ -1101,7 +1088,7 @@ const GameplayScreen: React.FC<Props> = ({
               }}
               className="btn-primary w-full !min-h-[46px]"
             >
-              {isRTL ? 'ادامه مسابقه' : 'Continue Match'}
+              {tx(isRTL, 'ادامه مسابقه', 'Continue Match')}
             </button>
           </div>
         </Modal>
@@ -1109,15 +1096,13 @@ const GameplayScreen: React.FC<Props> = ({
 
       {/* ROUND ENDED MODAL */}
       {gameStatus === GameStatus.RoundEnded && (
-        <Modal isOpen={true} onClose={() => {}} title={isRTL ? `پایان دور ${currentRound}` : `Round ${currentRound} Complete`}>
-          <div className="p-4 text-center space-y-3 font-ui" dir={isRTL ? 'rtl' : 'ltr'}>
+        <Modal isOpen={true} onClose={() => {}} title={txt(isRTL, 'پایان دور {0}', 'Round {0} Complete', [currentRound])}>
+          <div className="p-4 text-center space-y-3 font-ui" dir={((isRTL ? 'rtl' : 'ltr'))}>
             <h3 className="text-sm font-black text-[var(--ink)]">
-              {isRTL 
-                ? `دور ${currentRound} از ${settings.roundsCount} به پایان رسید!`
-                : `Round ${currentRound} of ${settings.roundsCount} is finished!`}
+              {txt(isRTL, 'دور {0} از {1} به پایان رسید!', 'Round {0} of {1} is finished!', [currentRound, settings.roundsCount])}
             </h3>
             <p className="text-xs text-[var(--mute)] font-bold">
-              {isRTL ? 'برای شروع دور بعد و ادامه مسابقه آماده شوید.' : 'Get ready for the next round.'}
+              {tx(isRTL, 'برای شروع دور بعد و ادامه مسابقه آماده شوید.', 'Get ready for the next round.')}
             </p>
             <button
               type="button"
@@ -1138,8 +1123,8 @@ const GameplayScreen: React.FC<Props> = ({
               className="btn-primary w-full !min-h-[46px]"
             >
               {currentRound < settings.roundsCount 
-                ? (isRTL ? `شروع دور ${currentRound + 1}` : `Start Round ${currentRound + 1}`)
-                : (isRTL ? 'مشاهده نتایج نهایی' : 'View Final Results')}
+                ? (txt(isRTL, 'شروع دور {0}', 'Start Round {0}', [currentRound + 1]))
+                : (tx(isRTL, 'مشاهده نتایج نهایی', 'View Final Results'))}
             </button>
           </div>
         </Modal>
@@ -1162,12 +1147,12 @@ const GameplayScreen: React.FC<Props> = ({
               {revealCard.isCorrect ? (
                 <>
                   <CheckCircle2 size={14} className="text-emerald-500" />
-                  <span>{isRTL ? 'پاسخ درست!' : 'Correct!'}</span>
+                  <span>{tx(isRTL, 'پاسخ درست!', 'Correct!')}</span>
                 </>
               ) : (
                 <>
                   <XCircle size={14} className="text-rose-500" />
-                  <span>{isRTL ? 'کارت رد شد' : 'Skipped'}</span>
+                  <span>{tx(isRTL, 'کارت رد شد', 'Skipped')}</span>
                 </>
               )}
             </div>
@@ -1186,7 +1171,7 @@ const GameplayScreen: React.FC<Props> = ({
                       sound.speak(revealCard.card.targetText, revealCard.card.targetLanguage, { force: true });
                     }}
                     className="w-8 h-8 rounded-full bg-[var(--lapis-soft)] text-[var(--lapis)] flex items-center justify-center hover:scale-105 active:scale-95 transition-all cursor-pointer"
-                    title={isRTL ? 'پخش صوتی تلفظ' : 'Play audio pronunciation'}
+                    title={tx(isRTL, 'پخش صوتی تلفظ', 'Play audio pronunciation')}
                   >
                     <Volume2 size={16} />
                   </button>
@@ -1201,7 +1186,7 @@ const GameplayScreen: React.FC<Props> = ({
             {revealCard.card.contentType === 'Vocabulary' && (revealCard.card.grammarPoint || revealCard.card.prompt) && (
               <div className="w-full p-2.5 bg-[var(--bg)] rounded-xl border border-[var(--line)] text-start space-y-1">
                 <span className="text-[10px] font-black uppercase text-[var(--lapis)] block tracking-wider">
-                  {t.exampleSentenceLabel || (isRTL ? 'جمله نمونه:' : 'Example Sentence:')}
+                  {t.exampleSentenceLabel || (tx(isRTL, 'جمله نمونه:', 'Example Sentence:'))}
                 </span>
                 <p className="text-xs text-[var(--ink)] font-medium leading-relaxed">
                   {revealCard.card.grammarPoint || revealCard.card.prompt}
@@ -1215,7 +1200,7 @@ const GameplayScreen: React.FC<Props> = ({
               onClick={dismissRevealCard}
               className="w-full min-h-[44px] py-2.5 px-4 rounded-xl bg-[var(--lapis)] text-[var(--on-lapis)] font-bold text-xs shadow-xs active:scale-95 transition-all cursor-pointer flex items-center justify-center gap-1.5"
             >
-              <span>{t.continueOrTap || (isRTL ? 'ادامه خودکار یا ضربه برای رد شدن' : 'Continue (or tap anywhere)')}</span>
+              <span>{t.continueOrTap || (tx(isRTL, 'ادامه خودکار یا ضربه برای رد شدن', 'Continue (or tap anywhere)'))}</span>
             </button>
           </div>
         </div>
@@ -1226,7 +1211,7 @@ const GameplayScreen: React.FC<Props> = ({
         isOpen={isAICoachOpen}
         onClose={() => setIsAICoachOpen(false)}
         learningLanguage={currentCard?.targetLanguage || settings.targetLanguages?.[0] || 'English'}
-        guideLanguage={settings.language === 'fa' ? 'Persian' : 'English'}
+        guideLanguage={((settings.language === 'fa') ? 'Persian' : 'English')}
         isRTL={isRTL}
       />
 

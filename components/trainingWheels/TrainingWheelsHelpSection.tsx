@@ -9,6 +9,7 @@ import {
   toggleAidEnabled
 } from '../../src/engine/trainingWheels/trainingWheelsService';
 import { getAidsForLanguage } from '../../src/engine/trainingWheels/languages';
+import { tx, txt } from '../../i18n/runtime';
 
 interface TrainingWheelsHelpSectionProps {
   currentLanguage?: Language;
@@ -100,19 +101,17 @@ export const TrainingWheelsHelpSection: React.FC<TrainingWheelsHelpSectionProps>
     <div
       data-testid="training-wheels-help-container"
       className="flex flex-col gap-6 w-full text-[var(--ink)]"
-      dir={isRtl ? 'rtl' : 'ltr'}
+      dir={((isRtl ? 'rtl' : 'ltr'))}
     >
       {/* Header Info */}
       <div className="flex flex-col sm:flex-row items-center justify-between gap-3 bg-[var(--bg)] p-4 rounded-xl border border-[var(--line)]">
         <div>
           <h2 className="text-xl sm:text-2xl font-black flex items-center gap-2">
             <span>🚲</span>
-            <span>{isRtl ? 'چرخ‌های کمکی شما (Training Wheels)' : 'Your Training Wheels'}</span>
+            <span>{tx(isRtl, 'چرخ‌های کمکی شما (Training Wheels)', 'Your Training Wheels')}</span>
           </h2>
           <p className="text-xs sm:text-sm text-neutral-500 dark:text-neutral-400 mt-1">
-            {isRtl
-              ? 'کمک‌های بصری و صوتی هوشمند که با تثبیت هر واژه در جعبه لایتنر شما، گام‌به‌گام کم‌رنگ می‌شوند تا مستقل شوید.'
-              : 'Smart visual and audio learning aids that fade away per word as you master them in your Leitner box.'}
+            {tx(isRtl, 'کمک‌های بصری و صوتی هوشمند که با تثبیت هر واژه در جعبه لایتنر شما، گام‌به‌گام کم‌رنگ می‌شوند تا مستقل شوید.', 'Smart visual and audio learning aids that fade away per word as you master them in your Leitner box.')}
           </p>
         </div>
 
@@ -155,17 +154,17 @@ export const TrainingWheelsHelpSection: React.FC<TrainingWheelsHelpSectionProps>
       <div className="bg-[var(--panel)] p-4 rounded-xl border border-[var(--line)] shadow-sm">
         <h3 className="text-sm font-black mb-3 flex items-center gap-2 text-indigo-600 dark:text-indigo-400">
           <span>✨</span>
-          <span>{isRtl ? 'مراحل ۴گانهٔ کم‌رنگ‌شدن چرخ‌های کمکی (Fading Stages):' : 'The 4 Fading Stages Driven by Leitner Boxes:'}</span>
+          <span>{tx(isRtl, 'مراحل ۴گانهٔ کم‌رنگ‌شدن چرخ‌های کمکی (Fading Stages):', 'The 4 Fading Stages Driven by Leitner Boxes:')}</span>
         </h3>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
           {/* Stage 0 */}
           <div className="p-3 rounded-lg border border-red-500/20 bg-red-500/5 flex flex-col items-center text-center">
             <span className="text-xs font-black text-red-600 dark:text-red-400 mb-1">
-              {isRtl ? 'مرحله ۰: واژهٔ تازه' : 'Stage 0: New Word'}
+              {tx(isRtl, 'مرحله ۰: واژهٔ تازه', 'Stage 0: New Word')}
             </span>
             <span className="text-[11px] text-neutral-500 mb-2">
-              {isRtl ? 'رنگ + نماد هندسی + برچسب' : 'Color + Shape + Label'}
+              {tx(isRtl, 'رنگ + نماد هندسی + برچسب', 'Color + Shape + Label')}
             </span>
             <div className="p-2 bg-white dark:bg-neutral-900 rounded border border-neutral-200 dark:border-neutral-800 w-full flex items-center justify-center">
               <TrainingWheelText card={sampleCard} stage={0} uiLanguage={uiLanguage} />
@@ -175,10 +174,10 @@ export const TrainingWheelsHelpSection: React.FC<TrainingWheelsHelpSectionProps>
           {/* Stage 1 */}
           <div className="p-3 rounded-lg border border-orange-500/20 bg-orange-500/5 flex flex-col items-center text-center">
             <span className="text-xs font-black text-orange-600 dark:text-orange-400 mb-1">
-              {isRtl ? 'مرحله ۱: پس از پاسخ درست' : 'Stage 1: After 1 Correct'}
+              {tx(isRtl, 'مرحله ۱: پس از پاسخ درست', 'Stage 1: After 1 Correct')}
             </span>
             <span className="text-[11px] text-neutral-500 mb-2">
-              {isRtl ? 'فقط رنگ + نماد هندسی' : 'Color + Shape (No Label)'}
+              {tx(isRtl, 'فقط رنگ + نماد هندسی', 'Color + Shape (No Label)')}
             </span>
             <div className="p-2 bg-white dark:bg-neutral-900 rounded border border-neutral-200 dark:border-neutral-800 w-full flex items-center justify-center">
               <TrainingWheelText card={sampleCard} stage={1} uiLanguage={uiLanguage} />
@@ -188,10 +187,10 @@ export const TrainingWheelsHelpSection: React.FC<TrainingWheelsHelpSectionProps>
           {/* Stage 2 */}
           <div className="p-3 rounded-lg border border-cyan-500/20 bg-cyan-500/5 flex flex-col items-center text-center">
             <span className="text-xs font-black text-cyan-600 dark:text-cyan-400 mb-1">
-              {isRtl ? 'مرحله ۲: نزدیک تسلط' : 'Stage 2: Near Mastery'}
+              {tx(isRtl, 'مرحله ۲: نزدیک تسلط', 'Stage 2: Near Mastery')}
             </span>
             <span className="text-[11px] text-neutral-500 mb-2">
-              {isRtl ? 'خط زیر باریک و رنگی' : 'Thin Colored Underline'}
+              {tx(isRtl, 'خط زیر باریک و رنگی', 'Thin Colored Underline')}
             </span>
             <div className="p-2 bg-white dark:bg-neutral-900 rounded border border-neutral-200 dark:border-neutral-800 w-full flex items-center justify-center">
               <TrainingWheelText card={sampleCard} stage={2} uiLanguage={uiLanguage} />
@@ -201,10 +200,10 @@ export const TrainingWheelsHelpSection: React.FC<TrainingWheelsHelpSectionProps>
           {/* Stage 3 */}
           <div className="p-3 rounded-lg border border-emerald-500/20 bg-emerald-500/5 flex flex-col items-center text-center">
             <span className="text-xs font-black text-emerald-600 dark:text-emerald-400 mb-1">
-              {isRtl ? 'مرحله ۳: تسلط کامل' : 'Stage 3: Mastered'}
+              {tx(isRtl, 'مرحله ۳: تسلط کامل', 'Stage 3: Mastered')}
             </span>
             <span className="text-[11px] text-neutral-500 mb-2">
-              {isRtl ? 'متن کاملاً ساده و طبیعی' : 'Clean Normal Text'}
+              {tx(isRtl, 'متن کاملاً ساده و طبیعی', 'Clean Normal Text')}
             </span>
             <div className="p-2 bg-white dark:bg-neutral-900 rounded border border-neutral-200 dark:border-neutral-800 w-full flex items-center justify-center">
               <TrainingWheelText card={sampleCard} stage={3} uiLanguage={uiLanguage} />
@@ -218,9 +217,7 @@ export const TrainingWheelsHelpSection: React.FC<TrainingWheelsHelpSectionProps>
         <h3 className="text-base font-black flex items-center gap-2">
           <span>⚙️</span>
           <span>
-            {isRtl
-              ? `تنظیمات چرخ‌های کمکی برای زبان ${selectedLang === 'nl' ? 'هلندی' : 'آلمانی'}:`
-              : `Training Wheels Configuration for ${selectedLang === 'nl' ? 'Dutch' : 'German'}:`}
+            {txt(isRtl, 'تنظیمات چرخ‌های کمکی برای زبان {1}:', 'Training Wheels Configuration for {0}:', [selectedLang === 'nl' ? 'Dutch' : 'German', selectedLang === 'nl' ? 'هلندی' : 'آلمانی'])}
           </span>
         </h3>
 
@@ -248,11 +245,11 @@ export const TrainingWheelsHelpSection: React.FC<TrainingWheelsHelpSectionProps>
                       {aid.category === 'gender' ? '🎨' : aid.category === 'grammar' ? '📐' : '🎧'}
                     </span>
                     <h4 className="font-bold text-sm sm:text-base">
-                      {isRtl ? aid.titleFa : aid.titleEn}
+                      {tx(isRtl, aid.titleFa, aid.titleEn)}
                     </h4>
                   </div>
                   <p className="text-xs text-neutral-500 dark:text-neutral-400">
-                    {isRtl ? aid.descriptionFa : aid.descriptionEn}
+                    {tx(isRtl, aid.descriptionFa, aid.descriptionEn)}
                   </p>
                 </div>
 
@@ -271,8 +268,8 @@ export const TrainingWheelsHelpSection: React.FC<TrainingWheelsHelpSectionProps>
                     <span>{isEnabled ? '🔓' : '🔒'}</span>
                     <span>
                       {isEnabled
-                        ? (isRtl ? 'باز کردن چرخ کمکی' : 'Remove wheel early')
-                        : (isRtl ? 'نصب مجدد چرخ' : 'Put wheel back')}
+                        ? (tx(isRtl, 'باز کردن چرخ کمکی', 'Remove wheel early'))
+                        : (tx(isRtl, 'نصب مجدد چرخ', 'Put wheel back'))}
                     </span>
                   </button>
                 </div>
@@ -282,9 +279,7 @@ export const TrainingWheelsHelpSection: React.FC<TrainingWheelsHelpSectionProps>
               <div className="mt-3 pt-3 border-t border-neutral-200/60 dark:border-neutral-800/60">
                 <div className="flex items-center justify-between text-xs text-neutral-600 dark:text-neutral-400 mb-1">
                   <span>
-                    {isRtl
-                      ? `${noLongerNeed} واژه دیگر به این چرخ کمکی نیاز ندارند`
-                      : `${noLongerNeed} words ride without this wheel`}
+                    {txt(isRtl, '{0} واژه دیگر به این چرخ کمکی نیاز ندارند', '{0} words ride without this wheel', [noLongerNeed])}
                   </span>
                   <span className="font-bold text-indigo-600 dark:text-indigo-400">{percent}%</span>
                 </div>

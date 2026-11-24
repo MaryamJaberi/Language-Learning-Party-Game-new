@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { User } from 'firebase/auth';
 import { Mail, Loader2, ChevronDown, ChevronUp } from 'lucide-react';
 import { signInWithEmail, signUpWithEmail, resetPasswordByEmail } from '../firebase';
+import { tx, txt } from '../i18n/runtime';
 
 interface Props {
   isRTL: boolean;
@@ -33,8 +34,8 @@ const errorText = (code: string | undefined, rtl: boolean): string => {
     'auth/network-request-failed': 'No internet connection.',
     'auth/operation-not-allowed': 'Email sign-in is not enabled on the server yet.',
   };
-  const table = rtl ? fa : en;
-  return (code && table[code]) || (rtl ? 'ورود انجام نشد؛ دوباره امتحان کنید.' : 'Sign-in failed; please try again.');
+  if (code && en[code]) return tx(rtl, fa[code], en[code]);
+  return tx(rtl, 'ورود انجام نشد؛ دوباره امتحان کنید.', 'Sign-in failed; please try again.');
 };
 
 /** ورود و ثبت‌نام با ایمیل و رمز، برای کسانی که نمی‌خواهند با گوگل وارد شوند */
@@ -69,12 +70,12 @@ export const EmailAuthForm: React.FC<Props> = ({ isRTL, onSignedIn }) => {
     setError(null);
     setInfo(null);
     if (!email.trim()) {
-      setError(isRTL ? 'اول ایمیل را بنویسید.' : 'Enter your email first.');
+      setError(tx(isRTL, 'اول ایمیل را بنویسید.', 'Enter your email first.'));
       return;
     }
     try {
       await resetPasswordByEmail(email);
-      setInfo(isRTL ? 'ایمیل بازیابی رمز فرستاده شد.' : 'Password reset email sent.');
+      setInfo(tx(isRTL, 'ایمیل بازیابی رمز فرستاده شد.', 'Password reset email sent.'));
     } catch (err: any) {
       setError(errorText(err?.code, isRTL));
     }
@@ -92,13 +93,13 @@ export const EmailAuthForm: React.FC<Props> = ({ isRTL, onSignedIn }) => {
       >
         <span className="flex items-center gap-2">
           <Mail size={15} className="text-[var(--lapis)]" />
-          {isRTL ? 'ورود یا ثبت‌نام با ایمیل (بدون گوگل)' : 'Sign in or sign up with email (no Google)'}
+          {tx(isRTL, 'ورود یا ثبت‌نام با ایمیل (بدون گوگل)', 'Sign in or sign up with email (no Google)')}
         </span>
         {open ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
       </button>
 
       {open && (
-        <form onSubmit={submit} className="px-3.5 pb-3.5 space-y-2" dir={isRTL ? 'rtl' : 'ltr'}>
+        <form onSubmit={submit} className="px-3.5 pb-3.5 space-y-2" dir={((isRTL ? 'rtl' : 'ltr'))}>
           <div className="flex gap-1 p-1 rounded-full bg-[var(--panel)] border border-[var(--line)]">
             {(['signin', 'signup'] as const).map((m) => (
               <button
@@ -107,19 +108,19 @@ export const EmailAuthForm: React.FC<Props> = ({ isRTL, onSignedIn }) => {
                 onClick={() => { setMode(m); setError(null); setInfo(null); }}
                 className={`flex-1 h-8 rounded-full text-xs font-bold cursor-pointer ${mode === m ? 'bg-[var(--lapis)] text-white' : 'text-[var(--mute)]'}`}
               >
-                {m === 'signin' ? (isRTL ? 'ورود' : 'Sign in') : (isRTL ? 'ساخت حساب' : 'Create account')}
+                {m === 'signin' ? (tx(isRTL, 'ورود', 'Sign in')) : (tx(isRTL, 'ساخت حساب', 'Create account'))}
               </button>
             ))}
           </div>
 
           {mode === 'signup' && (
             <input className={input} value={name} onChange={(e) => setName(e.target.value)}
-              placeholder={isRTL ? 'نام (اختیاری)' : 'Name (optional)'} autoComplete="name" />
+              placeholder={tx(isRTL, 'نام (اختیاری)', 'Name (optional)')} autoComplete="name" />
           )}
           <input className={input} type="email" dir="ltr" value={email} onChange={(e) => setEmail(e.target.value)}
-            placeholder={isRTL ? 'ایمیل' : 'Email'} autoComplete="email" required />
+            placeholder={tx(isRTL, 'ایمیل', 'Email')} autoComplete="email" required />
           <input className={input} type="password" dir="ltr" value={password} onChange={(e) => setPassword(e.target.value)}
-            placeholder={isRTL ? 'رمز (دست‌کم ۶ نویسه)' : 'Password (6+ characters)'} minLength={6}
+            placeholder={tx(isRTL, 'رمز (دست‌کم ۶ نویسه)', 'Password (6+ characters)')} minLength={6}
             autoComplete={mode === 'signup' ? 'new-password' : 'current-password'} required />
 
           {error && <p className="text-[11px] text-red-600">{error}</p>}
@@ -128,12 +129,12 @@ export const EmailAuthForm: React.FC<Props> = ({ isRTL, onSignedIn }) => {
           <button type="submit" disabled={busy}
             className="w-full flex items-center justify-center gap-1.5 h-10 rounded-full bg-[var(--lapis)] text-white text-xs font-bold cursor-pointer disabled:opacity-60">
             {busy && <Loader2 size={14} className="animate-spin" />}
-            {mode === 'signin' ? (isRTL ? 'ورود' : 'Sign in') : (isRTL ? 'ساخت حساب' : 'Create account')}
+            {mode === 'signin' ? (tx(isRTL, 'ورود', 'Sign in')) : (tx(isRTL, 'ساخت حساب', 'Create account'))}
           </button>
 
           {mode === 'signin' && (
             <button type="button" onClick={forgot} className="text-[11px] text-[var(--mute)] hover:text-[var(--lapis)] cursor-pointer">
-              {isRTL ? 'رمز را فراموش کرده‌ام' : 'Forgot password?'}
+              {tx(isRTL, 'رمز را فراموش کرده‌ام', 'Forgot password?')}
             </button>
           )}
         </form>
