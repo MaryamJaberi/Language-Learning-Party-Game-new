@@ -308,6 +308,20 @@ export function generateChallengingReflexOptions(
     (currentCard.nativeLanguage && targetLangOverride !== currentCard.targetLanguage && targetLangOverride === 'fa');
   const correct = (expectedAnswerOverride || (isReverse ? currentCard.translation : currentCard.targetText) || currentCard.targetText || '').trim();
   const isQ = isQuestionText(correct);
+  // کارت‌های «بازی الگو» گزینه‌های غلط خودشان را دارند (اشتباه‌های رایج). چینش از روی شناسهٔ کارت ثابت است
+  // تا در دوئل آنلاین هر دو گوشی یک ترتیب ببینند.
+  if (!isReverse && Array.isArray(currentCard.fixedOptions) && currentCard.fixedOptions.length > 0 && correct === (currentCard.targetText || '').trim()) {
+    const all = [correct, ...currentCard.fixedOptions.slice(0, 3)];
+    let h = 7;
+    for (const ch of String(currentCard.id || correct)) h = (h * 31 + ch.charCodeAt(0)) >>> 0;
+    for (let i = all.length - 1; i > 0; i--) {
+      h = (h * 1103515245 + 12345) >>> 0;
+      const j = (h >>> 16) % (i + 1); // بیت‌های بالایی؛ بیت‌های پایینی این مولد تکراری‌اند
+      [all[i], all[j]] = [all[j], all[i]];
+    }
+    return all;
+  }
+
   const correctWordsCount = correct.split(/\s+/).length;
   const correctCharLen = correct.length;
   const cleanCorrect = cleanText(correct);

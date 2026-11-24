@@ -1148,7 +1148,7 @@ const SinglePlayerScreen: React.FC<Props> = ({
     !puzzleDismissed &&
     settings.displayMode !== 'translate_to_native' &&
     puzzleStage < MAX_PUZZLE_STAGE &&
-    isLongSentence(currentCard.targetText || '', puzzleLang);
+    ((currentCard.puzzleChunks?.length || 0) >= 3 || isLongSentence(currentCard.targetText || '', puzzleLang));
 
   return (
     <div 
@@ -1768,6 +1768,7 @@ const SinglePlayerScreen: React.FC<Props> = ({
                 text={currentCard.targetText}
                 lang={currentCard.targetLanguage || settings.targetLanguage || 'en'}
                 stage={puzzleStage}
+                chunks={puzzleStage === 0 ? currentCard.puzzleChunks : undefined}
                 isRTL={isRTL}
                 onTap={(ok) => (ok ? sound.playClick() : sound.hapticFeedback('error'))}
                 onSkipPuzzle={() => setPuzzleDismissed(true)}
@@ -1778,7 +1779,7 @@ const SinglePlayerScreen: React.FC<Props> = ({
               />
             )}
             {/* Adaptive Exercise Options (choice2 scaffold for A1 or 4-choice recognize) */}
-            {!puzzleActive && (revealedOptions || currentExerciseType === 'choice2' || currentExerciseType === 'recognize') && quickQuizOptions.length > 0 && (
+            {!puzzleActive && (revealedOptions || (!!currentCard?.fixedOptions && settings.displayMode !== 'translate_to_native') || currentExerciseType === 'choice2' || currentExerciseType === 'recognize') && quickQuizOptions.length > 0 && (
               <div className="grid grid-cols-2 gap-2 my-1 animate-fade-in" data-testid="adaptive-choice-options">
                 {quickQuizOptions.map((opt, optIdx) => (
                   <button

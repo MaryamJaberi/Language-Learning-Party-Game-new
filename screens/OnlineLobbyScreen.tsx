@@ -43,6 +43,7 @@ import {
 } from 'lucide-react';
 import { OnlineDuelRoom } from '../types';
 import { tx, txt } from '../i18n/runtime';
+import PatternGamePicker from '../components/PatternGamePicker';
 
 interface Props {
   language: Language;
@@ -589,6 +590,8 @@ export const OnlineLobbyScreen: React.FC<Props> = ({
               className="w-full px-3 py-2 bg-[var(--bg)] rounded-xl border border-[var(--line)] text-sm font-bold text-[var(--ink)] focus:border-[var(--lapis)] focus:outline-hidden"
             />
           </div>
+
+          <PatternGamePicker mode="group" targetLanguage={(initialSettings.targetLanguages || []).find((l) => l === 'en' || l === 'en-US') || initialSettings.targetLanguages?.[0] || 'en'} nativeLanguage={initialSettings.nativeLanguage || initialSettings.language || 'fa'} isRTL={isRTL} />
 
           {/* Voice Platform Selection */}
           <div>

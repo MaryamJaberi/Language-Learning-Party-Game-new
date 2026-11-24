@@ -52,6 +52,7 @@ import { isRtlLang } from './ui';
 import { setUiLanguage } from './i18n/runtime';
 import { PLAYER_AVATARS, DEFAULT_SETTINGS } from './constants';
 import { tx, txt } from './i18n/runtime';
+import { applyPatternDeck } from './patterns';
 
 type ScreenType = 'INTRO' | 'LANGUAGE_SELECT' | 'CATEGORIES' | 'SETUP' | 'PLAYERS' | 'SEATING_CONFIRM' | 'GAME' | 'HISTORY' | 'HELP' | 'ONLINE_LOBBY' | 'ONLINE_GAME' | 'SINGLE_PLAYER' | 'SINGLE_REPORT' | 'DUEL_GAME' | 'ONLINE_DUEL' | 'LEITNER';
 
@@ -413,13 +414,14 @@ const App: React.FC = () => {
       activeTargets = isEnNative ? ['es', 'fr'] : ['en', 'es'];
     }
 
-    const pool = buildSessionCardPool(
+    // اگر برای بازی گروهی «بازی الگو» انتخاب شده باشد، کارت‌های الگو جای کارت‌های معمول می‌نشینند
+    const pool = applyPatternDeck('group', settings.targetLanguages || activeTargets, effectiveNative, () => buildSessionCardPool(
       activeTargets,
       settings.selectedCategories,
       (settings.cefrLevel && settings.cefrLevel !== 'all') ? settings.cefrLevel : 'A1',
       effectiveNative,
       settings.cardGameMode || 'mixed'
-    );
+    ));
     setSessionCardPool(pool);
     setPoolPointer(0);
     setIsPoolExhausted(false);
@@ -690,14 +692,14 @@ const App: React.FC = () => {
     };
     const cards = customCards && customCards.length > 0
       ? customCards
-      : getUniqueCardsForSession(
+      : applyPatternDeck('solo', [effectiveConfig.targetLanguage], effectiveNative, () => getUniqueCardsForSession(
           effectiveConfig.targetLanguage,
           effectiveNative,
           effectiveConfig.cefrLevel,
           effectiveConfig.selectedCategories,
           effectiveConfig.questionCount,
           true
-        );
+        ), effectiveConfig.questionCount);
     setSinglePlayerCards(cards);
     setSinglePlayerSettings(effectiveConfig);
     setCurrentScreen('SINGLE_PLAYER');
@@ -742,14 +744,14 @@ const App: React.FC = () => {
     const effectiveNative = duelSet.nativeLanguage || settings.nativeLanguage || settings.language || 'fa';
     const decksPending = loadDecksIfNeeded([duelSet.targetLanguage, effectiveNative, 'en']);
     if (decksPending) await decksPending;
-    const cards = getUniqueCardsForSession(
+    const cards = applyPatternDeck('duel', [duelSet.targetLanguage], effectiveNative, () => getUniqueCardsForSession(
       duelSet.targetLanguage,
       effectiveNative,
       duelSet.cefrLevel,
       settings.selectedCategories,
       Math.max(duelSet.winningScore * 4, 30),
       false
-    );
+    ));
     setDuelCards(cards.length > 0 ? cards : buildSessionCardPool({
       ...settings,
       nativeLanguage: effectiveNative,
@@ -798,14 +800,15 @@ const App: React.FC = () => {
         const effectiveNative = settings.nativeLanguage || settings.language || (isRtlLang(settings.language) ? 'fa' : 'en');
         const decksPending = loadDecksIfNeeded([targetLang, effectiveNative, 'en']);
         if (decksPending) await decksPending;
-        const cards = getUniqueCardsForSession(
+        // دوئل آنلاین: میزبان کارت‌ها را می‌سازد و در اتاق می‌گذارد، پس بازی الگو برای هر دو گوشی یکی است
+        const cards = applyPatternDeck('duel', [targetLang], effectiveNative, () => getUniqueCardsForSession(
           targetLang,
           effectiveNative,
           'A1',
           settings.selectedCategories,
           30,
           false
-        );
+        ));
         const pool = cards.length > 0 ? cards : buildSessionCardPool({
           ...settings,
           targetLanguages: [targetLang],

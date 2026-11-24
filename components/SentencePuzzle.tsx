@@ -10,6 +10,8 @@ interface Props {
   lang: string;
   /** مرحلهٔ داربست این کارت: ۰ = تکه‌های بزرگ … */
   stage: number;
+  /** تکه‌های آماده (مرز الگو). اگر نباشد، جمله خودکار شکسته می‌شود */
+  chunks?: string[];
   isRTL: boolean;
   /** پازل کامل شد؛ mistakes = تعداد انتخاب‌های نادرست */
   onSolved: (mistakes: number) => void;
@@ -22,8 +24,11 @@ interface Props {
  * «پازل تکه‌ها»: جملهٔ بلند به چند تکهٔ معنادار شکسته می‌شود و بازیکن با لمس، آن‌ها را به ترتیب می‌چیند.
  * انتخاب نادرست جریمه ندارد؛ فقط تکه تکان می‌خورد و سر جایش می‌ماند.
  */
-export default function SentencePuzzle({ text, lang, stage, isRTL, onSolved, onSkipPuzzle, onTap }: Props) {
-  const chunks = useMemo(() => chunkSentence(text, lang, piecesForStage(stage)), [text, lang, stage]);
+export default function SentencePuzzle({ text, lang, stage, chunks: given, isRTL, onSolved, onSkipPuzzle, onTap }: Props) {
+  const chunks = useMemo(
+    () => (given && given.length >= 2 ? given : chunkSentence(text, lang, piecesForStage(stage))),
+    [text, lang, stage, given],
+  );
   const order = useMemo(() => shuffledOrder(chunks.length, `${text}|${stage}`), [chunks.length, text, stage]);
   const [placed, setPlaced] = useState(0);
   const [mistakes, setMistakes] = useState(0);
