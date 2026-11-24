@@ -33,14 +33,16 @@ const Modal: React.FC<Props> = ({ title, body, actions = [], children, isOpen = 
 
   return (
     <div 
-      className="fixed inset-0 bg-[#0E1530]/65 backdrop-blur-xs z-[100] flex items-center justify-center p-4 select-none font-ui animate-fade-in"
+      role="dialog"
+      aria-modal="true"
+      className="fixed inset-0 bg-[#0E1530]/65 backdrop-blur-sm z-[100] flex items-center justify-center p-4 select-none font-ui animate-fade-in"
       onClick={() => {
         if (onClose) onClose();
       }}
     >
       {/* Modern UI KIT Dialog Card */}
       <div 
-        className="bg-[var(--panel)] border border-[var(--line)] w-full max-w-sm rounded-[24px] shadow-2xl text-[var(--ink)] overflow-hidden animate-fadeIn relative"
+        className="bg-[var(--panel)] border border-[var(--line)] w-full max-w-sm max-h-[90dvh] overflow-y-auto rounded-[24px] shadow-2xl text-[var(--ink)] animate-fadeIn relative"
         onClick={e => e.stopPropagation()}
       >
         {onClose && (
@@ -48,9 +50,9 @@ const Modal: React.FC<Props> = ({ title, body, actions = [], children, isOpen = 
             type="button"
             onClick={onClose}
             aria-label="Close"
-            className="absolute top-3.5 rtl:left-3.5 ltr:right-3.5 w-8 h-8 rounded-full bg-[var(--bg)] hover:bg-[var(--line)] text-[var(--mute)] hover:text-[var(--ink)] flex items-center justify-center transition-colors cursor-pointer z-10"
+            className="absolute top-3 rtl:left-3 ltr:right-3 w-11 h-11 rounded-full bg-[var(--bg)] hover:bg-[var(--line)] text-[var(--mute)] hover:text-[var(--ink)] flex items-center justify-center transition-colors cursor-pointer z-10"
           >
-            <X size={16} />
+            <X size={18} />
           </button>
         )}
 

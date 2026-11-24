@@ -15,7 +15,7 @@ android {
         versionName(System.getenv("VERSION_NAME") ?: "1.1.4")
 
         // نشانی سایتی که اپ باز می‌کند؛ در گردش‌کار قابل تغییر است (APP_URL)
-        buildConfigField "String", "APP_URL", "\"" + (System.getenv("APP_URL") ?: "https://maryamjaberi.github.io/Language-Learning-Party-Game/") + "\""
+        buildConfigField "String", "APP_URL", "\"" + (System.getenv("APP_URL") ?: "https://maryamjaberi.github.io/Language-Learning-Party-Game-new/") + "\""
     }
 
     buildFeatures {

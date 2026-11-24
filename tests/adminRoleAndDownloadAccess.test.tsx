@@ -1,6 +1,6 @@
 import { describe, test, expect, vi } from 'vitest';
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
 import { InstallPromptModal } from '../components/InstallPromptModal';
 import { UserProfileModal } from '../components/UserProfileModal';
 import { ADMIN_EMAILS, isAdminUser } from '../constants';
@@ -82,6 +82,16 @@ describe('Admin Role and Download Visibility Protection', () => {
     );
 
     // Admin should see Downloads tab
-    expect(screen.getByText(/دانلودها \(مدیر\)/i)).toBeInTheDocument();
+    const downloadsTab = screen.getByText(/دانلودها \(مدیر\)/i);
+    expect(downloadsTab).toBeInTheDocument();
+
+    // Clicking the tab exposes Google Play AAB and Test APK downloads
+    fireEvent.click(downloadsTab);
+    expect(screen.getByText(/دانلود آخرین بستهٔ AAB برای گوگل پلی/i)).toBeInTheDocument();
+    expect(screen.getByText(/دانلود آخرین APK برای تست/i)).toBeInTheDocument();
+    const releasesLink = screen.getByRole('link', { name: /GitHub Releases/i });
+    expect(releasesLink.getAttribute('href')).toBe(
+      'https://github.com/MaryamJaberi/Language-Learning-Party-Game-new/releases/latest'
+    );
   });
 });

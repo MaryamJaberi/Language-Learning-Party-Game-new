@@ -17,7 +17,7 @@ const CACHE_NAME = 'dour-content-v1';
 const LEGACY_CACHES = ['language-decks-cache'];
 
 /** نشانی عمومی سایت؛ نسخهٔ اندروید (که از file:// اجرا می‌شود) محتوا را از اینجا می‌گیرد */
-export const PUBLIC_SITE_URL = 'https://maryamjaberi.github.io/Language-Learning-Party-Game/';
+export const PUBLIC_SITE_URL = 'https://maryamjaberi.github.io/Language-Learning-Party-Game-new/';
 
 const hasWindow = () => typeof window !== 'undefined';
 const hasCaches = () => hasWindow() && 'caches' in window;

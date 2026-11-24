@@ -3,7 +3,7 @@ import { GameSettings, Language, CEFRLevel } from '../types';
 import { sound } from '../soundManager';
 import { getRandomCharacters } from '../characters';
 import { tUI, isRtlLang, isPersianLang } from '../ui';
-import { CEFR_LEVELS, getCefrText } from '../constants';
+import { CEFR_LEVELS, getCefrText, isPracticeReady } from '../constants';
 import { getAvailablePoolCount, getRealSituationCount } from '../cardsData';
 import { SoundHeaderButton } from '../components/SoundHeaderButton';
 import { MeetupMapModal } from '../components/MeetupMapModal';
@@ -357,11 +357,12 @@ const SetupScreen: React.FC<Props> = ({ settings, onSave, onNext, onBack, onOpen
     return languageOptions.find(l => l.code === normalizedTargetCode) || null;
   }, [normalizedTargetCode, languageOptions]);
 
-  // Filter languages for Native Dropdown
+  // Filter languages for Native Dropdown (only practice-ready decks)
   const filteredNativeLanguages = useMemo(() => {
+    const ready = languageOptions.filter(l => isPracticeReady(l.code as Language));
     const q = searchNative.trim().toLowerCase();
-    if (!q) return languageOptions;
-    return languageOptions.filter(l => 
+    if (!q) return ready;
+    return ready.filter(l => 
       l.name.toLowerCase().includes(q) || 
       l.short.toLowerCase().includes(q) || 
       l.code.toLowerCase().includes(q) || 
@@ -369,9 +370,9 @@ const SetupScreen: React.FC<Props> = ({ settings, onSave, onNext, onBack, onOpen
     );
   }, [searchNative, languageOptions]);
 
-  // Filter languages for Target Dropdown (excluding native language)
+  // Filter languages for Target Dropdown (only practice-ready decks, excluding native language)
   const filteredTargetLanguages = useMemo(() => {
-    const list = languageOptions.filter(l => l.code !== normalizedNativeCode);
+    const list = languageOptions.filter(l => isPracticeReady(l.code as Language) && l.code !== normalizedNativeCode);
     const q = searchTarget.trim().toLowerCase();
     if (!q) return list;
     return list.filter(l => 

@@ -1,81 +1,221 @@
 package com.solonovate.dour;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.graphics.Insets;
+import android.net.Uri;
 import android.os.Bundle;
-import android.webkit.WebSettings;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
-import android.webkit.WebChromeClient;
-import android.webkit.WebResourceRequest;
-import android.webkit.WebResourceError;
-import android.webkit.PermissionRequest;
-import android.view.KeyEvent;
-import android.view.Window;
-import android.view.WindowManager;
 import android.os.Build;
 import android.Manifest;
 import android.content.pm.PackageManager;
 import android.annotation.TargetApi;
+import android.view.KeyEvent;
+import android.view.View;
+import android.view.Window;
+import android.view.WindowInsets;
+import android.webkit.DownloadListener;
+import android.webkit.PermissionRequest;
+import android.webkit.WebChromeClient;
+import android.webkit.WebResourceError;
+import android.webkit.WebResourceRequest;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends Activity {
     private WebView webView;
+    private PermissionRequest pendingWebPermissionRequest;
     private static final int PERMISSION_REQUEST_CODE = 101;
     private static final String APP_URL = BuildConfig.APP_URL;
+
+    private String getAppHost() {
+        try {
+            Uri uri = Uri.parse(APP_URL);
+            return uri.getHost() != null ? uri.getHost().toLowerCase() : "maryamjaberi.github.io";
+        } catch (Exception e) {
+            return "maryamjaberi.github.io";
+        }
+    }
+
+    private boolean isAllowedInAppUrl(Uri uri) {
+        if (uri == null) return false;
+        String scheme = uri.getScheme();
+        if (!"https".equalsIgnoreCase(scheme) && !"http".equalsIgnoreCase(scheme)) {
+            return false;
+        }
+        String host = uri.getHost() != null ? uri.getHost().toLowerCase() : "";
+        String appHost = getAppHost();
+        if (host.equals(appHost)) {
+            return true;
+        }
+        if (host.endsWith(".firebaseapp.com") || host.endsWith(".web.app")) {
+            return true;
+        }
+        return false;
+    }
+
+    private void openExternally(Uri uri) {
+        if (uri == null) return;
+        try {
+            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+            startActivity(intent);
+        } catch (Exception ignored) {
+            // No handler installed for this URI scheme
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // Hardware acceleration & clean window flags
         requestWindowFeature(Window.FEATURE_NO_TITLE);
 
         webView = new WebView(this);
         setContentView(webView);
 
+        // Android 15/16 (targetSdk 36) edge-to-edge WindowInsets support so system bars & IME never clip UI
+        webView.setOnApplyWindowInsetsListener(new View.OnApplyWindowInsetsListener() {
+            @Override
+            public WindowInsets onApplyWindowInsets(View v, WindowInsets insets) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                    Insets bars = insets.getInsets(WindowInsets.Type.systemBars() | WindowInsets.Type.ime());
+                    v.setPadding(bars.left, bars.top, bars.right, bars.bottom);
+                } else {
+                    v.setPadding(
+                        insets.getSystemWindowInsetLeft(),
+                        insets.getSystemWindowInsetTop(),
+                        insets.getSystemWindowInsetRight(),
+                        insets.getSystemWindowInsetBottom()
+                    );
+                }
+                return insets;
+            }
+        });
+        webView.requestApplyInsets();
+
         WebSettings settings = webView.getSettings();
         settings.setJavaScriptEnabled(true);
         settings.setDomStorageEnabled(true);
         settings.setDatabaseEnabled(true);
-        settings.setAllowFileAccess(true);
-        settings.setAllowContentAccess(true);
+        settings.setAllowFileAccess(false);
+        settings.setAllowContentAccess(false);
         settings.setMediaPlaybackRequiresUserGesture(false);
         settings.setUseWideViewPort(true);
         settings.setLoadWithOverviewMode(true);
         settings.setSupportZoom(false);
         settings.setBuiltInZoomControls(false);
-
-        // Cache configuration for smooth offline gameplay via Service Worker & Cache Storage
+        settings.setSupportMultipleWindows(true);
         settings.setCacheMode(WebSettings.LOAD_DEFAULT);
 
-        // Chrome client handles microphone permission for pronunciation practice
+        // On-demand microphone permission for pronunciation practice (origin-validated)
         webView.setWebChromeClient(new WebChromeClient() {
             @Override
             public void onPermissionRequest(final PermissionRequest request) {
                 MainActivity.this.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        request.grant(request.getResources());
+                        Uri origin = request.getOrigin();
+                        String originHost = origin != null && origin.getHost() != null
+                            ? origin.getHost().toLowerCase()
+                            : "";
+                        if (!originHost.equals(getAppHost())) {
+                            request.deny();
+                            return;
+                        }
+
+                        List<String> allowedResources = new ArrayList<>();
+                        boolean needsAudio = false;
+                        for (String res : request.getResources()) {
+                            if (PermissionRequest.RESOURCE_AUDIO_CAPTURE.equals(res)) {
+                                allowedResources.add(res);
+                                needsAudio = true;
+                            }
+                        }
+
+                        if (allowedResources.isEmpty()) {
+                            request.deny();
+                            return;
+                        }
+
+                        if (needsAudio && Build.VERSION.SDK_INT >= Build.VERSION_CODES.M &&
+                            checkSelfPermission(Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
+                            if (pendingWebPermissionRequest != null) {
+                                pendingWebPermissionRequest.deny();
+                            }
+                            pendingWebPermissionRequest = request;
+                            requestPermissions(new String[]{Manifest.permission.RECORD_AUDIO}, PERMISSION_REQUEST_CODE);
+                            return;
+                        }
+
+                        request.grant(allowedResources.toArray(new String[0]));
                     }
                 });
+            }
+
+            @Override
+            public boolean onCreateWindow(WebView view, boolean isDialog, boolean isUserGesture, android.os.Message resultMsg) {
+                WebView.HitTestResult result = view.getHitTestResult();
+                String data = result != null ? result.getExtra() : null;
+                if (data != null && !data.isEmpty()) {
+                    openExternally(Uri.parse(data));
+                    return false;
+                }
+                // Handle window.open(url, '_blank') by capturing the URL via a temporary WebView
+                WebView transportView = new WebView(MainActivity.this);
+                transportView.setWebViewClient(new WebViewClient() {
+                    @Override
+                    public boolean shouldOverrideUrlLoading(WebView v, WebResourceRequest req) {
+                        openExternally(req.getUrl());
+                        v.destroy();
+                        return true;
+                    }
+                });
+                WebView.WebViewTransport transport = (WebView.WebViewTransport) resultMsg.obj;
+                transport.setWebView(transportView);
+                resultMsg.sendToTarget();
+                return true;
+            }
+        });
+
+        // Delegate file downloads (e.g. Admin AAB/APK releases) to the system browser/downloader
+        webView.setDownloadListener(new DownloadListener() {
+            @Override
+            public void onDownloadStart(String url, String userAgent, String contentDisposition, String mimetype, long contentLength) {
+                openExternally(Uri.parse(url));
             }
         });
 
         webView.setWebViewClient(new WebViewClient() {
+            @TargetApi(Build.VERSION_CODES.N)
             @Override
-            public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                if (url.startsWith("https://maryamjaberi.github.io/") ||
-                    url.startsWith("https://accounts.google.com/") ||
-                    url.startsWith("https://*.firebaseapp.com/") ||
-                    url.startsWith("http")) {
+            public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
+                Uri uri = request != null ? request.getUrl() : null;
+                if (isAllowedInAppUrl(uri)) {
                     return false;
                 }
-                return false;
+                openExternally(uri);
+                return true;
             }
 
+            @SuppressWarnings("deprecation")
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                Uri uri = url != null ? Uri.parse(url) : null;
+                if (isAllowedInAppUrl(uri)) {
+                    return false;
+                }
+                openExternally(uri);
+                return true;
+            }
+
+            @SuppressWarnings("deprecation")
             @Override
             public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
                 super.onReceivedError(view, errorCode, description, failingUrl);
-                if (failingUrl != null && (failingUrl.equals(APP_URL))) {
+                if (failingUrl != null && failingUrl.equals(APP_URL)) {
                     loadOfflineFallback();
                 }
             }
@@ -90,15 +230,22 @@ public class MainActivity extends Activity {
             }
         });
 
-        // Request runtime record audio permission if required
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (checkSelfPermission(Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
-                requestPermissions(new String[]{Manifest.permission.RECORD_AUDIO}, PERMISSION_REQUEST_CODE);
-            }
-        }
-
         // Load remote production PWA (enables Service Worker, Cache Storage & cloud sync)
         webView.loadUrl(APP_URL);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == PERMISSION_REQUEST_CODE && pendingWebPermissionRequest != null) {
+            boolean granted = grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED;
+            if (granted) {
+                pendingWebPermissionRequest.grant(new String[]{PermissionRequest.RESOURCE_AUDIO_CAPTURE});
+            } else {
+                pendingWebPermissionRequest.deny();
+            }
+            pendingWebPermissionRequest = null;
+        }
     }
 
     private void loadOfflineFallback() {
@@ -110,14 +257,14 @@ public class MainActivity extends Activity {
             + "<title>دور: زبان</title>"
             + "<style>"
             + "  * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }"
-            + "  body { background: #170B2C; color: #FFFFFF; min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 24px; text-align: center; }"
-            + "  .card { background: #241442; border: 1px solid rgba(255,255,255,0.1); border-radius: 20px; padding: 32px 24px; max-width: 400px; width: 100%; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }"
+            + "  body { background: #0E1530; color: #FFFFFF; min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 24px; text-align: center; }"
+            + "  .card { background: #182348; border: 1px solid rgba(255,255,255,0.12); border-radius: 20px; padding: 32px 24px; max-width: 400px; width: 100%; box-shadow: 0 10px 30px rgba(0,0,0,0.45); }"
             + "  .icon { font-size: 56px; margin-bottom: 16px; }"
-            + "  h1 { font-size: 20px; font-weight: bold; margin-bottom: 12px; color: #A78BFA; }"
+            + "  h1 { font-size: 20px; font-weight: bold; margin-bottom: 12px; color: #93C5FD; }"
             + "  p { font-size: 14px; line-height: 1.7; color: #D1D5DB; margin-bottom: 24px; }"
-            + "  .btn { display: inline-block; width: 100%; padding: 14px 20px; background: #7C3AED; color: white; border: none; border-radius: 12px; font-size: 16px; font-weight: bold; cursor: pointer; text-decoration: none; }"
-            + "  .btn:active { background: #6D28D9; transform: scale(0.98); }"
-            + "  .sub { font-size: 12px; color: #9CA3AF; margin-top: 16px; dir: ltr; }"
+            + "  .btn { display: inline-block; width: 100%; padding: 14px 20px; background: #2648B8; color: white; border: none; border-radius: 12px; font-size: 16px; font-weight: bold; cursor: pointer; text-decoration: none; }"
+            + "  .btn:active { background: #1D3A9A; transform: scale(0.98); }"
+            + "  .sub { font-size: 12px; color: #9CA3AF; margin-top: 16px; direction: ltr; }"
             + "</style>"
             + "</head>"
             + "<body>"
@@ -162,6 +309,10 @@ public class MainActivity extends Activity {
 
     @Override
     protected void onDestroy() {
+        if (pendingWebPermissionRequest != null) {
+            pendingWebPermissionRequest.deny();
+            pendingWebPermissionRequest = null;
+        }
         if (webView != null) {
             webView.destroy();
         }

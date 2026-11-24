@@ -243,7 +243,7 @@ export const DuelScreen: React.FC<Props> = ({
       {/* 1. TOP ZONE: PLAYER 2 (Red) */}
       {/* ======================================================== */}
       <div 
-        className={`w-full p-2.5 sm:p-3 flex flex-col justify-between transition-transform duration-300 rotate-180 ${
+        className={`w-full p-2.5 sm:p-3 flex flex-col justify-between transition-transform duration-300 ${isFaceToFace ? 'rotate-180' : ''} ${
           isLockedP2 ? 'bg-red-500/10' : ''
         }`}
         style={{ height: '43%' }}
@@ -350,7 +350,7 @@ export const DuelScreen: React.FC<Props> = ({
                     : (isRTL ? 'کارت متعادل دوئل' : 'Duel balanced card')
               }
             >
-              <span>{cardIndicator === 'review' ? '🌱 مرور' : cardIndicator === 'challenge' ? '🔥 چالش' : '⚖️ متعادل'}</span>
+              <span>{cardIndicator === 'review' ? (isRTL ? '🌱 مرور' : '🌱 Review') : cardIndicator === 'challenge' ? (isRTL ? '🔥 چالش' : '🔥 Challenge') : (isRTL ? '⚖️ متعادل' : '⚖️ Balanced')}</span>
             </div>
             <h2 className="text-sm sm:text-lg font-black text-[var(--ink)] leading-snug tracking-tight line-clamp-2 break-words">
               {currentCard.translation}

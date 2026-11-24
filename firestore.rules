@@ -40,6 +40,10 @@ service cloud.firestore {
       match /weak_cards/{cardId} {
         allow read, write: if (isSignedIn() && request.auth.uid == userId) || isAdmin();
       }
+
+      match /mistakes/{cardId} {
+        allow read, write: if (isSignedIn() && request.auth.uid == userId) || isAdmin();
+      }
     }
 
     // Global Settings collection: Read-only for players, write strictly for Admin

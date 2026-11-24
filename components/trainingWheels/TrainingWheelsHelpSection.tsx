@@ -87,7 +87,7 @@ export const TrainingWheelsHelpSection: React.FC<TrainingWheelsHelpSectionProps>
       };
 
   const aids = getAidsForLanguage(selectedLang);
-  const stats = getBicycleTrainingStats(selectedLang, currentCefr);
+  const stats = getBicycleTrainingStats(selectedLang, currentCefr as CEFRLevel);
 
   const activeCount = aids.filter((a) => settings.enabledAids[a.id] !== false).length;
 
@@ -103,7 +103,7 @@ export const TrainingWheelsHelpSection: React.FC<TrainingWheelsHelpSectionProps>
       dir={isRtl ? 'rtl' : 'ltr'}
     >
       {/* Header Info */}
-      <div className="flex flex-col sm:flex-row items-center justify-between gap-3 bg-[var(--surface-sunken)] p-4 rounded-xl border border-[var(--border-subtle)]">
+      <div className="flex flex-col sm:flex-row items-center justify-between gap-3 bg-[var(--bg)] p-4 rounded-xl border border-[var(--line)]">
         <div>
           <h2 className="text-xl sm:text-2xl font-black flex items-center gap-2">
             <span>🚲</span>
@@ -152,7 +152,7 @@ export const TrainingWheelsHelpSection: React.FC<TrainingWheelsHelpSectionProps>
       />
 
       {/* 4 Fading Stages Walkthrough Showcase */}
-      <div className="bg-[var(--surface-card)] p-4 rounded-xl border border-[var(--border-subtle)] shadow-sm">
+      <div className="bg-[var(--panel)] p-4 rounded-xl border border-[var(--line)] shadow-sm">
         <h3 className="text-sm font-black mb-3 flex items-center gap-2 text-indigo-600 dark:text-indigo-400">
           <span>✨</span>
           <span>{isRtl ? 'مراحل ۴گانهٔ کم‌رنگ‌شدن چرخ‌های کمکی (Fading Stages):' : 'The 4 Fading Stages Driven by Leitner Boxes:'}</span>
@@ -236,7 +236,7 @@ export const TrainingWheelsHelpSection: React.FC<TrainingWheelsHelpSectionProps>
               data-testid={`training-wheel-item-${aid.id}`}
               className={`p-4 rounded-xl border transition-all ${
                 isEnabled
-                  ? 'bg-[var(--surface-card)] border-[var(--border-subtle)] shadow-sm'
+                  ? 'bg-[var(--panel)] border-[var(--line)] shadow-sm'
                   : 'bg-neutral-100/50 dark:bg-neutral-900/40 border-dashed border-neutral-300 dark:border-neutral-800 opacity-75'
               }`}
             >

@@ -72,9 +72,9 @@ const PRONUNCIATION_DICTIONARY: Record<string, Record<string, PronunciationEntry
     'raam': { fa: 'رام', en: 'rahm', ipa: 'raːm' },
     'geld': { fa: 'خِلد', en: 'khelt', ipa: 'ɣɛlt' },
     'rekening': { fa: 'رِیکِه‌نینگ', en: 'RAY-kuh-ning', ipa: 'ˈreː.kə.nɪŋ' },
-    'hoeveel kost het?': { fa: 'هو فِیل کُست هِت؟', en: 'hoo-vayl kost het?', ipa: 'huˈveːl kɔst hɛt' },
-    'mag ik de rekening?': { fa: 'ماخ ایک دِ رِیکِه‌نینگ؟', en: 'mahkh ik duh ray-kuh-ning?', ipa: 'mɑx ɪk də ˈreː.kə.nɪŋ' },
-    'spreekt u engels?': { fa: 'اسپرِیکت یو اِنگِلس؟', en: 'spraykt oo eng-els?', ipa: 'spreːkt y ˈɛŋ.əls' },
+    'hoeveel kost het': { fa: 'هو فِیل کُست هِت؟', en: 'hoo-vayl kost het?', ipa: 'huˈveːl kɔst hɛt' },
+    'mag ik de rekening': { fa: 'ماخ ایک دِ رِیکِه‌نینگ؟', en: 'mahkh ik duh ray-kuh-ning?', ipa: 'mɑx ɪk də ˈreː.kə.nɪŋ' },
+    'spreekt u engels': { fa: 'اسپرِیکت یو اِنگِلس؟', en: 'spraykt oo eng-els?', ipa: 'spreːkt y ˈɛŋ.əls' },
     'ik begrijp het niet': { fa: 'ایک بِه‌خرایپ هِت نیت', en: 'ik buh-ghrayp het neet', ipa: 'ɪk bəˈɣrɛip hɛt nit' },
     'gezellig': { fa: 'خِه‌زِلِیخ', en: 'khuh-ZEL-ukh', ipa: 'ɣəˈzɛ.ləx' },
     'gezelligheid': { fa: 'خِه‌زِلِیخ‌هایت', en: 'khuh-ZEL-ukh-hayt', ipa: 'ɣəˈzɛ.ləx.ɦɛit' }
@@ -92,10 +92,10 @@ const PRONUNCIATION_DICTIONARY: Record<string, Record<string, PronunciationEntry
     'excuse me': { fa: 'اکسکیوز می', en: 'ek-SKYOOZ mee', ipa: 'ɪkˈskjuːz miː' },
     'sorry': { fa: 'ساری', en: 'SOR-ee', ipa: 'ˈsɒr.i' },
     'goodbye': { fa: 'گودبای', en: 'good-BYE', ipa: 'ˌɡʊdˈbaɪ' },
-    'how are you?': { fa: 'هاو آر یو؟', en: 'how ahr yoo?', ipa: 'haʊ ɑːr juː' },
+    'how are you': { fa: 'هاو آر یو؟', en: 'how ahr yoo?', ipa: 'haʊ ɑːr juː' },
     'see you later': { fa: 'سی یو لِیتِر', en: 'see yoo lay-ter', ipa: 'siː juː ˈleɪ.tər' },
     'check please': { fa: 'چِک پلیز', en: 'chek pleez', ipa: 'tʃɛk pliːz' },
-    'could i get a glass of water?': { fa: 'کود آی گِت اِ گلس آو واتِر؟', en: 'kood eye get uh glahs ov wah-ter?', ipa: 'kʊd aɪ ɡɛt ə ɡlæs əv ˈwɔːtər' }
+    'could i get a glass of water': { fa: 'کود آی گِت اِ گلس آو واتِر؟', en: 'kood eye get uh glahs ov wah-ter?', ipa: 'kʊd aɪ ɡɛt ə ɡlæs əv ˈwɔːtər' }
   },
 
   // GERMAN (de)
@@ -261,7 +261,7 @@ export function getPronunciationHint(
   const lower = clean.toLowerCase().replace(/[.,!?;:؟]/g, '').trim();
   const isTargetDutch = targetLang === 'nl';
   const isTargetEnglish = targetLang === 'en' || targetLang === 'en-US';
-  const isNativeFa = nativeLang === 'fa' || isRtlLang(nativeLang);
+  const isNativeFa = nativeLang === 'fa';
 
   // 1. Check curated pre-existing pronunciation on card
   if (existingPronunciation && existingPronunciation.trim()) {

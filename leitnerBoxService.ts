@@ -21,22 +21,37 @@ export function getTodayDateString(): string {
 }
 
 /**
- * Calculate difference in calendar days between two YYYY-MM-DD strings
+ * Parse a YYYY-MM-DD string into a local calendar Date without UTC shift
  */
-export function calculateDaysDifference(date1: string, date2: string): number {
-  if (!date1 || !date2) return 0;
-  const d1 = new Date(date1).getTime();
-  const d2 = new Date(date2).getTime();
-  const diffMs = Math.abs(d2 - d1);
-  return Math.floor(diffMs / (1000 * 60 * 60 * 24));
+function parseLocalDateString(dateStr: string): Date | null {
+  const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec((dateStr || '').trim());
+  if (!m) return null;
+  const year = Number(m[1]);
+  const month = Number(m[2]) - 1;
+  const day = Number(m[3]);
+  const d = new Date(year, month, day);
+  return Number.isNaN(d.getTime()) ? null : d;
 }
 
 /**
- * Add days to a YYYY-MM-DD string
+ * Calculate signed difference in calendar days between date1 and date2 (date2 - date1)
+ */
+export function calculateDaysDifference(date1: string, date2: string): number {
+  if (!date1 || !date2) return 0;
+  const d1 = parseLocalDateString(date1);
+  const d2 = parseLocalDateString(date2);
+  if (!d1 || !d2) return 0;
+  const utc1 = Date.UTC(d1.getFullYear(), d1.getMonth(), d1.getDate());
+  const utc2 = Date.UTC(d2.getFullYear(), d2.getMonth(), d2.getDate());
+  return Math.round((utc2 - utc1) / (1000 * 60 * 60 * 24));
+}
+
+/**
+ * Add days to a YYYY-MM-DD string safely across all timezones
  */
 export function addDaysToDateString(dateStr: string, days: number): string {
-  const d = new Date(dateStr);
-  d.setDate(d.getDate() + days);
+  const base = parseLocalDateString(dateStr) || new Date();
+  const d = new Date(base.getFullYear(), base.getMonth(), base.getDate() + days);
   const year = d.getFullYear();
   const month = String(d.getMonth() + 1).padStart(2, '0');
   const day = String(d.getDate()).padStart(2, '0');
@@ -89,8 +104,8 @@ export function checkAndApplyDailyDecay(state: LeitnerState): LeitnerState {
 
   const daysPassed = calculateDaysDifference(lastVisit, today);
 
-  if (daysPassed === 0) {
-    // Same day visit, no penalty
+  if (!Number.isFinite(daysPassed) || daysPassed <= 0) {
+    // Same day visit or backward clock skew, no penalty
     return state;
   }
 
@@ -173,11 +188,11 @@ export function enrollCardsInLeitner(
     reviewHistory: []
   }));
 
-  // Append non-duplicate cards
+  // Append non-duplicate cards up to MAX_LEITNER_CARDS
   const existingIds = new Set(state.cards.map(c => c.cardId));
   const filtered = newLeitnerItems.filter(c => !existingIds.has(c.cardId));
 
-  state.cards = [...state.cards, ...filtered];
+  state.cards = [...state.cards, ...filtered].slice(0, MAX_LEITNER_CARDS);
   saveLeitnerState(state);
   return state;
 }

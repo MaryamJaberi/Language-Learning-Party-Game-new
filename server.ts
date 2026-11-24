@@ -12,7 +12,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 // Initialize Firebase Admin SDK for server-side token verification
 const adminApp = !getAdminApps().length
   ? initAdminApp({
-      projectId: process.env.FIREBASE_PROJECT_ID || 'ai-studio-languagelearning-8e9edc5e-f81c-4f7b-b5a5-7514d76890c8'
+      projectId: process.env.FIREBASE_PROJECT_ID || 'vast-xerocopy-z3bk6'
     })
   : getAdminApps()[0];
 const adminAuth = getAdminAuth(adminApp);

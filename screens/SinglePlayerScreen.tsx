@@ -1514,7 +1514,7 @@ const SinglePlayerScreen: React.FC<Props> = ({
               </p>
 
               {/* Unified Audio Controls */}
-              {sound.isVoiceSupportedFor(currentCard?.targetLanguage) && (
+              {sound.isVoiceSupportedSync(currentCard?.targetLanguage) && (
               <div className="flex items-center justify-center gap-2 mt-1">
                 <button
                   type="button"
@@ -1565,7 +1565,7 @@ const SinglePlayerScreen: React.FC<Props> = ({
               )}
 
               {/* Unified Audio Controls */}
-              {sound.isVoiceSupportedFor(currentCard?.targetLanguage) && (
+              {sound.isVoiceSupportedSync(currentCard?.targetLanguage) && (
               <div className="flex items-center justify-center gap-2 mt-3">
                 <button
                   type="button"
@@ -1615,7 +1615,7 @@ const SinglePlayerScreen: React.FC<Props> = ({
               )}
 
               {/* Unified Audio Controls */}
-              {sound.isVoiceSupportedFor(currentCard?.targetLanguage) && (
+              {sound.isVoiceSupportedSync(currentCard?.targetLanguage) && (
               <div className="flex items-center justify-center gap-2 mt-3">
                 <button
                   type="button"
@@ -1663,7 +1663,7 @@ const SinglePlayerScreen: React.FC<Props> = ({
               </div>
 
               {/* Unified Audio Controls */}
-              {sound.isVoiceSupportedFor(currentCard?.targetLanguage) && (
+              {sound.isVoiceSupportedSync(currentCard?.targetLanguage) && (
               <div className="flex items-center justify-center gap-2 mt-3">
                 <button
                   type="button"
@@ -1741,7 +1741,7 @@ const SinglePlayerScreen: React.FC<Props> = ({
                     <span>{isRTL ? 'تلاش مجدد' : 'Try Again'}</span>
                   </button>
 
-                  {sound.isVoiceSupportedFor(currentCard?.targetLanguage) && (
+                  {sound.isVoiceSupportedSync(currentCard?.targetLanguage) && (
                   <button
                     type="button"
                     onClick={handlePlayAudio}

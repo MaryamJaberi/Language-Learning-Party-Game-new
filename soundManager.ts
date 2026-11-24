@@ -17,6 +17,7 @@ class SoundManager {
   // Speech synthesis and Web Audio TTS state
   private activeUtterance: SpeechSynthesisUtterance | null = null;
   private fallbackAudio: HTMLAudioElement | null = null;
+  private fallbackBlobUrl: string | null = null;
   private activeBufferSource: AudioBufferSourceNode | null = null;
   private ttsBufferCache: Map<string, AudioBuffer> = new Map();
   private ttsRawCache: Map<string, ArrayBuffer> = new Map();
@@ -1007,12 +1008,22 @@ class SoundManager {
 
     if (this.fallbackAudio) {
       try {
+        this.fallbackAudio.onended = null;
+        this.fallbackAudio.onerror = null;
         this.fallbackAudio.pause();
         this.fallbackAudio.currentTime = 0;
       } catch (e) {
         // ignore
       }
       this.fallbackAudio = null;
+    }
+    if (this.fallbackBlobUrl) {
+      try {
+        URL.revokeObjectURL(this.fallbackBlobUrl);
+      } catch {
+        // ignore
+      }
+      this.fallbackBlobUrl = null;
     }
 
     if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
@@ -1175,22 +1186,36 @@ class SoundManager {
       audio.playbackRate = desiredRate < 0.8 ? 0.72 : 1.0;
       audio.volume = (!options?.force && this.isMuted) ? 0 : 1.0;
       this.fallbackAudio = audio;
+      this.fallbackBlobUrl = blobUrl;
+
+      const cleanupBlob = () => {
+        if (this.fallbackBlobUrl === blobUrl) {
+          this.fallbackBlobUrl = null;
+        }
+        try { URL.revokeObjectURL(blobUrl); } catch {}
+        if (this.fallbackAudio === audio) {
+          this.fallbackAudio = null;
+        }
+      };
 
       audio.onplay = () => {
         options?.onStart?.();
       };
       audio.onended = () => {
-        URL.revokeObjectURL(blobUrl);
-        this.fallbackAudio = null;
+        cleanupBlob();
         options?.onEnd?.();
       };
       audio.onerror = () => {
-        URL.revokeObjectURL(blobUrl);
-        this.fallbackAudio = null;
+        cleanupBlob();
         options?.onEnd?.();
       };
 
-      await audio.play();
+      try {
+        await audio.play();
+      } catch {
+        cleanupBlob();
+        return false;
+      }
       return true;
     } catch {
       return false;
@@ -1348,12 +1373,15 @@ class SoundManager {
 
   public isVoiceSupportedSync(lang: string = 'en-US'): boolean {
     if (typeof window === 'undefined' || !('speechSynthesis' in window)) {
-      return false;
+      // Keep audio buttons visible for fallback TTS / environments without Web Speech
+      return true;
     }
     const targetBCP = (SoundManager.BCP47_MAP[lang] || lang || 'en-US').toLowerCase();
     const prefix = targetBCP.split('-')[0];
     const voices = this.cachedVoices && this.cachedVoices.length > 0 ? this.cachedVoices : window.speechSynthesis.getVoices();
-    if (!voices || voices.length === 0) return false;
+    // Before browsers finish populating getVoices() asynchronously, keep audio controls visible
+    // so Android WebView / Chrome don't hide play buttons on initial render.
+    if (!voices || voices.length === 0) return true;
 
     return voices.some((v) => {
       const vLang = (v.lang || '').toLowerCase().replace(/_/g, '-');
