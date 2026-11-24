@@ -8,6 +8,7 @@
 import type { LanguageCard, Language } from '../types';
 import type { NativePack, PatternCategory, PatternDeck, PatternMode } from './types';
 import { NATIVE_EN } from './natives/en';
+import { NATIVE_NL } from './natives/nl';
 import { EN_PATTERNS } from './en';
 import { NL_PATTERNS } from './nl';
 import { DE_PATTERNS } from './de';
@@ -23,7 +24,7 @@ export function getAllPatternDecks(): PatternDeck[] {
   return Object.values(DECKS);
 }
 /** زبان‌های مادری غیر از فارسی (فارسی داخل خود دسته‌هاست) */
-const NATIVES: Record<string, NativePack> = { en: NATIVE_EN };
+const NATIVES: Record<string, NativePack> = { en: NATIVE_EN, nl: NATIVE_NL };
 
 /** زبان‌های مادری که بازی الگو برایشان آماده است */
 export function patternNativeLanguages(): string[] {
