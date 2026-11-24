@@ -97,6 +97,8 @@ interface Props {
 import { SPEECH_LANG_MAP, getSpeechLanguageCode } from '../constants';
 import CardImage from '../components/CardImage';
 import { tx, txt , uiDigits } from '../i18n/runtime';
+import SentencePuzzle from '../components/SentencePuzzle';
+import { isLongSentence, getPuzzleStage, recordPuzzleSolved, MAX_PUZZLE_STAGE } from '../src/engine/longSentence/chunker';
 
 // Convert numbers to Persian digits if in RTL/Persian
 // رقم فارسی فقط وقتی زبان برنامه فارسی است (نه برای عربی و دیگر زبان‌های راست‌به‌چپ)
@@ -238,6 +240,8 @@ const SinglePlayerScreen: React.FC<Props> = ({
   const adaptiveStatsRef = useRef<ItemStats | null>(null);
   const [currentIndicator, setCurrentIndicator] = useState<CardIndicator>('balanced');
   const [currentExerciseType, setCurrentExerciseType] = useState<ExerciseType>('recognize');
+  // «پازل تکه‌ها» برای جمله‌های بلند: بازیکن می‌تواند برای هر کارت آن را کنار بگذارد
+  const [puzzleDismissed, setPuzzleDismissed] = useState(false);
   const [adaptiveToastMessage, setAdaptiveToastMessage] = useState<string | null>(null);
   const [levelSuggestion, setLevelSuggestion] = useState<CEFR | null>(null);
   const [currentCardP, setCurrentCardP] = useState<number>(0.8);
@@ -366,6 +370,7 @@ const SinglePlayerScreen: React.FC<Props> = ({
     setUserInput('');
     setEvaluation(null);
     setAttempts(1);
+    setPuzzleDismissed(false);
     setPendingVoiceSubmit(null);
     setHasFirstSpokenFailed(false);
     setIsRevealed(false);
@@ -1135,6 +1140,15 @@ const SinglePlayerScreen: React.FC<Props> = ({
   }
 
   const isAudioOnly = settings.displayMode === 'audio_only';
+  const puzzleLang = currentCard?.targetLanguage || settings.targetLanguage || 'en';
+  const puzzleKey = currentCard ? `${puzzleLang}:${(currentCard as any).conceptId || currentCard.id}` : '';
+  const puzzleStage = currentCard ? getPuzzleStage(puzzleKey) : 0;
+  const puzzleActive =
+    !!currentCard &&
+    !puzzleDismissed &&
+    settings.displayMode !== 'translate_to_native' &&
+    puzzleStage < MAX_PUZZLE_STAGE &&
+    isLongSentence(currentCard.targetText || '', puzzleLang);
 
   return (
     <div 
@@ -1748,8 +1762,23 @@ const SinglePlayerScreen: React.FC<Props> = ({
         {/* Compact Input and 3 Action Buttons Row (Only active during live card guessing, hidden when answered correctly or during skipped review) */}
         {!skippedCardInfo && !evaluation?.isCorrect && (
           <div className="space-y-1.5">
+            {/* پازل تکه‌ها: داربست جمله‌های بلند (به‌جای تایپ طولانی) */}
+            {puzzleActive && currentCard && (
+              <SentencePuzzle
+                text={currentCard.targetText}
+                lang={currentCard.targetLanguage || settings.targetLanguage || 'en'}
+                stage={puzzleStage}
+                isRTL={isRTL}
+                onTap={(ok) => (ok ? sound.playClick() : sound.hapticFeedback('error'))}
+                onSkipPuzzle={() => setPuzzleDismissed(true)}
+                onSolved={(mistakes) => {
+                  recordPuzzleSolved(puzzleKey, mistakes);
+                  submitAnswer(currentCard.targetText);
+                }}
+              />
+            )}
             {/* Adaptive Exercise Options (choice2 scaffold for A1 or 4-choice recognize) */}
-            {(revealedOptions || currentExerciseType === 'choice2' || currentExerciseType === 'recognize') && quickQuizOptions.length > 0 && (
+            {!puzzleActive && (revealedOptions || currentExerciseType === 'choice2' || currentExerciseType === 'recognize') && quickQuizOptions.length > 0 && (
               <div className="grid grid-cols-2 gap-2 my-1 animate-fade-in" data-testid="adaptive-choice-options">
                 {quickQuizOptions.map((opt, optIdx) => (
                   <button
