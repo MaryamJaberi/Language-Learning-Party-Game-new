@@ -32,6 +32,7 @@ import { generateChallengingReflexOptions } from '../utils/testQuestionEngine';
 import { recordMistake } from '../mistakeReviewService';
 import { isRtlLang, toPersianDigits } from '../ui';
 import ExitConfirmModal from '../components/ExitConfirmModal';
+import { tx, txt, uiDigits } from '../i18n/runtime';
 
 interface Props {
   initialRoom: OnlineDuelRoom;
@@ -136,9 +137,7 @@ export const OnlineDuelScreen: React.FC<Props> = ({
 
   const handleShareInvite = async () => {
     sound.playClick();
-    const shareText = isRTL 
-      ? `بیا تو دوئل زبان ۲ نفره با من بازی کن! کد اتاق من: ${room.roomCode}`
-      : `Join my 1v1 Language Duel! Room Code: ${room.roomCode}`;
+    const shareText = txt(isRTL, 'بیا تو دوئل زبان ۲ نفره با من بازی کن! کد اتاق من: {0}', 'Join my 1v1 Language Duel! Room Code: {0}', [room.roomCode]);
     if (navigator.share) {
       try {
         await navigator.share({
@@ -194,7 +193,7 @@ export const OnlineDuelScreen: React.FC<Props> = ({
     return (
       <div 
         className="w-full max-w-md sm:max-w-lg md:max-w-xl mx-auto min-h-full h-full min-h-0 flex-1 px-3 sm:px-4 py-4 sm:py-6 font-ui flex flex-col justify-between overflow-y-auto overscroll-contain"
-        dir={isRTL ? 'rtl' : 'ltr'}
+        dir={((isRTL ? 'rtl' : 'ltr'))}
       >
         {/* Header */}
         <div className="flex items-center justify-between">
@@ -203,12 +202,12 @@ export const OnlineDuelScreen: React.FC<Props> = ({
             onClick={() => setShowExitModal(true)}
             className="w-10 h-10 rounded-xl bg-[var(--panel)] border border-[var(--line)] text-[var(--ink)] flex items-center justify-center hover:bg-[var(--bg)] cursor-pointer"
           >
-            <ArrowLeft size={18} className={isRTL ? 'rotate-180' : ''} />
+            <ArrowLeft size={18} className={((isRTL ? 'rotate-180' : ''))} />
           </button>
           <div className="flex items-center gap-2">
             <span className="w-2.5 h-2.5 rounded-full bg-amber-400 animate-ping" />
             <span className="text-xs font-black text-amber-500 uppercase tracking-wider">
-              {isRTL ? 'اتاق آنلاین آماده' : 'Online Room Ready'}
+              {tx(isRTL, 'اتاق آنلاین آماده', 'Online Room Ready')}
             </span>
           </div>
           <div className="w-10" />
@@ -226,12 +225,10 @@ export const OnlineDuelScreen: React.FC<Props> = ({
 
           <div>
             <h2 className="text-xl font-black text-[var(--ink)]">
-              {isRTL ? 'دوئل دو گوشی (زنده)' : 'Live 2-Phones Duel'}
+              {tx(isRTL, 'دوئل دو گوشی (زنده)', 'Live 2-Phones Duel')}
             </h2>
             <p className="text-xs text-[var(--mute)] mt-1">
-              {isRTL 
-                ? 'کد زیر را به دوستت بده تا در گوشی خودش وارد مسابقه شود:'
-                : 'Share this code with your friend to play on their phone:'}
+              {tx(isRTL, 'کد زیر را به دوستت بده تا در گوشی خودش وارد مسابقه شود:', 'Share this code with your friend to play on their phone:')}
             </p>
           </div>
 
@@ -245,7 +242,7 @@ export const OnlineDuelScreen: React.FC<Props> = ({
             </div>
             <span className="text-[11px] font-bold text-[var(--mute)] group-hover:text-[var(--ink)] flex items-center justify-center gap-1 mt-1.5">
               {copiedCode ? <Check size={13} className="text-emerald-500" /> : <Copy size={13} />}
-              <span>{copiedCode ? (isRTL ? 'کد کپی شد! ✅' : 'Copied! ✅') : (isRTL ? 'لمس برای کپی کردن کد' : 'Tap to copy code')}</span>
+              <span>{copiedCode ? (tx(isRTL, 'کد کپی شد! ✅', 'Copied! ✅')) : (tx(isRTL, 'لمس برای کپی کردن کد', 'Tap to copy code'))}</span>
             </span>
           </div>
 
@@ -257,7 +254,7 @@ export const OnlineDuelScreen: React.FC<Props> = ({
               className="py-3 px-3 bg-[var(--bg)] hover:bg-[var(--line)] border border-[var(--line)] text-[var(--ink)] text-xs font-black rounded-xl flex items-center justify-center gap-1.5 cursor-pointer"
             >
               <Copy size={15} />
-              <span>{copiedCode ? (isRTL ? 'کپی شد' : 'Copied') : (isRTL ? 'کپی کد' : 'Copy Code')}</span>
+              <span>{copiedCode ? (tx(isRTL, 'کپی شد', 'Copied')) : (tx(isRTL, 'کپی کد', 'Copy Code'))}</span>
             </button>
             <button
               type="button"
@@ -265,23 +262,21 @@ export const OnlineDuelScreen: React.FC<Props> = ({
               className="py-3 px-3 bg-[var(--lapis)] hover:bg-[#1a38a0] text-white text-xs font-black rounded-xl flex items-center justify-center gap-1.5 shadow-md cursor-pointer"
             >
               <Share2 size={15} />
-              <span>{isRTL ? 'اشتراک‌گذاری' : 'Share Invite'}</span>
+              <span>{tx(isRTL, 'اشتراک‌گذاری', 'Share Invite')}</span>
             </button>
           </div>
 
           {/* Pulsing Status */}
           <div className="pt-2 flex items-center justify-center gap-2 text-xs font-bold text-[var(--mute)]">
             <Smartphone size={16} className="animate-pulse text-[var(--lapis)]" />
-            <span>{isRTL ? 'در انتظار ورود گوشی حریف...' : 'Waiting for opponent phone...'}</span>
+            <span>{tx(isRTL, 'در انتظار ورود گوشی حریف...', 'Waiting for opponent phone...')}</span>
           </div>
         </div>
 
         {/* Footer info */}
         <div className="text-center space-y-1">
           <p className="text-[11px] font-bold text-[var(--mute)]">
-            {isRTL 
-              ? 'هر دو بازیکن باید به اینترنت متصل باشند.'
-              : 'Both devices must have an active internet connection.'}
+            {tx(isRTL, 'هر دو بازیکن باید به اینترنت متصل باشند.', 'Both devices must have an active internet connection.')}
           </p>
         </div>
 
@@ -322,7 +317,7 @@ export const OnlineDuelScreen: React.FC<Props> = ({
   return (
     <div 
       className="w-full max-w-md sm:max-w-lg md:max-w-xl mx-auto min-h-full h-full min-h-0 flex-1 px-2.5 sm:px-4 py-2 sm:py-3 font-ui flex flex-col justify-between relative overflow-y-auto overscroll-contain transition-all duration-300"
-      dir={isRTL ? 'rtl' : 'ltr'}
+      dir={((isRTL ? 'rtl' : 'ltr'))}
     >
       {/* Top Bar: Opponent Info & Header */}
       <div className="space-y-2">
@@ -331,11 +326,11 @@ export const OnlineDuelScreen: React.FC<Props> = ({
             type="button"
             onClick={() => setShowExitModal(true)}
             className="h-9 px-3 rounded-xl bg-[var(--bg)] border border-[var(--line)] text-[var(--ink)] flex items-center justify-center gap-1.5 hover:bg-[var(--lapis-soft)] cursor-pointer font-extrabold text-xs"
-            title={isRTL ? 'توقف بازی' : 'Pause Game'}
-            aria-label={isRTL ? 'توقف بازی' : 'Pause Game'}
+            title={tx(isRTL, 'توقف بازی', 'Pause Game')}
+            aria-label={tx(isRTL, 'توقف بازی', 'Pause Game')}
           >
             <Pause size={15} className="text-[var(--lapis)] shrink-0" />
-            <span>{isRTL ? 'توقف بازی' : 'Pause'}</span>
+            <span>{tx(isRTL, 'توقف بازی', 'Pause')}</span>
           </button>
 
           {/* Room Code Badge */}
@@ -353,18 +348,18 @@ export const OnlineDuelScreen: React.FC<Props> = ({
             {/* Player 1 (Blue) */}
             <div className={`flex items-center gap-2 ${myRole === 'p1' ? 'text-[#2347C5]' : 'text-[var(--mute)]'}`}>
               <span className="w-7 h-7 rounded-lg bg-[#2347C5] text-white text-xs font-black flex items-center justify-center shrink-0">
-                #{isRTL ? toPersianDigits(1) : 1}
+                #{uiDigits(isRTL, 1)}
               </span>
               <div>
                 <div className="flex items-center gap-1">
                   <span>{room.player1.name}</span>
-                  {myRole === 'p1' && <span className="text-[9px] bg-[#2347C5]/15 text-[#2347C5] px-1 rounded-sm">{isRTL ? 'شما' : 'You'}</span>}
+                  {myRole === 'p1' && <span className="text-[9px] bg-[#2347C5]/15 text-[#2347C5] px-1 rounded-sm">{tx(isRTL, 'شما', 'You')}</span>}
                 </div>
                 <div className="flex items-center gap-1 text-[11px]">
-                  <span className="text-base font-black text-[#2347C5]">{isRTL ? toPersianDigits(room.player1.score) : room.player1.score}</span>
+                  <span className="text-base font-black text-[#2347C5]">{uiDigits(isRTL, room.player1.score)}</span>
                   {room.player1.streak >= 2 && (
                     <span className="flex items-center text-amber-500 font-bold">
-                      <Flame size={12} className="animate-bounce" /> {isRTL ? toPersianDigits(room.player1.streak) : room.player1.streak}x
+                      <Flame size={12} className="animate-bounce" /> {uiDigits(isRTL, room.player1.streak)}x
                     </span>
                   )}
                 </div>
@@ -373,9 +368,9 @@ export const OnlineDuelScreen: React.FC<Props> = ({
 
             {/* Target Score */}
             <div className="flex flex-col items-center">
-              <span className="text-[9px] font-bold text-[var(--mute)] uppercase tracking-wider">{isRTL ? 'هدف برد' : 'Target'}</span>
+              <span className="text-[9px] font-bold text-[var(--mute)] uppercase tracking-wider">{tx(isRTL, 'هدف برد', 'Target')}</span>
               <span className="text-xs font-black px-2 py-0.5 rounded-full bg-amber-400/20 text-amber-600 border border-amber-400/30">
-                {isRTL ? toPersianDigits(winningScore) : winningScore}
+                {uiDigits(isRTL, winningScore)}
               </span>
             </div>
 
@@ -383,20 +378,20 @@ export const OnlineDuelScreen: React.FC<Props> = ({
             <div className={`flex items-center gap-2 ${myRole === 'p2' ? 'text-[#E0533C]' : 'text-[var(--mute)]'}`}>
               <div className="text-right">
                 <div className="flex items-center gap-1 justify-end">
-                  {myRole === 'p2' && <span className="text-[9px] bg-[#E0533C]/15 text-[#E0533C] px-1 rounded-sm">{isRTL ? 'شما' : 'You'}</span>}
+                  {myRole === 'p2' && <span className="text-[9px] bg-[#E0533C]/15 text-[#E0533C] px-1 rounded-sm">{tx(isRTL, 'شما', 'You')}</span>}
                   <span>{room.player2?.name || 'Player 2'}</span>
                 </div>
                 <div className="flex items-center gap-1 justify-end text-[11px]">
                   {room.player2 && room.player2.streak >= 2 && (
                     <span className="flex items-center text-amber-500 font-bold">
-                      <Flame size={12} className="animate-bounce" /> {isRTL ? toPersianDigits(room.player2.streak) : room.player2.streak}x
+                      <Flame size={12} className="animate-bounce" /> {uiDigits(isRTL, room.player2.streak)}x
                     </span>
                   )}
-                  <span className="text-base font-black text-[#E0533C]">{isRTL ? toPersianDigits(room.player2?.score || 0) : (room.player2?.score || 0)}</span>
+                  <span className="text-base font-black text-[#E0533C]">{uiDigits(isRTL, room.player2?.score || 0)}</span>
                 </div>
               </div>
               <span className="w-7 h-7 rounded-lg bg-[#E0533C] text-white text-xs font-black flex items-center justify-center shrink-0">
-                #{isRTL ? toPersianDigits(2) : 2}
+                #{uiDigits(isRTL, 2)}
               </span>
             </div>
           </div>
@@ -425,15 +420,11 @@ export const OnlineDuelScreen: React.FC<Props> = ({
         }`}>
           {room.roundWinner === myRole ? (
             <span>
-              {isRTL 
-                ? `⚡ آفرین! امتیاز این دور برای شما شد (${room.reactionDiffMs || 250}ms)!`
-                : `⚡ Point won! Reflex: ${room.reactionDiffMs || 250}ms!`}
+              {txt(isRTL, '⚡ آفرین! امتیاز این دور برای شما شد ({0}ms)!', '⚡ Point won! Reflex: {0}ms!', [room.reactionDiffMs || 250])}
             </span>
           ) : (
             <span>
-              {isRTL 
-                ? 'حریف سریع‌تر جواب داد! دور بعدی آماده باش!' 
-                : 'Opponent was faster this round! Get ready!'}
+              {tx(isRTL, 'حریف سریع‌تر جواب داد! دور بعدی آماده باش!', 'Opponent was faster this round! Get ready!')}
             </span>
           )}
         </div>
@@ -454,10 +445,10 @@ export const OnlineDuelScreen: React.FC<Props> = ({
               }`}
               aria-label={
                 currentCard.isChallenge
-                  ? (isRTL ? 'کارت چالش دوئل آنلاین' : 'Online duel challenge card')
+                  ? (tx(isRTL, 'کارت چالش دوئل آنلاین', 'Online duel challenge card'))
                   : currentCard.cefrLevel === 'A1'
-                    ? (isRTL ? 'کارت مرور دوئل آنلاین' : 'Online duel review card')
-                    : (isRTL ? 'کارت متعادل دوئل آنلاین' : 'Online duel balanced card')
+                    ? (tx(isRTL, 'کارت مرور دوئل آنلاین', 'Online duel review card'))
+                    : (tx(isRTL, 'کارت متعادل دوئل آنلاین', 'Online duel balanced card'))
               }
             >
               {currentCard.isChallenge ? '🔥 چالش' : currentCard.cefrLevel === 'A1' ? '🌱 مرور' : '⚖️ متعادل'}
@@ -475,7 +466,7 @@ export const OnlineDuelScreen: React.FC<Props> = ({
           {myPlayer?.isLocked && (
             <div className="p-2 bg-rose-500/15 border border-rose-500/40 rounded-xl text-rose-500 text-xs font-black animate-pulse flex items-center justify-center gap-1.5">
               <ShieldAlert size={15} />
-              <span>{isRTL ? '❌ اشتباه زدی! قفل موقت (۱.۴ ثانیه)' : '❌ Wrong! Temporary lockout (1.4s)'}</span>
+              <span>{tx(isRTL, '❌ اشتباه زدی! قفل موقت (۱.۴ ثانیه)', '❌ Wrong! Temporary lockout (1.4s)')}</span>
             </div>
           )}
         </div>
@@ -517,7 +508,7 @@ export const OnlineDuelScreen: React.FC<Props> = ({
       {room.matchWinner && (
         <div 
           className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-xs animate-fade-in font-ui"
-          dir={isRTL ? 'rtl' : 'ltr'}
+          dir={((isRTL ? 'rtl' : 'ltr'))}
         >
           <div className="w-full max-w-sm bg-[var(--panel)] border-2 border-amber-400/50 rounded-[28px] p-6 text-center space-y-4 shadow-2xl text-[var(--ink)]">
             <div className="w-16 h-16 mx-auto rounded-3xl bg-amber-400 text-amber-950 flex items-center justify-center shadow-lg">
@@ -527,13 +518,11 @@ export const OnlineDuelScreen: React.FC<Props> = ({
             <div>
               <h2 className="text-2xl font-black text-[var(--ink)]">
                 {room.matchWinner === myRole
-                  ? (isRTL ? '🏆 پیروزی باشکوه! شما بردید!' : '🏆 VICTORY! You Won!')
-                  : (isRTL ? 'حریف برنده این مسابقه شد!' : 'Opponent Won the Match!')}
+                  ? (tx(isRTL, '🏆 پیروزی باشکوه! شما بردید!', '🏆 VICTORY! You Won!'))
+                  : (tx(isRTL, 'حریف برنده این مسابقه شد!', 'Opponent Won the Match!'))}
               </h2>
               <p className="text-xs text-[var(--mute)] mt-1">
-                {isRTL 
-                  ? `نتیجه نهایی: ${room.player1.score} در برابر ${room.player2?.score || 0}`
-                  : `Final Score: ${room.player1.score} - ${room.player2?.score || 0}`}
+                {txt(isRTL, 'نتیجه نهایی: {0} در برابر {1}', 'Final Score: {0} - {1}', [room.player1.score, room.player2?.score || 0])}
               </p>
             </div>
 
@@ -544,7 +533,7 @@ export const OnlineDuelScreen: React.FC<Props> = ({
                 className="w-full py-3 bg-gradient-to-r from-[#2347C5] to-[#E0533C] text-white font-black text-sm rounded-xl flex items-center justify-center gap-2 shadow-md cursor-pointer"
               >
                 <RotateCcw size={16} />
-                <span>{isRTL ? 'انتقام / بازی دوباره 🔁' : 'Rematch 🔁'}</span>
+                <span>{tx(isRTL, 'انتقام / بازی دوباره 🔁', 'Rematch 🔁')}</span>
               </button>
 
               <button
@@ -552,7 +541,7 @@ export const OnlineDuelScreen: React.FC<Props> = ({
                 onClick={onExit}
                 className="w-full py-2.5 rounded-xl border border-[var(--line)] text-xs font-bold text-[var(--mute)] hover:text-[var(--ink)] cursor-pointer"
               >
-                {isRTL ? 'بازگشت به منوی اصلی' : 'Back to Menu'}
+                {tx(isRTL, 'بازگشت به منوی اصلی', 'Back to Menu')}
               </button>
             </div>
           </div>

@@ -31,6 +31,7 @@ import {
 import firebaseConfig from './firebase-applet-config.json';
 import { GameHistoryEntry, GameSettings, Language } from './types';
 import { isAdminUser } from './constants';
+import { tx } from './i18n/runtime';
 
 // Initialize Firebase App
 const app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
@@ -182,7 +183,7 @@ export interface LocalPlayerProfile {
 
 export const getLocalPlayerProfile = (): LocalPlayerProfile => {
   if (typeof localStorage === 'undefined') {
-    return { name: 'بازیکن ۱', avatarId: 'cat_cyber' };
+    return { name: tx(true, 'بازیکن ۱', 'Player 1'), avatarId: 'cat_cyber' };
   }
   try {
     const saved = localStorage.getItem('dour_local_profile');
@@ -190,7 +191,7 @@ export const getLocalPlayerProfile = (): LocalPlayerProfile => {
       return JSON.parse(saved);
     }
   } catch {}
-  return { name: 'بازیکن ۱', avatarId: 'cat_cyber' };
+  return { name: tx(true, 'بازیکن ۱', 'Player 1'), avatarId: 'cat_cyber' };
 };
 
 export const saveLocalPlayerProfile = (profile: LocalPlayerProfile): void => {

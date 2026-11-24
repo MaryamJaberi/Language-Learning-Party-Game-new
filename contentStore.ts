@@ -155,7 +155,9 @@ export async function removeSavedLanguage(lang: string): Promise<void> {
 export function formatBytes(bytes: number, rtl = false): string {
   const mb = bytes / (1024 * 1024);
   const s = mb >= 1 ? mb.toFixed(1) : (bytes / 1024).toFixed(0);
-  const unit = mb >= 1 ? (rtl ? 'مگابایت' : 'MB') : (rtl ? 'کیلوبایت' : 'KB');
+  const unit = mb >= 1 ? (tx(rtl, 'مگابایت', 'MB')) : (tx(rtl, 'کیلوبایت', 'KB'));
   const out = `${s} ${unit}`;
   return rtl ? out.replace(/\d/g, (d) => '۰۱۲۳۴۵۶۷۸۹'[+d]).replace('.', '٫') : out;
 }
+
+import { tx, txt } from './i18n/runtime';

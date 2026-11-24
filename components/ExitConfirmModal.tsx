@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { Home, Sliders, X, Play, BookOpen, Pause } from 'lucide-react';
 import { sound } from '../soundManager';
+import { tx, txt } from '../i18n/runtime';
 
 interface Props {
   isOpen?: boolean;
@@ -48,10 +49,8 @@ export const ExitConfirmModal: React.FC<Props> = ({
 
   if (!isOpen) return null;
 
-  const defaultTitle = isRTL ? 'توقف بازی' : 'Game Paused';
-  const defaultMessage = isRTL 
-    ? 'بازی متوقف شده است. یکی از گزینه‌های زیر را انتخاب کنید:'
-    : 'Game is paused. Choose an option below:';
+  const defaultTitle = tx(isRTL, 'توقف بازی', 'Game Paused');
+  const defaultMessage = tx(isRTL, 'بازی متوقف شده است. یکی از گزینه‌های زیر را انتخاب کنید:', 'Game is paused. Choose an option below:');
 
   const handleGoHome = () => {
     sound.playElimination();
@@ -76,7 +75,7 @@ export const ExitConfirmModal: React.FC<Props> = ({
   return (
     <div 
       className="fixed inset-0 z-[110] flex items-center justify-center p-4 bg-black/70 backdrop-blur-xs animate-fade-in font-ui"
-      dir={isRTL ? 'rtl' : 'ltr'}
+      dir={((isRTL ? 'rtl' : 'ltr'))}
       onClick={() => {
         sound.playClick();
         onCancel();
@@ -94,8 +93,8 @@ export const ExitConfirmModal: React.FC<Props> = ({
             onCancel();
           }}
           className="absolute top-3.5 rtl:left-3.5 ltr:right-3.5 w-8 h-8 rounded-full bg-[var(--bg)] hover:bg-[var(--line)] text-[var(--mute)] hover:text-[var(--ink)] flex items-center justify-center transition-colors cursor-pointer z-10"
-          title={isRTL ? 'ادامه بازی' : 'Continue playing'}
-          aria-label={isRTL ? 'بستن پنجره خروج' : 'Close exit dialog'}
+          title={tx(isRTL, 'ادامه بازی', 'Continue playing')}
+          aria-label={tx(isRTL, 'بستن پنجره خروج', 'Close exit dialog')}
         >
           <X size={16} />
         </button>
@@ -125,8 +124,8 @@ export const ExitConfirmModal: React.FC<Props> = ({
             className="w-full py-2.5 px-3 rounded-xl bg-[var(--lapis)] hover:brightness-95 text-[var(--on-lapis)] text-xs font-black shadow-xs cursor-pointer active:scale-98 transition-all flex items-center justify-center gap-2"
           >
             <Play size={15} />
-            <span>{cancelLabel || (isRTL ? 'ادامه بازی' : 'Resume Game')}</span>
-            <span className="sr-only">{isRTL ? 'پشیمان شدم (ادامه بازی 🎮)' : 'Cancel & Keep Playing'}</span>
+            <span>{cancelLabel || (tx(isRTL, 'ادامه بازی', 'Resume Game'))}</span>
+            <span className="sr-only">{tx(isRTL, 'پشیمان شدم (ادامه بازی 🎮)', 'Cancel & Keep Playing')}</span>
           </button>
 
           {/* Button 2: Open Help / Guide (if provided) */}
@@ -137,7 +136,7 @@ export const ExitConfirmModal: React.FC<Props> = ({
               className="w-full py-2.5 px-3 rounded-xl bg-[var(--bg)] hover:bg-[var(--line)]/50 border border-[var(--line)] text-[var(--ink)] text-xs font-black shadow-2xs cursor-pointer active:scale-98 transition-all flex items-center justify-center gap-2"
             >
               <BookOpen size={15} className="text-[var(--turq)]" />
-              <span>{helpLabel || (isRTL ? 'مشاهده راهنمای بازی' : 'Game Guide & Help')}</span>
+              <span>{helpLabel || (tx(isRTL, 'مشاهده راهنمای بازی', 'Game Guide & Help'))}</span>
             </button>
           )}
 
@@ -148,7 +147,7 @@ export const ExitConfirmModal: React.FC<Props> = ({
             className="w-full py-2.5 px-3 rounded-xl bg-[var(--bg)] hover:bg-[var(--line)]/50 border border-[var(--line)] text-[var(--ink)] text-xs font-black shadow-2xs cursor-pointer active:scale-98 transition-all flex items-center justify-center gap-2"
           >
             <Sliders size={15} className="text-[var(--lapis)]" />
-            <span>{setupLabel || (isRTL ? 'برگشت به صفحه تنظیمات' : 'Return to Game Settings')}</span>
+            <span>{setupLabel || (tx(isRTL, 'برگشت به صفحه تنظیمات', 'Return to Game Settings'))}</span>
             {setupLabel && isRTL && <span className="sr-only">برگشت به صفحه تنظیمات</span>}
           </button>
 
@@ -159,8 +158,8 @@ export const ExitConfirmModal: React.FC<Props> = ({
             className="w-full py-2.5 px-3 rounded-xl bg-rose-600 hover:bg-rose-700 text-white text-xs font-black shadow-xs cursor-pointer active:scale-98 transition-all flex items-center justify-center gap-2"
           >
             <Home size={15} />
-            <span>{homeLabel || (isRTL ? 'خروج از بازی (صفحه اول)' : 'Exit Game (Home Screen)')}</span>
-            <span className="sr-only">{isRTL ? 'برگشت به صفحه اول' : 'Return to Home Screen'}</span>
+            <span>{homeLabel || (tx(isRTL, 'خروج از بازی (صفحه اول)', 'Exit Game (Home Screen)'))}</span>
+            <span className="sr-only">{tx(isRTL, 'برگشت به صفحه اول', 'Return to Home Screen')}</span>
           </button>
         </div>
       </div>

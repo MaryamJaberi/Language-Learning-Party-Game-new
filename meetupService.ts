@@ -14,6 +14,7 @@ import {
 import { User } from 'firebase/auth';
 import { auth, db } from './firebase';
 import { CEFRLevel, Language } from './types';
+import { tx, txt } from './i18n/runtime';
 
 export type MeetupVenueType =
   | 'cafe'
@@ -297,24 +298,16 @@ export function validateMeetupInput(
   const notes = (input.notes || '').trim();
 
   if (venueName.length < 2 || venueName.length > 120) {
-    return isRTL
-      ? 'نام مکان عمومی باید بین ۲ تا ۱۲۰ نویسه باشد.'
-      : 'Public venue name must be between 2 and 120 characters.';
+    return tx(isRTL, 'نام مکان عمومی باید بین ۲ تا ۱۲۰ نویسه باشد.', 'Public venue name must be between 2 and 120 characters.');
   }
   if (city.length < 2 || city.length > 80) {
-    return isRTL
-      ? 'نام شهر باید بین ۲ تا ۸۰ نویسه باشد.'
-      : 'City name must be between 2 and 80 characters.';
+    return tx(isRTL, 'نام شهر باید بین ۲ تا ۸۰ نویسه باشد.', 'City name must be between 2 and 80 characters.');
   }
   if (area.length > 120) {
-    return isRTL
-      ? 'نام محله نباید بیش از ۱۲۰ نویسه باشد.'
-      : 'Neighborhood / area cannot exceed 120 characters.';
+    return tx(isRTL, 'نام محله نباید بیش از ۱۲۰ نویسه باشد.', 'Neighborhood / area cannot exceed 120 characters.');
   }
   if (!['cafe', 'boardgame_cafe', 'library', 'park', 'community_center'].includes(input.venueType)) {
-    return isRTL
-      ? 'فقط مکان‌های عمومی (کافه، کافه بازی، کتابخانه، پارک یا فرهنگسرا) مجاز هستند.'
-      : 'Only public venues (café, board game café, library, park, or community center) are allowed.';
+    return tx(isRTL, 'فقط مکان‌های عمومی (کافه، کافه بازی، کتابخانه، پارک یا فرهنگسرا) مجاز هستند.', 'Only public venues (café, board game café, library, park, or community center) are allowed.');
   }
   if (
     containsPrivateAddressHint(venueName) ||
@@ -322,38 +315,34 @@ export function validateMeetupInput(
     containsPrivateAddressHint(area) ||
     containsPrivateAddressHint(notes)
   ) {
-    return isRTL
-      ? 'برای حفظ امنیت و حریم خصوصی، فقط مکان‌های عمومی مجاز است و نوشتن نشانی خانه، پلاک یا واحد ممنوع است.'
-      : 'For safety and privacy, only public venues are allowed. Never enter home addresses, apartment numbers, or private residences.';
+    return tx(isRTL, 'برای حفظ امنیت و حریم خصوصی، فقط مکان‌های عمومی مجاز است و نوشتن نشانی خانه، پلاک یا واحد ممنوع است.', 'For safety and privacy, only public venues are allowed. Never enter home addresses, apartment numbers, or private residences.');
   }
   if ('publicVenueConfirmed' in input && !input.publicVenueConfirmed) {
-    return isRTL
-      ? 'لطفاً تأیید کنید که این دورهمی در یک مکان عمومی برگزار می‌شود.'
-      : 'Please confirm that this meetup is held at a public venue.';
+    return tx(isRTL, 'لطفاً تأیید کنید که این دورهمی در یک مکان عمومی برگزار می‌شود.', 'Please confirm that this meetup is held at a public venue.');
   }
   if (!input.date || input.date.trim().length < 4) {
-    return isRTL ? 'لطفاً تاریخ دورهمی را انتخاب کنید.' : 'Please select a meetup date.';
+    return tx(isRTL, 'لطفاً تاریخ دورهمی را انتخاب کنید.', 'Please select a meetup date.');
   }
   if (!input.time || input.time.trim().length < 3) {
-    return isRTL ? 'لطفاً ساعت دورهمی را وارد کنید.' : 'Please enter a meetup time.';
+    return tx(isRTL, 'لطفاً ساعت دورهمی را وارد کنید.', 'Please enter a meetup time.');
   }
   if (!Number.isInteger(input.capacity) || input.capacity < 2 || input.capacity > 30) {
-    return isRTL ? 'ظرفیت باید عددی بین ۲ تا ۳۰ نفر باشد.' : 'Capacity must be between 2 and 30 people.';
+    return tx(isRTL, 'ظرفیت باید عددی بین ۲ تا ۳۰ نفر باشد.', 'Capacity must be between 2 and 30 people.');
   }
   if (notes.length > 500) {
-    return isRTL ? 'یادداشت نباید بیش از ۵۰۰ نویسه باشد.' : 'Notes cannot exceed 500 characters.';
+    return tx(isRTL, 'یادداشت نباید بیش از ۵۰۰ نویسه باشد.', 'Notes cannot exceed 500 characters.');
   }
   if (
     input.lat != null &&
     (typeof input.lat !== 'number' || Number.isNaN(input.lat) || input.lat < -90 || input.lat > 90)
   ) {
-    return isRTL ? 'عرض جغرافیایی مکان معتبر نیست.' : 'Invalid latitude coordinate.';
+    return tx(isRTL, 'عرض جغرافیایی مکان معتبر نیست.', 'Invalid latitude coordinate.');
   }
   if (
     input.lng != null &&
     (typeof input.lng !== 'number' || Number.isNaN(input.lng) || input.lng < -180 || input.lng > 180)
   ) {
-    return isRTL ? 'طول جغرافیایی مکان معتبر نیست.' : 'Invalid longitude coordinate.';
+    return tx(isRTL, 'طول جغرافیایی مکان معتبر نیست.', 'Invalid longitude coordinate.');
   }
   return null;
 }

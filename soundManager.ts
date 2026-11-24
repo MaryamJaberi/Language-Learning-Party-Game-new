@@ -966,6 +966,7 @@ class SoundManager {
     'it': 'it-IT',
     'ru': 'ru-RU',
     'pt': 'pt-BR',
+    'sv': 'sv-SE',
     'en-GB': 'en-GB',
     'no': 'nb-NO',
     'da': 'da-DK',

@@ -96,14 +96,13 @@ interface Props {
 
 import { SPEECH_LANG_MAP, getSpeechLanguageCode } from '../constants';
 import CardImage from '../components/CardImage';
+import { tx, txt , uiDigits } from '../i18n/runtime';
+import SentencePuzzle from '../components/SentencePuzzle';
+import { isLongSentence, getPuzzleStage, recordPuzzleSolved, MAX_PUZZLE_STAGE } from '../src/engine/longSentence/chunker';
 
 // Convert numbers to Persian digits if in RTL/Persian
-const toPersian = (n: number | string, isRTL: boolean) => {
-  const str = String(n);
-  if (!isRTL) return str;
-  const persianDigits = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
-  return str.replace(/\d/g, (d) => persianDigits[Number(d)] ?? d);
-};
+// رقم فارسی فقط وقتی زبان برنامه فارسی است (نه برای عربی و دیگر زبان‌های راست‌به‌چپ)
+const toPersian = (n: number | string, isRTL: boolean) => uiDigits(isRTL, n);
 
 const SinglePlayerScreen: React.FC<Props> = ({
   initialCards,
@@ -241,6 +240,8 @@ const SinglePlayerScreen: React.FC<Props> = ({
   const adaptiveStatsRef = useRef<ItemStats | null>(null);
   const [currentIndicator, setCurrentIndicator] = useState<CardIndicator>('balanced');
   const [currentExerciseType, setCurrentExerciseType] = useState<ExerciseType>('recognize');
+  // «پازل تکه‌ها» برای جمله‌های بلند: بازیکن می‌تواند برای هر کارت آن را کنار بگذارد
+  const [puzzleDismissed, setPuzzleDismissed] = useState(false);
   const [adaptiveToastMessage, setAdaptiveToastMessage] = useState<string | null>(null);
   const [levelSuggestion, setLevelSuggestion] = useState<CEFR | null>(null);
   const [currentCardP, setCurrentCardP] = useState<number>(0.8);
@@ -326,7 +327,7 @@ const SinglePlayerScreen: React.FC<Props> = ({
     if (!currentCard) return [];
     const isReverse = settings.displayMode === 'translate_to_native';
     const targetLang = isReverse
-      ? (currentCard.nativeLanguage || settings.nativeLanguage || (isRTL ? 'fa' : 'en'))
+      ? (currentCard.nativeLanguage || settings.nativeLanguage || (uiLanguage || 'en'))
       : (currentCard.targetLanguage || settings.targetLanguage || 'en');
     const expected = (isReverse ? currentCard.translation : currentCard.targetText || '').trim();
     const all = generateChallengingReflexOptions(currentCard, cards, targetLang, expected);
@@ -369,6 +370,7 @@ const SinglePlayerScreen: React.FC<Props> = ({
     setUserInput('');
     setEvaluation(null);
     setAttempts(1);
+    setPuzzleDismissed(false);
     setPendingVoiceSubmit(null);
     setHasFirstSpokenFailed(false);
     setIsRevealed(false);
@@ -493,9 +495,7 @@ const SinglePlayerScreen: React.FC<Props> = ({
 
     if (!SpeechRecognitionClass) {
       setActionableError(
-        isRTL
-          ? 'تشخیص صوت در این مرورگر پشتیبانی نمی‌شود (از Chrome یا Edge استفاده کنید).'
-          : 'Voice input not supported in this browser (use Chrome or Edge).'
+        tx(isRTL, 'تشخیص صوت در این مرورگر پشتیبانی نمی‌شود (از Chrome یا Edge استفاده کنید).', 'Voice input not supported in this browser (use Chrome or Edge).')
       );
       return;
     }
@@ -507,7 +507,7 @@ const SinglePlayerScreen: React.FC<Props> = ({
     setMicErrorReason(null);
 
     const isReverseToNative = settings.displayMode === 'translate_to_native';
-    const nativeCode = currentCard?.nativeLanguage || settings.nativeLanguage || (isRTL ? 'fa' : 'en');
+    const nativeCode = currentCard?.nativeLanguage || settings.nativeLanguage || (uiLanguage || 'en');
     const targetLang = currentCard?.targetLanguage || settings.targetLanguage || 'en';
     const langCode = getSpeechLanguageCode(isReverseToNative ? nativeCode : targetLang);
 
@@ -547,15 +547,11 @@ const SinglePlayerScreen: React.FC<Props> = ({
           const inIframe = typeof window !== 'undefined' && window.self !== window.top;
           setMicErrorReason(inIframe ? 'iframe_blocked' : 'denied');
           setActionableError(
-            isRTL
-              ? 'دسترسی به میکروفون مسدود است. لطفاً دسترسی به میکروفون را فعال کرده و صفحه را رفرش نمایید.'
-              : 'Microphone access is blocked. Allow microphone in browser settings and reload.'
+            tx(isRTL, 'دسترسی به میکروفون مسدود است. لطفاً دسترسی به میکروفون را فعال کرده و صفحه را رفرش نمایید.', 'Microphone access is blocked. Allow microphone in browser settings and reload.')
           );
         } else if (event.error === 'network') {
           setActionableError(
-            isRTL
-              ? 'خطای اتصال در سرویس تشخیص صوت مرورگر. لطفاً اتصال اینترنت را بررسی فرمایید یا پاسخ را تایپ کنید.'
-              : 'Speech recognition network error. Speech recognition requires internet.'
+            tx(isRTL, 'خطای اتصال در سرویس تشخیص صوت مرورگر. لطفاً اتصال اینترنت را بررسی فرمایید یا پاسخ را تایپ کنید.', 'Speech recognition network error. Speech recognition requires internet.')
           );
         }
       };
@@ -581,9 +577,7 @@ const SinglePlayerScreen: React.FC<Props> = ({
       setIsListening(false);
       isUserSpeakingRef.current = false;
       setActionableError(
-        isRTL
-          ? 'خطا در راه‌اندازی تشخیص صوت. لطفاً پاسخ را تایپ فرمایید.'
-          : 'Could not start voice recognition. Please type your answer.'
+        tx(isRTL, 'خطا در راه‌اندازی تشخیص صوت. لطفاً پاسخ را تایپ فرمایید.', 'Could not start voice recognition. Please type your answer.')
       );
     }
   };
@@ -635,30 +629,22 @@ const SinglePlayerScreen: React.FC<Props> = ({
       if (errName.includes('NotFound') || errName.includes('DevicesNotFound')) {
         setMicErrorReason('no_device');
         setMicPermissionError(
-          isRTL
-            ? 'میکروفونی به دستگاه شما متصل نیست یا در تنظیمات ویندوز غیرفعال است.'
-            : 'No microphone hardware found or disabled in OS settings.'
+          tx(isRTL, 'میکروفونی به دستگاه شما متصل نیست یا در تنظیمات ویندوز غیرفعال است.', 'No microphone hardware found or disabled in OS settings.')
         );
       } else if (errName.includes('NotReadable') || errName.includes('TrackStart')) {
         setMicErrorReason('in_use');
         setMicPermissionError(
-          isRTL
-            ? 'میکروفون توسط برنامه دیگری درگیر است. سایر برنامه‌های صوتی را ببندید.'
-            : 'Microphone is busy in another application.'
+          tx(isRTL, 'میکروفون توسط برنامه دیگری درگیر است. سایر برنامه‌های صوتی را ببندید.', 'Microphone is busy in another application.')
         );
       } else if (inIframe) {
         setMicErrorReason('iframe_blocked');
         setMicPermissionError(
-          isRTL
-            ? 'مرورگر کروم دسترسی میکروفون را داخل قاب پیش‌نمایش (Preview) اعمال نکرده است. راه‌حل قطعی: ۱) روی دکمه «بارگذاری مجدد پیش‌نمایش» در پایین بزنید، یا ۲) روی آیکون 🔗 در نوار بالای پیش‌نمایش کلیک کنید تا بازی در تب مستقل باز شود.'
-            : 'Chrome has not applied microphone access to the embedded Preview frame yet. Fix: 1) Click "Reload Preview" below, or 2) Click the 🔗 icon at the top of the preview bar to open in a full tab.'
+          tx(isRTL, 'مرورگر کروم دسترسی میکروفون را داخل قاب پیش‌نمایش (Preview) اعمال نکرده است. راه‌حل قطعی: ۱) روی دکمه «بارگذاری مجدد پیش‌نمایش» در پایین بزنید، یا ۲) روی آیکون 🔗 در نوار بالای پیش‌نمایش کلیک کنید تا بازی در تب مستقل باز شود.', 'Chrome has not applied microphone access to the embedded Preview frame yet. Fix: 1) Click "Reload Preview" below, or 2) Click the 🔗 icon at the top of the preview bar to open in a full tab.')
         );
       } else {
         setMicErrorReason('denied');
         setMicPermissionError(
-          isRTL 
-            ? 'پس از روشن کردن تیک Microphone در نوار آدرس مرورگر، حتماً یک‌بار صفحه را رفرش (F5) کنید تا تغییر اعمال شود.'
-            : 'After turning Microphone ON in your browser address bar, please reload the page (F5) to apply the change.'
+          tx(isRTL, 'پس از روشن کردن تیک Microphone در نوار آدرس مرورگر، حتماً یک‌بار صفحه را رفرش (F5) کنید تا تغییر اعمال شود.', 'After turning Microphone ON in your browser address bar, please reload the page (F5) to apply the change.')
         );
       }
     } finally {
@@ -780,7 +766,7 @@ const SinglePlayerScreen: React.FC<Props> = ({
     if (res.fatigue) {
       feedbackDirector.triggerLeaderboardDelta({
         type: 'threshold',
-        subText: isRTL ? 'خوب کار کردی؛ یک کارت آخر و استراحت؟' : 'Great work; one last card and take a rest?'
+        subText: tx(isRTL, 'خوب کار کردی؛ یک کارت آخر و استراحت؟', 'Great work; one last card and take a rest?')
       });
     }
   };
@@ -795,9 +781,7 @@ const SinglePlayerScreen: React.FC<Props> = ({
     const answer = rawAnswer.trim();
     if (!answer) {
       setActionableError(
-        isRTL 
-          ? 'پاسخی وارد نشده است. راه‌حل: کلمه را در کادر متنی بنویسید، با میکروفون تلفظ کنید یا از سرنخ و حروف کمکی استفاده کنید.'
-          : 'No answer provided. Fix: Type your answer, speak using the microphone, or use the letter clues.'
+        tx(isRTL, 'پاسخی وارد نشده است. راه‌حل: کلمه را در کادر متنی بنویسید، با میکروفون تلفظ کنید یا از سرنخ و حروف کمکی استفاده کنید.', 'No answer provided. Fix: Type your answer, speak using the microphone, or use the letter clues.')
       );
       return;
     }
@@ -853,10 +837,10 @@ const SinglePlayerScreen: React.FC<Props> = ({
         points,
         combo: newStreak,
         label: currentCard.isCreative
-          ? `+${points} خلاقانه (${currentCard.cefrLevel})`
+          ? txt(isRTL, '+{0} خلاقانه ({1})', '+{0} creative ({1})', [points, currentCard.cefrLevel])
           : currentCard.isChallenge 
-            ? `+${points} چالش (${currentCard.cefrLevel})` 
-            : newStreak > 1 ? `+${points} ×${newStreak} (${currentCard.cefrLevel})` : `+${points} ${t.pointsUnit || (isRTL ? 'امتیاز' : 'PTS')} (${currentCard.cefrLevel})`
+            ? txt(isRTL, '+{0} چالش ({1})', '+{0} challenge ({1})', [points, currentCard.cefrLevel]) 
+            : newStreak > 1 ? `+${points} ×${newStreak} (${currentCard.cefrLevel})` : `+${points} ${t.pointsUnit || (tx(isRTL, 'امتیاز', 'PTS'))} (${currentCard.cefrLevel})`
       });
 
       const timeSpent = Math.max(0.5, Math.round(((Date.now() - startTimeRef.current) / 1000) * 10) / 10);
@@ -906,9 +890,7 @@ const SinglePlayerScreen: React.FC<Props> = ({
         // Do not increment attempts
         // Do not reset streak
         setActionableError(
-          isRTL
-            ? 'تلفظ شناسایی‌شده مطابقت نداشت. این اولین تلاش صوتی بود و امتیازی کسر نشد! می‌توانید دوباره صحبت کنید یا بنویسید.'
-            : 'Spoken attempt did not match. First voice attempt is free with no point penalty — try speaking again or typing!'
+          tx(isRTL, 'تلفظ شناسایی‌شده مطابقت نداشت. این اولین تلاش صوتی بود و امتیازی کسر نشد! می‌توانید دوباره صحبت کنید یا بنویسید.', 'Spoken attempt did not match. First voice attempt is free with no point penalty — try speaking again or typing!')
         );
       } else {
         setStreak(0);
@@ -951,38 +933,38 @@ const SinglePlayerScreen: React.FC<Props> = ({
         const revealCount = Math.max(1, Math.ceil(words.length / 2));
         const revealedPart = words.slice(0, revealCount).join(' ');
         const hiddenPart = words.slice(revealCount).map(() => '[______]').join(' ');
-        const label = isRTL ? 'الگوی جمله:' : 'Sentence clue:';
+        const label = tx(isRTL, 'الگوی جمله:', 'Sentence clue:');
         hintsPool.push(`${label} «${revealedPart} ${hiddenPart}»`);
       } else if (words.length === 1 && words[0].length > 2) {
         const cleanWord = words[0];
         const firstTwo = cleanWord.slice(0, Math.min(2, cleanWord.length - 1));
-        const label = isRTL ? 'حروف اول پاسخ:' : 'First letters:';
-        hintsPool.push(`${label} «${firstTwo}...» (${cleanWord.length} ${isRTL ? 'حرف' : 'letters'})`);
+        const label = tx(isRTL, 'حروف اول پاسخ:', 'First letters:');
+        hintsPool.push(`${label} «${firstTwo}...» (${cleanWord.length} ${tx(isRTL, 'حرف', 'letters')})`);
       }
     }
 
     // Add grammatical article hint if present on card
     if (currentCard.article) {
-      const artLabel = isRTL ? 'حرف تعریف:' : 'Article:';
+      const artLabel = tx(isRTL, 'حرف تعریف:', 'Article:');
       hintsPool.push(`${artLabel} ${currentCard.article}`);
     }
 
     // Add note hint if present on card
     if (currentCard.note) {
-      const noteLabel = isRTL ? 'نکته:' : 'Note:';
+      const noteLabel = tx(isRTL, 'نکته:', 'Note:');
       hintsPool.push(`${noteLabel} ${currentCard.note}`);
     }
 
     // Add phonetic pronunciation hint when user needs to say/type targetText
     if (!isReverse) {
       if (currentCard.pronunciation) {
-        const pronLabel = isRTL ? 'راهنمای تلفظ:' : 'Pronunciation:';
+        const pronLabel = tx(isRTL, 'راهنمای تلفظ:', 'Pronunciation:');
         hintsPool.push(`${pronLabel} /${currentCard.pronunciation}/`);
       } else {
         const pron = getPronunciationHint(
           currentCard.targetText,
           currentCard.targetLanguage,
-          isRTL ? 'fa' : 'en',
+          ((uiLanguage === 'en-US' ? 'en' : uiLanguage) || 'en') as Language,
           currentCard.pronunciation
         );
         if (pron) {
@@ -993,13 +975,13 @@ const SinglePlayerScreen: React.FC<Props> = ({
 
     // In reading/audio modes, also offer meaning if not already shown
     if ((isReadingMode || settings.displayMode === 'audio_only') && currentCard.translation) {
-      const meaningLabel = isRTL ? 'معنی عبارت:' : 'Meaning:';
+      const meaningLabel = tx(isRTL, 'معنی عبارت:', 'Meaning:');
       hintsPool.push(`${meaningLabel} ${currentCard.translation}`);
     }
 
     if (hintsPool.length === 0) {
       const fallbackText = isReverse ? currentCard.translation : currentCard.targetText;
-      const fallbackLabel = isRTL ? 'راهنمایی:' : 'Clue:';
+      const fallbackLabel = tx(isRTL, 'راهنمایی:', 'Clue:');
       hintsPool.push(`${fallbackLabel} ${fallbackText.slice(0, Math.max(2, Math.floor(fallbackText.length / 2)))}...`);
     }
 
@@ -1146,11 +1128,11 @@ const SinglePlayerScreen: React.FC<Props> = ({
 
   if (!currentCard) {
     return (
-      <div className="w-full max-w-md mx-auto h-full flex items-center justify-center p-4 text-[var(--ink)] text-center font-ui" dir={isRTL ? 'rtl' : 'ltr'}>
+      <div className="w-full max-w-md mx-auto h-full flex items-center justify-center p-4 text-[var(--ink)] text-center font-ui" dir={((isRTL ? 'rtl' : 'ltr'))}>
         <div className="bg-[var(--panel)] border border-[var(--line)] rounded-[24px] shadow-sm p-6 max-w-sm">
-          <p className="font-bold mb-4 text-[var(--mute)]">{isRTL ? 'کارتی برای نمایش وجود ندارد.' : 'No cards available.'}</p>
+          <p className="font-bold mb-4 text-[var(--mute)]">{tx(isRTL, 'کارتی برای نمایش وجود ندارد.', 'No cards available.')}</p>
           <button onClick={onExit} className="py-2.5 px-5 rounded-xl bg-[var(--lapis)] text-[var(--on-lapis)] font-bold text-sm shadow-xs cursor-pointer">
-            {isRTL ? 'بازگشت' : 'Back'}
+            {tx(isRTL, 'بازگشت', 'Back')}
           </button>
         </div>
       </div>
@@ -1158,11 +1140,20 @@ const SinglePlayerScreen: React.FC<Props> = ({
   }
 
   const isAudioOnly = settings.displayMode === 'audio_only';
+  const puzzleLang = currentCard?.targetLanguage || settings.targetLanguage || 'en';
+  const puzzleKey = currentCard ? `${puzzleLang}:${(currentCard as any).conceptId || currentCard.id}` : '';
+  const puzzleStage = currentCard ? getPuzzleStage(puzzleKey) : 0;
+  const puzzleActive =
+    !!currentCard &&
+    !puzzleDismissed &&
+    settings.displayMode !== 'translate_to_native' &&
+    puzzleStage < MAX_PUZZLE_STAGE &&
+    isLongSentence(currentCard.targetText || '', puzzleLang);
 
   return (
     <div 
       className="app w-full max-w-lg sm:max-w-xl md:max-w-2xl mx-auto min-h-full flex-1 px-3 sm:px-4 pb-12 font-ui relative flex flex-col justify-between overflow-y-auto overscroll-contain"
-      dir={isRTL ? 'rtl' : 'ltr'}
+      dir={((isRTL ? 'rtl' : 'ltr'))}
     >
       {/* 1. Header (clean, focused: ONLY Stop Game button + progress & score) */}
       <header className="sticky top-0 z-20 bg-[var(--bg)] flex items-center justify-between py-2 px-0.5 border-b border-[var(--line)]/50 shrink-0">
@@ -1174,24 +1165,20 @@ const SinglePlayerScreen: React.FC<Props> = ({
               setShowExitConfirm(true);
             }}
             className="h-9 px-3 rounded-xl border border-[var(--line)] bg-[var(--panel)] hover:bg-[var(--bg)] text-[var(--ink)] flex items-center justify-center gap-1.5 transition-all active:scale-95 shadow-xs cursor-pointer shrink-0 font-extrabold text-xs"
-            aria-label={t.pause || (isRTL ? 'توقف بازی' : 'Pause Game')}
-            title={t.pause || (isRTL ? 'توقف بازی' : 'Pause Game')}
+            aria-label={t.pause || (tx(isRTL, 'توقف بازی', 'Pause Game'))}
+            title={t.pause || (tx(isRTL, 'توقف بازی', 'Pause Game'))}
           >
             <Pause size={15} className="text-[var(--lapis)] shrink-0" />
-            <span>{isRTL ? 'توقف بازی' : 'Pause'}</span>
+            <span>{tx(isRTL, 'توقف بازی', 'Pause')}</span>
           </button>
           <div className="min-w-0">
             <h1 className="text-sm font-black leading-tight text-[var(--ink)] truncate">
-              {t.singlePlayer || (isRTL ? 'تمرین تک‌نفره' : 'Practice')}
+              {t.singlePlayer || (tx(isRTL, 'تمرین تک‌نفره', 'Practice'))}
             </h1>
             <span className="text-[11px] font-bold text-[var(--mute)]">
               {isTimedMatch 
-                ? (isRTL 
-                    ? `مسابقه زمان‌دار • ${toPersian(results.filter(r => r.isCorrect).length, isRTL)} حل‌شده` 
-                    : `Timed Match • ${results.filter(r => r.isCorrect).length} solved`)
-                : (isRTL 
-                    ? `کارت ${toPersian(currentIndex + 1, isRTL)} از ${toPersian(cards.length, isRTL)}`
-                    : `Card ${currentIndex + 1} of ${cards.length}`)}
+                ? (txt(isRTL, 'مسابقه زمان‌دار • {1} حل‌شده', 'Timed Match • {0} solved', [results.filter(r => r.isCorrect).length, toPersian(results.filter(r => r.isCorrect).length, isRTL)]))
+                : (txt(isRTL, 'کارت {2} از {3}', 'Card {0} of {1}', [currentIndex + 1, cards.length, toPersian(currentIndex + 1, isRTL), toPersian(cards.length, isRTL)]))}
             </span>
           </div>
         </div>
@@ -1228,7 +1215,7 @@ const SinglePlayerScreen: React.FC<Props> = ({
           <div className="flex justify-end mb-1">
             <span className="text-amber-500 font-extrabold text-[11px] flex items-center gap-1">
               <Flame size={12} className="text-amber-500" />
-              <span>{toPersian(streak, isRTL)} {isRTL ? 'پیاپی' : 'streak'}</span>
+              <span>{toPersian(streak, isRTL)} {tx(isRTL, 'پیاپی', 'streak')}</span>
             </span>
           </div>
         )}
@@ -1255,7 +1242,7 @@ const SinglePlayerScreen: React.FC<Props> = ({
                 setMicErrorReason(null);
               }}
               className="text-[var(--danger)]/70 hover:text-[var(--danger)] p-0.5 cursor-pointer shrink-0"
-              aria-label={isRTL ? 'بستن' : 'Dismiss'}
+              aria-label={tx(isRTL, 'بستن', 'Dismiss')}
             >
               <X size={14} />
             </button>
@@ -1273,7 +1260,7 @@ const SinglePlayerScreen: React.FC<Props> = ({
                 className="px-2.5 py-1 rounded-xl bg-[var(--lapis)] text-[var(--on-lapis)] text-[11px] font-extrabold flex items-center gap-1 cursor-pointer active:scale-95 transition-all shadow-2xs"
               >
                 <RotateCcw size={12} />
-                <span>{isRTL ? 'بارگذاری مجدد پیش‌نمایش (اعمال دسترسی)' : 'Reload Preview (Apply Permission)'}</span>
+                <span>{tx(isRTL, 'بارگذاری مجدد پیش‌نمایش (اعمال دسترسی)', 'Reload Preview (Apply Permission)')}</span>
               </button>
 
               <button
@@ -1286,7 +1273,7 @@ const SinglePlayerScreen: React.FC<Props> = ({
                 className="px-2.5 py-1 rounded-xl bg-[var(--bg)] hover:bg-[var(--lapis-soft)] text-[var(--ink)] border border-[var(--line)] text-[11px] font-extrabold flex items-center gap-1 cursor-pointer active:scale-95 transition-all"
               >
                 <Settings2 size={12} />
-                <span>{isRTL ? 'راهنمای کامل و لینک مستقیم' : 'Full Guide & Direct Link'}</span>
+                <span>{tx(isRTL, 'راهنمای کامل و لینک مستقیم', 'Full Guide & Direct Link')}</span>
               </button>
 
               <button
@@ -1296,7 +1283,7 @@ const SinglePlayerScreen: React.FC<Props> = ({
                 className="px-2.5 py-1 rounded-xl bg-teal-500/15 hover:bg-teal-500/25 text-[var(--turq)] border border-teal-500/30 text-[11px] font-extrabold flex items-center gap-1 cursor-pointer active:scale-95 transition-all"
               >
                 <Mic size={12} className={isRequestingMic ? 'animate-pulse' : ''} />
-                <span>{isRequestingMic ? (isRTL ? 'در حال تست...' : 'Testing...') : (isRTL ? 'تست مجدد میکروفون' : 'Retry Mic')}</span>
+                <span>{isRequestingMic ? (tx(isRTL, 'در حال تست...', 'Testing...')) : (tx(isRTL, 'تست مجدد میکروفون', 'Retry Mic'))}</span>
               </button>
             </div>
           )}
@@ -1324,7 +1311,7 @@ const SinglePlayerScreen: React.FC<Props> = ({
           role="alert"
         >
           <Lightbulb size={18} className="text-amber-500 shrink-0" />
-          <span>{isRTL ? `به نظر سطحت ${levelSuggestion} است. تغییرش بدهیم؟` : `Looks like your level is ${levelSuggestion}. Switch?`}</span>
+          <span>{txt(isRTL, 'به نظر سطحت {0} است. تغییرش بدهیم؟', 'Looks like your level is {0}. Switch?', [levelSuggestion])}</span>
           <button
             type="button"
             onClick={() => {
@@ -1333,7 +1320,7 @@ const SinglePlayerScreen: React.FC<Props> = ({
             }}
             className="btn-primary !min-h-[28px] !h-7 !px-2.5 !py-0.5 !text-xs !rounded-lg"
           >
-            {isRTL ? 'تغییر به ' + levelSuggestion : 'Switch to ' + levelSuggestion}
+            {txt(isRTL, 'تغییر به {0}', 'Switch to {0}', [levelSuggestion])}
           </button>
           <button
             type="button"
@@ -1354,12 +1341,12 @@ const SinglePlayerScreen: React.FC<Props> = ({
             <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-lg bg-[var(--lapis-soft)] text-[var(--lapis)] text-[11px] font-extrabold">
               <span>
                 {settings.displayMode === 'translate_to_target'
-                  ? (isRTL ? 'به زبان هدف ترجمه کنید:' : 'Translate to target language:')
+                  ? (tx(isRTL, 'به زبان هدف ترجمه کنید:', 'Translate to target language:'))
                   : settings.displayMode === 'translate_to_native'
-                    ? (isRTL ? 'معنی عبارت را بنویسید یا بگویید:' : 'Translate to your native language:')
+                    ? (tx(isRTL, 'معنی عبارت را بنویسید یا بگویید:', 'Translate to your native language:'))
                     : settings.displayMode === 'audio_only'
-                      ? (isRTL ? 'گوش دهید و عبارت را بنویسید یا بگویید:' : 'Listen and type or speak:')
-                      : (isRTL ? 'عبارت زیر را بخوانید یا تایپ کنید:' : 'Read aloud or type this phrase:')}
+                      ? (tx(isRTL, 'گوش دهید و عبارت را بنویسید یا بگویید:', 'Listen and type or speak:'))
+                      : (tx(isRTL, 'عبارت زیر را بخوانید یا تایپ کنید:', 'Read aloud or type this phrase:'))}
               </span>
             </div>
 
@@ -1375,13 +1362,13 @@ const SinglePlayerScreen: React.FC<Props> = ({
               }`}
               aria-label={
                 currentIndicator === 'review'
-                  ? (isRTL ? 'کارت مرور - سطح آسان برای تثبیت یادگیری' : 'Review card - easy practice for memory retention')
+                  ? (tx(isRTL, 'کارت مرور - سطح آسان برای تثبیت یادگیری', 'Review card - easy practice for memory retention'))
                   : currentIndicator === 'challenge'
-                    ? (isRTL ? 'کارت چالش - امتیاز بیشتر برای تعمیق مهارت' : 'Challenge card - bonus points to push mastery')
-                    : (isRTL ? 'کارت متعادل - ناحیه یادگیری مطلوب' : 'Balanced card - optimal flow band')
+                    ? (tx(isRTL, 'کارت چالش - امتیاز بیشتر برای تعمیق مهارت', 'Challenge card - bonus points to push mastery'))
+                    : (tx(isRTL, 'کارت متعادل - ناحیه یادگیری مطلوب', 'Balanced card - optimal flow band'))
               }
             >
-              <span>{currentIndicator === 'review' ? '🌱 مرور' : currentIndicator === 'challenge' ? '🔥 چالش' : '⚖️ متعادل'}</span>
+              <span>{currentIndicator === 'review' ? tx(isRTL, '🌱 مرور', '🌱 Review') : currentIndicator === 'challenge' ? tx(isRTL, '🔥 چالش', '🔥 Challenge') : tx(isRTL, '⚖️ متعادل', '⚖️ Balanced')}</span>
             </div>
           </div>
 
@@ -1400,10 +1387,10 @@ const SinglePlayerScreen: React.FC<Props> = ({
             type="button"
             onClick={handleTriggerRandomHint}
             className="px-2.5 py-1 rounded-lg border border-[var(--line)] bg-[var(--bg)] hover:bg-[var(--panel)] text-[var(--ink)] text-[11px] font-extrabold flex items-center gap-1 cursor-pointer active:scale-95 transition-all"
-            title={isRTL ? 'دریافت راهنمایی' : 'Get a clue'}
+            title={tx(isRTL, 'دریافت راهنمایی', 'Get a clue')}
           >
             <Lightbulb size={13} className="text-amber-500" />
-            <span>{isRTL ? 'راهنمایی' : 'Clue'}</span>
+            <span>{tx(isRTL, 'راهنمایی', 'Clue')}</span>
           </button>
         </div>
 
@@ -1418,7 +1405,7 @@ const SinglePlayerScreen: React.FC<Props> = ({
               type="button"
               onClick={() => setShowRandomHint(false)}
               className="text-amber-700 dark:text-amber-300 hover:text-amber-900 p-0.5 cursor-pointer shrink-0"
-              aria-label={isRTL ? 'بستن' : 'Close'}
+              aria-label={tx(isRTL, 'بستن', 'Close')}
             >
               <X size={13} />
             </button>
@@ -1433,11 +1420,11 @@ const SinglePlayerScreen: React.FC<Props> = ({
             <div className="py-1 flex flex-col items-center justify-center w-full text-center animate-fade-in">
               <div className="inline-flex items-center gap-1.5 text-amber-700 dark:text-amber-400 text-xs font-extrabold mb-1.5">
                 <CheckCircle2 size={14} className="text-amber-500" />
-                <span>{isRTL ? 'پاسخ صحیح کارت' : 'Correct Card Answer'}</span>
+                <span>{tx(isRTL, 'پاسخ صحیح کارت', 'Correct Card Answer')}</span>
               </div>
 
               <div 
-                dir={isRtlLang(skippedCardInfo.card.targetLanguage) ? 'rtl' : 'ltr'}
+                dir={isRtlLang(skippedCardInfo.card.targetLanguage) ? 'rtl' : 'ltr'} lang={(skippedCardInfo.card.targetLanguage) as string}
                 className="text-xl sm:text-2xl font-black text-[var(--ink)] tracking-tight leading-snug py-0.5 select-text"
               >
                 {skippedCardInfo.targetText}
@@ -1450,7 +1437,7 @@ const SinglePlayerScreen: React.FC<Props> = ({
               )}
 
               <div 
-                dir={isRtlLang(skippedCardInfo.card.nativeLanguage || settings.nativeLanguage || 'fa') ? 'rtl' : 'ltr'}
+                dir={isRtlLang(skippedCardInfo.card.nativeLanguage || settings.nativeLanguage || 'fa') ? 'rtl' : 'ltr'} lang={(skippedCardInfo.card.nativeLanguage || settings.nativeLanguage || 'fa') as string}
                 className="text-sm sm:text-base font-bold text-[var(--mute)] mt-1.5 mb-2 select-text"
               >
                 {skippedCardInfo.translation}
@@ -1469,10 +1456,10 @@ const SinglePlayerScreen: React.FC<Props> = ({
                     window.setTimeout(() => setIsPlayingAudio(false), 3000);
                   }}
                   className="btn-primary !min-h-[34px] !h-8.5 !px-3 !py-1 !text-xs !rounded-xl flex items-center gap-1.5 cursor-pointer"
-                  aria-label={t.audioPronunciation || (isRTL ? 'پخش تلفظ صوتی' : 'Play Audio')}
+                  aria-label={t.audioPronunciation || (tx(isRTL, 'پخش تلفظ صوتی', 'Play Audio'))}
                 >
                   <Volume2 size={14} className={isPlayingAudio ? 'animate-pulse' : ''} />
-                  <span>{isPlayingAudio ? (isRTL ? 'در حال پخش...' : 'Playing...') : (isRTL ? 'پخش صدا' : 'Play Audio')}</span>
+                  <span>{isPlayingAudio ? (tx(isRTL, 'در حال پخش...', 'Playing...')) : (tx(isRTL, 'پخش صدا', 'Play Audio'))}</span>
                 </button>
 
                 <button
@@ -1486,10 +1473,10 @@ const SinglePlayerScreen: React.FC<Props> = ({
                     window.setTimeout(() => setIsPlayingAudio(false), 4500);
                   }}
                   className="btn-ghost !min-h-[34px] !h-8.5 !px-2.5 !py-1 !text-xs !rounded-xl flex items-center gap-1 cursor-pointer"
-                  aria-label={t.slowAudioLabel || (isRTL ? 'پخش شمرده (تلفظ آرام ۰.۷x)' : 'Slow Audio (0.7x)')}
+                  aria-label={t.slowAudioLabel || (tx(isRTL, 'پخش شمرده (تلفظ آرام ۰.۷x)', 'Slow Audio (0.7x)'))}
                 >
                   <Volume1 size={14} className="text-[var(--turq)]" />
-                  <span>{isRTL ? 'شمرده' : 'Slow'}</span>
+                  <span>{tx(isRTL, 'شمرده', 'Slow')}</span>
                 </button>
               </div>
 
@@ -1499,8 +1486,8 @@ const SinglePlayerScreen: React.FC<Props> = ({
                 onClick={handleConfirmSkipAndNext}
                 className="btn-turq !min-h-[36px] !h-9 !px-5 !text-xs !rounded-xl flex items-center justify-center gap-1.5 cursor-pointer mt-1"
               >
-                <span>{isRTL ? 'کارت بعدی' : 'Next Card'}</span>
-                <ArrowRight size={14} className={isRTL ? 'rotate-180' : ''} />
+                <span>{tx(isRTL, 'کارت بعدی', 'Next Card')}</span>
+                <ArrowRight size={14} className={((isRTL ? 'rotate-180' : ''))} />
               </button>
             </div>
           ) : settings.displayMode === 'audio_only' && !evaluation?.isCorrect ? (
@@ -1510,7 +1497,7 @@ const SinglePlayerScreen: React.FC<Props> = ({
                 <Headphones size={26} />
               </div>
               <p className="text-xs sm:text-sm font-bold text-[var(--ink)] text-center">
-                {isRTL ? 'گوش دهید و عبارت شنیده‌شده را بگویید یا بنویسید' : 'Listen and repeat or type what you hear'}
+                {tx(isRTL, 'گوش دهید و عبارت شنیده‌شده را بگویید یا بنویسید', 'Listen and repeat or type what you hear')}
               </p>
 
               {/* Unified Audio Controls */}
@@ -1520,19 +1507,19 @@ const SinglePlayerScreen: React.FC<Props> = ({
                   type="button"
                   onClick={handlePlayAudio}
                   className="btn-primary !min-h-[34px] !h-8.5 !px-3 !py-1 !text-xs !rounded-xl flex items-center gap-1.5 cursor-pointer"
-                  aria-label={t.audioPronunciation || (isRTL ? 'پخش تلفظ صوتی' : 'Play Audio')}
+                  aria-label={t.audioPronunciation || (tx(isRTL, 'پخش تلفظ صوتی', 'Play Audio'))}
                 >
                   <Volume2 size={14} className={isPlayingAudio ? 'animate-pulse' : ''} />
-                  <span>{isPlayingAudio ? (isRTL ? 'در حال پخش...' : 'Playing...') : (isRTL ? 'پخش صدا' : 'Play Audio')}</span>
+                  <span>{isPlayingAudio ? (tx(isRTL, 'در حال پخش...', 'Playing...')) : (tx(isRTL, 'پخش صدا', 'Play Audio'))}</span>
                 </button>
                 <button
                   type="button"
                   onClick={handlePlaySlowAudio}
                   className="btn-ghost !min-h-[34px] !h-8.5 !px-2.5 !py-1 !text-xs !rounded-xl flex items-center gap-1 cursor-pointer"
-                  aria-label={t.slowAudioLabel || (isRTL ? 'پخش شمرده (تلفظ آرام ۰.۷x)' : 'Slow Audio (0.7x)')}
+                  aria-label={t.slowAudioLabel || (tx(isRTL, 'پخش شمرده (تلفظ آرام ۰.۷x)', 'Slow Audio (0.7x)'))}
                 >
                   <Volume1 size={14} className="text-[var(--turq)]" />
-                  <span>{isRTL ? 'شمرده' : 'Slow'}</span>
+                  <span>{tx(isRTL, 'شمرده', 'Slow')}</span>
                 </button>
               </div>
               )}
@@ -1541,7 +1528,7 @@ const SinglePlayerScreen: React.FC<Props> = ({
             /* Mode 2: Translate to Target (Native prompt visible, target text hidden until revealed/correct) */
             <div className="py-1.5 flex flex-col items-center justify-center w-full text-center">
               <div 
-                dir={isRtlLang(currentCard.nativeLanguage || settings.nativeLanguage || 'fa') ? 'rtl' : 'ltr'}
+                dir={isRtlLang(currentCard.nativeLanguage || settings.nativeLanguage || 'fa') ? 'rtl' : 'ltr'} lang={(currentCard.nativeLanguage || settings.nativeLanguage || 'fa') as string}
                 className="text-xl sm:text-2xl font-black text-[var(--ink)] tracking-tight leading-snug py-0.5"
               >
                 {currentCard.translation}
@@ -1550,14 +1537,14 @@ const SinglePlayerScreen: React.FC<Props> = ({
               {currentCard.article && (
                 <div className="mt-1 flex items-center justify-center">
                   <span className="text-xs font-bold px-2 py-0.5 rounded-full bg-blue-500/10 text-blue-600 dark:text-blue-400 border border-blue-500/20">
-                    {isRTL ? 'حرف تعریف:' : 'Article:'} {currentCard.article}
+                    {tx(isRTL, 'حرف تعریف:', 'Article:')} {currentCard.article}
                   </span>
                 </div>
               )}
 
               {(isRevealed || evaluation?.isCorrect) && (
                 <div 
-                  dir={isRtlLang(currentCard.targetLanguage) ? 'rtl' : 'ltr'}
+                  dir={isRtlLang(currentCard.targetLanguage) ? 'rtl' : 'ltr'} lang={(currentCard.targetLanguage) as string}
                   className="mt-2 text-base sm:text-lg font-black text-[var(--turq)] bg-[var(--bg)] px-3.5 py-1 rounded-xl border border-[var(--line)]"
                 >
                   {currentCard.targetText}
@@ -1571,20 +1558,20 @@ const SinglePlayerScreen: React.FC<Props> = ({
                   type="button"
                   onClick={handlePlayAudio}
                   className="btn-primary !min-h-[34px] !h-8.5 !px-3 !py-1 !text-xs !rounded-xl flex items-center gap-1.5 cursor-pointer"
-                  aria-label={t.audioPronunciation || (isRTL ? 'پخش تلفظ صوتی' : 'Play Audio')}
+                  aria-label={t.audioPronunciation || (tx(isRTL, 'پخش تلفظ صوتی', 'Play Audio'))}
                 >
                   <Volume2 size={14} className={isPlayingAudio ? 'animate-pulse' : ''} />
-                  <span>{isPlayingAudio ? (isRTL ? 'در حال پخش...' : 'Playing...') : (isRTL ? 'پخش صدا' : 'Play Audio')}</span>
+                  <span>{isPlayingAudio ? (tx(isRTL, 'در حال پخش...', 'Playing...')) : (tx(isRTL, 'پخش صدا', 'Play Audio'))}</span>
                 </button>
 
                 <button
                   type="button"
                   onClick={handlePlaySlowAudio}
                   className="btn-ghost !min-h-[34px] !h-8.5 !px-2.5 !py-1 !text-xs !rounded-xl flex items-center gap-1 cursor-pointer"
-                  aria-label={t.slowAudioLabel || (isRTL ? 'پخش شمرده (تلفظ آرام ۰.۷x)' : 'Slow Audio (0.7x)')}
+                  aria-label={t.slowAudioLabel || (tx(isRTL, 'پخش شمرده (تلفظ آرام ۰.۷x)', 'Slow Audio (0.7x)'))}
                 >
                   <Volume1 size={14} className="text-[var(--turq)]" />
-                  <span>{isRTL ? 'شمرده' : 'Slow'}</span>
+                  <span>{tx(isRTL, 'شمرده', 'Slow')}</span>
                 </button>
               </div>
               )}
@@ -1593,7 +1580,7 @@ const SinglePlayerScreen: React.FC<Props> = ({
             /* Mode 3: Translate to Native (Target text visible, native meaning hidden until revealed/correct) */
             <div className="py-1.5 flex flex-col items-center justify-center w-full text-center">
               <div 
-                dir={isRtlLang(currentCard.targetLanguage) ? 'rtl' : 'ltr'}
+                dir={isRtlLang(currentCard.targetLanguage) ? 'rtl' : 'ltr'} lang={(currentCard.targetLanguage) as string}
                 className="text-xl sm:text-2xl font-black text-[var(--ink)] tracking-tight leading-snug py-0.5"
               >
                 <TrainingWheelText card={currentCard} cefrLevel={settings.cefrLevel} uiLanguage={uiLanguage} />
@@ -1607,7 +1594,7 @@ const SinglePlayerScreen: React.FC<Props> = ({
 
               {(isRevealed || evaluation?.isCorrect) && (
                 <div 
-                  dir={isRtlLang(currentCard.nativeLanguage || settings.nativeLanguage || 'fa') ? 'rtl' : 'ltr'}
+                  dir={isRtlLang(currentCard.nativeLanguage || settings.nativeLanguage || 'fa') ? 'rtl' : 'ltr'} lang={(currentCard.nativeLanguage || settings.nativeLanguage || 'fa') as string}
                   className="mt-2 text-base sm:text-lg font-black text-[var(--lapis)] bg-[var(--bg)] px-3.5 py-1 rounded-xl border border-[var(--line)]"
                 >
                   {currentCard.translation}
@@ -1621,20 +1608,20 @@ const SinglePlayerScreen: React.FC<Props> = ({
                   type="button"
                   onClick={handlePlayAudio}
                   className="btn-primary !min-h-[34px] !h-8.5 !px-3 !py-1 !text-xs !rounded-xl flex items-center gap-1.5 cursor-pointer"
-                  aria-label={t.audioPronunciation || (isRTL ? 'پخش تلفظ صوتی' : 'Play Audio')}
+                  aria-label={t.audioPronunciation || (tx(isRTL, 'پخش تلفظ صوتی', 'Play Audio'))}
                 >
                   <Volume2 size={14} className={isPlayingAudio ? 'animate-pulse' : ''} />
-                  <span>{isPlayingAudio ? (isRTL ? 'در حال پخش...' : 'Playing...') : (isRTL ? 'پخش صدا' : 'Play Audio')}</span>
+                  <span>{isPlayingAudio ? (tx(isRTL, 'در حال پخش...', 'Playing...')) : (tx(isRTL, 'پخش صدا', 'Play Audio'))}</span>
                 </button>
 
                 <button
                   type="button"
                   onClick={handlePlaySlowAudio}
                   className="btn-ghost !min-h-[34px] !h-8.5 !px-2.5 !py-1 !text-xs !rounded-xl flex items-center gap-1 cursor-pointer"
-                  aria-label={t.slowAudioLabel || (isRTL ? 'پخش شمرده (تلفظ آرام ۰.۷x)' : 'Slow Audio (0.7x)')}
+                  aria-label={t.slowAudioLabel || (tx(isRTL, 'پخش شمرده (تلفظ آرام ۰.۷x)', 'Slow Audio (0.7x)'))}
                 >
                   <Volume1 size={14} className="text-[var(--turq)]" />
-                  <span>{isRTL ? 'شمرده' : 'Slow'}</span>
+                  <span>{tx(isRTL, 'شمرده', 'Slow')}</span>
                 </button>
               </div>
               )}
@@ -1643,7 +1630,7 @@ const SinglePlayerScreen: React.FC<Props> = ({
             /* Mode 4: Text & Audio (Reading & Speech - shows target phrase and translation clearly) */
             <div className="py-1.5 flex flex-col items-center justify-center w-full text-center">
               <div 
-                dir={isRtlLang(currentCard.targetLanguage) ? 'rtl' : 'ltr'}
+                dir={isRtlLang(currentCard.targetLanguage) ? 'rtl' : 'ltr'} lang={(currentCard.targetLanguage) as string}
                 className="text-xl sm:text-2xl font-black text-[var(--ink)] tracking-tight leading-snug py-0.5"
               >
                 <TrainingWheelText card={currentCard} cefrLevel={settings.cefrLevel} uiLanguage={uiLanguage} />
@@ -1656,7 +1643,7 @@ const SinglePlayerScreen: React.FC<Props> = ({
               )}
 
               <div 
-                dir={isRtlLang(currentCard.nativeLanguage || settings.nativeLanguage || 'fa') ? 'rtl' : 'ltr'}
+                dir={isRtlLang(currentCard.nativeLanguage || settings.nativeLanguage || 'fa') ? 'rtl' : 'ltr'} lang={(currentCard.nativeLanguage || settings.nativeLanguage || 'fa') as string}
                 className="text-xs sm:text-sm font-bold text-[var(--mute)] mt-1.5"
               >
                 {currentCard.translation}
@@ -1669,20 +1656,20 @@ const SinglePlayerScreen: React.FC<Props> = ({
                   type="button"
                   onClick={handlePlayAudio}
                   className="btn-primary !min-h-[34px] !h-8.5 !px-3 !py-1 !text-xs !rounded-xl flex items-center gap-1.5 cursor-pointer"
-                  aria-label={t.audioPronunciation || (isRTL ? 'پخش تلفظ صوتی' : 'Play Audio')}
+                  aria-label={t.audioPronunciation || (tx(isRTL, 'پخش تلفظ صوتی', 'Play Audio'))}
                 >
                   <Volume2 size={14} className={isPlayingAudio ? 'animate-pulse' : ''} />
-                  <span>{isPlayingAudio ? (isRTL ? 'در حال پخش...' : 'Playing...') : (isRTL ? 'پخش صدا' : 'Play Audio')}</span>
+                  <span>{isPlayingAudio ? (tx(isRTL, 'در حال پخش...', 'Playing...')) : (tx(isRTL, 'پخش صدا', 'Play Audio'))}</span>
                 </button>
 
                 <button
                   type="button"
                   onClick={handlePlaySlowAudio}
                   className="btn-ghost !min-h-[34px] !h-8.5 !px-2.5 !py-1 !text-xs !rounded-xl flex items-center gap-1 cursor-pointer"
-                  aria-label={t.slowAudioLabel || (isRTL ? 'پخش شمرده (تلفظ آرام ۰.۷x)' : 'Slow Audio (0.7x)')}
+                  aria-label={t.slowAudioLabel || (tx(isRTL, 'پخش شمرده (تلفظ آرام ۰.۷x)', 'Slow Audio (0.7x)'))}
                 >
                   <Volume1 size={14} className="text-[var(--turq)]" />
-                  <span>{isRTL ? 'شمرده' : 'Slow'}</span>
+                  <span>{tx(isRTL, 'شمرده', 'Slow')}</span>
                 </button>
               </div>
               )}
@@ -1710,7 +1697,7 @@ const SinglePlayerScreen: React.FC<Props> = ({
                   <div className="font-bold text-sm text-[var(--ink)] leading-snug">{evaluation.feedbackMessage}</div>
                   {evaluation.isCorrect && (
                     <div className="text-[11px] text-emerald-600 mt-0.5 font-bold">
-                      +{toPersian(evaluation.pointsAwarded, isRTL)} {t.pointsUnit || (isRTL ? 'امتیاز' : 'PTS')}
+                      +{toPersian(evaluation.pointsAwarded, isRTL)} {t.pointsUnit || (tx(isRTL, 'امتیاز', 'PTS'))}
                     </div>
                   )}
                 </div>
@@ -1723,7 +1710,7 @@ const SinglePlayerScreen: React.FC<Props> = ({
                   className="btn-turq !min-h-[38px] !text-xs !py-1 !px-3 shrink-0"
                 >
                   <span>{t.nextCard}</span>
-                  <ArrowRight size={13} className={isRTL ? 'rotate-180' : ''} />
+                  <ArrowRight size={13} className={((isRTL ? 'rotate-180' : ''))} />
                 </button>
               )}
             </div>
@@ -1738,7 +1725,7 @@ const SinglePlayerScreen: React.FC<Props> = ({
                     className="btn-danger !min-h-[38px] !text-xs !py-1.5 !px-3.5 flex items-center gap-1.5 cursor-pointer shadow-xs"
                   >
                     <RotateCcw size={14} />
-                    <span>{isRTL ? 'تلاش مجدد' : 'Try Again'}</span>
+                    <span>{tx(isRTL, 'تلاش مجدد', 'Try Again')}</span>
                   </button>
 
                   {sound.isVoiceSupportedSync(currentCard?.targetLanguage) && (
@@ -1748,7 +1735,7 @@ const SinglePlayerScreen: React.FC<Props> = ({
                     className="btn-ghost !min-h-[38px] !text-xs !py-1.5 !px-3.5 flex items-center gap-1.5 cursor-pointer"
                   >
                     <Volume2 size={14} className="text-[var(--lapis)]" />
-                    <span>{isRTL ? 'شنیدن تلفظ' : 'Listen'}</span>
+                    <span>{tx(isRTL, 'شنیدن تلفظ', 'Listen')}</span>
                   </button>
                   )}
 
@@ -1761,7 +1748,7 @@ const SinglePlayerScreen: React.FC<Props> = ({
                     className="btn-ghost !min-h-[38px] !text-xs !py-1.5 !px-3.5 flex items-center gap-1.5 cursor-pointer"
                   >
                     <Eye size={14} />
-                    <span>{isRTL ? 'مشاهده پاسخ' : 'Show Answer'}</span>
+                    <span>{tx(isRTL, 'مشاهده پاسخ', 'Show Answer')}</span>
                   </button>
                 </div>
               </div>
@@ -1775,8 +1762,23 @@ const SinglePlayerScreen: React.FC<Props> = ({
         {/* Compact Input and 3 Action Buttons Row (Only active during live card guessing, hidden when answered correctly or during skipped review) */}
         {!skippedCardInfo && !evaluation?.isCorrect && (
           <div className="space-y-1.5">
+            {/* پازل تکه‌ها: داربست جمله‌های بلند (به‌جای تایپ طولانی) */}
+            {puzzleActive && currentCard && (
+              <SentencePuzzle
+                text={currentCard.targetText}
+                lang={currentCard.targetLanguage || settings.targetLanguage || 'en'}
+                stage={puzzleStage}
+                isRTL={isRTL}
+                onTap={(ok) => (ok ? sound.playClick() : sound.hapticFeedback('error'))}
+                onSkipPuzzle={() => setPuzzleDismissed(true)}
+                onSolved={(mistakes) => {
+                  recordPuzzleSolved(puzzleKey, mistakes);
+                  submitAnswer(currentCard.targetText);
+                }}
+              />
+            )}
             {/* Adaptive Exercise Options (choice2 scaffold for A1 or 4-choice recognize) */}
-            {(revealedOptions || currentExerciseType === 'choice2' || currentExerciseType === 'recognize') && quickQuizOptions.length > 0 && (
+            {!puzzleActive && (revealedOptions || currentExerciseType === 'choice2' || currentExerciseType === 'recognize') && quickQuizOptions.length > 0 && (
               <div className="grid grid-cols-2 gap-2 my-1 animate-fade-in" data-testid="adaptive-choice-options">
                 {quickQuizOptions.map((opt, optIdx) => (
                   <button
@@ -1800,7 +1802,7 @@ const SinglePlayerScreen: React.FC<Props> = ({
                   <Mic size={16} className="text-[var(--turq)] animate-pulse shrink-0" />
                   <div className="min-w-0">
                     <div className="text-[11px] text-[var(--mute)] font-medium">
-                      {isRTL ? 'گفتار تشخیص داده شده (ثبت تا ۱.۵ ثانیه):' : 'Spoken text recognized (submitting in ~1.5s):'}
+                      {tx(isRTL, 'گفتار تشخیص داده شده (ثبت تا ۱.۵ ثانیه):', 'Spoken text recognized (submitting in ~1.5s):')}
                     </div>
                     <div className="text-xs font-black text-[var(--ink)] truncate">
                       «{pendingVoiceSubmit.transcript}»
@@ -1813,7 +1815,7 @@ const SinglePlayerScreen: React.FC<Props> = ({
                   className="btn-danger !min-h-[30px] !h-7.5 !px-2.5 !py-0.5 !text-xs !rounded-lg flex items-center gap-1 shrink-0 cursor-pointer shadow-xs"
                 >
                   <RotateCcw size={12} />
-                  <span>{isRTL ? 'تلاش دوباره' : 'Try again'}</span>
+                  <span>{tx(isRTL, 'تلاش دوباره', 'Try again')}</span>
                 </button>
               </div>
             )}
@@ -1821,7 +1823,7 @@ const SinglePlayerScreen: React.FC<Props> = ({
             {/* Unsupported Browser Note */}
             {!speechSupported && (
               <div className="text-[10px] text-[var(--mute)] font-medium text-center">
-                {isRTL ? '⚠️ تشخیص صوت در این مرورگر فعال نیست (از مرورگر Chrome یا Edge استفاده فرمایید).' : '⚠️ Voice input is not supported in this browser (use Chrome or Edge).'}
+                {tx(isRTL, '⚠️ تشخیص صوت در این مرورگر فعال نیست (از مرورگر Chrome یا Edge استفاده فرمایید).', '⚠️ Voice input is not supported in this browser (use Chrome or Edge).')}
               </div>
             )}
 
@@ -1832,8 +1834,8 @@ const SinglePlayerScreen: React.FC<Props> = ({
                 type="text"
                 dir={
                   userInput.trim()
-                    ? (isRtlLang(settings.displayMode === 'translate_to_native' ? (currentCard?.nativeLanguage || settings.nativeLanguage || (isRTL ? 'fa' : 'en')) : (currentCard?.targetLanguage || settings.targetLanguage || 'en')) ? 'rtl' : 'ltr')
-                    : (isRTL ? 'rtl' : 'ltr')
+                    ? (isRtlLang(settings.displayMode === 'translate_to_native' ? (currentCard?.nativeLanguage || settings.nativeLanguage || (uiLanguage || 'en')) : (currentCard?.targetLanguage || settings.targetLanguage || 'en')) ? 'rtl' : 'ltr')
+                    : (((isRTL ? 'rtl' : 'ltr')))
                 }
                 value={userInput}
                 onChange={e => {
@@ -1845,10 +1847,10 @@ const SinglePlayerScreen: React.FC<Props> = ({
                 }}
                 placeholder={
                   isTranscribingWithGemini
-                    ? (isRTL ? 'در حال تبدیل صدا به کلمه و جمله...' : 'Converting voice to text...')
+                    ? (tx(isRTL, 'در حال تبدیل صدا به کلمه و جمله...', 'Converting voice to text...'))
                     : (isListening || isGeminiRecording)
-                      ? (isRTL ? 'در حال شنیدن... صحبت کنید تا به متن تبدیل شود' : 'Listening... Speak to convert to text')
-                      : (t.enterAnswerPlaceholder || (isRTL ? 'پاسخ را تایپ کنید یا با میکروفون بگویید...' : 'Type or speak your answer...'))
+                      ? (tx(isRTL, 'در حال شنیدن... صحبت کنید تا به متن تبدیل شود', 'Listening... Speak to convert to text'))
+                      : (t.enterAnswerPlaceholder || (tx(isRTL, 'پاسخ را تایپ کنید یا با میکروفون بگویید...', 'Type or speak your answer...')))
                 }
                 className={`w-full bg-[var(--panel)] text-[var(--ink)] px-3 py-1.5 h-9 rounded-xl border text-xs font-bold focus:outline-none transition-colors shadow-2xs ${
                   isListening || isGeminiRecording
@@ -1865,10 +1867,10 @@ const SinglePlayerScreen: React.FC<Props> = ({
                 onClick={handleCheckAnswer}
                 disabled={isTranscribingWithGemini}
                 className="btn-primary !min-h-[34px] !h-8.5 !px-2.5 !py-1 !text-xs !rounded-xl whitespace-nowrap flex items-center justify-center gap-1.5 font-extrabold cursor-pointer disabled:opacity-60"
-                aria-label={t.checkAnswer || (isRTL ? 'بررسی پاسخ' : 'Check Answer')}
+                aria-label={t.checkAnswer || (tx(isRTL, 'بررسی پاسخ', 'Check Answer'))}
               >
-                <Send size={13} className={`shrink-0 ${isRTL ? 'rotate-180' : ''}`} />
-                <span className="truncate">{t.checkAnswer || (isRTL ? 'بررسی پاسخ' : 'Check')}</span>
+                <Send size={13} className={`shrink-0 ${((isRTL ? 'rotate-180' : ''))}`} />
+                <span className="truncate">{t.checkAnswer || (tx(isRTL, 'بررسی پاسخ', 'Check'))}</span>
               </button>
 
               <button
@@ -1877,7 +1879,7 @@ const SinglePlayerScreen: React.FC<Props> = ({
                 disabled={!speechSupported}
                 title={
                   !speechSupported
-                    ? (isRTL ? 'تشخیص صوت در این مرورگر پشتیبانی نمی‌شود (از Chrome یا Edge استفاده کنید)' : 'Voice input not supported in this browser (use Chrome or Edge)')
+                    ? (tx(isRTL, 'تشخیص صوت در این مرورگر پشتیبانی نمی‌شود (از Chrome یا Edge استفاده کنید)', 'Voice input not supported in this browser (use Chrome or Edge)'))
                     : undefined
                 }
                 className={`min-h-[34px] h-8.5 px-2.5 py-1 rounded-xl border flex items-center justify-center gap-1.5 cursor-pointer transition-all active:scale-95 shadow-2xs text-xs font-extrabold ${
@@ -1887,13 +1889,13 @@ const SinglePlayerScreen: React.FC<Props> = ({
                       ? 'bg-[var(--turq)] border-[var(--turq)] text-white animate-pulse'
                       : 'bg-[var(--lapis-soft)] border-[var(--lapis)]/30 text-[var(--lapis)] hover:brightness-95'
                 }`}
-                aria-label={t.touchToSpeakBtn || (isRTL ? 'تبدیل صوت به متن (میکروفون)' : 'Voice to Text')}
+                aria-label={t.touchToSpeakBtn || (tx(isRTL, 'تبدیل صوت به متن (میکروفون)', 'Voice to Text'))}
               >
                 {isListening ? <MicOff size={14} className="shrink-0" /> : <Mic size={14} className="shrink-0" />}
                 <span className="truncate">
                   {isListening
-                    ? (isRTL ? 'در حال شنیدن...' : 'Listening...')
-                    : (isRTL ? 'صحبت' : 'Speak')}
+                    ? (tx(isRTL, 'در حال شنیدن...', 'Listening...'))
+                    : (tx(isRTL, 'صحبت', 'Speak'))}
                 </span>
               </button>
 
@@ -1901,11 +1903,11 @@ const SinglePlayerScreen: React.FC<Props> = ({
                 type="button"
                 onClick={handleSkip}
                 className="btn-ghost !min-h-[34px] !h-8.5 !px-2.5 !py-1 !text-xs !rounded-xl flex items-center justify-center gap-1.5 cursor-pointer"
-                aria-label={t.skipBtn || (isRTL ? 'رد کردن / مشاهده پاسخ' : 'Skip / Show Answer')}
-                title={isRTL ? 'رد کردن این کارت و مشاهده پاسخ صحیح' : 'Skip card & see correct answer'}
+                aria-label={t.skipBtn || (tx(isRTL, 'رد کردن / مشاهده پاسخ', 'Skip / Show Answer'))}
+                title={tx(isRTL, 'رد کردن این کارت و مشاهده پاسخ صحیح', 'Skip card & see correct answer')}
               >
                 <SkipForward size={14} className="shrink-0" />
-                <span className="truncate">{t.skipBtn || (isRTL ? 'رد کردن' : 'Skip')}</span>
+                <span className="truncate">{t.skipBtn || (tx(isRTL, 'رد کردن', 'Skip'))}</span>
               </button>
             </div>
           </div>
@@ -1929,7 +1931,7 @@ const SinglePlayerScreen: React.FC<Props> = ({
               setShowMicPermissionModal(false);
             }
           }}
-          dir={isRTL ? 'rtl' : 'ltr'}
+          dir={((isRTL ? 'rtl' : 'ltr'))}
         >
           <div 
             className="sheet-box text-start max-w-md w-full"
@@ -1942,14 +1944,14 @@ const SinglePlayerScreen: React.FC<Props> = ({
                 </div>
                 <div>
                   <h3 className="text-sm sm:text-base font-black text-[var(--ink)]">
-                    {isRTL ? 'چرا میکروفون با وجود روشن بودن کار نمی‌کند؟' : 'Why Mic Fails Even When Enabled'}
+                    {tx(isRTL, 'چرا میکروفون با وجود روشن بودن کار نمی‌کند؟', 'Why Mic Fails Even When Enabled')}
                   </h3>
                   <p className="text-[11px] font-bold text-[var(--mute)]">
                     {micErrorReason === 'no_device'
-                      ? (isRTL ? 'وضعیت: میکروفونی در سیستم یافت نشد' : 'Status: No microphone detected')
+                      ? (tx(isRTL, 'وضعیت: میکروفونی در سیستم یافت نشد', 'Status: No microphone detected'))
                       : micErrorReason === 'in_use'
-                        ? (isRTL ? 'وضعیت: میکروفون در برنامه دیگری درگیر است' : 'Status: Microphone busy in another app')
-                        : (isRTL ? 'وضعیت: محدودیت قاب پیش‌نمایش (Preview Iframe)' : 'Status: Preview Iframe Restriction')}
+                        ? (tx(isRTL, 'وضعیت: میکروفون در برنامه دیگری درگیر است', 'Status: Microphone busy in another app'))
+                        : (tx(isRTL, 'وضعیت: محدودیت قاب پیش‌نمایش (Preview Iframe)', 'Status: Preview Iframe Restriction'))}
                   </p>
                 </div>
               </div>
@@ -1966,34 +1968,28 @@ const SinglePlayerScreen: React.FC<Props> = ({
             <div className="bg-[var(--bg)] border border-[var(--line)] rounded-2xl p-3 mb-3 space-y-2.5 text-xs">
               <div className="flex items-start gap-2.5">
                 <span className="w-5 h-5 rounded-full bg-[var(--lapis)] text-white text-[11px] font-black flex items-center justify-center shrink-0 mt-0.5">
-                  {isRTL ? '۱' : '1'}
+                  {tx(isRTL, '۱', '1')}
                 </span>
                 <p className="text-[var(--ink)] font-bold leading-relaxed">
-                  {isRTL
-                    ? 'اگر تیک Microphone در بالای مرورگر روشن است، کروم تا پیش از رفرش شدن صفحه، دسترسی را به قاب پیش‌نمایش نمی‌دهد. روی دکمه «بارگذاری مجدد پیش‌نمایش» در پایین بزنید.'
-                    : 'When you turn Microphone ON in Chrome, it does not apply to the preview frame until reloaded. Tap "Reload Preview" below.'}
+                  {tx(isRTL, 'اگر تیک Microphone در بالای مرورگر روشن است، کروم تا پیش از رفرش شدن صفحه، دسترسی را به قاب پیش‌نمایش نمی‌دهد. روی دکمه «بارگذاری مجدد پیش‌نمایش» در پایین بزنید.', 'When you turn Microphone ON in Chrome, it does not apply to the preview frame until reloaded. Tap "Reload Preview" below.')}
                 </p>
               </div>
 
               <div className="flex items-start gap-2.5">
                 <span className="w-5 h-5 rounded-full bg-[var(--lapis)] text-white text-[11px] font-black flex items-center justify-center shrink-0 mt-0.5">
-                  {isRTL ? '۲' : '2'}
+                  {tx(isRTL, '۲', '2')}
                 </span>
                 <p className="text-[var(--ink)] font-bold leading-relaxed">
-                  {isRTL
-                    ? 'راه‌حل ۱۰۰٪ قطعی: در نوار سفید بالای همین پیش‌نمایش، روی آیکون باز کردن در تب جدید (🔗) کلیک کنید تا بازی خارج از قاب پیش‌نمایش و با میکروفون کامل اجرا شود.'
-                    : '100% Guaranteed Fix: Click the Open in New Tab icon (🔗) in the toolbar right above this preview so the app runs outside the preview frame.'}
+                  {tx(isRTL, 'راه‌حل ۱۰۰٪ قطعی: در نوار سفید بالای همین پیش‌نمایش، روی آیکون باز کردن در تب جدید (🔗) کلیک کنید تا بازی خارج از قاب پیش‌نمایش و با میکروفون کامل اجرا شود.', '100% Guaranteed Fix: Click the Open in New Tab icon (🔗) in the toolbar right above this preview so the app runs outside the preview frame.')}
                 </p>
               </div>
 
               <div className="flex items-start gap-2.5">
                 <span className="w-5 h-5 rounded-full bg-teal-600 text-white text-[11px] font-black flex items-center justify-center shrink-0 mt-0.5">
-                  {isRTL ? '۳' : '3'}
+                  {tx(isRTL, '۳', '3')}
                 </span>
                 <p className="text-[var(--ink)] font-bold leading-relaxed">
-                  {isRTL
-                    ? 'اگر می‌خواهید در همین صفحه بمانید، «۴ گزینه آماده پاسخ» در پایین کارت برایتان فعال شده است تا با یک کلیک بازی کنید.'
-                    : 'To keep playing right here, 4 Quick Answer Choices are active on the card so you can answer with 1 tap.'}
+                  {tx(isRTL, 'اگر می‌خواهید در همین صفحه بمانید، «۴ گزینه آماده پاسخ» در پایین کارت برایتان فعال شده است تا با یک کلیک بازی کنید.', 'To keep playing right here, 4 Quick Answer Choices are active on the card so you can answer with 1 tap.')}
                 </p>
               </div>
             </div>
@@ -2001,7 +1997,7 @@ const SinglePlayerScreen: React.FC<Props> = ({
             {micTestSuccess && (
               <div className="mb-3 p-2.5 bg-emerald-500/15 border border-emerald-500/40 text-emerald-700 dark:text-emerald-300 rounded-xl text-xs font-extrabold flex items-center gap-2">
                 <CheckCircle2 size={16} className="shrink-0" />
-                <span>{isRTL ? 'میکروفون با موفقیت فعال شد! در حال ضبط...' : 'Microphone enabled! Recording...'}</span>
+                <span>{tx(isRTL, 'میکروفون با موفقیت فعال شد! در حال ضبط...', 'Microphone enabled! Recording...')}</span>
               </div>
             )}
 
@@ -2022,7 +2018,7 @@ const SinglePlayerScreen: React.FC<Props> = ({
               >
                 <RotateCcw size={15} />
                 <span>
-                  {isRTL ? '۱. بارگذاری مجدد پیش‌نمایش (اعمال دسترسی میکروفون)' : '1. Reload Preview (Apply Mic Permission)'}
+                  {tx(isRTL, '۱. بارگذاری مجدد پیش‌نمایش (اعمال دسترسی میکروفون)', '1. Reload Preview (Apply Mic Permission)')}
                 </span>
               </button>
 
@@ -2041,8 +2037,8 @@ const SinglePlayerScreen: React.FC<Props> = ({
                 {copiedDirectUrl ? <CheckCircle2 size={14} className="text-emerald-600" /> : <KeyRound size={14} className="text-[var(--lapis)]" />}
                 <span>
                   {copiedDirectUrl
-                    ? (isRTL ? 'لینک مستقیم کپی شد! در یک تب جدید مرورگر Paste کنید' : 'Direct link copied! Paste in a new browser tab')
-                    : (isRTL ? '۲. کپی لینک مستقیم برنامه (برای باز کردن در تب جدید)' : '2. Copy Direct App URL (Open in New Tab)')}
+                    ? (tx(isRTL, 'لینک مستقیم کپی شد! در یک تب جدید مرورگر Paste کنید', 'Direct link copied! Paste in a new browser tab'))
+                    : (tx(isRTL, '۲. کپی لینک مستقیم برنامه (برای باز کردن در تب جدید)', '2. Copy Direct App URL (Open in New Tab)'))}
                 </span>
               </button>
 
@@ -2055,8 +2051,8 @@ const SinglePlayerScreen: React.FC<Props> = ({
                 <Mic size={14} className={isRequestingMic ? 'animate-pulse' : ''} />
                 <span>
                   {isRequestingMic
-                    ? (isRTL ? 'در حال بررسی میکروفون...' : 'Testing Microphone...')
-                    : (isRTL ? 'تست مستقیم میکروفون در همین پنجره' : 'Test Microphone Now')}
+                    ? (tx(isRTL, 'در حال بررسی میکروفون...', 'Testing Microphone...'))
+                    : (tx(isRTL, 'تست مستقیم میکروفون در همین پنجره', 'Test Microphone Now'))}
                 </span>
               </button>
 
@@ -2071,7 +2067,7 @@ const SinglePlayerScreen: React.FC<Props> = ({
                 className="w-full py-2 px-3 rounded-xl bg-teal-500/15 hover:bg-teal-500/25 text-[var(--turq)] border border-teal-500/30 text-xs font-extrabold flex items-center justify-center gap-1.5 cursor-pointer transition-all"
               >
                 <Sparkles size={14} />
-                <span>{isRTL ? 'ادامه بازی با ۴ گزینه آماده (بدون نیاز به میکروفون)' : 'Play with 4 Quick Choices (No Mic Needed)'}</span>
+                <span>{tx(isRTL, 'ادامه بازی با ۴ گزینه آماده (بدون نیاز به میکروفون)', 'Play with 4 Quick Choices (No Mic Needed)')}</span>
               </button>
             </div>
           </div>
@@ -2082,7 +2078,7 @@ const SinglePlayerScreen: React.FC<Props> = ({
       {showExitConfirm && (
         <ExitConfirmModal
           isRTL={isRTL}
-          setupLabel={isRTL ? 'تنظیمات تمرین انفرادی' : 'Practice Settings'}
+          setupLabel={tx(isRTL, 'تنظیمات تمرین انفرادی', 'Practice Settings')}
           onCancel={() => setShowExitConfirm(false)}
           onOpenHelp={() => {
             setShowExitConfirm(false);

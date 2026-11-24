@@ -1,5 +1,26 @@
 import { Language } from './types';
 import { TRANSLATIONS } from './translations';
+import core_nl from './i18n/core/nl.json';
+import core_de from './i18n/core/de.json';
+import core_fr from './i18n/core/fr.json';
+import core_es from './i18n/core/es.json';
+import core_it from './i18n/core/it.json';
+import core_tr from './i18n/core/tr.json';
+import core_ar from './i18n/core/ar.json';
+import core_ru from './i18n/core/ru.json';
+import core_pt from './i18n/core/pt.json';
+import core_zh from './i18n/core/zh.json';
+import core_ja from './i18n/core/ja.json';
+import core_ko from './i18n/core/ko.json';
+import core_hi from './i18n/core/hi.json';
+import core_sv from './i18n/core/sv.json';
+import core_pl from './i18n/core/pl.json';
+import core_uk from './i18n/core/uk.json';
+
+// ترجمهٔ کلیدهایی که در بستهٔ اصلی هر زبان نبودند و به انگلیسی برمی‌گشتند
+const CORE_FILL: Record<string, Record<string, string>> = {
+  nl: core_nl, de: core_de, fr: core_fr, es: core_es, it: core_it, tr: core_tr, ar: core_ar, ru: core_ru, pt: core_pt, zh: core_zh, ja: core_ja, ko: core_ko, hi: core_hi, sv: core_sv, pl: core_pl, uk: core_uk,
+};
 
 export function resolveUiLang(lang: Language | string): Language {
   if (lang === 'en-US') return 'en' as Language;
@@ -1404,13 +1425,22 @@ export function tUI(lang: Language | string): any {
   if (!extra.singlePlayerBtn && base.singlePlayer) derived.singlePlayerBtn = base.singlePlayer;
   if (!extra.onlineRoom && base.onlineRoom) derived.onlineRoom = base.onlineRoom;
 
-  return {
+  const pack: Record<string, any> = {
     ...TRANSLATIONS.en,
     ...UI_STRINGS.en,
     ...base,
     ...derived,
     ...extra
   };
+  const fill = CORE_FILL[code as string];
+  if (fill) {
+    const enPack: Record<string, any> = { ...TRANSLATIONS.en, ...UI_STRINGS.en };
+    for (const [k, v] of Object.entries(fill)) {
+      // فقط جایی که هنوز متن انگلیسی مانده (یا اصلاً نیست)، ترجمه را بگذار
+      if (pack[k] === undefined || pack[k] === enPack[k]) pack[k] = v;
+    }
+  }
+  return pack;
 }
 
 export function toPersianDigits(str: string | number): string {

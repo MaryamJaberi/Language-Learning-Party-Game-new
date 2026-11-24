@@ -15,6 +15,7 @@ import {
 } from '../contentStore';
 import { SUPPORTED_LANGUAGES } from '../constants';
 import { db } from '../firebase';
+import { tx, txt, langName as localizedLangName } from '../i18n/runtime';
 
 /** زبان‌هایی که فایل کارت دارند (public/data/decks) */
 export const DECK_LANGUAGES = ['fa', 'en', 'en-US', 'en-GB', 'nl', 'de', 'fr', 'es', 'it', 'pt', 'ar', 'tr', 'pl', 'uk', 'ru', 'zh', 'ja', 'ko', 'hi'];
@@ -33,9 +34,9 @@ export function getSelectedLanguages(): string[] {
 
 const langName = (code: string, rtl: boolean) => {
   const info = SUPPORTED_LANGUAGES.find((l) => l.code === code);
-  if (code === 'en-GB') return rtl ? 'انگلیسی بریتانیایی' : 'English (UK)';
+  if (code === 'en-GB') return tx(rtl, 'انگلیسی بریتانیایی', 'English (UK)');
   if (!info) return code;
-  return `${info.flag} ${rtl ? info.persianName : info.name}`;
+  return `${info.flag} ${localizedLangName(info, rtl)}`;
 };
 
 interface Props {
@@ -95,8 +96,8 @@ export const ContentStorageSettings: React.FC<Props> = ({ isRTL, currentUser }) 
     setBusy(null);
     setMessage(
       res.failed.length
-        ? (isRTL ? 'بعضی فایل‌ها دانلود نشدند. اینترنت را بررسی کنید و دوباره امتحان کنید.' : 'Some files failed to download. Check your connection and try again.')
-        : (isRTL ? 'آماده شد؛ این زبان‌ها حالا بدون اینترنت هم کار می‌کنند.' : 'Done — these languages now work offline.')
+        ? (tx(isRTL, 'بعضی فایل‌ها دانلود نشدند. اینترنت را بررسی کنید و دوباره امتحان کنید.', 'Some files failed to download. Check your connection and try again.'))
+        : (tx(isRTL, 'آماده شد؛ این زبان‌ها حالا بدون اینترنت هم کار می‌کنند.', 'Done — these languages now work offline.'))
     );
     await refresh();
   };
@@ -105,7 +106,7 @@ export const ContentStorageSettings: React.FC<Props> = ({ isRTL, currentUser }) 
     setBusy('clear');
     await clearSavedContent();
     setBusy(null);
-    setMessage(isRTL ? 'همهٔ محتوای ذخیره‌شده از گوشی پاک شد.' : 'All saved content was removed from this device.');
+    setMessage(tx(isRTL, 'همهٔ محتوای ذخیره‌شده از گوشی پاک شد.', 'All saved content was removed from this device.'));
     await refresh();
   };
 
@@ -116,37 +117,29 @@ export const ContentStorageSettings: React.FC<Props> = ({ isRTL, currentUser }) 
     {
       id: 'smart',
       icon: <Sparkles size={18} />,
-      title: isRTL ? 'هوشمند (پیشنهادی)' : 'Smart (recommended)',
-      desc: isRTL
-        ? 'هر زبانی که بازی کنی یک بار دانلود و روی گوشی ذخیره می‌شود؛ دفعهٔ بعد بدون اینترنت هم کار می‌کند.'
-        : 'Each language you play is downloaded once and kept on this device, so it works offline next time.',
+      title: tx(isRTL, 'هوشمند (پیشنهادی)', 'Smart (recommended)'),
+      desc: tx(isRTL, 'هر زبانی که بازی کنی یک بار دانلود و روی گوشی ذخیره می‌شود؛ دفعهٔ بعد بدون اینترنت هم کار می‌کند.', 'Each language you play is downloaded once and kept on this device, so it works offline next time.'),
     },
     {
       id: 'offline',
       icon: <WifiOff size={18} />,
-      title: isRTL ? 'کاملاً آفلاین' : 'Fully offline',
-      desc: isRTL
-        ? 'زبان‌های انتخابی‌ات همین حالا کامل دانلود می‌شوند تا هر جا بدون اینترنت بازی کنی.'
-        : 'Your chosen languages are downloaded in full now, so you can play anywhere without internet.',
+      title: tx(isRTL, 'کاملاً آفلاین', 'Fully offline'),
+      desc: tx(isRTL, 'زبان‌های انتخابی‌ات همین حالا کامل دانلود می‌شوند تا هر جا بدون اینترنت بازی کنی.', 'Your chosen languages are downloaded in full now, so you can play anywhere without internet.'),
     },
     {
       id: 'online',
       icon: <Wifi size={18} />,
-      title: isRTL ? 'همیشه آنلاین' : 'Always online',
-      desc: isRTL
-        ? 'هیچ محتوایی روی گوشی ذخیره نمی‌شود؛ همه‌چیز هر بار از اینترنت می‌آید.'
-        : 'Nothing is stored on this device; everything is loaded from the internet each time.',
+      title: tx(isRTL, 'همیشه آنلاین', 'Always online'),
+      desc: tx(isRTL, 'هیچ محتوایی روی گوشی ذخیره نمی‌شود؛ همه‌چیز هر بار از اینترنت می‌آید.', 'Nothing is stored on this device; everything is loaded from the internet each time.'),
     },
   ];
 
   return (
-    <div className="space-y-4 text-start" dir={isRTL ? 'rtl' : 'ltr'}>
+    <div className="space-y-4 text-start" dir={((isRTL ? 'rtl' : 'ltr'))}>
       <div>
-        <h3 className="text-sm font-bold text-[var(--ink)] mb-1">{isRTL ? 'محتوای بازی روی گوشی' : 'Game content on this device'}</h3>
+        <h3 className="text-sm font-bold text-[var(--ink)] mb-1">{tx(isRTL, 'محتوای بازی روی گوشی', 'Game content on this device')}</h3>
         <p className="text-[11px] text-[var(--mute)] leading-relaxed">
-          {isRTL
-            ? 'کارت‌ها و ترجمه‌ها داخل خود اپ نیستند تا اپ سبک بماند. انتخاب کن که روی گوشی ذخیره شوند یا نه.'
-            : 'Cards and translations are not bundled with the app, so it stays light. Choose whether to keep them on your device.'}
+          {tx(isRTL, 'کارت‌ها و ترجمه‌ها داخل خود اپ نیستند تا اپ سبک بماند. انتخاب کن که روی گوشی ذخیره شوند یا نه.', 'Cards and translations are not bundled with the app, so it stays light. Choose whether to keep them on your device.')}
         </p>
       </div>
 
@@ -183,13 +176,13 @@ export const ContentStorageSettings: React.FC<Props> = ({ isRTL, currentUser }) 
           <div className="flex items-center justify-between gap-2">
             <span className="flex items-center gap-1.5 text-xs font-bold text-[var(--ink)]">
               <HardDrive size={15} />
-              {isRTL ? 'ذخیره‌شده روی گوشی' : 'Saved on this device'}
+              {tx(isRTL, 'ذخیره‌شده روی گوشی', 'Saved on this device')}
             </span>
             <span className="text-xs text-[var(--mute)]">{formatBytes(total, isRTL)}</span>
           </div>
 
           {savedLangs.length === 0 ? (
-            <p className="text-[11px] text-[var(--mute)]">{isRTL ? 'هنوز زبانی ذخیره نشده.' : 'No languages saved yet.'}</p>
+            <p className="text-[11px] text-[var(--mute)]">{tx(isRTL, 'هنوز زبانی ذخیره نشده.', 'No languages saved yet.')}</p>
           ) : (
             <ul className="space-y-1">
               {savedLangs.map((s) => (
@@ -201,7 +194,7 @@ export const ContentStorageSettings: React.FC<Props> = ({ isRTL, currentUser }) 
                       type="button"
                       onClick={async () => { await removeSavedLanguage(s.id); refresh(); }}
                       className="p-1 rounded-full hover:bg-red-500/10 text-red-500 cursor-pointer"
-                      aria-label={isRTL ? 'پاک کردن' : 'Remove'}
+                      aria-label={tx(isRTL, 'پاک کردن', 'Remove')}
                     >
                       <Trash2 size={13} />
                     </button>
@@ -221,7 +214,7 @@ export const ContentStorageSettings: React.FC<Props> = ({ isRTL, currentUser }) 
               {busy === 'download' ? <Loader2 size={14} className="animate-spin" /> : <Download size={14} />}
               {busy === 'download' && progress
                 ? `${progress.done}/${progress.total}`
-                : (isRTL ? 'دانلود زبان‌های من برای آفلاین' : 'Download my languages for offline')}
+                : (tx(isRTL, 'دانلود زبان‌های من برای آفلاین', 'Download my languages for offline'))}
             </button>
             <button
               type="button"
@@ -230,11 +223,11 @@ export const ContentStorageSettings: React.FC<Props> = ({ isRTL, currentUser }) 
               className="flex-1 flex items-center justify-center gap-1.5 h-9 px-3 rounded-full border border-[var(--line)] text-xs font-semibold text-red-600 cursor-pointer disabled:opacity-50"
             >
               {busy === 'clear' ? <Loader2 size={14} className="animate-spin" /> : <Trash2 size={14} />}
-              {isRTL ? 'پاک کردن همه' : 'Remove all'}
+              {tx(isRTL, 'پاک کردن همه', 'Remove all')}
             </button>
           </div>
           <p className="text-[10px] text-[var(--mute)]">
-            {isRTL ? 'زبان‌های من: ' : 'My languages: '}
+            {tx(isRTL, 'زبان‌های من: ', 'My languages: ')}
             {selected.map((l) => langName(l, isRTL)).join('، ')}
           </p>
         </div>

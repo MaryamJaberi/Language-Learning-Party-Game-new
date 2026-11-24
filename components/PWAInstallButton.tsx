@@ -3,6 +3,7 @@ import { usePWAInstall } from '../usePWAInstall';
 import { Download, Smartphone, Share2, PlusSquare, X, CheckCircle2 } from 'lucide-react';
 import { sound } from '../soundManager';
 import { isRtlLang, tUI } from '../ui';
+import { tx, txt } from '../i18n/runtime';
 
 interface Props {
   language?: string;
@@ -37,7 +38,7 @@ export const PWAInstallButton: React.FC<Props> = ({ language = 'fa', variant = '
       {variant === 'banner' ? (
         <div 
           className="bg-gradient-to-r from-[#FFE600] to-[#FFF033] border-[3px] border-[#241442] p-2.5 rounded-2xl shadow-[3px_3px_0px_0px_#241442] flex items-center justify-between gap-2"
-          dir={isRTL ? 'rtl' : 'ltr'}
+          dir={((isRTL ? 'rtl' : 'ltr'))}
         >
           <div className="flex items-center gap-2">
             <div className="w-8 h-8 rounded-xl bg-[#241442] text-[#39FF14] flex items-center justify-center shrink-0">
@@ -45,10 +46,10 @@ export const PWAInstallButton: React.FC<Props> = ({ language = 'fa', variant = '
             </div>
             <div>
               <h4 className="text-xs font-black text-[#1a0833]">
-                {t.installApp || (isRTL ? 'نصب نسخه آفلاین اپلیکیشن' : 'Install Offline PWA App')}
+                {t.installApp || (tx(isRTL, 'نصب نسخه آفلاین اپلیکیشن', 'Install Offline PWA App'))}
               </h4>
               <p className="text-[10px] font-bold text-[#1a0833]/80">
-                {t.fastOffline || (isRTL ? 'دسترسی سریع و بدون نیاز به اینترنت' : 'Fast fullscreen & offline play')}
+                {t.fastOffline || (tx(isRTL, 'دسترسی سریع و بدون نیاز به اینترنت', 'Fast fullscreen & offline play'))}
               </p>
             </div>
           </div>
@@ -58,7 +59,7 @@ export const PWAInstallButton: React.FC<Props> = ({ language = 'fa', variant = '
             className="px-3 py-1.5 bg-[#FF007F] hover:bg-[#FF2E93] text-white border-2 border-[#241442] rounded-xl font-black text-xs shadow-[2px_2px_0px_0px_#241442] active:translate-y-0.5 flex items-center gap-1 shrink-0"
           >
             <Download size={13} />
-            <span>{t.addToHome || (isRTL ? 'نصب' : 'Install')}</span>
+            <span>{t.addToHome || (tx(isRTL, 'نصب', 'Install'))}</span>
           </button>
         </div>
       ) : (
@@ -69,7 +70,7 @@ export const PWAInstallButton: React.FC<Props> = ({ language = 'fa', variant = '
           className="px-2.5 py-1.5 bg-[#39FF14] hover:bg-[#32e012] text-[#1a0833] border-2 border-[#241442] rounded-xl font-black text-xs shadow-[2px_2px_0px_0px_#241442] active:translate-y-0.5 flex items-center gap-1 transition-transform"
         >
           <Download size={14} className="text-[#1a0833]" />
-          <span className="text-[11px] font-black">{t.installApp || (isRTL ? 'نصب PWA' : 'Install App')}</span>
+          <span className="text-[11px] font-black">{t.installApp || (tx(isRTL, 'نصب PWA', 'Install App'))}</span>
         </button>
       )}
 
@@ -81,7 +82,7 @@ export const PWAInstallButton: React.FC<Props> = ({ language = 'fa', variant = '
         >
           <div 
             className="w-full max-w-sm rounded-2xl bg-white border-4 border-[#241442] p-5 shadow-[6px_6px_0px_0px_#241442]"
-            dir={isRTL ? 'rtl' : 'ltr'}
+            dir={((isRTL ? 'rtl' : 'ltr'))}
             onClick={e => e.stopPropagation()}
           >
             <div className="flex items-center justify-between mb-3 border-b-2 border-slate-100 pb-2">
@@ -90,7 +91,7 @@ export const PWAInstallButton: React.FC<Props> = ({ language = 'fa', variant = '
                   <Smartphone size={18} />
                 </div>
                 <h3 className="text-sm font-black text-[#1a0833]">
-                  {t.installGuideMobile || (isRTL ? 'راهنمای نصب بازی روی گوشی' : 'Install PWA on Mobile')}
+                  {t.installGuideMobile || (tx(isRTL, 'راهنمای نصب بازی روی گوشی', 'Install PWA on Mobile'))}
                 </h3>
               </div>
               <button
@@ -146,7 +147,7 @@ export const PWAInstallButton: React.FC<Props> = ({ language = 'fa', variant = '
               onClick={() => setShowIOSGuide(false)}
               className="mt-4 w-full py-2.5 rounded-xl bg-[#241442] text-white font-black text-xs hover:bg-[#1a0833] transition"
             >
-              {t.gotIt || (isRTL ? 'متوجه شدم ✓' : 'Got it ✓')}
+              {t.gotIt || (tx(isRTL, 'متوجه شدم ✓', 'Got it ✓'))}
             </button>
           </div>
         </div>

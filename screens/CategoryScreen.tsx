@@ -8,6 +8,7 @@ import { SoundHeaderButton } from '../components/SoundHeaderButton';
 import { sound } from '../soundManager';
 import { isRtlLang } from '../ui';
 import { Layers, HelpCircle, ArrowRight, ArrowLeft, Check, Sparkles, CheckSquare } from 'lucide-react';
+import { tx, txt } from '../i18n/runtime';
 
 interface Props {
   settings: GameSettings;
@@ -56,7 +57,7 @@ const CategoryScreen: React.FC<Props> = ({ settings, onSave, onNext, onBack, onO
   };
 
   return (
-    <div className="w-full max-w-md sm:max-w-lg md:max-w-xl mx-auto h-full min-h-0 flex-1 flex flex-col p-3 sm:p-4 select-none overflow-hidden relative font-ui bg-[var(--bg)] text-[var(--ink)]" dir={isRTL ? 'rtl' : 'ltr'}>
+    <div className="w-full max-w-md sm:max-w-lg md:max-w-xl mx-auto h-full min-h-0 flex-1 flex flex-col p-3 sm:p-4 select-none overflow-hidden relative font-ui bg-[var(--bg)] text-[var(--ink)]" dir={((isRTL ? 'rtl' : 'ltr'))}>
       
       {/* Fixed Header */}
       <header className="shrink-0 mb-2">
@@ -158,9 +159,7 @@ const CategoryScreen: React.FC<Props> = ({ settings, onSave, onNext, onBack, onO
         <div className="mt-3 p-2.5 bg-[var(--panel)] border border-[var(--line)] rounded-2xl flex items-center justify-center gap-2 shadow-xs">
           <TeamMascot color="GREEN" size={24} />
           <span className="text-[11px] text-[var(--mute)] font-bold">
-            {t.categoriesHintTip || (isRTL 
-              ? '⚡ موضوعات انتخابی با کلمات جذاب بین زبان‌ها توزیع می‌شوند' 
-              : '⚡ Selected categories are balanced dynamically across languages')}
+            {t.categoriesHintTip || (tx(isRTL, '⚡ موضوعات انتخابی با کلمات جذاب بین زبان‌ها توزیع می‌شوند', '⚡ Selected categories are balanced dynamically across languages'))}
           </span>
         </div>
       </div>

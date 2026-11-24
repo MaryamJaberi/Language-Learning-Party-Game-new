@@ -31,6 +31,7 @@ import { recordMistake } from '../mistakeReviewService';
 import { tUI, toPersianDigits, isRtlLang } from '../ui';
 import ExitConfirmModal from '../components/ExitConfirmModal';
 import { scoreCard, CEFR_B, CEFR, CardIndicator } from '../src/engine/adaptive/dor-adaptive-engine';
+import { tx, txt, uiDigits } from '../i18n/runtime';
 
 interface Props {
   settings: DuelSettings;
@@ -230,7 +231,7 @@ export const DuelScreen: React.FC<Props> = ({
     return (
       <div className="w-full h-full flex items-center justify-center p-4 text-center">
         <p className="font-bold text-sm text-[var(--mute)]">
-          {isRTL ? 'کارت‌های کافی برای این زبان یافت نشد.' : 'No cards found.'}
+          {tx(isRTL, 'کارت‌های کافی برای این زبان یافت نشد.', 'No cards found.')}
         </p>
       </div>
     );
@@ -252,21 +253,19 @@ export const DuelScreen: React.FC<Props> = ({
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <div className="w-7 h-7 rounded-lg bg-[#E0533C] text-white text-xs font-black flex items-center justify-center shrink-0 shadow-xs">
-              #{isRTL ? toPersianDigits(2) : 2}
+              #{uiDigits(isRTL, 2)}
             </div>
             <div>
               <span className="text-xs sm:text-sm font-black text-[#E0533C] flex items-center gap-1">
                 {settings.player2Name}
                 {p2Streak >= 2 && (
                   <span className="text-[10px] font-black text-amber-500 bg-amber-500/15 px-1.5 py-0.5 rounded-full flex items-center gap-0.5 animate-pulse">
-                    <Flame size={12} /> {isRTL ? toPersianDigits(p2Streak) : p2Streak}x
+                    <Flame size={12} /> {uiDigits(isRTL, p2Streak)}x
                   </span>
                 )}
               </span>
               <span className="text-[10px] text-[var(--mute)] font-bold">
-                {isRTL 
-                  ? `امتیاز: ${toPersianDigits(p2Score)} از ${toPersianDigits(settings.winningScore)}` 
-                  : `Score: ${p2Score} / ${settings.winningScore}`}
+                {txt(isRTL, 'امتیاز: {2} از {3}', 'Score: {0} / {1}', [p2Score, settings.winningScore, toPersianDigits(p2Score), toPersianDigits(settings.winningScore)])}
               </span>
             </div>
           </div>
@@ -276,7 +275,7 @@ export const DuelScreen: React.FC<Props> = ({
             {isLockedP2 && (
               <span className="text-[11px] font-black text-rose-500 bg-rose-500/15 px-2 py-0.5 rounded-full flex items-center gap-1 animate-bounce">
                 <Lock size={11} />
-                <span>{isRTL ? 'قفل اشتباه!' : 'Locked!'}</span>
+                <span>{tx(isRTL, 'قفل اشتباه!', 'Locked!')}</span>
               </span>
             )}
           </div>
@@ -344,13 +343,13 @@ export const DuelScreen: React.FC<Props> = ({
               }`}
               aria-label={
                 cardIndicator === 'review'
-                  ? (isRTL ? 'کارت مرور دوئل' : 'Duel review card')
+                  ? (tx(isRTL, 'کارت مرور دوئل', 'Duel review card'))
                   : cardIndicator === 'challenge'
-                    ? (isRTL ? 'کارت چالش دوئل' : 'Duel challenge card')
-                    : (isRTL ? 'کارت متعادل دوئل' : 'Duel balanced card')
+                    ? (tx(isRTL, 'کارت چالش دوئل', 'Duel challenge card'))
+                    : (tx(isRTL, 'کارت متعادل دوئل', 'Duel balanced card'))
               }
             >
-              <span>{cardIndicator === 'review' ? (isRTL ? '🌱 مرور' : '🌱 Review') : cardIndicator === 'challenge' ? (isRTL ? '🔥 چالش' : '🔥 Challenge') : (isRTL ? '⚖️ متعادل' : '⚖️ Balanced')}</span>
+              <span>{cardIndicator === 'review' ? (tx(isRTL, '🌱 مرور', '🌱 Review')) : cardIndicator === 'challenge' ? (tx(isRTL, '🔥 چالش', '🔥 Challenge')) : (tx(isRTL, '⚖️ متعادل', '⚖️ Balanced'))}</span>
             </div>
             <h2 className="text-sm sm:text-lg font-black text-[var(--ink)] leading-snug tracking-tight line-clamp-2 break-words">
               {currentCard.translation}
@@ -365,8 +364,8 @@ export const DuelScreen: React.FC<Props> = ({
               setShowExitModal(true);
             }}
             className="w-9 h-9 rounded-xl bg-[var(--bg)] border border-[var(--line)] hover:bg-[var(--lapis-soft)] text-[var(--lapis)] flex items-center justify-center transition-colors cursor-pointer shrink-0 shadow-2xs"
-            title={t.pause || (isRTL ? 'توقف بازی' : 'Pause Game')}
-            aria-label={t.pause || (isRTL ? 'توقف بازی' : 'Pause Game')}
+            title={t.pause || (tx(isRTL, 'توقف بازی', 'Pause Game'))}
+            aria-label={t.pause || (tx(isRTL, 'توقف بازی', 'Pause Game'))}
           >
             <Pause size={16} />
           </button>
@@ -378,9 +377,7 @@ export const DuelScreen: React.FC<Props> = ({
             <Zap size={14} className="text-[var(--saffron)]" />
             <span>
               {roundWinner === 'p1' ? settings.player1Name : settings.player2Name}{' '}
-              {isRTL 
-                ? `در ${toPersianDigits((reactionDiffMs / 1000).toFixed(2))} ثانیه زودتر پاسخ داد!`
-                : `was faster in ${(reactionDiffMs / 1000).toFixed(2)}s!`}
+              {txt(isRTL, 'در {1} ثانیه زودتر پاسخ داد!', 'was faster in {0}s!', [(reactionDiffMs / 1000).toFixed(2), toPersianDigits((reactionDiffMs / 1000).toFixed(2))])}
             </span>
           </div>
         )}
@@ -423,21 +420,19 @@ export const DuelScreen: React.FC<Props> = ({
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <div className="w-7 h-7 rounded-lg bg-[#2347C5] text-white text-xs font-black flex items-center justify-center shrink-0 shadow-xs">
-              #{isRTL ? toPersianDigits(1) : 1}
+              #{uiDigits(isRTL, 1)}
             </div>
             <div>
               <span className="text-xs sm:text-sm font-black text-[#2347C5] flex items-center gap-1">
                 {settings.player1Name}
                 {p1Streak >= 2 && (
                   <span className="text-[10px] font-black text-amber-500 bg-amber-500/15 px-1.5 py-0.5 rounded-full flex items-center gap-0.5 animate-pulse">
-                    <Flame size={12} /> {isRTL ? toPersianDigits(p1Streak) : p1Streak}x
+                    <Flame size={12} /> {uiDigits(isRTL, p1Streak)}x
                   </span>
                 )}
               </span>
               <span className="text-[10px] text-[var(--mute)] font-bold">
-                {isRTL 
-                  ? `امتیاز: ${toPersianDigits(p1Score)} از ${toPersianDigits(settings.winningScore)}` 
-                  : `Score: ${p1Score} / ${settings.winningScore}`}
+                {txt(isRTL, 'امتیاز: {2} از {3}', 'Score: {0} / {1}', [p1Score, settings.winningScore, toPersianDigits(p1Score), toPersianDigits(settings.winningScore)])}
               </span>
             </div>
           </div>
@@ -447,7 +442,7 @@ export const DuelScreen: React.FC<Props> = ({
             {isLockedP1 && (
               <span className="text-[11px] font-black text-rose-500 bg-rose-500/15 px-2 py-0.5 rounded-full flex items-center gap-1 animate-bounce">
                 <Lock size={11} />
-                <span>{isRTL ? 'قفل اشتباه!' : 'Locked!'}</span>
+                <span>{tx(isRTL, 'قفل اشتباه!', 'Locked!')}</span>
               </span>
             )}
           </div>
@@ -481,13 +476,13 @@ export const DuelScreen: React.FC<Props> = ({
               <div className="text-center">
                 <span className="text-[11px] font-bold text-[#2347C5] block">{settings.player1Name}</span>
                 <span className="text-xl font-black">
-                  {isRTL ? toPersianDigits(p1Score) : p1Score} {t.pointsUnit || (isRTL ? 'امتیاز' : 'PTS')}
+                  {uiDigits(isRTL, p1Score)} {t.pointsUnit || (tx(isRTL, 'امتیاز', 'PTS'))}
                 </span>
               </div>
               <div className="text-center">
                 <span className="text-[11px] font-bold text-[#E0533C] block">{settings.player2Name}</span>
                 <span className="text-xl font-black">
-                  {isRTL ? toPersianDigits(p2Score) : p2Score} {t.pointsUnit || (isRTL ? 'امتیاز' : 'PTS')}
+                  {uiDigits(isRTL, p2Score)} {t.pointsUnit || (tx(isRTL, 'امتیاز', 'PTS'))}
                 </span>
               </div>
             </div>
@@ -500,7 +495,7 @@ export const DuelScreen: React.FC<Props> = ({
                 className="w-full min-h-[48px] py-3 rounded-xl bg-gradient-to-r from-[#2347C5] to-[#E0533C] text-white font-black text-sm flex items-center justify-center gap-2 shadow-md active:scale-98 transition-transform cursor-pointer"
               >
                 <RotateCcw size={16} />
-                <span>{t.rematchBtn || (isRTL ? 'مسابقه مجدد' : 'Rematch')}</span>
+                <span>{t.rematchBtn || (tx(isRTL, 'مسابقه مجدد', 'Rematch'))}</span>
               </button>
 
               <button
@@ -511,7 +506,7 @@ export const DuelScreen: React.FC<Props> = ({
                 }}
                 className="w-full min-h-[44px] py-2.5 rounded-xl border border-[var(--line)] text-xs font-bold text-[var(--mute)] hover:text-[var(--ink)] cursor-pointer"
               >
-                {t.backToMenu || (isRTL ? 'بازگشت به منو' : 'Back to Menu')}
+                {t.backToMenu || (tx(isRTL, 'بازگشت به منو', 'Back to Menu'))}
               </button>
             </div>
           </div>
@@ -549,7 +544,7 @@ export const DuelScreen: React.FC<Props> = ({
       {showTutorial && (
         <div 
           className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/75 backdrop-blur-xs animate-fade-in font-ui"
-          dir={isRTL ? 'rtl' : 'ltr'}
+          dir={((isRTL ? 'rtl' : 'ltr'))}
           onClick={() => {
             localStorage.setItem('dor_duel_tutorial_seen', 'true');
             setShowTutorial(false);
@@ -566,10 +561,10 @@ export const DuelScreen: React.FC<Props> = ({
               </div>
               <div>
                 <h3 className="text-sm sm:text-base font-black text-[var(--ink)]">
-                  {isRTL ? 'راهنمای سریع دوئل سرعتی' : '1v1 Duel Quick Guide'}
+                  {tx(isRTL, 'راهنمای سریع دوئل سرعتی', '1v1 Duel Quick Guide')}
                 </h3>
                 <span className="text-[11px] font-bold text-[var(--mute)]">
-                  {isRTL ? 'خلاصه و مفید در ۴ نکته' : 'Concise 4-step rules'}
+                  {tx(isRTL, 'خلاصه و مفید در ۴ نکته', 'Concise 4-step rules')}
                 </span>
               </div>
             </div>
@@ -579,9 +574,9 @@ export const DuelScreen: React.FC<Props> = ({
               <div className="flex items-start gap-2.5 p-2 rounded-xl bg-blue-50/50 dark:bg-blue-950/20 border border-blue-500/20">
                 <Zap size={16} className="text-blue-500 shrink-0 mt-0.5" />
                 <div>
-                  <strong className="text-[var(--ink)] block">{isRTL ? 'سریع‌ترین رفلکس:' : 'Fastest Reflex Wins:'}</strong>
+                  <strong className="text-[var(--ink)] block">{tx(isRTL, 'سریع‌ترین رفلکس:', 'Fastest Reflex Wins:')}</strong>
                   <span className="text-[var(--mute)] text-[11px]">
-                    {isRTL ? 'هر دو به کلمه یا جمله وسط صفحه نگاه کنید؛ هرکس زودتر گزینه درست رو لمس کنه امتیاز می‌گیره!' : 'Look at the center word together; tap the correct match first to claim the point!'}
+                    {tx(isRTL, 'هر دو به کلمه یا جمله وسط صفحه نگاه کنید؛ هرکس زودتر گزینه درست رو لمس کنه امتیاز می‌گیره!', 'Look at the center word together; tap the correct match first to claim the point!')}
                   </span>
                 </div>
               </div>
@@ -589,9 +584,9 @@ export const DuelScreen: React.FC<Props> = ({
               <div className="flex items-start gap-2.5 p-2 rounded-xl bg-amber-50/50 dark:bg-amber-950/20 border border-amber-500/20">
                 <Lock size={16} className="text-amber-500 shrink-0 mt-0.5" />
                 <div>
-                  <strong className="text-[var(--ink)] block">{isRTL ? 'جریمه خطای لمس:' : 'Mistake Penalty:'}</strong>
+                  <strong className="text-[var(--ink)] block">{tx(isRTL, 'جریمه خطای لمس:', 'Mistake Penalty:')}</strong>
                   <span className="text-[var(--mute)] text-[11px]">
-                    {isRTL ? 'لمس گزینه غلط باعث قفل و فریز شدن ۱.۴ ثانیه‌ای شما میشه، پس با دقت انتخاب کن!' : 'Wrong tap locks you out for 1.4 seconds. Accuracy matters!'}
+                    {tx(isRTL, 'لمس گزینه غلط باعث قفل و فریز شدن ۱.۴ ثانیه‌ای شما میشه، پس با دقت انتخاب کن!', 'Wrong tap locks you out for 1.4 seconds. Accuracy matters!')}
                   </span>
                 </div>
               </div>
@@ -599,9 +594,9 @@ export const DuelScreen: React.FC<Props> = ({
               <div className="flex items-start gap-2.5 p-2 rounded-xl bg-purple-50/50 dark:bg-purple-950/20 border border-purple-500/20">
                 <Sparkles size={16} className="text-purple-500 shrink-0 mt-0.5" />
                 <div>
-                  <strong className="text-[var(--ink)] block">{isRTL ? 'شوک خرابکاری:' : 'Sabotage Shock:'}</strong>
+                  <strong className="text-[var(--ink)] block">{tx(isRTL, 'شوک خرابکاری:', 'Sabotage Shock:')}</strong>
                   <span className="text-[var(--mute)] text-[11px]">
-                    {isRTL ? 'یک‌بار در بازی می‌تونی با دکمه شوک، صفحه حریف رو موقتاً گیج و تار کنی!' : 'Use your shock power-up once per match to blur the opponent’s view!'}
+                    {tx(isRTL, 'یک‌بار در بازی می‌تونی با دکمه شوک، صفحه حریف رو موقتاً گیج و تار کنی!', 'Use your shock power-up once per match to blur the opponent’s view!')}
                   </span>
                 </div>
               </div>
@@ -609,9 +604,9 @@ export const DuelScreen: React.FC<Props> = ({
               <div className="flex items-start gap-2.5 p-2 rounded-xl bg-emerald-50/50 dark:bg-emerald-950/20 border border-emerald-500/20">
                 <Trophy size={16} className="text-emerald-500 shrink-0 mt-0.5" />
                 <div>
-                  <strong className="text-[var(--ink)] block">{isRTL ? 'هدف مسابقه:' : 'Victory Goal:'}</strong>
+                  <strong className="text-[var(--ink)] block">{tx(isRTL, 'هدف مسابقه:', 'Victory Goal:')}</strong>
                   <span className="text-[var(--mute)] text-[11px]">
-                    {isRTL ? `هرکس زودتر به امتیاز ${settings.winningScore} برسه برنده کاپ طلایی دوئل میشه!` : `First player to reach ${settings.winningScore} points wins the championship!`}
+                    {txt(isRTL, 'هرکس زودتر به امتیاز {0} برسه برنده کاپ طلایی دوئل میشه!', 'First player to reach {0} points wins the championship!', [settings.winningScore])}
                   </span>
                 </div>
               </div>
@@ -628,7 +623,7 @@ export const DuelScreen: React.FC<Props> = ({
               className="w-full py-3 rounded-xl bg-gradient-to-r from-[#2347C5] to-[#E0533C] text-white font-black text-xs sm:text-sm flex items-center justify-center gap-2 shadow-lg active:scale-98 transition-transform cursor-pointer"
             >
               <Check size={16} />
-              <span>{isRTL ? 'فهمیدم! بزن بریم مسابقه' : "Got it! Let's Duel"}</span>
+              <span>{tx(isRTL, 'فهمیدم! بزن بریم مسابقه', "Got it! Let's Duel")}</span>
             </button>
           </div>
         </div>

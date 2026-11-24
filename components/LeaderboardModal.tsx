@@ -5,6 +5,7 @@ import { FlagIcon } from './FlagIcon';
 import { sound } from '../soundManager';
 import { tUI, isRtlLang } from '../ui';
 import { Trophy, Medal, Flame, X, RefreshCw, Star, Layers } from 'lucide-react';
+import { tx, txt } from '../i18n/runtime';
 
 interface Props {
   language: Language;
@@ -42,7 +43,7 @@ const LeaderboardModal: React.FC<Props> = ({ language, isOpen, onClose }) => {
   return (
     <div 
       className="fixed inset-0 z-50 flex items-center justify-center p-3 bg-black/60 backdrop-blur-xs animate-fade-in font-ui"
-      dir={isRTL ? 'rtl' : 'ltr'}
+      dir={((isRTL ? 'rtl' : 'ltr'))}
       onClick={onClose}
     >
       <div 
@@ -56,8 +57,8 @@ const LeaderboardModal: React.FC<Props> = ({ language, isOpen, onClose }) => {
               <Trophy size={20} />
             </div>
             <div className="text-start">
-              <h2 className="text-lg font-bold font-display text-[var(--ink)]">{isRTL ? 'لیدربرد چالش تک‌نفره' : 'Single-Player Leaderboard'}</h2>
-              <p className="text-[11px] text-[var(--mute)] font-medium">{isRTL ? 'رتبه‌بندی برترین امتیازهای چالش واژگان و تلفظ' : 'Top single-player vocabulary & speech scores'}</p>
+              <h2 className="text-lg font-bold font-display text-[var(--ink)]">{tx(isRTL, 'لیدربرد چالش تک‌نفره', 'Single-Player Leaderboard')}</h2>
+              <p className="text-[11px] text-[var(--mute)] font-medium">{tx(isRTL, 'رتبه‌بندی برترین امتیازهای چالش واژگان و تلفظ', 'Top single-player vocabulary & speech scores')}</p>
             </div>
           </div>
           <button 
@@ -75,7 +76,7 @@ const LeaderboardModal: React.FC<Props> = ({ language, isOpen, onClose }) => {
         <div className="px-4 py-2 bg-[var(--bg)] flex items-center justify-between border-b border-[var(--line)] text-xs font-bold text-[var(--ink)]">
           <div className="flex items-center gap-1.5 text-[var(--vermilion)]">
             <Flame size={15} />
-            <span>{isRTL ? 'برترین رکوردهای ثبت‌شده' : 'Global & Local Top Scores'}</span>
+            <span>{tx(isRTL, 'برترین رکوردهای ثبت‌شده', 'Global & Local Top Scores')}</span>
           </div>
           <button 
             onClick={() => {
@@ -86,7 +87,7 @@ const LeaderboardModal: React.FC<Props> = ({ language, isOpen, onClose }) => {
             className="flex items-center gap-1 px-2.5 py-1 rounded-[8px] bg-[var(--panel)] text-[var(--ink)] border border-[var(--line)] shadow-[var(--shadow-sm)] hover:bg-[var(--bg)] text-[11px] font-bold active:translate-y-0.5 transition-all cursor-pointer"
           >
             <RefreshCw size={12} className={isLoading ? 'animate-spin' : ''} />
-            <span>{isRTL ? 'تازه‌سازی' : 'Refresh'}</span>
+            <span>{tx(isRTL, 'تازه‌سازی', 'Refresh')}</span>
           </button>
         </div>
 
@@ -108,7 +109,7 @@ const LeaderboardModal: React.FC<Props> = ({ language, isOpen, onClose }) => {
                     : 'text-[var(--mute)] hover:bg-[var(--bg)] hover:text-[var(--ink)]'
                 }`}
               >
-                {lvl === 'all' ? (isRTL ? 'همه سطوح' : 'All Levels') : lvl}
+                {lvl === 'all' ? (tx(isRTL, 'همه سطوح', 'All Levels')) : lvl}
               </button>
             );
           })}
@@ -119,7 +120,7 @@ const LeaderboardModal: React.FC<Props> = ({ language, isOpen, onClose }) => {
           {isLoading && entries.length === 0 ? (
             <div className="py-12 text-center text-[var(--mute)] text-sm font-bold flex flex-col items-center gap-2">
               <RefreshCw size={24} className="animate-spin text-[var(--vermilion)]" />
-              <span>{isRTL ? 'در حال دریافت رتبه‌ها...' : 'Loading ranks...'}</span>
+              <span>{tx(isRTL, 'در حال دریافت رتبه‌ها...', 'Loading ranks...')}</span>
             </div>
           ) : (() => {
             const displayed = entries.filter(e => selectedLevel === 'all' || e.cefrLevel === selectedLevel);
@@ -190,7 +191,7 @@ const LeaderboardModal: React.FC<Props> = ({ language, isOpen, onClose }) => {
                         <span className="px-1.5 py-0.2 bg-[var(--panel)] text-[var(--vermilion)] rounded-[6px] border border-[var(--line)] font-bold">
                           {entry.cefrLevel || 'A1'}
                         </span>
-                        <span>{entry.accuracy}% {isRTL ? 'دقت' : 'accuracy'}</span>
+                        <span>{entry.accuracy}% {tx(isRTL, 'دقت', 'accuracy')}</span>
                         <span className="opacity-40">•</span>
                         <span>{entry.date}</span>
                       </div>
@@ -202,7 +203,7 @@ const LeaderboardModal: React.FC<Props> = ({ language, isOpen, onClose }) => {
                       {entry.score.toLocaleString()}
                     </div>
                     <div className="text-[9.5px] text-[var(--mute)] font-bold">
-                      {isRTL ? 'امتیاز' : 'PTS'}
+                      {tx(isRTL, 'امتیاز', 'PTS')}
                     </div>
                   </div>
                 </div>
@@ -220,7 +221,7 @@ const LeaderboardModal: React.FC<Props> = ({ language, isOpen, onClose }) => {
             }}
             className="w-full py-2.5 text-xs font-bold uppercase rounded-[12px] bg-[var(--vermilion)] hover:bg-[#c94b2a] text-white shadow-[var(--shadow-sm)] active:translate-y-0.5 transition-all"
           >
-            {isRTL ? 'بستن' : 'Close'}
+            {tx(isRTL, 'بستن', 'Close')}
           </button>
         </div>
       </div>

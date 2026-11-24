@@ -12,6 +12,7 @@ import {
   CheckSquare, 
   Check 
 } from 'lucide-react';
+import { tx, txt } from '../i18n/runtime';
 
 export const ESSENTIAL_TOPICS = [
   'CAT_EVERYDAY',
@@ -84,7 +85,7 @@ export const TopicsSettingsAccordion: React.FC<Props> = ({
     : `${selectedCategories.length} ${t.activeCount || 'Active'}`;
 
   return (
-    <div className="bg-white border-[2.5px] border-[#0f172a] shadow-[2.5px_2.5px_0px_0px_#0f172a] rounded-2xl overflow-hidden transition-all" dir={isRTL ? 'rtl' : 'ltr'}>
+    <div className="bg-white border-[2.5px] border-[#0f172a] shadow-[2.5px_2.5px_0px_0px_#0f172a] rounded-2xl overflow-hidden transition-all" dir={((isRTL ? 'rtl' : 'ltr'))}>
       {/* Header Bar - Tap to Expand / Collapse */}
       <button
         type="button"

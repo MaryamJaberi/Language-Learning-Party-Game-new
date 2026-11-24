@@ -62,6 +62,7 @@ import {
   Edit2,
   HardDrive
 } from 'lucide-react';
+import { tx, txt, langName } from '../i18n/runtime';
 
 export type ProfileTab = 'history' | 'records' | 'leitner' | 'leaderboard' | 'storage' | 'install' | 'downloads' | 'privacy';
 
@@ -224,21 +225,15 @@ export const UserProfileModal: React.FC<Props> = ({
       const code = err?.code;
       if (code === 'auth/popup-blocked') {
         setLoginError(
-          isRTL 
-            ? 'پنجره ورود توسط مرورگر مسدود شد. لطفاً از دکمه «ورود مستقیم بدون پاپ‌آپ (ویژه سامسونگ و موبایل)» در زیر استفاده کنید.' 
-            : 'Popup blocked by browser. Please tap the "Direct Login (No Popup)" button below.'
+          tx(isRTL, 'پنجره ورود توسط مرورگر مسدود شد. لطفاً از دکمه «ورود مستقیم بدون پاپ‌آپ (ویژه سامسونگ و موبایل)» در زیر استفاده کنید.', 'Popup blocked by browser. Please tap the "Direct Login (No Popup)" button below.')
         );
       } else if (code === 'auth/network-request-failed') {
         setLoginError(
-          isRTL 
-            ? 'ارتباط با سرور احراز هویت گوگل برقرار نشد. لطفاً وضعیت اینترنت یا فیلترشکن خود را بررسی نمایید.'
-            : 'Could not connect to Google. Please check your internet or VPN.'
+          tx(isRTL, 'ارتباط با سرور احراز هویت گوگل برقرار نشد. لطفاً وضعیت اینترنت یا فیلترشکن خود را بررسی نمایید.', 'Could not connect to Google. Please check your internet or VPN.')
         );
       } else if (code === 'auth/unauthorized-domain') {
         setLoginError(
-          isRTL 
-            ? 'دامنه فعلی هنوز در لیست مجاز کنسول گوگل تعریف نشده است.'
-            : 'Current domain is not authorized in Google OAuth.'
+          tx(isRTL, 'دامنه فعلی هنوز در لیست مجاز کنسول گوگل تعریف نشده است.', 'Current domain is not authorized in Google OAuth.')
         );
       } else {
         setLoginError(
@@ -273,12 +268,12 @@ export const UserProfileModal: React.FC<Props> = ({
       if (onAuthChange) onAuthChange(null);
       setCloudHistory([]);
       setDeleteConfirmOpen(false);
-      setDeleteSuccessMsg(isRTL ? 'حساب کاربری و کلیه داده‌های شما با موفقیت حذف گردید.' : 'Your account and data were permanently deleted.');
+      setDeleteSuccessMsg(tx(isRTL, 'حساب کاربری و کلیه داده‌های شما با موفقیت حذف گردید.', 'Your account and data were permanently deleted.'));
       sound.playSuccess();
       setTimeout(() => setDeleteSuccessMsg(null), 4000);
     } catch (err) {
       console.error('Delete account error:', err);
-      alert(isRTL ? 'خطا در حذف حساب. لطفاً یک‌بار خارج شده، دوباره وارد شوید و مجدداً تلاش کنید.' : 'Failed to delete account. Please re-authenticate and try again.');
+      alert(tx(isRTL, 'خطا در حذف حساب. لطفاً یک‌بار خارج شده، دوباره وارد شوید و مجدداً تلاش کنید.', 'Failed to delete account. Please re-authenticate and try again.'));
     } finally {
       setIsDeletingAccount(false);
     }
@@ -308,7 +303,7 @@ export const UserProfileModal: React.FC<Props> = ({
       a.click();
       document.body.removeChild(a);
       URL.revokeObjectURL(url);
-      setExportMsg(isRTL ? 'فایل حاوی تمام داده‌های شما با موفقیت ذخیره شد.' : 'Your data was exported successfully.');
+      setExportMsg(tx(isRTL, 'فایل حاوی تمام داده‌های شما با موفقیت ذخیره شد.', 'Your data was exported successfully.'));
       setTimeout(() => setExportMsg(null), 3000);
     } catch (e) {
       console.error('Export error:', e);
@@ -330,14 +325,14 @@ export const UserProfileModal: React.FC<Props> = ({
   const isAdmin = isAdminUser(currentUser?.email);
 
   const baseTabs: { id: ProfileTab; label: string; icon: React.FC<{ size?: number; className?: string; strokeWidth?: number }> }[] = [
-    { id: 'history', label: isRTL ? 'تاریخچه بازی‌ها' : 'Match History', icon: History },
-    { id: 'records', label: isRTL ? 'رکوردهای من' : 'My Records', icon: Sparkles },
-    { id: 'leitner', label: isRTL ? 'جعبه لایتنر' : 'Leitner', icon: Box },
-    { id: 'leaderboard', label: isRTL ? 'رده‌بندی' : 'Ranks', icon: Trophy },
-    { id: 'storage', label: isRTL ? 'آفلاین و حافظه' : 'Offline & storage', icon: HardDrive },
-    { id: 'install', label: isRTL ? 'نصب روی گوشی' : 'Install App', icon: Smartphone },
-    ...(isAdmin ? [{ id: 'downloads' as ProfileTab, label: isRTL ? 'دانلودها (مدیر)' : 'Downloads (Admin)', icon: Download }] : []),
-    { id: 'privacy', label: isRTL ? 'حریم خصوصی' : 'Privacy', icon: ShieldCheck },
+    { id: 'history', label: tx(isRTL, 'تاریخچه بازی‌ها', 'Match History'), icon: History },
+    { id: 'records', label: tx(isRTL, 'رکوردهای من', 'My Records'), icon: Sparkles },
+    { id: 'leitner', label: tx(isRTL, 'جعبه لایتنر', 'Leitner'), icon: Box },
+    { id: 'leaderboard', label: tx(isRTL, 'رده‌بندی', 'Ranks'), icon: Trophy },
+    { id: 'storage', label: tx(isRTL, 'آفلاین و حافظه', 'Offline & storage'), icon: HardDrive },
+    { id: 'install', label: tx(isRTL, 'نصب روی گوشی', 'Install App'), icon: Smartphone },
+    ...(isAdmin ? [{ id: 'downloads' as ProfileTab, label: tx(isRTL, 'دانلودها (مدیر)', 'Downloads (Admin)'), icon: Download }] : []),
+    { id: 'privacy', label: tx(isRTL, 'حریم خصوصی', 'Privacy'), icon: ShieldCheck },
   ];
 
   const tabList = baseTabs;
@@ -345,7 +340,7 @@ export const UserProfileModal: React.FC<Props> = ({
   return (
     <div 
       className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/60 backdrop-blur-xs animate-fade-in font-ui"
-      dir={isRTL ? 'rtl' : 'ltr'}
+      dir={((isRTL ? 'rtl' : 'ltr'))}
       onClick={onClose}
     >
       <div 
@@ -371,7 +366,7 @@ export const UserProfileModal: React.FC<Props> = ({
                     setIsAvatarPickerOpen(true);
                   }}
                   className="relative group cursor-pointer focus:outline-none shrink-0"
-                  title={isRTL ? 'انتخاب آواتار دلخواه' : 'Choose Cute Avatar'}
+                  title={tx(isRTL, 'انتخاب آواتار دلخواه', 'Choose Cute Avatar')}
                 >
                   <PixelAvatar id={localProfile.avatarId} size={48} className="rounded-full shadow-xs group-hover:scale-105 transition-transform" />
                   <span className="absolute -bottom-1 -right-1 w-5 h-5 rounded-full bg-[var(--lapis)] text-white text-[10px] flex items-center justify-center border-2 border-[var(--panel)] shadow-xs group-hover:scale-110">
@@ -395,7 +390,7 @@ export const UserProfileModal: React.FC<Props> = ({
                       <button
                         type="button"
                         onClick={() => {
-                          const trimmed = editingNameValue.trim() || 'بازیکن ۱';
+                          const trimmed = editingNameValue.trim() || tx(isRTL, 'بازیکن ۱', 'Player 1');
                           const updated = { ...localProfile, name: trimmed };
                           setLocalProfile(updated);
                           saveLocalPlayerProfile(updated);
@@ -404,7 +399,7 @@ export const UserProfileModal: React.FC<Props> = ({
                         }}
                         className="h-7 px-2.5 rounded-lg bg-[var(--lapis)] text-white text-[11px] font-bold shadow-xs cursor-pointer"
                       >
-                        {isRTL ? 'ثبت' : 'Save'}
+                        {tx(isRTL, 'ثبت', 'Save')}
                       </button>
                       <button
                         type="button"
@@ -432,24 +427,24 @@ export const UserProfileModal: React.FC<Props> = ({
                           className="text-[11px] text-[var(--lapis)] hover:underline font-bold inline-flex items-center gap-0.5 cursor-pointer"
                         >
                           <Edit2 size={11} />
-                          <span>{isRTL ? 'ویرایش نام' : 'Edit name'}</span>
+                          <span>{tx(isRTL, 'ویرایش نام', 'Edit name')}</span>
                         </button>
                       )}
                       {isAdmin && (
                         <span className="bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/30 text-[11px] font-bold px-2 py-0.5 rounded-full flex items-center gap-1">
-                          <span>{isRTL ? 'مدیر کل' : 'Admin'}</span>
+                          <span>{tx(isRTL, 'مدیر کل', 'Admin')}</span>
                         </span>
                       )}
                       {currentUser && !isAdmin && (
                         <span className="bg-emerald-50 dark:bg-emerald-950/40 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20 text-[11px] font-semibold px-2 py-0.5 rounded-full">
-                          {isRTL ? 'متصل به گوگل' : 'Google Connected'}
+                          {tx(isRTL, 'متصل به گوگل', 'Google Connected')}
                         </span>
                       )}
                     </>
                   )}
                 </div>
                 <p className="text-xs text-[var(--mute)] font-normal mt-0.5">
-                  {currentUser?.email || (isRTL ? 'پروفایل محلی دستگاه (ذخیره آفلاین رکوردهای بازی)' : 'Local profile (Saved offline on device)')}
+                  {currentUser?.email || (tx(isRTL, 'پروفایل محلی دستگاه (ذخیره آفلاین رکوردهای بازی)', 'Local profile (Saved offline on device)'))}
                 </p>
               </div>
             </div>
@@ -461,8 +456,8 @@ export const UserProfileModal: React.FC<Props> = ({
                 onClose();
               }}
               className="w-10 h-10 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 text-[var(--mute)] hover:text-[var(--ink)] flex items-center justify-center transition-colors active:scale-95 cursor-pointer"
-              aria-label={isRTL ? 'بستن' : 'Close'}
-              title={isRTL ? 'بستن' : 'Close'}
+              aria-label={tx(isRTL, 'بستن', 'Close')}
+              title={tx(isRTL, 'بستن', 'Close')}
             >
               <X size={20} strokeWidth={2} />
             </button>
@@ -481,8 +476,8 @@ export const UserProfileModal: React.FC<Props> = ({
                 type="button"
                 onClick={() => setLoginError(null)}
                 className="text-rose-600 hover:text-rose-800 p-0.5"
-                aria-label={isRTL ? 'رد کردن' : 'Dismiss'}
-                title={isRTL ? 'رد کردن' : 'Dismiss'}
+                aria-label={tx(isRTL, 'رد کردن', 'Dismiss')}
+                title={tx(isRTL, 'رد کردن', 'Dismiss')}
               >
                 <X size={14} />
               </button>
@@ -500,7 +495,7 @@ export const UserProfileModal: React.FC<Props> = ({
                     className="flex items-center gap-1.5 h-8 px-3 rounded-full text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-950/30 border border-rose-200 dark:border-rose-900/40 text-xs font-semibold transition-all active:scale-95 cursor-pointer"
                   >
                     <LogOut size={13} strokeWidth={2} />
-                    <span>{isRTL ? 'خروج از حساب' : 'Sign Out'}</span>
+                    <span>{tx(isRTL, 'خروج از حساب', 'Sign Out')}</span>
                   </button>
                   <button
                     type="button"
@@ -515,15 +510,15 @@ export const UserProfileModal: React.FC<Props> = ({
                         ? 'bg-[var(--lapis-soft)] border-[var(--lapis)]/30 text-[var(--lapis)]'
                         : 'bg-[var(--bg)] border-[var(--line)] text-[var(--mute)]'
                     }`}
-                    title={isRTL ? 'ویبره لمسی گوشی' : 'Mobile haptic vibration feedback'}
+                    title={tx(isRTL, 'ویبره لمسی گوشی', 'Mobile haptic vibration feedback')}
                   >
                     <Smartphone size={13} />
-                    <span>{isRTL ? (isHapticsOn ? 'ویبره: روشن' : 'ویبره: خاموش') : (isHapticsOn ? 'Haptics: ON' : 'Haptics: OFF')}</span>
+                    <span>{isHapticsOn ? tx(isRTL, 'ویبره: روشن', 'Haptics: ON') : tx(isRTL, 'ویبره: خاموش', 'Haptics: OFF')}</span>
                   </button>
                 </div>
                 <div className="flex items-center gap-1.5 text-xs text-emerald-600 dark:text-emerald-400 font-semibold">
                   <ShieldCheck size={15} className="text-emerald-500" />
-                  <span>{isRTL ? 'همگام با کلود' : 'Cloud Synced'}</span>
+                  <span>{tx(isRTL, 'همگام با کلود', 'Cloud Synced')}</span>
                 </div>
               </div>
             ) : (
@@ -533,9 +528,7 @@ export const UserProfileModal: React.FC<Props> = ({
                   <div className="p-2.5 rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-800 dark:text-amber-300 text-[11px] leading-relaxed flex items-start gap-2">
                     <AlertCircle size={15} className="text-amber-600 shrink-0 mt-0.5" />
                     <span>
-                      {isRTL 
-                        ? 'توجه: مرورگر داخلی پیام‌رسان‌ها (مثل تلگرام یا اینستاگرام) ورود با گوگل را مسدود می‌کند. از منوی سه‌نقطه بالای صفحه گزینه «باز کردن در مرورگر اصلی (Chrome / Samsung)» را انتخاب کنید یا بدون ورود بازی کنید.'
-                        : 'Notice: In-app browsers (Telegram, Instagram) block Google OAuth. Please open this page in Chrome or Samsung Internet, or continue with your local profile.'}
+                      {tx(isRTL, 'توجه: مرورگر داخلی پیام‌رسان‌ها (مثل تلگرام یا اینستاگرام) ورود با گوگل را مسدود می‌کند. از منوی سه‌نقطه بالای صفحه گزینه «باز کردن در مرورگر اصلی (Chrome / Samsung)» را انتخاب کنید یا بدون ورود بازی کنید.', 'Notice: In-app browsers (Telegram, Instagram) block Google OAuth. Please open this page in Chrome or Samsung Internet, or continue with your local profile.')}
                     </span>
                   </div>
                 )}
@@ -543,9 +536,7 @@ export const UserProfileModal: React.FC<Props> = ({
                 {/* Clear Guest vs Cloud Explanation Pill */}
                 <div className="px-3 py-1.5 rounded-xl bg-[var(--bg)] border border-[var(--line)] text-[11px] text-[var(--mute)] text-start leading-relaxed flex items-center justify-between gap-2">
                   <span>
-                    {isRTL
-                      ? 'حالت مهمان فعال است (رکوردها و لایتنر روی همین گوشی ذخیره می‌شوند). برای نگه‌داشتن اطلاعات روی پروفایل و ثبت امتیاز در رده‌بندی، با گوگل یا با ایمیل و رمز وارد شوید.'
-                      : 'Guest mode is active (records & Leitner saved on this phone). Sign in with Google or with email and password to keep them on your profile and join the leaderboard.'}
+                    {tx(isRTL, 'حالت مهمان فعال است (رکوردها و لایتنر روی همین گوشی ذخیره می‌شوند). برای نگه‌داشتن اطلاعات روی پروفایل و ثبت امتیاز در رده‌بندی، با گوگل یا با ایمیل و رمز وارد شوید.', 'Guest mode is active (records & Leitner saved on this phone). Sign in with Google or with email and password to keep them on your profile and join the leaderboard.')}
                   </span>
                 </div>
 
@@ -568,7 +559,7 @@ export const UserProfileModal: React.FC<Props> = ({
                         <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/>
                       </svg>
                     )}
-                    <span>{isSigningIn ? (isRTL ? 'در حال اتصال...' : 'Signing in...') : (isRTL ? 'ورود با حساب گوگل' : 'Sign in with Google')}</span>
+                    <span>{isSigningIn ? (tx(isRTL, 'در حال اتصال...', 'Signing in...')) : (tx(isRTL, 'ورود با حساب گوگل', 'Sign in with Google'))}</span>
                   </button>
 
                   {/* Button 2: Direct Redirect Sign-In (Guaranteed for Samsung Galaxy S23+, Chrome mobile, PWA) */}
@@ -577,14 +568,14 @@ export const UserProfileModal: React.FC<Props> = ({
                     onClick={() => handleGoogleLogin('redirect')}
                     disabled={isSigningIn || isDirectSigningIn}
                     className="flex-1 flex items-center justify-center gap-1.5 h-10 px-3.5 rounded-full bg-[var(--lapis)] hover:brightness-105 text-white text-xs font-bold shadow-xs transition-all active:scale-95 cursor-pointer disabled:opacity-60 relative"
-                    title={isRTL ? 'ورود مستقیم بدون پاپ‌آپ مخصوص گوشی‌های سامسونگ و وب‌اپلیکیشن' : 'Direct login without popups for mobile & Samsung'}
+                    title={tx(isRTL, 'ورود مستقیم بدون پاپ‌آپ مخصوص گوشی‌های سامسونگ و وب‌اپلیکیشن', 'Direct login without popups for mobile & Samsung')}
                   >
                     {isDirectSigningIn ? (
                       <Loader2 size={15} className="animate-spin text-white" />
                     ) : (
                       <Smartphone size={15} className="text-white shrink-0" />
                     )}
-                    <span>{isDirectSigningIn ? (isRTL ? 'انتقال به گوگل...' : 'Redirecting...') : (isRTL ? 'ورود مستقیم (مخصوص سامسونگ)' : 'Direct Mobile Login')}</span>
+                    <span>{isDirectSigningIn ? (tx(isRTL, 'انتقال به گوگل...', 'Redirecting...')) : (tx(isRTL, 'ورود مستقیم (مخصوص سامسونگ)', 'Direct Mobile Login'))}</span>
                   </button>
                 </div>
 
@@ -606,12 +597,12 @@ export const UserProfileModal: React.FC<Props> = ({
                     className="text-[11px] text-[var(--mute)] hover:text-[var(--lapis)] flex items-center gap-1 font-semibold cursor-pointer"
                   >
                     <HelpCircle size={13} />
-                    <span>{isRTL ? 'مشکل در ورود با گوشی سامسونگ یا وب‌ویو دارید؟' : 'Having login issues on your phone?'}</span>
+                    <span>{tx(isRTL, 'مشکل در ورود با گوشی سامسونگ یا وب‌ویو دارید؟', 'Having login issues on your phone?')}</span>
                     {showMobileHelp ? <ChevronUp size={13} /> : <ChevronDown size={13} />}
                   </button>
                   <div className="flex items-center gap-1 text-[11px] text-[var(--mute)]">
                     <ShieldCheck size={13} className="text-emerald-500" />
-                    <span>{isRTL ? 'پروفایل محلی فعال است' : 'Local profile active'}</span>
+                    <span>{tx(isRTL, 'پروفایل محلی فعال است', 'Local profile active')}</span>
                   </div>
                 </div>
 
@@ -620,17 +611,17 @@ export const UserProfileModal: React.FC<Props> = ({
                   <div className="p-3 rounded-2xl bg-slate-50 dark:bg-slate-900/50 border border-[var(--line)] text-[11px] text-[var(--mute)] space-y-1.5 leading-relaxed animate-fade-in text-start">
                     <div className="font-bold text-[var(--ink)] flex items-center gap-1.5">
                       <Smartphone size={14} className="text-[var(--lapis)]" />
-                      <span>{isRTL ? 'راهنمای ورود در گوشی‌های سامسونگ (S23+ و سری گلکسی) و شیائومی:' : 'Mobile Phone Sign-in Guide:'}</span>
+                      <span>{tx(isRTL, 'راهنمای ورود در گوشی‌های سامسونگ (S23+ و سری گلکسی) و شیائومی:', 'Mobile Phone Sign-in Guide:')}</span>
                     </div>
                     <ul className="list-disc list-inside space-y-1 ps-1">
                       <li>
-                        <strong className="text-[var(--ink)]">{isRTL ? 'مرورگر Samsung Internet:' : 'Samsung Internet Browser:'}</strong> {isRTL ? 'این مرورگر به طور پیش‌فرض پاپ‌آپ‌ها را مسدود می‌کند. دکمه «ورود مستقیم (مخصوص سامسونگ)» بدون نیاز به پاپ‌آپ عمل می‌کند و مشکل را ۱۰۰٪ حل می‌کند.' : 'Blocks popups by default. Tap "Direct Mobile Login" to sign in without popups.'}
+                        <strong className="text-[var(--ink)]">{tx(isRTL, 'مرورگر Samsung Internet:', 'Samsung Internet Browser:')}</strong> {tx(isRTL, 'این مرورگر به طور پیش‌فرض پاپ‌آپ‌ها را مسدود می‌کند. دکمه «ورود مستقیم (مخصوص سامسونگ)» بدون نیاز به پاپ‌آپ عمل می‌کند و مشکل را ۱۰۰٪ حل می‌کند.', 'Blocks popups by default. Tap "Direct Mobile Login" to sign in without popups.')}
                       </li>
                       <li>
-                        <strong className="text-[var(--ink)]">{isRTL ? 'ورود از پیام‌رسان‌ها:' : 'Telegram / Instagram:'}</strong> {isRTL ? 'اگر لینک بازی را از تلگرام یا اینستاگرام باز کرده‌اید، از سه‌نقطه بالای صفحه گزینه «باز کردن در مرورگر اصلی (Chrome / Samsung)» را بزنید.' : 'Tap the 3 dots menu and select "Open in Browser".'}
+                        <strong className="text-[var(--ink)]">{tx(isRTL, 'ورود از پیام‌رسان‌ها:', 'Telegram / Instagram:')}</strong> {tx(isRTL, 'اگر لینک بازی را از تلگرام یا اینستاگرام باز کرده‌اید، از سه‌نقطه بالای صفحه گزینه «باز کردن در مرورگر اصلی (Chrome / Samsung)» را بزنید.', 'Tap the 3 dots menu and select "Open in Browser".')}
                       </li>
                       <li>
-                        <strong className="text-[var(--ink)]">{isRTL ? 'بازی بدون حساب گوگل:' : 'Play without Google:'}</strong> {isRTL ? 'نیازی به ورود اجباری نیست! می‌توانید با کلیک روی آواتار بالا نام و تصویر خود را شخصی‌سازی کنید؛ تمام بازی‌ها و رکوردهای شما روی گوشی ذخیره می‌ماند.' : 'Google login is optional. All stats save locally on your phone.'}
+                        <strong className="text-[var(--ink)]">{tx(isRTL, 'بازی بدون حساب گوگل:', 'Play without Google:')}</strong> {tx(isRTL, 'نیازی به ورود اجباری نیست! می‌توانید با کلیک روی آواتار بالا نام و تصویر خود را شخصی‌سازی کنید؛ تمام بازی‌ها و رکوردهای شما روی گوشی ذخیره می‌ماند.', 'Google login is optional. All stats save locally on your phone.')}
                       </li>
                     </ul>
                   </div>
@@ -684,21 +675,21 @@ export const UserProfileModal: React.FC<Props> = ({
                     onClick={() => setHistorySource('all')}
                     className={`flex-1 py-1.5 px-3 rounded-full transition-all ${historySource === 'all' ? 'bg-[var(--panel)] text-[var(--ink)] shadow-xs font-bold' : 'text-[var(--mute)]'}`}
                   >
-                    {isRTL ? 'همه' : 'All'} ({allHistory.length})
+                    {tx(isRTL, 'همه', 'All')} ({allHistory.length})
                   </button>
                   <button
                     type="button"
                     onClick={() => setHistorySource('local')}
                     className={`flex-1 py-1.5 px-3 rounded-full transition-all ${historySource === 'local' ? 'bg-[var(--panel)] text-[var(--ink)] shadow-xs font-bold' : 'text-[var(--mute)]'}`}
                   >
-                    {isRTL ? 'حافظه دستگاه' : 'Local'} ({localHistory.length})
+                    {tx(isRTL, 'حافظه دستگاه', 'Local')} ({localHistory.length})
                   </button>
                   <button
                     type="button"
                     onClick={() => setHistorySource('cloud')}
                     className={`flex-1 py-1.5 px-3 rounded-full transition-all ${historySource === 'cloud' ? 'bg-[var(--panel)] text-[var(--ink)] shadow-xs font-bold' : 'text-[var(--mute)]'}`}
                   >
-                    {isRTL ? 'کلود' : 'Cloud'} ({cloudHistory.length})
+                    {tx(isRTL, 'کلود', 'Cloud')} ({cloudHistory.length})
                   </button>
                 </div>
               )}
@@ -710,12 +701,10 @@ export const UserProfileModal: React.FC<Props> = ({
                   </div>
                   <div className="space-y-1">
                     <h3 className="text-sm sm:text-base font-bold text-[var(--ink)]">
-                      {isRTL ? 'هنوز بازی‌ای ثبت نشده است' : 'No matches played yet'}
+                      {tx(isRTL, 'هنوز بازی‌ای ثبت نشده است', 'No matches played yet')}
                     </h3>
                     <p className="text-xs text-[var(--mute)] leading-relaxed font-normal max-w-xs mx-auto">
-                      {isRTL 
-                        ? 'پس از پایان اولین مسابقه دورهمی یا انفرادی، جزئیات امتیازها و برندگان در این قسمت ثبت می‌شود.' 
-                        : 'After finishing your first party or solo game, match scores and winners will be saved here.'}
+                      {tx(isRTL, 'پس از پایان اولین مسابقه دورهمی یا انفرادی، جزئیات امتیازها و برندگان در این قسمت ثبت می‌شود.', 'After finishing your first party or solo game, match scores and winners will be saved here.')}
                     </p>
                   </div>
                 </div>
@@ -729,7 +718,7 @@ export const UserProfileModal: React.FC<Props> = ({
                       <div className="flex items-center justify-between">
                         <div className="flex items-center gap-2 text-xs font-bold text-[var(--ink)]">
                           <Trophy size={15} className="text-amber-500" />
-                          <span>{item.winnerColor === 'TIE' ? (isRTL ? 'مساوی' : 'Tie') : (isRTL ? `تیم برنده: ${item.winnerNames?.join(' و ') || item.winnerColor}` : `Winner: ${item.winnerColor}`)}</span>
+                          <span>{item.winnerColor === 'TIE' ? (tx(isRTL, 'مساوی', 'Tie')) : (txt(isRTL, 'تیم برنده: {1}', 'Winner: {0}', [item.winnerColor, item.winnerNames?.join(' و ') || item.winnerColor]))}</span>
                         </div>
                         <span className="text-[11px] text-[var(--mute)] font-medium">
                           {item.date}
@@ -743,7 +732,7 @@ export const UserProfileModal: React.FC<Props> = ({
                         </div>
                         {item.totalScore !== undefined && (
                           <span className="font-bold text-[var(--lapis)] font-mono text-xs">
-                            {item.totalScore} {isRTL ? 'امتیاز' : 'PTS'}
+                            {item.totalScore} {tx(isRTL, 'امتیاز', 'PTS')}
                           </span>
                         )}
                       </div>
@@ -760,10 +749,10 @@ export const UserProfileModal: React.FC<Props> = ({
               <div className="p-4 rounded-[22px] bg-gradient-to-br from-amber-500/10 via-amber-500/5 to-transparent border border-amber-500/25 flex items-center justify-between">
                 <div className="text-start">
                   <span className="text-[11px] text-amber-700 dark:text-amber-400 font-bold uppercase tracking-wider block">
-                    {isRTL ? 'بهترین رکورد ثبت‌شده شما' : 'Your Personal Best'}
+                    {tx(isRTL, 'بهترین رکورد ثبت‌شده شما', 'Your Personal Best')}
                   </span>
                   <div className="text-2xl font-bold text-[var(--ink)] font-display mt-0.5">
-                    {records.highestScore} <span className="text-xs text-amber-600 font-bold">{isRTL ? 'امتیاز' : 'PTS'}</span>
+                    {records.highestScore} <span className="text-xs text-amber-600 font-bold">{tx(isRTL, 'امتیاز', 'PTS')}</span>
                   </div>
                 </div>
                 <div className="w-12 h-12 rounded-full bg-amber-500/15 text-amber-600 flex items-center justify-center border border-amber-500/30 shadow-xs">
@@ -777,10 +766,10 @@ export const UserProfileModal: React.FC<Props> = ({
                 <div className="p-3.5 rounded-[20px] bg-slate-50/80 dark:bg-slate-900/40 border border-[var(--line)] text-start space-y-1">
                   <div className="flex items-center gap-1.5 text-rose-600 dark:text-rose-400 text-xs font-semibold">
                     <Flame size={15} strokeWidth={2} />
-                    <span>{isRTL ? 'بیشترین زنجیره' : 'Max Streak'}</span>
+                    <span>{tx(isRTL, 'بیشترین زنجیره', 'Max Streak')}</span>
                   </div>
                   <div className="text-xl font-bold text-[var(--ink)] font-display">
-                    {records.maxStreak} <span className="text-xs font-normal text-[var(--mute)]">{isRTL ? 'کارت' : 'cards'}</span>
+                    {records.maxStreak} <span className="text-xs font-normal text-[var(--mute)]">{tx(isRTL, 'کارت', 'cards')}</span>
                   </div>
                 </div>
 
@@ -788,10 +777,10 @@ export const UserProfileModal: React.FC<Props> = ({
                 <div className="p-3.5 rounded-[20px] bg-slate-50/80 dark:bg-slate-900/40 border border-[var(--line)] text-start space-y-1">
                   <div className="flex items-center gap-1.5 text-[var(--turq)] text-xs font-semibold">
                     <Timer size={15} strokeWidth={2} />
-                    <span>{isRTL ? 'سریع‌ترین پاسخ' : 'Fastest'}</span>
+                    <span>{tx(isRTL, 'سریع‌ترین پاسخ', 'Fastest')}</span>
                   </div>
                   <div className="text-xl font-bold text-[var(--ink)] font-display">
-                    {records.fastestAnswerSeconds < 99 ? records.fastestAnswerSeconds : '--'} <span className="text-xs font-normal text-[var(--mute)]">{isRTL ? 'ثانیه' : 'sec'}</span>
+                    {records.fastestAnswerSeconds < 99 ? records.fastestAnswerSeconds : '--'} <span className="text-xs font-normal text-[var(--mute)]">{tx(isRTL, 'ثانیه', 'sec')}</span>
                   </div>
                 </div>
 
@@ -799,7 +788,7 @@ export const UserProfileModal: React.FC<Props> = ({
                 <div className="p-3.5 rounded-[20px] bg-slate-50/80 dark:bg-slate-900/40 border border-[var(--line)] text-start space-y-1">
                   <div className="flex items-center gap-1.5 text-amber-600 dark:text-amber-400 text-xs font-semibold">
                     <CheckCircle2 size={15} strokeWidth={2} />
-                    <span>{isRTL ? 'کلمات موفق' : 'Correct Words'}</span>
+                    <span>{tx(isRTL, 'کلمات موفق', 'Correct Words')}</span>
                   </div>
                   <div className="text-xl font-bold text-[var(--ink)] font-display">
                     {records.totalCardsGuessed}
@@ -810,7 +799,7 @@ export const UserProfileModal: React.FC<Props> = ({
                 <div className="p-3.5 rounded-[20px] bg-slate-50/80 dark:bg-slate-900/40 border border-[var(--line)] text-start space-y-1">
                   <div className="flex items-center gap-1.5 text-[var(--lapis)] dark:text-blue-400 text-xs font-semibold">
                     <Zap size={15} strokeWidth={2} />
-                    <span>{isRTL ? 'مجموع امتیازها' : 'Total Score'}</span>
+                    <span>{tx(isRTL, 'مجموع امتیازها', 'Total Score')}</span>
                   </div>
                   <div className="text-xl font-bold text-[var(--ink)] font-display">
                     {records.totalPoints}
@@ -831,16 +820,16 @@ export const UserProfileModal: React.FC<Props> = ({
                     </div>
                     <div className="min-w-0">
                       <h3 className="text-sm font-bold text-[var(--ink)] truncate">
-                        {isRTL ? 'جعبه لایتنر ۵ خانه' : '5-Box Leitner (Spaced Repetition)'}
+                        {tx(isRTL, 'جعبه لایتنر ۵ خانه', '5-Box Leitner (Spaced Repetition)')}
                       </h3>
                       <p className="text-[11px] text-[var(--mute)] truncate">
-                        {isRTL ? 'مرور روزانه طبق منحنی فراموشی ابینگهاوس' : 'Daily spaced repetition intervals'}
+                        {tx(isRTL, 'مرور روزانه طبق منحنی فراموشی ابینگهاوس', 'Daily spaced repetition intervals')}
                       </p>
                     </div>
                   </div>
                   <span className="text-xs font-bold text-amber-700 dark:text-amber-400 bg-amber-500/15 px-2.5 py-1 rounded-full border border-amber-500/20 shrink-0 inline-flex items-center gap-1">
                     <Flame size={13} className="text-amber-500" />
-                    <span>{leitnerState.consecutiveStreak} {isRTL ? 'روز استریک' : 'streak'}</span>
+                    <span>{leitnerState.consecutiveStreak} {tx(isRTL, 'روز استریک', 'streak')}</span>
                   </span>
                 </div>
 
@@ -851,7 +840,7 @@ export const UserProfileModal: React.FC<Props> = ({
                       {getDueLeitnerCards(leitnerState).length}
                     </span>
                     <span className="text-[11px] text-[var(--mute)] font-medium">
-                      {isRTL ? 'آماده امروز' : 'Due Today'}
+                      {tx(isRTL, 'آماده امروز', 'Due Today')}
                     </span>
                   </div>
                   <div className="p-2 rounded-[14px] bg-[var(--panel)] border border-[var(--line)]">
@@ -859,7 +848,7 @@ export const UserProfileModal: React.FC<Props> = ({
                       {leitnerState.totalCardsMastered}
                     </span>
                     <span className="text-[11px] text-[var(--mute)] font-medium">
-                      {isRTL ? 'مسلط شده' : 'Mastered'}
+                      {tx(isRTL, 'مسلط شده', 'Mastered')}
                     </span>
                   </div>
                   <div className="p-2 rounded-[14px] bg-[var(--panel)] border border-[var(--line)]">
@@ -867,7 +856,7 @@ export const UserProfileModal: React.FC<Props> = ({
                       {leitnerState.cards.length}
                     </span>
                     <span className="text-[11px] text-[var(--mute)] font-medium">
-                      {isRTL ? 'کل کارت‌ها' : 'Total Cards'}
+                      {tx(isRTL, 'کل کارت‌ها', 'Total Cards')}
                     </span>
                   </div>
                 </div>
@@ -875,8 +864,8 @@ export const UserProfileModal: React.FC<Props> = ({
                 {/* 3-Boxes Distribution Visualizer */}
                 <div className="space-y-1.5">
                   <div className="flex items-center justify-between text-[11px] font-medium text-[var(--mute)]">
-                    <span>{isRTL ? 'توزیع کارت‌ها در ۳ خانه لایتنر:' : '3 Leitner Boxes:'}</span>
-                    <span>{isRTL ? '۱ • ۳ • ۷ روز' : '1 • 3 • 7 days'}</span>
+                    <span>{tx(isRTL, 'توزیع کارت‌ها در ۳ خانه لایتنر:', '3 Leitner Boxes:')}</span>
+                    <span>{tx(isRTL, '۱ • ۳ • ۷ روز', '1 • 3 • 7 days')}</span>
                   </div>
                   <div className="grid grid-cols-3 gap-1.5 text-center">
                     {[0, 1, 2].map(bIdx => {
@@ -891,7 +880,7 @@ export const UserProfileModal: React.FC<Props> = ({
                           }`}
                         >
                           <span className="text-[10px] font-medium text-[var(--mute)] block">
-                            {isRTL ? `خانه ${bIdx + 1}` : `Box ${bIdx + 1}`}
+                            {txt(isRTL, 'خانه {0}', 'Box {0}', [bIdx + 1])}
                           </span>
                           <span className="text-xs font-bold">
                             {count}
@@ -913,7 +902,7 @@ export const UserProfileModal: React.FC<Props> = ({
                   className="w-full h-11 bg-gradient-to-r from-amber-500 to-amber-600 hover:brightness-105 text-white font-bold text-xs rounded-full shadow-xs flex items-center justify-center gap-2 cursor-pointer active:scale-98 transition-all"
                 >
                   <Sparkles size={16} />
-                  <span>{isRTL ? 'ورود به جعبه لایتنر و مرور کارت‌های امروز' : 'Start Today\'s Leitner Practice'}</span>
+                  <span>{tx(isRTL, 'ورود به جعبه لایتنر و مرور کارت‌های امروز', 'Start Today\'s Leitner Practice')}</span>
                 </button>
               </div>
             </div>
@@ -923,7 +912,7 @@ export const UserProfileModal: React.FC<Props> = ({
           {activeTab === 'leaderboard' && (
             <div className="space-y-3">
               <div className="flex items-center justify-between text-xs text-[var(--mute)] font-semibold pb-1">
-                <span>{isRTL ? 'برترین بازیکنان جهان و محلی' : 'Top Global Players'}</span>
+                <span>{tx(isRTL, 'برترین بازیکنان جهان و محلی', 'Top Global Players')}</span>
                 <button
                   type="button"
                   onClick={loadLeaderboard}
@@ -931,14 +920,14 @@ export const UserProfileModal: React.FC<Props> = ({
                   className="flex items-center gap-1.5 text-[var(--lapis)] hover:underline font-semibold cursor-pointer"
                 >
                   <RefreshCw size={13} className={isLoadingLeaderboard ? 'animate-spin' : ''} />
-                  <span>{isRTL ? 'تازه‌سازی' : 'Refresh'}</span>
+                  <span>{tx(isRTL, 'تازه‌سازی', 'Refresh')}</span>
                 </button>
               </div>
 
               {isLoadingLeaderboard && leaderboard.length === 0 ? (
                 <div className="py-10 text-center text-[var(--mute)] text-xs font-medium flex flex-col items-center gap-2">
                   <RefreshCw size={22} className="animate-spin text-[var(--lapis)]" />
-                  <span>{isRTL ? 'در حال دریافت رتبه‌ها...' : 'Loading ranks...'}</span>
+                  <span>{tx(isRTL, 'در حال دریافت رتبه‌ها...', 'Loading ranks...')}</span>
                 </div>
               ) : leaderboard.length === 0 ? (
                 <div className="py-10 px-6 text-center rounded-[24px] bg-slate-50/80 dark:bg-slate-900/40 border border-[var(--line)] space-y-3">
@@ -947,10 +936,10 @@ export const UserProfileModal: React.FC<Props> = ({
                   </div>
                   <div className="space-y-1">
                     <h3 className="text-base font-bold text-[var(--ink)]">
-                      {isRTL ? 'هنوز رکوردی ثبت نشده است' : 'No leaderboard records yet'}
+                      {tx(isRTL, 'هنوز رکوردی ثبت نشده است', 'No leaderboard records yet')}
                     </h3>
                     <p className="text-xs text-[var(--mute)] leading-relaxed font-normal max-w-xs mx-auto">
-                      {isRTL ? 'با انجام بازی در حالت تک‌نفره یا دورهمی می‌توانید اولین رکورد را در جدول برترین‌ها به نام خود ثبت کنید.' : 'Play single-player or group games to record your high score on the leaderboard!'}
+                      {tx(isRTL, 'با انجام بازی در حالت تک‌نفره یا دورهمی می‌توانید اولین رکورد را در جدول برترین‌ها به نام خود ثبت کنید.', 'Play single-player or group games to record your high score on the leaderboard!')}
                     </p>
                   </div>
                 </div>
@@ -981,7 +970,7 @@ export const UserProfileModal: React.FC<Props> = ({
 
                           <div className="truncate">
                             <span className="font-bold text-xs text-[var(--ink)] block truncate">
-                              {entry.displayName || (isRTL ? 'بازیکن' : 'Player')}
+                              {entry.displayName || (tx(isRTL, 'بازیکن', 'Player'))}
                             </span>
                             <span className="text-[11px] text-[var(--mute)] font-medium">
                               {entry.language}
@@ -1015,21 +1004,21 @@ export const UserProfileModal: React.FC<Props> = ({
                     </div>
                     <div>
                       <h4 className="text-sm font-bold text-[var(--ink)]">
-                        {isRTL ? 'دانلود مستقیم فایل AAB (مخصوص گوگل پلی)' : 'Download Google Play AAB (.aab)'}
+                        {tx(isRTL, 'دانلود مستقیم فایل AAB (مخصوص گوگل پلی)', 'Download Google Play AAB (.aab)')}
                       </h4>
                       <span className="text-xs text-[var(--mute)] font-medium">
-                        {isRTL ? 'آخرین نسخه از GitHub Releases • کمتر از ۱ مگابایت' : 'Latest build from GitHub Releases • under 1 MB'}
+                        {tx(isRTL, 'آخرین نسخه از GitHub Releases • کمتر از ۱ مگابایت', 'Latest build from GitHub Releases • under 1 MB')}
                       </span>
                     </div>
                   </div>
                   <span className="text-[11px] font-semibold text-emerald-600 bg-emerald-50 dark:bg-emerald-950/40 px-2 py-0.5 rounded-full border border-emerald-500/20">
-                    {isRTL ? 'آماده انتشار' : 'Play Store Ready'}
+                    {tx(isRTL, 'آماده انتشار', 'Play Store Ready')}
                   </span>
                 </div>
 
                 <div className="text-xs text-[var(--mute)] space-y-0.5 font-mono bg-[var(--panel)] p-2.5 rounded-[14px] border border-[var(--line)]">
                   <div><strong>Package:</strong> <code className="text-[var(--lapis)]">com.solonovate.dour</code></div>
-                  <div><strong>Version:</strong> {isRTL ? 'شمارهٔ نسخه خودکار در هر ساخت' : 'auto-incremented on every build'} • Min SDK: 24 (Android 7.0+) • Target SDK: 36</div>
+                  <div><strong>Version:</strong> {tx(isRTL, 'شمارهٔ نسخه خودکار در هر ساخت', 'auto-incremented on every build')} • Min SDK: 24 (Android 7.0+) • Target SDK: 36</div>
                 </div>
 
                 <button
@@ -1045,12 +1034,12 @@ export const UserProfileModal: React.FC<Props> = ({
                   {downloadingFile === 'dor-zaban-google-play.aab' ? (
                     <>
                       <Loader2 size={16} className="animate-spin" />
-                      <span>{isRTL ? 'در حال دریافت فایل AAB...' : 'Downloading AAB...'}</span>
+                      <span>{tx(isRTL, 'در حال دریافت فایل AAB...', 'Downloading AAB...')}</span>
                     </>
                   ) : (
                     <>
                       <Download size={16} strokeWidth={2} />
-                      <span>{isRTL ? 'دانلود آخرین بستهٔ AAB برای گوگل پلی' : 'Download latest Google Play AAB'}</span>
+                      <span>{tx(isRTL, 'دانلود آخرین بستهٔ AAB برای گوگل پلی', 'Download latest Google Play AAB')}</span>
                     </>
                   )}
                 </button>
@@ -1061,7 +1050,7 @@ export const UserProfileModal: React.FC<Props> = ({
                   rel="noopener noreferrer"
                   className="block text-center text-[11px] font-semibold text-[var(--lapis)] hover:underline pt-0.5"
                 >
-                  {isRTL ? 'مشاهده صفحهٔ آخرین انتشار در GitHub Releases ↗' : 'View latest release on GitHub Releases ↗'}
+                  {tx(isRTL, 'مشاهده صفحهٔ آخرین انتشار در GitHub Releases ↗', 'View latest release on GitHub Releases ↗')}
                 </a>
               </div>
 
@@ -1074,10 +1063,10 @@ export const UserProfileModal: React.FC<Props> = ({
                     </div>
                     <div>
                       <h4 className="text-sm font-bold text-[var(--ink)]">
-                        {isRTL ? 'دانلود مستقیم فایل APK اندروید' : 'Direct Android APK Installer'}
+                        {tx(isRTL, 'دانلود مستقیم فایل APK اندروید', 'Direct Android APK Installer')}
                       </h4>
                       <span className="text-xs text-[var(--mute)] font-medium">
-                        {isRTL ? 'نصب مستقیم روی گوشی برای تست • کمتر از ۱ مگابایت' : 'Direct install for testing • under 1 MB'}
+                        {tx(isRTL, 'نصب مستقیم روی گوشی برای تست • کمتر از ۱ مگابایت', 'Direct install for testing • under 1 MB')}
                       </span>
                     </div>
                   </div>
@@ -1095,12 +1084,12 @@ export const UserProfileModal: React.FC<Props> = ({
                   {downloadingFile === 'dor-zaban-v1.0.apk' ? (
                     <>
                       <Loader2 size={16} className="animate-spin" />
-                      <span>{isRTL ? 'در حال دریافت فایل APK...' : 'Downloading APK...'}</span>
+                      <span>{tx(isRTL, 'در حال دریافت فایل APK...', 'Downloading APK...')}</span>
                     </>
                   ) : (
                     <>
                       <Download size={16} strokeWidth={2} />
-                      <span>{isRTL ? 'دانلود آخرین APK برای تست' : 'Download latest test APK'}</span>
+                      <span>{tx(isRTL, 'دانلود آخرین APK برای تست', 'Download latest test APK')}</span>
                     </>
                   )}
                 </button>
@@ -1115,19 +1104,17 @@ export const UserProfileModal: React.FC<Props> = ({
                     </div>
                     <div>
                       <h4 className="text-sm font-bold text-[var(--ink)]">
-                        {isRTL ? 'نقشه دورهمی‌های حضوری اطراف (Google Maps)' : 'Nearby In-Person Meetups Map'}
+                        {tx(isRTL, 'نقشه دورهمی‌های حضوری اطراف (Google Maps)', 'Nearby In-Person Meetups Map')}
                       </h4>
                       <span className="text-xs text-[var(--mute)] font-medium">
-                        {isRTL ? 'دورهمی‌های عمومی در کافه‌ها، کتابخانه‌ها و پارک‌ها' : 'Public meetups at cafés, libraries & parks'}
+                        {tx(isRTL, 'دورهمی‌های عمومی در کافه‌ها، کتابخانه‌ها و پارک‌ها', 'Public meetups at cafés, libraries & parks')}
                       </span>
                     </div>
                   </div>
                 </div>
 
                 <p className="text-xs text-[var(--mute)] leading-relaxed font-normal">
-                  {isRTL
-                    ? 'دورهمی‌های حضوری بازی «دور» در مکان‌های عمومی نزدیک خود را ببینید، به آن‌ها بپیوندید یا دورهمی جدید بسازید.'
-                    : 'Browse in-person Dour meetups at public venues near you, join a session, or host your own.'}
+                  {tx(isRTL, 'دورهمی‌های حضوری بازی «دور» در مکان‌های عمومی نزدیک خود را ببینید، به آن‌ها بپیوندید یا دورهمی جدید بسازید.', 'Browse in-person Dour meetups at public venues near you, join a session, or host your own.')}
                 </p>
 
                 <button
@@ -1141,7 +1128,7 @@ export const UserProfileModal: React.FC<Props> = ({
                   className="w-full h-11 bg-gradient-to-r from-[var(--turq)] to-[var(--lapis)] text-white rounded-full font-bold text-xs flex items-center justify-center gap-2 shadow-xs active:scale-98 transition-all cursor-pointer"
                 >
                   <MapPin size={16} strokeWidth={2} />
-                  <span>{isRTL ? 'مشاهده نقشه و دورهمی‌های اطراف' : 'Open Map & Nearby Meetups'}</span>
+                  <span>{tx(isRTL, 'مشاهده نقشه و دورهمی‌های اطراف', 'Open Map & Nearby Meetups')}</span>
                 </button>
               </div>
             </div>
@@ -1167,33 +1154,31 @@ export const UserProfileModal: React.FC<Props> = ({
               <div className="p-4 rounded-[22px] bg-slate-50/80 dark:bg-slate-900/40 border border-[var(--line)] space-y-3">
                 <div className="flex items-center gap-2 text-xs font-bold text-[var(--ink)]">
                   <ShieldCheck size={18} className="text-[var(--turq)]" />
-                  <span>{isRTL ? 'شفافیت داده‌ها و امنیت گوگل‌پلی' : 'Google Play Data Safety'}</span>
+                  <span>{tx(isRTL, 'شفافیت داده‌ها و امنیت گوگل‌پلی', 'Google Play Data Safety')}</span>
                 </div>
 
                 <div className="space-y-2 text-xs text-[var(--mute)] leading-relaxed">
                   <div className="flex items-start gap-2.5 bg-[var(--panel)] p-2.5 rounded-[16px] border border-[var(--line)]">
                     <Lock size={15} className="text-[var(--lapis)] shrink-0 mt-0.5" />
                     <div>
-                      <strong className="text-[var(--ink)] block font-semibold">{isRTL ? 'رمزنگاری کامل داده‌ها (HTTPS/TLS)' : 'Encryption in Transit'}</strong>
-                      {isRTL ? 'کلیه ارتباطات شبکه رمزگذاری شده و با استانداردهای فایربیس گوگل محافظت می‌شوند.' : 'All data transferred between your device and Google cloud is encrypted.'}
+                      <strong className="text-[var(--ink)] block font-semibold">{tx(isRTL, 'رمزنگاری کامل داده‌ها (HTTPS/TLS)', 'Encryption in Transit')}</strong>
+                      {tx(isRTL, 'کلیه ارتباطات شبکه رمزگذاری شده و با استانداردهای فایربیس گوگل محافظت می‌شوند.', 'All data transferred between your device and Google cloud is encrypted.')}
                     </div>
                   </div>
 
                   <div className="flex items-start gap-2.5 bg-[var(--panel)] p-2.5 rounded-[16px] border border-[var(--line)]">
                     <ShieldCheck size={15} className="text-[var(--turq)] shrink-0 mt-0.5" />
                     <div>
-                      <strong className="text-[var(--ink)] block font-semibold">{isRTL ? 'پردازش صوتی محلی (بدون ضبط صدا)' : 'On-Device Audio Only'}</strong>
-                      {isRTL 
-                        ? 'میکروفون تنها برای تشخیص زنده تلفظ روی گوشی استفاده شده و هیچ صدایی در سرور ذخیره نمی‌شود. تشخیص صوت توسط سرویس گفتار مرورگر پردازش می‌شود و به اتصال اینترنت نیاز دارد.' 
-                        : 'Microphone audio is processed in real-time. No audio is recorded or stored on servers. Speech recognition is processed by the browser\'s speech service and needs internet.'}
+                      <strong className="text-[var(--ink)] block font-semibold">{tx(isRTL, 'پردازش صوتی محلی (بدون ضبط صدا)', 'On-Device Audio Only')}</strong>
+                      {tx(isRTL, 'میکروفون تنها برای تشخیص زنده تلفظ روی گوشی استفاده شده و هیچ صدایی در سرور ذخیره نمی‌شود. تشخیص صوت توسط سرویس گفتار مرورگر پردازش می‌شود و به اتصال اینترنت نیاز دارد.', 'Microphone audio is processed in real-time. No audio is recorded or stored on servers. Speech recognition is processed by the browser\'s speech service and needs internet.')}
                     </div>
                   </div>
 
                   <div className="flex items-start gap-2.5 bg-[var(--panel)] p-2.5 rounded-[16px] border border-[var(--line)]">
                     <CheckCircle2 size={15} className="text-amber-500 shrink-0 mt-0.5" />
                     <div>
-                      <strong className="text-[var(--ink)] block font-semibold">{isRTL ? 'عدم فروش یا اشتراک داده' : 'No 3rd-Party Data Selling'}</strong>
-                      {isRTL ? 'اطلاعات شما با هیچ شبکه تبلیغاتی یا بازاریابی به اشتراک گذاشته نمی‌شود.' : 'Your data is never sold, shared, or monetized with advertising networks.'}
+                      <strong className="text-[var(--ink)] block font-semibold">{tx(isRTL, 'عدم فروش یا اشتراک داده', 'No 3rd-Party Data Selling')}</strong>
+                      {tx(isRTL, 'اطلاعات شما با هیچ شبکه تبلیغاتی یا بازاریابی به اشتراک گذاشته نمی‌شود.', 'Your data is never sold, shared, or monetized with advertising networks.')}
                     </div>
                   </div>
                 </div>
@@ -1203,10 +1188,10 @@ export const UserProfileModal: React.FC<Props> = ({
               <div className="p-3.5 rounded-[20px] bg-slate-50/80 dark:bg-slate-900/40 border border-[var(--line)] flex items-center justify-between">
                 <div>
                   <h4 className="text-xs font-bold text-[var(--ink)]">
-                    {isRTL ? 'استخراج و دانلود داده‌های من' : 'Export My Data'}
+                    {tx(isRTL, 'استخراج و دانلود داده‌های من', 'Export My Data')}
                   </h4>
                   <p className="text-[11px] text-[var(--mute)]">
-                    {isRTL ? 'دریافت نسخه JSON از سوابق و رکوردهای شما' : 'Download JSON copy of your records & stats'}
+                    {tx(isRTL, 'دریافت نسخه JSON از سوابق و رکوردهای شما', 'Download JSON copy of your records & stats')}
                   </p>
                 </div>
                 <button
@@ -1215,7 +1200,7 @@ export const UserProfileModal: React.FC<Props> = ({
                   className="h-9 px-3.5 bg-[var(--panel)] hover:bg-[var(--bg)] text-[var(--ink)] border border-[var(--line)] rounded-full text-xs font-semibold flex items-center gap-1.5 shadow-2xs active:scale-95 transition-all cursor-pointer"
                 >
                   <FileDown size={14} />
-                  <span>{isRTL ? 'دانلود داده‌ها' : 'Export'}</span>
+                  <span>{tx(isRTL, 'دانلود داده‌ها', 'Export')}</span>
                 </button>
               </div>
 
@@ -1223,12 +1208,10 @@ export const UserProfileModal: React.FC<Props> = ({
               <div className="p-4 rounded-[22px] bg-[var(--panel)] border border-[var(--line)] shadow-xs space-y-2.5">
                 <div className="flex items-center gap-2 text-xs font-bold text-[var(--ink)]">
                   <RotateCcw size={16} className="text-[var(--turq)]" />
-                  <span>{isRTL ? 'بازنشانی پیشرفت یادگیری و سطح تطبیقی' : 'Reset Learning Progress & Adaptive State'}</span>
+                  <span>{tx(isRTL, 'بازنشانی پیشرفت یادگیری و سطح تطبیقی', 'Reset Learning Progress & Adaptive State')}</span>
                 </div>
                 <p className="text-xs text-[var(--mute)] leading-relaxed">
-                  {isRTL
-                    ? 'اگر می‌خواهید توانایی تخمینی شما و سختی کلمات از نو محاسبه شوند، می‌توانید پیشرفت یادگیری خود را بازنشانی کنید.'
-                    : 'Reset your estimated ability and card memory calibration to start learning afresh.'}
+                  {tx(isRTL, 'اگر می‌خواهید توانایی تخمینی شما و سختی کلمات از نو محاسبه شوند، می‌توانید پیشرفت یادگیری خود را بازنشانی کنید.', 'Reset your estimated ability and card memory calibration to start learning afresh.')}
                 </p>
 
                 {resetSuccessMessage ? (
@@ -1242,14 +1225,12 @@ export const UserProfileModal: React.FC<Props> = ({
                     className="w-full h-10 bg-[var(--bg)] hover:bg-[var(--line)] text-[var(--ink)] border border-[var(--line)] rounded-full text-xs font-bold flex items-center justify-center gap-1.5 transition-all cursor-pointer active:scale-98"
                   >
                     <RotateCcw size={14} className="text-[var(--turq)]" />
-                    <span>{isRTL ? 'بازنشانی پیشرفت یادگیری من' : 'Reset My Learning Progress'}</span>
+                    <span>{tx(isRTL, 'بازنشانی پیشرفت یادگیری من', 'Reset My Learning Progress')}</span>
                   </button>
                 ) : (
                   <div className="p-3 bg-[var(--bg)] rounded-xl border border-amber-400 space-y-2">
                     <p className="text-xs font-bold text-amber-700 dark:text-amber-400">
-                      {isRTL
-                        ? 'آیا از بازنشانی پیشرفت یادگیری مطمئن هستید؟ مدل توانایی و تاریخچه مرور کلمات بازنشانی خواهد شد.'
-                        : 'Are you sure you want to reset your learning model and card review history?'}
+                      {tx(isRTL, 'آیا از بازنشانی پیشرفت یادگیری مطمئن هستید؟ مدل توانایی و تاریخچه مرور کلمات بازنشانی خواهد شد.', 'Are you sure you want to reset your learning model and card review history?')}
                     </p>
                     <div className="flex gap-2">
                       <button
@@ -1257,21 +1238,21 @@ export const UserProfileModal: React.FC<Props> = ({
                         onClick={async () => {
                           const playerId = (typeof localStorage !== 'undefined' && localStorage.getItem('dor_device_id')) || 'single_player_user';
                           await resetPlayerProgress(playerId);
-                          setResetSuccessMessage(isRTL ? 'پیشرفت یادگیری با موفقیت بازنشانی شد.' : 'Learning progress successfully reset.');
+                          setResetSuccessMessage(tx(isRTL, 'پیشرفت یادگیری با موفقیت بازنشانی شد.', 'Learning progress successfully reset.'));
                           setIsResetConfirmOpen(false);
                           setTimeout(() => setResetSuccessMessage(null), 3000);
                         }}
                         className="flex-1 h-9 bg-amber-500 hover:bg-amber-600 text-white rounded-full text-xs font-bold flex items-center justify-center gap-1 cursor-pointer"
                       >
                         <RotateCcw size={14} />
-                        <span>{isRTL ? 'بله، بازنشانی شود' : 'Yes, Reset'}</span>
+                        <span>{tx(isRTL, 'بله، بازنشانی شود', 'Yes, Reset')}</span>
                       </button>
                       <button
                         type="button"
                         onClick={() => setIsResetConfirmOpen(false)}
                         className="px-4 h-9 bg-slate-200 dark:bg-zinc-800 text-[var(--ink)] rounded-full text-xs font-bold cursor-pointer"
                       >
-                        {isRTL ? 'انصراف' : 'Cancel'}
+                        {tx(isRTL, 'انصراف', 'Cancel')}
                       </button>
                     </div>
                   </div>
@@ -1283,12 +1264,10 @@ export const UserProfileModal: React.FC<Props> = ({
                 <div className="p-4 rounded-[22px] bg-rose-50/80 dark:bg-rose-950/20 border border-rose-200 dark:border-rose-900/50 space-y-2.5">
                   <div className="flex items-center gap-2 text-xs font-bold text-rose-700 dark:text-rose-400">
                     <ShieldAlert size={16} />
-                    <span>{isRTL ? 'حذف دائمی حساب کاربری و داده‌ها' : 'Permanent Account & Data Deletion'}</span>
+                    <span>{tx(isRTL, 'حذف دائمی حساب کاربری و داده‌ها', 'Permanent Account & Data Deletion')}</span>
                   </div>
                   <p className="text-xs text-rose-600/90 dark:text-rose-400/80 leading-relaxed font-normal">
-                    {isRTL 
-                      ? 'طبق قوانین گوگل‌پلی، شما در هر زمان می‌توانید حساب کاربری و تمامی سوابق خود را برای همیشه حذف نمایید.' 
-                      : 'Per Google Play policy, you can permanently delete your account and all associated cloud data at any time.'}
+                    {tx(isRTL, 'طبق قوانین گوگل‌پلی، شما در هر زمان می‌توانید حساب کاربری و تمامی سوابق خود را برای همیشه حذف نمایید.', 'Per Google Play policy, you can permanently delete your account and all associated cloud data at any time.')}
                   </p>
 
                   {!deleteConfirmOpen ? (
@@ -1298,12 +1277,12 @@ export const UserProfileModal: React.FC<Props> = ({
                       className="w-full h-10 bg-rose-600 hover:bg-rose-700 text-white rounded-full text-xs font-bold flex items-center justify-center gap-1.5 shadow-xs active:scale-95 transition-all cursor-pointer"
                     >
                       <Trash2 size={15} />
-                      <span>{isRTL ? 'درخواست حذف دائمی حساب' : 'Delete Account & All Data'}</span>
+                      <span>{tx(isRTL, 'درخواست حذف دائمی حساب', 'Delete Account & All Data')}</span>
                     </button>
                   ) : (
                     <div className="p-3 bg-white dark:bg-zinc-900 rounded-[16px] border border-rose-300 space-y-2.5">
                       <p className="text-xs font-bold text-rose-700">
-                        {isRTL ? 'آیا کاملاً مطمئن هستید؟ این عمل غیرقابل بازگشت است و تمام رکوردهای ابری شما پاک خواهند شد.' : 'Are you sure? This action is permanent and cannot be undone.'}
+                        {tx(isRTL, 'آیا کاملاً مطمئن هستید؟ این عمل غیرقابل بازگشت است و تمام رکوردهای ابری شما پاک خواهند شد.', 'Are you sure? This action is permanent and cannot be undone.')}
                       </p>
                       <div className="flex gap-2">
                         <button
@@ -1313,14 +1292,14 @@ export const UserProfileModal: React.FC<Props> = ({
                           className="flex-1 h-9 bg-rose-600 hover:bg-rose-700 text-white rounded-full text-xs font-bold flex items-center justify-center gap-1 disabled:opacity-50 cursor-pointer"
                         >
                           {isDeletingAccount ? <Loader2 size={14} className="animate-spin" /> : <Trash2 size={14} />}
-                          <span>{isRTL ? 'بله، حذف قطعی' : 'Yes, Delete Permanently'}</span>
+                          <span>{tx(isRTL, 'بله، حذف قطعی', 'Yes, Delete Permanently')}</span>
                         </button>
                         <button
                           type="button"
                           onClick={() => setDeleteConfirmOpen(false)}
                           className="px-4 h-9 bg-slate-100 dark:bg-zinc-800 text-[var(--ink)] rounded-full text-xs font-bold cursor-pointer"
                         >
-                          {isRTL ? 'انصراف' : 'Cancel'}
+                          {tx(isRTL, 'انصراف', 'Cancel')}
                         </button>
                       </div>
                     </div>
@@ -1328,7 +1307,7 @@ export const UserProfileModal: React.FC<Props> = ({
                 </div>
               ) : (
                 <div className="p-3.5 rounded-[18px] bg-slate-50/80 dark:bg-slate-900/40 border border-[var(--line)] text-center text-xs text-[var(--mute)]">
-                  {isRTL ? 'شما به عنوان کاربر مهمان بازی می‌کنید و حسابی در سرور ثبت نشده است.' : 'You are currently playing as a guest with no cloud account.'}
+                  {tx(isRTL, 'شما به عنوان کاربر مهمان بازی می‌کنید و حسابی در سرور ثبت نشده است.', 'You are currently playing as a guest with no cloud account.')}
                 </div>
               )}
 
@@ -1339,7 +1318,7 @@ export const UserProfileModal: React.FC<Props> = ({
                   rel="noopener noreferrer"
                   className="text-xs text-[var(--lapis)] hover:underline inline-flex items-center gap-1 font-semibold"
                 >
-                  <span>{isRTL ? 'مشاهده شرایط حذف از وب و سیاست کامل حریم خصوصی' : 'Web Data Deletion Form & Full Privacy Policy'}</span>
+                  <span>{tx(isRTL, 'مشاهده شرایط حذف از وب و سیاست کامل حریم خصوصی', 'Web Data Deletion Form & Full Privacy Policy')}</span>
                   <ExternalLink size={13} />
                 </a>
               </div>
@@ -1358,28 +1337,26 @@ export const UserProfileModal: React.FC<Props> = ({
                     </div>
                     <div>
                       <h4 className="text-sm font-bold text-[var(--ink)]">
-                        {isRTL ? 'نصب مستقیم روی گوشی (Android & iOS)' : 'Install App on Mobile (PWA)'}
+                        {tx(isRTL, 'نصب مستقیم روی گوشی (Android & iOS)', 'Install App on Mobile (PWA)')}
                       </h4>
                       <span className="text-xs text-[var(--mute)] font-medium">
-                        {isRTL ? 'آفلاین، تمام‌صفحه و با سرعت فوق‌العاده' : 'Offline, fast & standalone fullscreen'}
+                        {tx(isRTL, 'آفلاین، تمام‌صفحه و با سرعت فوق‌العاده', 'Offline, fast & standalone fullscreen')}
                       </span>
                     </div>
                   </div>
                   <span className="text-[11px] font-semibold text-emerald-600 bg-emerald-50 dark:bg-emerald-950/40 px-2.5 py-0.5 rounded-full border border-emerald-500/20">
-                    {isInstalled ? (isRTL ? 'نصب شده ✓' : 'Installed ✓') : (isRTL ? 'آماده نصب' : 'Ready')}
+                    {isInstalled ? (tx(isRTL, 'نصب شده ✓', 'Installed ✓')) : (tx(isRTL, 'آماده نصب', 'Ready'))}
                   </span>
                 </div>
 
                 <p className="text-xs text-[var(--mute)] leading-relaxed font-normal">
-                  {isRTL 
-                    ? 'با نصب این وب‌اپلیکیشن روی گوشی خود، بازی به شکل یک اپلیکیشن بومی مستقل، تمام‌صفحه و بدون نوار آدرس مرورگر اجرا می‌شود.'
-                    : 'Install this application directly on your home screen for standalone fullscreen launch and smooth offline play.'}
+                  {tx(isRTL, 'با نصب این وب‌اپلیکیشن روی گوشی خود، بازی به شکل یک اپلیکیشن بومی مستقل، تمام‌صفحه و بدون نوار آدرس مرورگر اجرا می‌شود.', 'Install this application directly on your home screen for standalone fullscreen launch and smooth offline play.')}
                 </p>
 
                 {isInstalled ? (
                   <div className="p-3 bg-[var(--panel)] border border-[var(--line)] text-emerald-600 rounded-[14px] flex items-center justify-center gap-2 font-bold text-xs shadow-xs">
                     <CheckCircle2 size={18} />
-                    <span>{isRTL ? 'اپلیکیشن با موفقیت روی این دستگاه نصب شده است!' : 'App is already installed on this device!'}</span>
+                    <span>{tx(isRTL, 'اپلیکیشن با موفقیت روی این دستگاه نصب شده است!', 'App is already installed on this device!')}</span>
                   </div>
                 ) : (
                   <div>
@@ -1393,7 +1370,7 @@ export const UserProfileModal: React.FC<Props> = ({
                         className="w-full h-11 rounded-full bg-[var(--vermilion)] hover:bg-[#c94b2a] text-white font-bold text-xs flex items-center justify-center gap-2 transition-all cursor-pointer active:scale-98 shadow-sm"
                       >
                         <Zap size={16} />
-                        <span>{isRTL ? 'نصب مستقیم با یک کلیک' : 'Instant 1-Click Install'}</span>
+                        <span>{tx(isRTL, 'نصب مستقیم با یک کلیک', 'Instant 1-Click Install')}</span>
                       </button>
                     )}
                   </div>
@@ -1404,20 +1381,20 @@ export const UserProfileModal: React.FC<Props> = ({
               <div className="p-4 rounded-[22px] bg-slate-50/80 dark:bg-slate-900/40 border border-[var(--line)] space-y-2.5">
                 <div className="text-xs font-bold text-[var(--ink)] flex items-center gap-2">
                   <Sparkles size={16} className="text-[var(--vermilion)]" />
-                  <span>{isRTL ? 'راهنمای نصب در مرورگر کروم اندروید (Chrome):' : 'How to install in Chrome (Android):'}</span>
+                  <span>{tx(isRTL, 'راهنمای نصب در مرورگر کروم اندروید (Chrome):', 'How to install in Chrome (Android):')}</span>
                 </div>
                 <div className="space-y-2 text-xs text-[var(--mute)] font-medium">
                   <div className="flex items-start gap-2 bg-[var(--panel)] p-2.5 rounded-[14px] border border-[var(--line)]">
                     <span className="w-5 h-5 rounded-full bg-[var(--bg)] text-[var(--ink)] font-bold text-[10px] flex items-center justify-center shrink-0 mt-0.5">۱</span>
-                    <span>{isRTL ? 'در بالای مرورگر روی منوی سه نقطه (⋮) ضربه بزنید.' : 'Tap the 3-dot menu (⋮) in Chrome.'}</span>
+                    <span>{tx(isRTL, 'در بالای مرورگر روی منوی سه نقطه (⋮) ضربه بزنید.', 'Tap the 3-dot menu (⋮) in Chrome.')}</span>
                   </div>
                   <div className="flex items-start gap-2 bg-[var(--panel)] p-2.5 rounded-[14px] border border-[var(--line)]">
                     <span className="w-5 h-5 rounded-full bg-[var(--bg)] text-[var(--ink)] font-bold text-[10px] flex items-center justify-center shrink-0 mt-0.5">۲</span>
-                    <span>{isRTL ? 'گزینه «نصب برنامه» (Install app) یا «افزودن به صفحه اصلی» را بزنید.' : 'Select "Install app" or "Add to Home screen".'}</span>
+                    <span>{tx(isRTL, 'گزینه «نصب برنامه» (Install app) یا «افزودن به صفحه اصلی» را بزنید.', 'Select "Install app" or "Add to Home screen".')}</span>
                   </div>
                   <div className="flex items-start gap-2 bg-[var(--panel)] p-2.5 rounded-[14px] border border-[var(--line)]">
                     <span className="w-5 h-5 rounded-full bg-[var(--bg)] text-[var(--ink)] font-bold text-[10px] flex items-center justify-center shrink-0 mt-0.5">۳</span>
-                    <span>{isRTL ? 'تایید کنید تا آیکون اپ به صفحه خانگی موبایل اضافه شود.' : 'Confirm to add the app icon to your phone screen.'}</span>
+                    <span>{tx(isRTL, 'تایید کنید تا آیکون اپ به صفحه خانگی موبایل اضافه شود.', 'Confirm to add the app icon to your phone screen.')}</span>
                   </div>
                 </div>
               </div>
@@ -1426,20 +1403,20 @@ export const UserProfileModal: React.FC<Props> = ({
               <div className="p-4 rounded-[22px] bg-slate-50/80 dark:bg-slate-900/40 border border-[var(--line)] space-y-2.5">
                 <div className="text-xs font-bold text-[var(--ink)] flex items-center gap-2">
                   <Apple size={16} className="text-[var(--ink)]" />
-                  <span>{isRTL ? 'راهنمای نصب در مرورگر سافاری آیفون (iOS):' : 'How to install in Safari (iOS):'}</span>
+                  <span>{tx(isRTL, 'راهنمای نصب در مرورگر سافاری آیفون (iOS):', 'How to install in Safari (iOS):')}</span>
                 </div>
                 <div className="space-y-2 text-xs text-[var(--mute)] font-medium">
                   <div className="flex items-start gap-2 bg-[var(--panel)] p-2.5 rounded-[14px] border border-[var(--line)]">
                     <span className="w-5 h-5 rounded-full bg-[var(--bg)] text-[var(--ink)] font-bold text-[10px] flex items-center justify-center shrink-0 mt-0.5">۱</span>
-                    <span>{isRTL ? 'در نوار پایین سافاری دکمه اشتراک‌گذاری (Share ⎋) را بزنید.' : 'Tap the Share icon (⎋) in the bottom bar.'}</span>
+                    <span>{tx(isRTL, 'در نوار پایین سافاری دکمه اشتراک‌گذاری (Share ⎋) را بزنید.', 'Tap the Share icon (⎋) in the bottom bar.')}</span>
                   </div>
                   <div className="flex items-start gap-2 bg-[var(--panel)] p-2.5 rounded-[14px] border border-[var(--line)]">
                     <span className="w-5 h-5 rounded-full bg-[var(--bg)] text-[var(--ink)] font-bold text-[10px] flex items-center justify-center shrink-0 mt-0.5">۲</span>
-                    <span>{isRTL ? 'گزینه «Add to Home Screen» (افزودن به صفحه اصلی) را انتخاب کنید.' : 'Scroll and select "Add to Home Screen".'}</span>
+                    <span>{tx(isRTL, 'گزینه «Add to Home Screen» (افزودن به صفحه اصلی) را انتخاب کنید.', 'Scroll and select "Add to Home Screen".')}</span>
                   </div>
                   <div className="flex items-start gap-2 bg-[var(--panel)] p-2.5 rounded-[14px] border border-[var(--line)]">
                     <span className="w-5 h-5 rounded-full bg-[var(--bg)] text-[var(--ink)] font-bold text-[10px] flex items-center justify-center shrink-0 mt-0.5">۳</span>
-                    <span>{isRTL ? 'در بالا سمت راست روی Add ضربه بزنید.' : 'Tap "Add" in the top-right corner.'}</span>
+                    <span>{tx(isRTL, 'در بالا سمت راست روی Add ضربه بزنید.', 'Tap "Add" in the top-right corner.')}</span>
                   </div>
                 </div>
               </div>
@@ -1457,15 +1434,15 @@ export const UserProfileModal: React.FC<Props> = ({
             className="text-[var(--mute)] hover:text-[var(--ink)] flex items-center gap-1.5 font-medium transition-colors"
           >
             <ShieldCheck size={16} />
-            <span>{isRTL ? 'حریم خصوصی' : 'Privacy Policy'}</span>
+            <span>{tx(isRTL, 'حریم خصوصی', 'Privacy Policy')}</span>
           </a>
           <button 
             type="button"
             onClick={onClose}
-            aria-label={isRTL ? 'بازگشت' : 'Back'}
+            aria-label={tx(isRTL, 'بازگشت', 'Back')}
             className="px-5 py-2 rounded-full bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-[var(--ink)] text-xs font-semibold transition-all active:scale-95 cursor-pointer"
           >
-            {isRTL ? 'بازگشت' : 'Close'}
+            {tx(isRTL, 'بازگشت', 'Close')}
           </button>
         </div>
 

@@ -25,6 +25,7 @@ import {
 import ShareScorecardModal from '../components/ShareScorecardModal';
 import { FlagIcon } from '../components/FlagIcon';
 import ConfettiCelebration from '../components/ConfettiCelebration';
+import { tx, txt } from '../i18n/runtime';
 
 interface Props {
   winners: Team[];
@@ -106,7 +107,7 @@ const EndGameScreen: React.FC<Props> = ({
   const missedCards = playedCards.filter(c => !c.guessedCorrectly);
 
   return (
-    <div className="w-full max-w-md sm:max-w-lg md:max-w-xl mx-auto h-full min-h-0 flex-1 flex flex-col items-center justify-between p-2.5 sm:p-4 text-center select-none overflow-y-auto overscroll-contain font-ui bg-[var(--bg)] text-[var(--ink)] relative" dir={isRTL ? 'rtl' : 'ltr'}>
+    <div className="w-full max-w-md sm:max-w-lg md:max-w-xl mx-auto h-full min-h-0 flex-1 flex flex-col items-center justify-between p-2.5 sm:p-4 text-center select-none overflow-y-auto overscroll-contain font-ui bg-[var(--bg)] text-[var(--ink)] relative" dir={((isRTL ? 'rtl' : 'ltr'))}>
       <ConfettiCelebration duration={3600} />
       
       {/* Pool warning banner */}
@@ -131,7 +132,7 @@ const EndGameScreen: React.FC<Props> = ({
           }`}
         >
           <Trophy size={14} className={activeTab === 'podium' ? 'text-[var(--saffron)]' : ''} />
-          <span>{isRTL ? 'سکوی قهرمانی' : 'Podium'}</span>
+          <span>{tx(isRTL, 'سکوی قهرمانی', 'Podium')}</span>
         </button>
 
         <button
@@ -146,7 +147,7 @@ const EndGameScreen: React.FC<Props> = ({
           }`}
         >
           <Award size={14} />
-          <span>{isRTL ? 'گزارش یادگیری' : 'Stats'}</span>
+          <span>{tx(isRTL, 'گزارش یادگیری', 'Stats')}</span>
         </button>
 
         <button
@@ -161,7 +162,7 @@ const EndGameScreen: React.FC<Props> = ({
           }`}
         >
           <BookOpen size={14} />
-          <span>{isRTL ? `مرور (${totalCards})` : `Review (${totalCards})`}</span>
+          <span>{txt(isRTL, 'مرور ({0})', 'Review ({0})', [totalCards])}</span>
         </button>
       </div>
 
@@ -187,7 +188,7 @@ const EndGameScreen: React.FC<Props> = ({
                 <Sparkles size={16} className="text-[var(--turq)]" />
               </div>
               <p className="text-[11px] text-[var(--mute)] font-bold uppercase tracking-wide">
-                {language === 'fa' ? 'تبریک به قهرمانان مسابقه یادگیری زبان!' : 'CHAMPIONS OF THE LANGUAGE PARTY!'}
+                {tx((language === 'fa'), 'تبریک به قهرمانان مسابقه یادگیری زبان!', 'CHAMPIONS OF THE LANGUAGE PARTY!')}
               </p>
             </div>
 
@@ -232,7 +233,7 @@ const EndGameScreen: React.FC<Props> = ({
                         <span className="font-bold truncate text-sm">{labelWinnerNames(w.id)}</span>
                       </div>
                       <span className="text-[10.5px] bg-[var(--lapis-soft)] text-[var(--lapis)] px-2 py-0.5 rounded-md font-bold">
-                        {t.tie || (isRTL ? 'مساوی' : 'Tie')}
+                        {t.tie || (tx(isRTL, 'مساوی', 'Tie'))}
                       </span>
                     </div>
                   );
@@ -244,7 +245,7 @@ const EndGameScreen: React.FC<Props> = ({
             <div className="flex items-center gap-2 bg-[var(--panel)] px-4 py-2 rounded-full border border-[var(--line)] shadow-xs">
               <TeamMascot color="PARTY" size={28} />
               <span className="text-[11px] text-[var(--ink)] font-bold">
-                {language === 'fa' ? 'دورهمی شاد و پر از یادگیری!' : 'Awesome language party round!'}
+                {tx((language === 'fa'), 'دورهمی شاد و پر از یادگیری!', 'Awesome language party round!')}
               </span>
             </div>
 
@@ -258,15 +259,15 @@ const EndGameScreen: React.FC<Props> = ({
             {/* Quick KPI Cards Grid */}
             <div className="grid grid-cols-3 gap-2">
               <div className="bg-[var(--panel)] p-3 rounded-2xl border border-[var(--line)] text-center shadow-xs">
-                <span className="text-[10px] text-[var(--mute)] font-bold block">{isRTL ? 'دقت پاسخ‌ها' : 'Accuracy'}</span>
+                <span className="text-[10px] text-[var(--mute)] font-bold block">{tx(isRTL, 'دقت پاسخ‌ها', 'Accuracy')}</span>
                 <span className="text-xl font-black text-[var(--turq)]">{accuracy}%</span>
               </div>
               <div className="bg-[var(--panel)] p-3 rounded-2xl border border-[var(--line)] text-center shadow-xs">
-                <span className="text-[10px] text-[var(--mute)] font-bold block">{isRTL ? 'کارت‌های موفق' : 'Correct'}</span>
+                <span className="text-[10px] text-[var(--mute)] font-bold block">{tx(isRTL, 'کارت‌های موفق', 'Correct')}</span>
                 <span className="text-xl font-black text-[var(--lapis)]">{correctCards}/{totalCards}</span>
               </div>
               <div className="bg-[var(--panel)] p-3 rounded-2xl border border-[var(--line)] text-center shadow-xs">
-                <span className="text-[10px] text-[var(--mute)] font-bold block">{isRTL ? 'مجموع امتیاز' : 'Total Points'}</span>
+                <span className="text-[10px] text-[var(--mute)] font-bold block">{tx(isRTL, 'مجموع امتیاز', 'Total Points')}</span>
                 <span className="text-xl font-black text-[var(--saffron)]">{totalPoints}</span>
               </div>
             </div>
@@ -275,7 +276,7 @@ const EndGameScreen: React.FC<Props> = ({
             <div className="bg-[var(--panel)] p-3.5 rounded-2xl border border-[var(--line)] shadow-xs">
               <h3 className="text-xs font-bold uppercase text-[var(--ink)] mb-2.5 flex items-center gap-1.5">
                 <Sparkles size={14} className="text-[var(--lapis)]" />
-                <span>{isRTL ? 'عملکرد بر تفکیک زبان‌های مسابقه:' : 'Performance by Match Language:'}</span>
+                <span>{tx(isRTL, 'عملکرد بر تفکیک زبان‌های مسابقه:', 'Performance by Match Language:')}</span>
               </h3>
               
               <div className="space-y-2">
@@ -289,7 +290,7 @@ const EndGameScreen: React.FC<Props> = ({
                         <div>
                           <span className="font-bold text-xs text-[var(--ink)]">{langInfo?.nativeName || langInfo?.name || langCode}</span>
                           <span className="text-[10px] text-[var(--mute)] block font-medium">
-                            {isRTL ? `${stat.correct} از ${stat.total} کارت درست` : `${stat.correct} of ${stat.total} correct`}
+                            {txt(isRTL, '{0} از {1} کارت درست', '{0} of {1} correct', [stat.correct, stat.total])}
                           </span>
                         </div>
                       </div>
@@ -308,7 +309,7 @@ const EndGameScreen: React.FC<Props> = ({
                 <h3 className="text-xs font-bold uppercase text-[var(--ink)] mb-2.5 flex items-center justify-between">
                   <span className="flex items-center gap-1.5">
                     <Award size={14} className="text-[var(--saffron)]" />
-                    <span>{isRTL ? 'پیشرفت در سطوح بین‌المللی (CEFR):' : 'CEFR Level Mastery:'}</span>
+                    <span>{tx(isRTL, 'پیشرفت در سطوح بین‌المللی (CEFR):', 'CEFR Level Mastery:')}</span>
                   </span>
                   <span className="text-[10px] text-[var(--mute)] font-mono">A1 ➔ C1</span>
                 </h3>
@@ -323,7 +324,7 @@ const EndGameScreen: React.FC<Props> = ({
                           <span className="text-emerald-600 dark:text-emerald-400 font-mono text-[11px]">{pct}%</span>
                         </div>
                         <div className="text-[9.5px] text-[var(--mute)] mt-0.5">
-                          {stat.correct}/{stat.total} {isRTL ? 'پاسخ درست' : 'correct'}
+                          {stat.correct}/{stat.total} {tx(isRTL, 'پاسخ درست', 'correct')}
                         </div>
                       </div>
                     );
@@ -337,12 +338,10 @@ const EndGameScreen: React.FC<Props> = ({
               <div className="bg-[var(--panel)] p-3.5 rounded-2xl border border-red-200 dark:border-red-900/40 shadow-xs">
                 <h3 className="text-xs font-bold uppercase text-red-500 mb-1.5 flex items-center gap-1.5">
                   <XCircle size={15} />
-                  <span>{isRTL ? `کارت‌های نیازمند تمرین و مرور مجدد (${missedCards.length})` : `Cards for Review & Practice (${missedCards.length})`}</span>
+                  <span>{txt(isRTL, 'کارت‌های نیازمند تمرین و مرور مجدد ({0})', 'Cards for Review & Practice ({0})', [missedCards.length])}</span>
                 </h3>
                 <p className="text-[10.5px] text-[var(--mute)] font-medium mb-2">
-                  {isRTL 
-                    ? 'این کارت‌ها را در بازی بعدی مرور کنید تا ملکه ذهنتان شوند:' 
-                    : 'Review these cards to master them in your next session:'}
+                  {tx(isRTL, 'این کارت‌ها را در بازی بعدی مرور کنید تا ملکه ذهنتان شوند:', 'Review these cards to master them in your next session:')}
                 </p>
                 <div className="space-y-1.5">
                   {missedCards.map((mc, idx) => (
@@ -378,16 +377,14 @@ const EndGameScreen: React.FC<Props> = ({
               >
                 <Flame size={15} />
                 <span>
-                  {isRTL 
-                    ? `مرور ${missedCards.length} کلمه اشتباه در جعبه لایتنر` 
-                    : `Practice ${missedCards.length} Missed Words in Leitner Box`}
+                  {txt(isRTL, 'مرور {0} کلمه اشتباه در جعبه لایتنر', 'Practice {0} Missed Words in Leitner Box', [missedCards.length])}
                 </span>
               </button>
             )}
 
             {playedCards.length === 0 ? (
               <div className="bg-[var(--panel)] p-4 rounded-2xl border border-[var(--line)] text-center text-xs font-bold text-[var(--mute)]">
-                {isRTL ? 'هنوز کارتی در این مسابقه بازی نشده است.' : 'No cards played yet in this match.'}
+                {tx(isRTL, 'هنوز کارتی در این مسابقه بازی نشده است.', 'No cards played yet in this match.')}
               </div>
             ) : (
               playedCards.map((record, index) => {
@@ -427,7 +424,7 @@ const EndGameScreen: React.FC<Props> = ({
                             {sound.hasVoice(record.card.targetLanguage) && (
                               <button
                                 type="button"
-                                title={isRTL ? "پخش صوتی تلفظ" : "Target language audio"}
+                                title={tx(isRTL, "پخش صوتی تلفظ", "Target language audio")}
                                 onClick={(e) => {
                                    e.stopPropagation();
                                    sound.speak(record.card.targetText, record.card.targetLanguage, { force: true });
@@ -439,7 +436,7 @@ const EndGameScreen: React.FC<Props> = ({
                             )}
                             {!record.guessedCorrectly && (
                               <span className="px-1.5 py-0.2 rounded text-[8.5px] font-bold bg-rose-500/20 text-rose-600 dark:text-rose-400 shrink-0">
-                                {isRTL ? 'رد شده' : 'Missed'}
+                                {tx(isRTL, 'رد شده', 'Missed')}
                               </span>
                             )}
                           </div>
@@ -462,18 +459,18 @@ const EndGameScreen: React.FC<Props> = ({
                       <div className="mt-2 pt-2 border-t border-[var(--line)] text-[10.5px] space-y-1 bg-[var(--bg)] p-2 rounded-lg">
                         {record.card.grammarPoint && (
                           <div>
-                            <span className="font-bold text-[var(--saffron)]">{isRTL ? 'الگو / نکته: ' : 'Grammar Note / Pattern: '}</span>
+                            <span className="font-bold text-[var(--saffron)]">{tx(isRTL, 'الگو / نکته: ', 'Grammar Note / Pattern: ')}</span>
                             <span className="text-[var(--ink)]">{record.card.grammarPoint}</span>
                           </div>
                         )}
                         {record.card.prompt && record.card.contentType === 'Vocabulary' && (
                           <div>
-                            <span className="font-bold text-[var(--turq)]">{isRTL ? 'جمله نمونه: ' : 'Example Sentence: '}</span>
+                            <span className="font-bold text-[var(--turq)]">{tx(isRTL, 'جمله نمونه: ', 'Example Sentence: ')}</span>
                             <span className="text-[var(--ink)]">{record.card.prompt}</span>
                           </div>
                         )}
                         <div>
-                          <span className="font-bold text-[var(--mute)]">{isRTL ? 'پاسخ‌دهنده: ' : 'Answered By: '}</span>
+                          <span className="font-bold text-[var(--mute)]">{tx(isRTL, 'پاسخ‌دهنده: ', 'Answered By: ')}</span>
                           <span className="text-[var(--ink)] font-bold">{record.answeringPlayerName} ({teamMeta?.name || teamColor})</span>
                         </div>
                       </div>
@@ -498,7 +495,7 @@ const EndGameScreen: React.FC<Props> = ({
           className="w-full py-3 text-sm font-bold uppercase tracking-wider flex items-center justify-center gap-2 rounded-2xl bg-[var(--panel)] hover:bg-[var(--bg)] text-[var(--ink)] border border-[var(--line)] shadow-xs transition-all active:scale-98 cursor-pointer"
         >
           <Share2 size={16} className="text-[var(--lapis)]" />
-          <span>{language === 'fa' ? 'اشتراک‌گذاری کارنامه مسابقه' : 'Share Match Scorecard'}</span>
+          <span>{tx((language === 'fa'), 'اشتراک‌گذاری کارنامه مسابقه', 'Share Match Scorecard')}</span>
         </button>
 
         {/* Play Again button */}

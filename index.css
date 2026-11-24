@@ -1037,3 +1037,8 @@ body {
 }
 
 
+
+/* پازل تکه‌ها: تکان کوتاه برای انتخاب نادرست */
+@keyframes dor-shake { 0%,100% { transform: translateX(0); } 25% { transform: translateX(-5px); } 75% { transform: translateX(5px); } }
+.animate-shake { animation: dor-shake 0.3s ease-in-out; }
+@media (prefers-reduced-motion: reduce) { .animate-shake { animation: none; } }

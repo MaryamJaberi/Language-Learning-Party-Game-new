@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { sound } from '../soundManager';
 import { Volume2, VolumeX } from 'lucide-react';
+import { tx, txt } from '../i18n/runtime';
 
 interface Props {
   className?: string;
@@ -43,10 +44,10 @@ export const SoundHeaderButton: React.FC<Props> = ({
 
   const isFa = language === 'fa';
   const label = isMuted 
-    ? (isFa ? 'بی‌صدا' : 'Muted') 
-    : (isFa ? 'صدا' : 'Sound');
+    ? (tx(isFa, 'بی‌صدا', 'Muted')) 
+    : (tx(isFa, 'صدا', 'Sound'));
 
-  const titleText = isMuted ? (isFa ? 'وصل کردن صدای بازی' : 'Unmute sound') : (isFa ? 'قطع کردن صدای بازی' : 'Mute sound');
+  const titleText = isMuted ? (tx(isFa, 'وصل کردن صدای بازی', 'Unmute sound')) : (tx(isFa, 'قطع کردن صدای بازی', 'Mute sound'));
 
   return (
     <button

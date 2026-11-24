@@ -4,6 +4,7 @@ import { Language } from '../types';
 import { SUPPORTED_LANGUAGES, LanguageInfo, LanguageRegion, isPracticeReady } from '../constants';
 import { FlagIcon } from './FlagIcon';
 import { sound } from '../soundManager';
+import { tx, txt } from '../i18n/runtime';
 
 const DEFAULT_SELECTED_LANGUAGES: Language[] = [];
 
@@ -120,7 +121,7 @@ export const LanguagePickerModal: React.FC<LanguagePickerModalProps> = ({
     <div 
       className="fixed inset-0 z-50 flex items-center justify-center p-3 bg-black/60 backdrop-blur-xs animate-fadeIn"
       onClick={onClose}
-      dir={isRTL ? 'rtl' : 'ltr'}
+      dir={((isRTL ? 'rtl' : 'ltr'))}
     >
       <div 
         className="bg-[var(--panel)] border border-[var(--line)] rounded-[24px] w-full max-w-lg max-h-[90vh] flex flex-col shadow-[var(--shadow)] overflow-hidden text-[var(--ink)]"
@@ -134,10 +135,10 @@ export const LanguagePickerModal: React.FC<LanguagePickerModalProps> = ({
             </div>
             <div>
               <h2 className="text-base sm:text-lg font-bold tracking-tight leading-tight font-display">
-                {title || (isRTL ? 'انتخاب زبان' : 'Select Language')}
+                {title || (tx(isRTL, 'انتخاب زبان', 'Select Language'))}
               </h2>
               <p className="text-[11px] text-[var(--mute)] font-medium font-ui">
-                {subtitle || (isRTL ? `${SUPPORTED_LANGUAGES.length} زبان زنده دنیا` : `${SUPPORTED_LANGUAGES.length} supported languages`)}
+                {subtitle || (txt(isRTL, '{0} زبان زنده دنیا', '{0} supported languages', [SUPPORTED_LANGUAGES.length]))}
               </p>
             </div>
           </div>
@@ -157,23 +158,23 @@ export const LanguagePickerModal: React.FC<LanguagePickerModalProps> = ({
         <div className="p-3 bg-[var(--bg)] border-b border-[var(--line)] space-y-2 shrink-0">
           {/* Search Box */}
           <div className="relative">
-            <div className={`absolute top-1/2 -translate-y-1/2 ${isRTL ? 'right-3' : 'left-3'} text-[var(--mute)] pointer-events-none`}>
+            <div className={`absolute top-1/2 -translate-y-1/2 ${((isRTL ? 'right-3' : 'left-3'))} text-[var(--mute)] pointer-events-none`}>
               <Search size={16} />
             </div>
             <input 
               type="text"
               value={searchQuery}
               onChange={e => setSearchQuery(e.target.value)}
-              placeholder={isRTL ? 'جستجوی نام زبان (فارسی، انگلیسی، بومی)...' : 'Search language (e.g. Spanish, فارسی, Français)...'}
+              placeholder={tx(isRTL, 'جستجوی نام زبان (فارسی، انگلیسی، بومی)...', 'Search language (e.g. Spanish, فارسی, Français)...')}
               className={`w-full py-2 bg-[var(--panel)] text-[var(--ink)] placeholder:text-[var(--mute)] font-medium text-xs rounded-[14px] border border-[var(--line)] focus:outline-none transition-colors font-ui ${
-                isRTL ? 'pr-9 pl-8' : 'pl-9 pr-8'
+                ((isRTL ? 'pr-9 pl-8' : 'pl-9 pr-8'))
               }`}
             />
             {searchQuery && (
               <button
                 type="button"
                 onClick={() => setSearchQuery('')}
-                className={`absolute top-1/2 -translate-y-1/2 ${isRTL ? 'left-2.5' : 'right-2.5'} text-[var(--mute)] hover:text-[var(--ink)]`}
+                className={`absolute top-1/2 -translate-y-1/2 ${((isRTL ? 'left-2.5' : 'right-2.5'))} text-[var(--mute)] hover:text-[var(--ink)]`}
               >
                 <X size={14} />
               </button>
@@ -198,7 +199,7 @@ export const LanguagePickerModal: React.FC<LanguagePickerModalProps> = ({
                       : 'bg-[var(--panel)] text-[var(--ink)] border-[var(--line)] hover:bg-[var(--bg)]'
                   }`}
                 >
-                  <span>{isRTL ? tab.labelFa : tab.labelEn}</span>
+                  <span>{tx(isRTL, tab.labelFa, tab.labelEn)}</span>
                 </button>
               );
             })}
@@ -211,7 +212,7 @@ export const LanguagePickerModal: React.FC<LanguagePickerModalProps> = ({
             <div className="text-center py-8 text-[var(--mute)] space-y-2">
               <Globe size={32} className="mx-auto text-[var(--mute)] opacity-50" />
               <p className="font-bold text-xs font-ui">
-                {isRTL ? 'هیچ زبانی با این عبارت پیدا نشد.' : 'No languages found matching your query.'}
+                {tx(isRTL, 'هیچ زبانی با این عبارت پیدا نشد.', 'No languages found matching your query.')}
               </p>
               <button
                 type="button"
@@ -221,7 +222,7 @@ export const LanguagePickerModal: React.FC<LanguagePickerModalProps> = ({
                 }}
                 className="px-3 py-1 bg-[var(--vermilion)] text-white text-xs font-bold rounded-xl shadow-[var(--shadow-sm)] active:translate-y-0.5 transition-all"
               >
-                {isRTL ? 'نمایش همه زبان‌ها' : 'Show all languages'}
+                {tx(isRTL, 'نمایش همه زبان‌ها', 'Show all languages')}
               </button>
             </div>
           ) : (
@@ -238,7 +239,7 @@ export const LanguagePickerModal: React.FC<LanguagePickerModalProps> = ({
                     type="button"
                     disabled={isSoon}
                     aria-disabled={isSoon}
-                    title={isSoon ? (isRTL ? 'کارت‌های این زبان هنوز آماده نیست' : 'Cards for this language are not ready yet') : undefined}
+                    title={isSoon ? (tx(isRTL, 'کارت‌های این زبان هنوز آماده نیست', 'Cards for this language are not ready yet')) : undefined}
                     onClick={() => {
                       if (isSoon) return;
                       if (mode === 'single') {
@@ -265,8 +266,8 @@ export const LanguagePickerModal: React.FC<LanguagePickerModalProps> = ({
                             {lang.nativeName}
                           </span>
                           {isSoon && (
-                            <span className="shrink-0 text-[9px] font-bold px-1.5 py-0.5 rounded-md bg-[var(--line)] text-[var(--mute)]" dir={isRTL ? 'rtl' : 'ltr'}>
-                              {isRTL ? 'به‌زودی' : 'Soon'}
+                            <span className="shrink-0 text-[9px] font-bold px-1.5 py-0.5 rounded-md bg-[var(--line)] text-[var(--mute)]" dir={((isRTL ? 'rtl' : 'ltr'))}>
+                              {tx(isRTL, 'به‌زودی', 'Soon')}
                             </span>
                           )}
                         </div>
@@ -296,9 +297,7 @@ export const LanguagePickerModal: React.FC<LanguagePickerModalProps> = ({
             <div className="text-[var(--ink)] text-xs font-bold flex items-center gap-1.5">
               <Sparkles size={16} className="text-[var(--vermilion)]" />
               <span>
-                {isRTL 
-                  ? `${tempMultiSelected.length} زبان انتخاب شده` 
-                  : `${tempMultiSelected.length} languages selected`}
+                {txt(isRTL, '{0} زبان انتخاب شده', '{0} languages selected', [tempMultiSelected.length])}
               </span>
             </div>
             <button
@@ -307,13 +306,13 @@ export const LanguagePickerModal: React.FC<LanguagePickerModalProps> = ({
               className="px-5 py-2.5 bg-[var(--teal)] hover:bg-[#18837a] text-white font-bold text-xs uppercase tracking-wider rounded-[14px] shadow-[var(--shadow-sm)] active:translate-y-0.5 flex items-center gap-1.5 transition-all"
             >
               <Check size={15} strokeWidth={3} />
-              <span>{isRTL ? 'تایید و ذخیره زبان‌ها' : 'Apply Languages'}</span>
+              <span>{tx(isRTL, 'تایید و ذخیره زبان‌ها', 'Apply Languages')}</span>
             </button>
           </div>
         ) : (
           <div className="p-2.5 bg-[var(--bg)] border-t border-[var(--line)] flex items-center justify-between text-[11px] text-[var(--mute)] px-4 shrink-0 font-ui">
-            <span>{isRTL ? 'برای انتخاب کافیست روی هر زبان ضربه بزنید' : 'Tap any language to select instantly'}</span>
-            <span className="text-[var(--vermilion)] font-bold">{SUPPORTED_LANGUAGES.length} {isRTL ? 'زبان' : 'languages'}</span>
+            <span>{tx(isRTL, 'برای انتخاب کافیست روی هر زبان ضربه بزنید', 'Tap any language to select instantly')}</span>
+            <span className="text-[var(--vermilion)] font-bold">{SUPPORTED_LANGUAGES.length} {tx(isRTL, 'زبان', 'languages')}</span>
           </div>
         )}
       </div>

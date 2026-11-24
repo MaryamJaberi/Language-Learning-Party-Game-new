@@ -5,6 +5,7 @@ import { getFadingStageForCard } from '../../src/engine/trainingWheels/fadingEng
 import { getTrainingWheelsSettings } from '../../src/engine/trainingWheels/trainingWheelsService';
 import { analyzeLanguageAids } from '../../src/engine/trainingWheels/languages';
 import { isRtlLang } from '../../ui';
+import { tx, txt } from '../../i18n/runtime';
 
 interface TrainingWheelTextProps {
   card: LanguageCard;
@@ -62,7 +63,7 @@ export const TrainingWheelText: React.FC<TrainingWheelTextProps> = ({
           <span className="text-sm leading-none" aria-hidden="true">
             {visual.symbol}
           </span>
-          <span>{article ? `${article} (${isRtl ? visual.labelFa : visual.labelEn})` : (isRtl ? visual.labelFa : visual.labelEn)}</span>
+          <span>{article ? `${article} (${tx(isRtl, visual.labelFa, visual.labelEn)})` : (tx(isRtl, visual.labelFa, visual.labelEn))}</span>
         </span>
       );
       wordTextStyle = `${className} ${visual.textColor} font-black`;
@@ -72,7 +73,7 @@ export const TrainingWheelText: React.FC<TrainingWheelTextProps> = ({
         <span
           data-testid="gender-badge-stage-1"
           className={`inline-flex items-center justify-center w-5 h-5 rounded text-xs font-black border ${visual.bgColor} ${visual.borderColor} mb-0.5 select-none`}
-          title={isRtl ? visual.labelFa : visual.labelEn}
+          title={tx(isRtl, visual.labelFa, visual.labelEn)}
         >
           <span aria-hidden="true">{visual.symbol}</span>
         </span>
@@ -112,7 +113,7 @@ export const TrainingWheelText: React.FC<TrainingWheelTextProps> = ({
 
       {/* Main Target Phrase Display with Word-level annotations */}
       <div
-        dir={isRtlLang(card.targetLanguage) ? 'rtl' : 'ltr'}
+        dir={isRtlLang(card.targetLanguage) ? 'rtl' : 'ltr'} lang={(card.targetLanguage) as string}
         className={`flex items-center justify-center flex-wrap gap-x-1.5 gap-y-1 ${wordTextStyle}`}
         style={
           effectiveStage === 2 && genderAid

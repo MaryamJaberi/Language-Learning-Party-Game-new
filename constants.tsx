@@ -179,24 +179,39 @@ export const SUPPORTED_LANGUAGES: LanguageInfo[] = [
 
 // BCP-47 Speech recognition language code mapping for the 18 active locales
 export const SPEECH_LANG_MAP: Record<string, string> = {
-  'en': 'en-GB',
-  'en-US': 'en-US',
-  'en-GB': 'en-GB',
-  'fa': 'fa-IR',
   'ar': 'ar-SA',
-  'nl': 'nl-NL',
+  'bn': 'bn-BD',
+  'cs': 'cs-CZ',
+  'da': 'da-DK',
   'de': 'de-DE',
-  'fr': 'fr-FR',
+  'el': 'el-GR',
+  'en': 'en-GB',
+  'en-GB': 'en-GB',
+  'en-US': 'en-US',
   'es': 'es-ES',
+  'fa': 'fa-IR',
+  'fr': 'fr-FR',
+  'he': 'he-IL',
+  'hi': 'hi-IN',
+  'hy': 'hy-AM',
   'it': 'it-IT',
-  'pt': 'pt-BR',
-  'tr': 'tr-TR',
-  'pl': 'pl-PL',
-  'uk': 'uk-UA',
-  'zh': 'zh-CN',
   'ja': 'ja-JP',
+  'ka': 'ka-GE',
   'ko': 'ko-KR',
-  'hi': 'hi-IN'
+  'ku': 'ckb-IQ',
+  'ms': 'ms-MY',
+  'nl': 'nl-NL',
+  'no': 'nb-NO',
+  'pl': 'pl-PL',
+  'pt': 'pt-BR',
+  'ru': 'ru-RU',
+  'sv': 'sv-SE',
+  'tl': 'fil-PH',
+  'tr': 'tr-TR',
+  'uk': 'uk-UA',
+  'ur': 'ur-PK',
+  'vi': 'vi-VN',
+  'zh': 'zh-CN'
 };
 
 export function getSpeechLanguageCode(langCode: string): string {
@@ -205,6 +220,8 @@ export function getSpeechLanguageCode(langCode: string): string {
   if (found?.speechCode) return found.speechCode;
   const mapped = SPEECH_LANG_MAP[langCode];
   if (mapped) return mapped;
+  // «xx-XX» برای خیلی از زبان‌ها کشور نادرست می‌سازد (sv-SV، uk-UK، ko-KO)؛ فقط کد زبان را بده
+  if (!langCode.includes('-')) return langCode;
   return langCode.includes('-') ? langCode : `${langCode}-${langCode.toUpperCase()}`;
 }
 

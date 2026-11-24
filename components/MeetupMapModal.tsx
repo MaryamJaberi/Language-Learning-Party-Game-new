@@ -60,6 +60,7 @@ import {
   filterMeetups,
   haversineKm,
 } from '../meetupService';
+import { tx, txt, langName } from '../i18n/runtime';
 
 export interface MeetupMapModalProps {
   isOpen: boolean;
@@ -74,14 +75,14 @@ const getVenueTypeMeta = (type: MeetupVenueType, isRTL: boolean) => {
   const found = PUBLIC_VENUE_TYPES.find((v) => v.id === type) || PUBLIC_VENUE_TYPES[0];
   return {
     emoji: found.emoji,
-    label: isRTL ? found.labelFa : found.labelEn,
+    label: tx(isRTL, found.labelFa, found.labelEn),
   };
 };
 
 const getLanguageLabel = (code: string, isRTL: boolean) => {
   const found = SUPPORTED_LANGUAGES.find((l) => l.code === code);
   if (!found) return code.toUpperCase();
-  return isRTL ? found.persianName : found.name;
+  return langName(found, isRTL);
 };
 
 interface MapCameraTarget {
@@ -238,7 +239,7 @@ const MeetupPinMarker: React.FC<{
       </AdvancedMarker>
       {isSelected && marker && (
         <InfoWindow anchor={marker} onCloseClick={onCloseInfo}>
-          <div className="max-w-[220px] p-1 space-y-1 text-slate-900" dir={isRTL ? 'rtl' : 'ltr'}>
+          <div className="max-w-[220px] p-1 space-y-1 text-slate-900" dir={((isRTL ? 'rtl' : 'ltr'))}>
             <div className="font-bold text-xs flex items-center gap-1">
               <span>{venueMeta.emoji}</span>
               <span className="truncate">{meetup.venueName}</span>
@@ -371,9 +372,7 @@ export const MeetupMapModal: React.FC<MeetupMapModalProps> = ({
       () => {
         setLoadingMeetups(false);
         setFirestoreError(
-          isRTL
-            ? 'دریافت فهرست دورهمی‌ها با خطا روبه‌رو شد. لطفاً اتصال اینترنت را بررسی کنید.'
-            : 'Could not load meetups from the server. Please check your connection.'
+          tx(isRTL, 'دریافت فهرست دورهمی‌ها با خطا روبه‌رو شد. لطفاً اتصال اینترنت را بررسی کنید.', 'Could not load meetups from the server. Please check your connection.')
         );
       }
     );
@@ -440,9 +439,7 @@ export const MeetupMapModal: React.FC<MeetupMapModalProps> = ({
     if (typeof navigator === 'undefined' || !navigator.geolocation) {
       setLocationState('declined');
       setLocationHint(
-        isRTL
-          ? 'مرورگر شما از موقعیت‌یابی پشتیبانی نمی‌کند. لطفاً نام شهر را تایپ کنید.'
-          : 'Your browser does not support geolocation. Please type a city instead.'
+        tx(isRTL, 'مرورگر شما از موقعیت‌یابی پشتیبانی نمی‌کند. لطفاً نام شهر را تایپ کنید.', 'Your browser does not support geolocation. Please type a city instead.')
       );
       return;
     }
@@ -459,17 +456,13 @@ export const MeetupMapModal: React.FC<MeetupMapModalProps> = ({
         setLocationState('granted');
         setCameraTarget({ lat: coords.lat, lng: coords.lng, zoom: 12, nonce: Date.now() });
         setLocationHint(
-          isRTL
-            ? 'نقشه روی محدودهٔ شهر شما تنظیم شد (موقعیت دقیق شما هرگز ذخیره یا به دیگران نشان داده نمی‌شود).'
-            : 'Map centered near your area (your exact location is never saved or shown to others).'
+          tx(isRTL, 'نقشه روی محدودهٔ شهر شما تنظیم شد (موقعیت دقیق شما هرگز ذخیره یا به دیگران نشان داده نمی‌شود).', 'Map centered near your area (your exact location is never saved or shown to others).')
         );
       },
       () => {
         setLocationState('declined');
         setLocationHint(
-          isRTL
-            ? 'دسترسی به موقعیت داده نشد. مشکلی نیست — کافی است نام شهر خود را در کادر جستجو بنویسید.'
-            : 'Location permission declined. No problem — just type your city in the search box.'
+          tx(isRTL, 'دسترسی به موقعیت داده نشد. مشکلی نیست — کافی است نام شهر خود را در کادر جستجو بنویسید.', 'Location permission declined. No problem — just type your city in the search box.')
         );
       },
       { enableHighAccuracy: false, timeout: 8000, maximumAge: 300000 }
@@ -492,9 +485,7 @@ export const MeetupMapModal: React.FC<MeetupMapModalProps> = ({
       setCitySearchRequest({ query: q, nonce: Date.now() });
     } else if (!localMatch) {
       setLocationHint(
-        isRTL
-          ? `دورهمی‌ها بر اساس «${q}» فیلتر شدند.`
-          : `Meetups filtered by "${q}".`
+        txt(isRTL, 'دورهمی‌ها بر اساس «{0}» فیلتر شدند.', 'Meetups filtered by "{0}".', [q])
       );
     }
   };
@@ -511,16 +502,16 @@ export const MeetupMapModal: React.FC<MeetupMapModalProps> = ({
     setLoadingAiVenues(true);
     setAiVenueError(null);
     try {
-      const targetCity = cityInput.trim() || (isRTL ? 'تهران' : 'Amsterdam');
+      const targetCity = cityInput.trim() || (tx(isRTL, 'تهران', 'Amsterdam'));
       const latLng = localUserCoords
         ? { latitude: localUserCoords.lat, longitude: localUserCoords.lng }
         : undefined;
-      const result = await searchVenuesWithMaps(targetCity, latLng, undefined, isRTL ? 'fa' : 'en');
+      const result = await searchVenuesWithMaps(targetCity, latLng, undefined, ((language as string) || 'en'));
       setAiVenueResults(result);
     } catch (err: any) {
       setAiVenueError(
         err?.message ||
-          (isRTL ? 'دریافت پیشنهاد مکان انجام نشد.' : 'Could not fetch venue suggestions.')
+          (tx(isRTL, 'دریافت پیشنهاد مکان انجام نشد.', 'Could not fetch venue suggestions.'))
       );
     } finally {
       setLoadingAiVenues(false);
@@ -529,7 +520,7 @@ export const MeetupMapModal: React.FC<MeetupMapModalProps> = ({
 
   const requireSignedIn = (reasonFa: string, reasonEn: string): User | null => {
     if (currentUser) return currentUser;
-    setAuthGateReason(isRTL ? reasonFa : reasonEn);
+    setAuthGateReason(tx(isRTL, reasonFa, reasonEn));
     return null;
   };
 
@@ -545,7 +536,7 @@ export const MeetupMapModal: React.FC<MeetupMapModalProps> = ({
     } catch (err: any) {
       setAuthError(
         err?.message ||
-          (isRTL ? 'ورود با گوگل انجام نشد. می‌توانید از ورود با ایمیل استفاده کنید.' : 'Google sign-in failed. You can also sign in with email.')
+          (tx(isRTL, 'ورود با گوگل انجام نشد. می‌توانید از ورود با ایمیل استفاده کنید.', 'Google sign-in failed. You can also sign in with email.'))
       );
     } finally {
       setAuthBusy(false);
@@ -623,9 +614,7 @@ export const MeetupMapModal: React.FC<MeetupMapModalProps> = ({
     if (editingMeetup) {
       if (formCapacity < editingMeetup.participants.length) {
         setFormError(
-          isRTL
-            ? `ظرفیت نمی‌تواند کمتر از تعداد شرکت‌کننده‌های فعلی (${editingMeetup.participants.length}) باشد.`
-            : `Capacity cannot be less than current participants (${editingMeetup.participants.length}).`
+          txt(isRTL, 'ظرفیت نمی‌تواند کمتر از تعداد شرکت‌کننده‌های فعلی ({0}) باشد.', 'Capacity cannot be less than current participants ({0}).', [editingMeetup.participants.length])
         );
         return;
       }
@@ -655,9 +644,9 @@ export const MeetupMapModal: React.FC<MeetupMapModalProps> = ({
         sound.playCorrect();
         setShowForm(false);
         setEditingMeetup(null);
-        showToast('success', isRTL ? 'تغییرات دورهمی ذخیره شد.' : 'Meetup updated.');
+        showToast('success', tx(isRTL, 'تغییرات دورهمی ذخیره شد.', 'Meetup updated.'));
       } catch {
-        setFormError(isRTL ? 'ذخیرهٔ تغییرات انجام نشد.' : 'Could not update meetup.');
+        setFormError(tx(isRTL, 'ذخیرهٔ تغییرات انجام نشد.', 'Could not update meetup.'));
       } finally {
         setFormSubmitting(false);
       }
@@ -692,9 +681,9 @@ export const MeetupMapModal: React.FC<MeetupMapModalProps> = ({
         if (typeof resolvedLat === 'number' && typeof resolvedLng === 'number') {
           setCameraTarget({ lat: resolvedLat, lng: resolvedLng, zoom: 13, nonce: Date.now() });
         }
-        showToast('success', isRTL ? 'دورهمی عمومی شما با موفقیت ثبت شد!' : 'Your public meetup is live!');
+        showToast('success', tx(isRTL, 'دورهمی عمومی شما با موفقیت ثبت شد!', 'Your public meetup is live!'));
       } catch {
-        setFormError(isRTL ? 'ثبت دورهمی انجام نشد. لطفاً دوباره تلاش کنید.' : 'Could not create meetup. Please try again.');
+        setFormError(tx(isRTL, 'ثبت دورهمی انجام نشد. لطفاً دوباره تلاش کنید.', 'Could not create meetup. Please try again.'));
       } finally {
         setFormSubmitting(false);
       }
@@ -711,7 +700,7 @@ export const MeetupMapModal: React.FC<MeetupMapModalProps> = ({
 
     const alreadyJoined = meetup.participants.includes(user.uid);
     if (!alreadyJoined && meetup.participants.length >= meetup.capacity) {
-      showToast('error', isRTL ? 'ظرفیت این دورهمی تکمیل است.' : 'This meetup is already full.');
+      showToast('error', tx(isRTL, 'ظرفیت این دورهمی تکمیل است.', 'This meetup is already full.'));
       return;
     }
 
@@ -719,14 +708,14 @@ export const MeetupMapModal: React.FC<MeetupMapModalProps> = ({
     try {
       if (alreadyJoined) {
         await leaveMeetup(meetup, user);
-        showToast('success', isRTL ? 'از این دورهمی خارج شدید.' : 'You left the meetup.');
+        showToast('success', tx(isRTL, 'از این دورهمی خارج شدید.', 'You left the meetup.'));
       } else {
         await joinMeetup(meetup, user);
         sound.playCorrect();
-        showToast('success', isRTL ? 'با موفقیت به دورهمی پیوستید!' : 'You joined the meetup!');
+        showToast('success', tx(isRTL, 'با موفقیت به دورهمی پیوستید!', 'You joined the meetup!'));
       }
     } catch {
-      showToast('error', isRTL ? 'تغییر عضویت انجام نشد.' : 'Could not update participation.');
+      showToast('error', tx(isRTL, 'تغییر عضویت انجام نشد.', 'Could not update participation.'));
     } finally {
       setBusyMeetupId(null);
     }
@@ -739,9 +728,9 @@ export const MeetupMapModal: React.FC<MeetupMapModalProps> = ({
       await deleteMeetup(meetupId);
       setConfirmDeleteId(null);
       if (selectedMeetupId === meetupId) setSelectedMeetupId(null);
-      showToast('success', isRTL ? 'دورهمی حذف شد.' : 'Meetup deleted.');
+      showToast('success', tx(isRTL, 'دورهمی حذف شد.', 'Meetup deleted.'));
     } catch {
-      showToast('error', isRTL ? 'حذف دورهمی انجام نشد.' : 'Could not delete meetup.');
+      showToast('error', tx(isRTL, 'حذف دورهمی انجام نشد.', 'Could not delete meetup.'));
     } finally {
       setBusyMeetupId(null);
     }
@@ -767,12 +756,10 @@ export const MeetupMapModal: React.FC<MeetupMapModalProps> = ({
       setReportDetails('');
       showToast(
         'success',
-        isRTL
-          ? 'گزارش شما ثبت شد و برای بررسی ارسال گردید. سپاس از کمک به امنیت جمع!'
-          : 'Your report has been submitted for review. Thank you for keeping the community safe!'
+        tx(isRTL, 'گزارش شما ثبت شد و برای بررسی ارسال گردید. سپاس از کمک به امنیت جمع!', 'Your report has been submitted for review. Thank you for keeping the community safe!')
       );
     } catch {
-      showToast('error', isRTL ? 'ثبت گزارش انجام نشد.' : 'Could not submit report.');
+      showToast('error', tx(isRTL, 'ثبت گزارش انجام نشد.', 'Could not submit report.'));
     } finally {
       setReportSubmitting(false);
     }
@@ -801,11 +788,11 @@ export const MeetupMapModal: React.FC<MeetupMapModalProps> = ({
   return (
     <div
       className="fixed inset-0 z-[120] flex items-center justify-center p-2 sm:p-4 bg-black/65 backdrop-blur-xs animate-fade-in font-ui"
-      dir={isRTL ? 'rtl' : 'ltr'}
+      dir={((isRTL ? 'rtl' : 'ltr'))}
       onClick={onClose}
       role="dialog"
       aria-modal="true"
-      aria-label={isRTL ? 'دورهمی‌های اطراف روی نقشه' : 'Nearby Language Meetups Map'}
+      aria-label={tx(isRTL, 'دورهمی‌های اطراف روی نقشه', 'Nearby Language Meetups Map')}
     >
       <div
         className="w-full max-w-3xl max-h-[92vh] bg-[var(--panel)] border border-[var(--line)] rounded-[24px] shadow-2xl flex flex-col overflow-hidden"
@@ -819,12 +806,10 @@ export const MeetupMapModal: React.FC<MeetupMapModalProps> = ({
             </div>
             <div className="min-w-0">
               <h2 className="font-black text-sm sm:text-base text-[var(--ink)] truncate">
-                {isRTL ? 'دورهمی‌های عمومی اطراف' : 'Nearby Public Meetups'}
+                {tx(isRTL, 'دورهمی‌های عمومی اطراف', 'Nearby Public Meetups')}
               </h2>
               <p className="text-[11px] text-[var(--mute)] font-semibold truncate">
-                {isRTL
-                  ? 'یافتن و ساخت قرار بازی حضوری زبان در کافه‌ها، کتابخانه‌ها و پارک‌ها'
-                  : 'Find and host in-person language game meetups at cafés, libraries & parks'}
+                {tx(isRTL, 'یافتن و ساخت قرار بازی حضوری زبان در کافه‌ها، کتابخانه‌ها و پارک‌ها', 'Find and host in-person language game meetups at cafés, libraries & parks')}
               </p>
             </div>
           </div>
@@ -832,7 +817,7 @@ export const MeetupMapModal: React.FC<MeetupMapModalProps> = ({
           <button
             type="button"
             onClick={onClose}
-            aria-label={isRTL ? 'بستن' : 'Close'}
+            aria-label={tx(isRTL, 'بستن', 'Close')}
             className="w-9 h-9 rounded-full bg-[var(--bg)] hover:bg-[var(--line)] text-[var(--mute)] hover:text-[var(--ink)] flex items-center justify-center transition-colors cursor-pointer shrink-0"
           >
             <X size={18} />
@@ -843,9 +828,7 @@ export const MeetupMapModal: React.FC<MeetupMapModalProps> = ({
         <div className="px-4 py-2 bg-emerald-500/10 border-b border-emerald-500/20 flex items-center gap-2 text-[11px] text-emerald-900 dark:text-emerald-200 font-semibold">
           <ShieldCheck size={15} className="text-emerald-600 dark:text-emerald-400 shrink-0" />
           <span>
-            {isRTL
-              ? 'امنیت و حریم خصوصی: فقط مکان‌های عمومی (کافه، کتابخانه، پارک). نشانی خانه یا موقعیت دقیق کاربران هرگز نمایش داده نمی‌شود.'
-              : 'Safety & Privacy: Public venues only (cafés, libraries, parks). Home addresses and users’ exact locations are never shown.'}
+            {tx(isRTL, 'امنیت و حریم خصوصی: فقط مکان‌های عمومی (کافه، کتابخانه، پارک). نشانی خانه یا موقعیت دقیق کاربران هرگز نمایش داده نمی‌شود.', 'Safety & Privacy: Public venues only (cafés, libraries, parks). Home addresses and users’ exact locations are never shown.')}
           </span>
         </div>
 
@@ -880,7 +863,7 @@ export const MeetupMapModal: React.FC<MeetupMapModalProps> = ({
                   type="button"
                   onClick={() => setAuthGateReason(null)}
                   className="text-[var(--mute)] hover:text-[var(--ink)] cursor-pointer"
-                  aria-label={isRTL ? 'بستن' : 'Dismiss'}
+                  aria-label={tx(isRTL, 'بستن', 'Dismiss')}
                 >
                   <X size={15} />
                 </button>
@@ -897,7 +880,7 @@ export const MeetupMapModal: React.FC<MeetupMapModalProps> = ({
                 className="w-full h-10 rounded-full bg-[var(--lapis)] hover:opacity-95 text-white font-bold text-xs flex items-center justify-center gap-2 cursor-pointer disabled:opacity-60"
               >
                 {authBusy ? <Loader2 size={15} className="animate-spin" /> : <Globe size={15} />}
-                <span>{isRTL ? 'ورود با حساب گوگل' : 'Continue with Google'}</span>
+                <span>{tx(isRTL, 'ورود با حساب گوگل', 'Continue with Google')}</span>
               </button>
 
               <EmailAuthForm
@@ -905,7 +888,7 @@ export const MeetupMapModal: React.FC<MeetupMapModalProps> = ({
                 onSignedIn={(u) => {
                   setCurrentUser(u);
                   setAuthGateReason(null);
-                  showToast('success', isRTL ? 'با موفقیت وارد شدید!' : 'Signed in successfully!');
+                  showToast('success', tx(isRTL, 'با موفقیت وارد شدید!', 'Signed in successfully!'));
                 }}
               />
             </div>
@@ -918,7 +901,7 @@ export const MeetupMapModal: React.FC<MeetupMapModalProps> = ({
                 <Search
                   size={15}
                   className={`absolute top-1/2 -translate-y-1/2 text-[var(--mute)] ${
-                    isRTL ? 'right-3' : 'left-3'
+                    ((isRTL ? 'right-3' : 'left-3'))
                   }`}
                 />
                 <input
@@ -926,11 +909,9 @@ export const MeetupMapModal: React.FC<MeetupMapModalProps> = ({
                   value={cityInput}
                   onChange={(e) => setCityInput(e.target.value)}
                   placeholder={
-                    isRTL
-                      ? 'نام شهر یا محله را بنویسید (مثلاً آمستردام، تهران...)'
-                      : 'Type a city or area (e.g. Amsterdam, Utrecht, Berlin...)'
+                    tx(isRTL, 'نام شهر یا محله را بنویسید (مثلاً آمستردام، تهران...)', 'Type a city or area (e.g. Amsterdam, Utrecht, Berlin...)')
                   }
-                  className={`${inputClass} ${isRTL ? 'pr-9 pl-3' : 'pl-9 pr-3'}`}
+                  className={`${inputClass} ${((isRTL ? 'pr-9 pl-3' : 'pl-9 pr-3'))}`}
                 />
               </div>
 
@@ -939,7 +920,7 @@ export const MeetupMapModal: React.FC<MeetupMapModalProps> = ({
                 className="h-10 px-3.5 rounded-xl bg-[var(--lapis)] text-white text-xs font-bold flex items-center gap-1.5 cursor-pointer hover:opacity-95 shrink-0"
               >
                 <Search size={14} />
-                <span>{isRTL ? 'جستجو' : 'Search'}</span>
+                <span>{tx(isRTL, 'جستجو', 'Search')}</span>
               </button>
 
               <button
@@ -948,9 +929,7 @@ export const MeetupMapModal: React.FC<MeetupMapModalProps> = ({
                 disabled={locationState === 'requesting'}
                 className="h-10 px-3 rounded-xl bg-[var(--bg)] hover:bg-[var(--line)]/60 border border-[var(--line)] text-[var(--ink)] text-xs font-bold flex items-center gap-1.5 cursor-pointer shrink-0 disabled:opacity-60"
                 title={
-                  isRTL
-                    ? 'تنها با اجازهٔ شما، برای تنظیم نقشه روی محدودهٔ شهرتان استفاده می‌شود'
-                    : 'Only with your permission, used locally to center the map near your city'
+                  tx(isRTL, 'تنها با اجازهٔ شما، برای تنظیم نقشه روی محدودهٔ شهرتان استفاده می‌شود', 'Only with your permission, used locally to center the map near your city')
                 }
               >
                 {locationState === 'requesting' ? (
@@ -958,7 +937,7 @@ export const MeetupMapModal: React.FC<MeetupMapModalProps> = ({
                 ) : (
                   <Navigation size={14} className="text-[var(--turq)]" />
                 )}
-                <span>{isRTL ? 'نزدیک من' : 'Near me'}</span>
+                <span>{tx(isRTL, 'نزدیک من', 'Near me')}</span>
               </button>
 
               <button
@@ -975,17 +954,17 @@ export const MeetupMapModal: React.FC<MeetupMapModalProps> = ({
                 }`}
               >
                 <Filter size={14} />
-                <span>{isRTL ? 'فیلتر' : 'Filter'}</span>
+                <span>{tx(isRTL, 'فیلتر', 'Filter')}</span>
               </button>
             </form>
 
             {/* Quick City Chips */}
             <div className="flex items-center gap-1.5 flex-wrap">
               <span className="text-[11px] font-bold text-[var(--mute)]">
-                {isRTL ? 'شهرهای پرطرفدار:' : 'Popular cities:'}
+                {tx(isRTL, 'شهرهای پرطرفدار:', 'Popular cities:')}
               </span>
               {CITY_COORDINATES.slice(0, 7).map((c) => {
-                const label = isRTL ? c.nameFa : c.nameEn;
+                const label = tx(isRTL, c.nameFa, c.nameEn);
                 return (
                   <button
                     key={c.nameEn}
@@ -1003,7 +982,7 @@ export const MeetupMapModal: React.FC<MeetupMapModalProps> = ({
                   onClick={() => setCityInput('')}
                   className="px-2 py-1 rounded-lg text-[11px] font-bold text-rose-600 hover:bg-rose-500/10 cursor-pointer"
                 >
-                  {isRTL ? 'پاک کردن' : 'Clear'}
+                  {tx(isRTL, 'پاک کردن', 'Clear')}
                 </button>
               )}
             </div>
@@ -1019,17 +998,17 @@ export const MeetupMapModal: React.FC<MeetupMapModalProps> = ({
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 p-3 rounded-2xl bg-[var(--bg)] border border-[var(--line)]">
                 <label className="space-y-1">
                   <span className="text-[11px] font-bold text-[var(--mute)] block">
-                    {isRTL ? 'زبان هدف' : 'Target language'}
+                    {tx(isRTL, 'زبان هدف', 'Target language')}
                   </span>
                   <select
                     value={filterLanguage}
                     onChange={(e) => setFilterLanguage(e.target.value)}
                     className={inputClass}
                   >
-                    <option value="all">{isRTL ? 'همهٔ زبان‌ها' : 'All languages'}</option>
+                    <option value="all">{tx(isRTL, 'همهٔ زبان‌ها', 'All languages')}</option>
                     {SUPPORTED_LANGUAGES.map((l) => (
                       <option key={l.code} value={l.code}>
-                        {isRTL ? `${l.persianName} (${l.name})` : `${l.name} (${l.nativeName})`}
+                        {txt(isRTL, '{2} ({0})', '{0} ({1})', [l.name, l.nativeName, l.persianName])}
                       </option>
                     ))}
                   </select>
@@ -1037,17 +1016,17 @@ export const MeetupMapModal: React.FC<MeetupMapModalProps> = ({
 
                 <label className="space-y-1">
                   <span className="text-[11px] font-bold text-[var(--mute)] block">
-                    {isRTL ? 'سطح CEFR' : 'CEFR level'}
+                    {tx(isRTL, 'سطح CEFR', 'CEFR level')}
                   </span>
                   <select
                     value={filterLevel}
                     onChange={(e) => setFilterLevel(e.target.value)}
                     className={inputClass}
                   >
-                    <option value="all">{isRTL ? 'همهٔ سطح‌ها' : 'All levels'}</option>
+                    <option value="all">{tx(isRTL, 'همهٔ سطح‌ها', 'All levels')}</option>
                     {CEFR_LEVELS.map((lvl) => (
                       <option key={lvl.id} value={lvl.id}>
-                        {lvl.id} — {getCefrText(lvl.name, isRTL ? 'fa' : 'en')}
+                        {lvl.id} — {getCefrText(lvl.name, ((language as string) || 'en'))}
                       </option>
                     ))}
                   </select>
@@ -1059,7 +1038,7 @@ export const MeetupMapModal: React.FC<MeetupMapModalProps> = ({
           {/* REAL GOOGLE MAP (Maps JavaScript API via @vis.gl/react-google-maps) */}
           <div className="rounded-2xl overflow-hidden border border-[var(--line)] bg-[var(--bg)] shadow-xs">
             {mapsApiKey ? (
-              <APIProvider apiKey={mapsApiKey} language={isRTL ? 'fa' : 'en'}>
+              <APIProvider apiKey={mapsApiKey} language={((language as string) || 'en')}>
                 <div className="w-full h-[260px] sm:h-[320px] relative">
                   <GoogleMap
                     mapId="DEMO_MAP_ID"
@@ -1106,14 +1085,10 @@ export const MeetupMapModal: React.FC<MeetupMapModalProps> = ({
                   <MapPin size={20} />
                 </div>
                 <p className="text-xs font-bold text-[var(--ink)]">
-                  {isRTL
-                    ? 'نقشهٔ تعاملی Google Maps پس از تنظیم کلید VITE_GOOGLE_MAPS_API_KEY فعال می‌شود.'
-                    : 'Interactive Google Map activates once VITE_GOOGLE_MAPS_API_KEY is configured.'}
+                  {tx(isRTL, 'نقشهٔ تعاملی Google Maps پس از تنظیم کلید VITE_GOOGLE_MAPS_API_KEY فعال می‌شود.', 'Interactive Google Map activates once VITE_GOOGLE_MAPS_API_KEY is configured.')}
                 </p>
                 <p className="text-[11px] text-[var(--mute)]">
-                  {isRTL
-                    ? 'همچنان می‌توانید فهرست دورهمی‌ها را ببینید، جستجو کنید، دورهمی بسازید یا به آن‌ها بپیوندید.'
-                    : 'You can still browse, search, create, and join meetups below.'}
+                  {tx(isRTL, 'همچنان می‌توانید فهرست دورهمی‌ها را ببینید، جستجو کنید، دورهمی بسازید یا به آن‌ها بپیوندید.', 'You can still browse, search, create, and join meetups below.')}
                 </p>
               </div>
             )}
@@ -1127,7 +1102,7 @@ export const MeetupMapModal: React.FC<MeetupMapModalProps> = ({
               className="h-10 px-4 rounded-xl bg-[var(--turq)] hover:opacity-95 text-white text-xs font-black flex items-center gap-1.5 shadow-xs cursor-pointer"
             >
               <Plus size={16} />
-              <span>{isRTL ? 'ساخت دورهمی عمومی تازه' : 'Create Public Meetup'}</span>
+              <span>{tx(isRTL, 'ساخت دورهمی عمومی تازه', 'Create Public Meetup')}</span>
             </button>
 
             {/* Hidden automatically on GitHub Pages / static hosts where no Express server exists */}
@@ -1146,7 +1121,7 @@ export const MeetupMapModal: React.FC<MeetupMapModalProps> = ({
                     <Sparkles size={14} className="text-amber-600" />
                   )}
                   <span>
-                    {isRTL ? 'پیشنهاد مکان عمومی با Gemini + Maps' : 'Suggest Public Venues (Gemini + Maps)'}
+                    {tx(isRTL, 'پیشنهاد مکان عمومی با Gemini + Maps', 'Suggest Public Venues (Gemini + Maps)')}
                   </span>
                 </button>
               </div>
@@ -1159,7 +1134,7 @@ export const MeetupMapModal: React.FC<MeetupMapModalProps> = ({
               <div className="flex items-center justify-between">
                 <h3 className="text-xs font-black text-[var(--ink)] flex items-center gap-1.5">
                   <Sparkles size={14} className="text-amber-500" />
-                  <span>{isRTL ? 'مکان‌های عمومی پیشنهادی' : 'Suggested Public Venues'}</span>
+                  <span>{tx(isRTL, 'مکان‌های عمومی پیشنهادی', 'Suggested Public Venues')}</span>
                 </h3>
                 <button
                   type="button"
@@ -1203,7 +1178,7 @@ export const MeetupMapModal: React.FC<MeetupMapModalProps> = ({
                             onClick={() => openCreateForm(place.title)}
                             className="px-2 py-1 rounded-lg bg-[var(--turq)]/15 text-[var(--turq)] text-[11px] font-bold shrink-0 cursor-pointer hover:bg-[var(--turq)]/25"
                           >
-                            {isRTL ? 'انتخاب' : 'Use'}
+                            {tx(isRTL, 'انتخاب', 'Use')}
                           </button>
                         </div>
                       ))}
@@ -1223,12 +1198,8 @@ export const MeetupMapModal: React.FC<MeetupMapModalProps> = ({
               <div className="flex items-center justify-between">
                 <h3 className="text-sm font-black text-[var(--ink)]">
                   {editingMeetup
-                    ? isRTL
-                      ? 'ویرایش دورهمی عمومی'
-                      : 'Edit Public Meetup'
-                    : isRTL
-                      ? 'ساخت دورهمی عمومی تازه'
-                      : 'Create a New Public Meetup'}
+                    ? tx(isRTL, 'ویرایش دورهمی عمومی', 'Edit Public Meetup')
+                    : tx(isRTL, 'ساخت دورهمی عمومی تازه', 'Create a New Public Meetup')}
                 </h3>
                 <button
                   type="button"
@@ -1245,7 +1216,7 @@ export const MeetupMapModal: React.FC<MeetupMapModalProps> = ({
               {/* Venue Type Pills */}
               <div className="space-y-1">
                 <span className="text-[11px] font-bold text-[var(--mute)] block">
-                  {isRTL ? 'نوع مکان عمومی (الزامی)' : 'Public Venue Type (Required)'}
+                  {tx(isRTL, 'نوع مکان عمومی (الزامی)', 'Public Venue Type (Required)')}
                 </span>
                 <div className="flex flex-wrap gap-1.5">
                   {PUBLIC_VENUE_TYPES.map((vt) => (
@@ -1259,7 +1230,7 @@ export const MeetupMapModal: React.FC<MeetupMapModalProps> = ({
                           : 'bg-[var(--panel)] text-[var(--ink)] border-[var(--line)] hover:border-[var(--lapis)]'
                       }`}
                     >
-                      {vt.emoji} {isRTL ? vt.labelFa : vt.labelEn}
+                      {vt.emoji} {tx(isRTL, vt.labelFa, vt.labelEn)}
                     </button>
                   ))}
                 </div>
@@ -1268,7 +1239,7 @@ export const MeetupMapModal: React.FC<MeetupMapModalProps> = ({
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
                 <div className="space-y-1">
                   <label className="text-[11px] font-bold text-[var(--mute)] block">
-                    {isRTL ? 'نام مکان عمومی *' : 'Public Venue Name *'}
+                    {tx(isRTL, 'نام مکان عمومی *', 'Public Venue Name *')}
                   </label>
                   <div className="flex gap-1.5">
                     <input
@@ -1278,7 +1249,7 @@ export const MeetupMapModal: React.FC<MeetupMapModalProps> = ({
                       value={formVenueName}
                       onChange={(e) => setFormVenueName(e.target.value)}
                       placeholder={
-                        isRTL ? 'مثلاً کافه کتاب اندیشه یا پارک لاله' : 'e.g. OBA Public Library, Café de Jaren'
+                        tx(isRTL, 'مثلاً کافه کتاب اندیشه یا پارک لاله', 'e.g. OBA Public Library, Café de Jaren')
                       }
                       className={inputClass}
                     />
@@ -1291,7 +1262,7 @@ export const MeetupMapModal: React.FC<MeetupMapModalProps> = ({
                           setVenueSearchRequest({ query: q, nonce: Date.now() });
                         }}
                         className="h-10 px-2.5 rounded-xl bg-[var(--panel)] border border-[var(--line)] text-[var(--lapis)] text-[11px] font-bold shrink-0 cursor-pointer hover:border-[var(--lapis)]"
-                        title={isRTL ? 'یافتن روی نقشه' : 'Find on map'}
+                        title={tx(isRTL, 'یافتن روی نقشه', 'Find on map')}
                       >
                         <MapPin size={14} />
                       </button>
@@ -1301,7 +1272,7 @@ export const MeetupMapModal: React.FC<MeetupMapModalProps> = ({
 
                 <div className="space-y-1">
                   <label className="text-[11px] font-bold text-[var(--mute)] block">
-                    {isRTL ? 'شهر *' : 'City *'}
+                    {tx(isRTL, 'شهر *', 'City *')}
                   </label>
                   <input
                     type="text"
@@ -1309,28 +1280,28 @@ export const MeetupMapModal: React.FC<MeetupMapModalProps> = ({
                     maxLength={80}
                     value={formCity}
                     onChange={(e) => setFormCity(e.target.value)}
-                    placeholder={isRTL ? 'مثلاً آمستردام یا تهران' : 'e.g. Amsterdam'}
+                    placeholder={tx(isRTL, 'مثلاً آمستردام یا تهران', 'e.g. Amsterdam')}
                     className={inputClass}
                   />
                 </div>
 
                 <div className="space-y-1">
                   <label className="text-[11px] font-bold text-[var(--mute)] block">
-                    {isRTL ? 'محله / منطقه (بدون نشانی خانه)' : 'Neighborhood / Area (no home address)'}
+                    {tx(isRTL, 'محله / منطقه (بدون نشانی خانه)', 'Neighborhood / Area (no home address)')}
                   </label>
                   <input
                     type="text"
                     maxLength={120}
                     value={formArea}
                     onChange={(e) => setFormArea(e.target.value)}
-                    placeholder={isRTL ? 'مثلاً مرکز شهر، ونک، انقلاب' : 'e.g. Centrum, De Pijp'}
+                    placeholder={tx(isRTL, 'مثلاً مرکز شهر، ونک، انقلاب', 'e.g. Centrum, De Pijp')}
                     className={inputClass}
                   />
                 </div>
 
                 <div className="space-y-1">
                   <label className="text-[11px] font-bold text-[var(--mute)] block">
-                    {isRTL ? 'ظرفیت (نفر)' : 'Capacity (people)'}
+                    {tx(isRTL, 'ظرفیت (نفر)', 'Capacity (people)')}
                   </label>
                   <input
                     type="number"
@@ -1345,7 +1316,7 @@ export const MeetupMapModal: React.FC<MeetupMapModalProps> = ({
 
                 <div className="space-y-1">
                   <label className="text-[11px] font-bold text-[var(--mute)] block">
-                    {isRTL ? 'زبان هدف' : 'Target Language'}
+                    {tx(isRTL, 'زبان هدف', 'Target Language')}
                   </label>
                   <select
                     value={formTargetLang}
@@ -1354,7 +1325,7 @@ export const MeetupMapModal: React.FC<MeetupMapModalProps> = ({
                   >
                     {SUPPORTED_LANGUAGES.map((l) => (
                       <option key={l.code} value={l.code}>
-                        {isRTL ? `${l.persianName} (${l.name})` : `${l.name} (${l.nativeName})`}
+                        {txt(isRTL, '{2} ({0})', '{0} ({1})', [l.name, l.nativeName, l.persianName])}
                       </option>
                     ))}
                   </select>
@@ -1362,7 +1333,7 @@ export const MeetupMapModal: React.FC<MeetupMapModalProps> = ({
 
                 <div className="space-y-1">
                   <label className="text-[11px] font-bold text-[var(--mute)] block">
-                    {isRTL ? 'سطح CEFR' : 'CEFR Level'}
+                    {tx(isRTL, 'سطح CEFR', 'CEFR Level')}
                   </label>
                   <select
                     value={formCefrLevel}
@@ -1371,16 +1342,16 @@ export const MeetupMapModal: React.FC<MeetupMapModalProps> = ({
                   >
                     {CEFR_LEVELS.map((lvl) => (
                       <option key={lvl.id} value={lvl.id}>
-                        {lvl.id} — {getCefrText(lvl.name, isRTL ? 'fa' : 'en')}
+                        {lvl.id} — {getCefrText(lvl.name, ((language as string) || 'en'))}
                       </option>
                     ))}
-                    <option value="all">{isRTL ? 'همهٔ سطح‌ها' : 'All levels'}</option>
+                    <option value="all">{tx(isRTL, 'همهٔ سطح‌ها', 'All levels')}</option>
                   </select>
                 </div>
 
                 <div className="space-y-1">
                   <label className="text-[11px] font-bold text-[var(--mute)] block">
-                    {isRTL ? 'تاریخ *' : 'Date *'}
+                    {tx(isRTL, 'تاریخ *', 'Date *')}
                   </label>
                   <input
                     type="date"
@@ -1393,7 +1364,7 @@ export const MeetupMapModal: React.FC<MeetupMapModalProps> = ({
 
                 <div className="space-y-1">
                   <label className="text-[11px] font-bold text-[var(--mute)] block">
-                    {isRTL ? 'ساعت *' : 'Time *'}
+                    {tx(isRTL, 'ساعت *', 'Time *')}
                   </label>
                   <input
                     type="time"
@@ -1409,7 +1380,7 @@ export const MeetupMapModal: React.FC<MeetupMapModalProps> = ({
               {venueSuggestions.length > 0 && (
                 <div className="p-2.5 rounded-xl bg-[var(--panel)] border border-[var(--line)] space-y-1.5">
                   <p className="text-[11px] font-bold text-[var(--mute)]">
-                    {isRTL ? 'یکی از مکان‌های عمومی زیر را برای تنظیم پین نقشه انتخاب کنید:' : 'Pick a public venue to set the map pin:'}
+                    {tx(isRTL, 'یکی از مکان‌های عمومی زیر را برای تنظیم پین نقشه انتخاب کنید:', 'Pick a public venue to set the map pin:')}
                   </p>
                   {venueSuggestions.map((s) => (
                     <button
@@ -1434,15 +1405,13 @@ export const MeetupMapModal: React.FC<MeetupMapModalProps> = ({
 
               {mapsApiKey && (
                 <p className="text-[11px] text-[var(--mute)]">
-                  {isRTL
-                    ? 'نکته: می‌توانید روی نقشهٔ بالا کلیک کنید تا پین زرد مکان عمومی را جابه‌جا کنید.'
-                    : 'Tip: You can click anywhere on the map above to position the yellow public venue pin.'}
+                  {tx(isRTL, 'نکته: می‌توانید روی نقشهٔ بالا کلیک کنید تا پین زرد مکان عمومی را جابه‌جا کنید.', 'Tip: You can click anywhere on the map above to position the yellow public venue pin.')}
                 </p>
               )}
 
               <div className="space-y-1">
                 <label className="text-[11px] font-bold text-[var(--mute)] block">
-                  {isRTL ? 'یادداشت (اختیاری)' : 'Notes (optional)'}
+                  {tx(isRTL, 'یادداشت (اختیاری)', 'Notes (optional)')}
                 </label>
                 <textarea
                   rows={2}
@@ -1450,9 +1419,7 @@ export const MeetupMapModal: React.FC<MeetupMapModalProps> = ({
                   value={formNotes}
                   onChange={(e) => setFormNotes(e.target.value)}
                   placeholder={
-                    isRTL
-                      ? 'مثلاً: دورهمی دوستانه برای تمرین مکالمه و بازی دور؛ همه سطح‌ها خوش‌آمدند.'
-                      : 'e.g. Friendly table to practice speaking with Dour cards; beginners welcome.'
+                    tx(isRTL, 'مثلاً: دورهمی دوستانه برای تمرین مکالمه و بازی دور؛ همه سطح‌ها خوش‌آمدند.', 'e.g. Friendly table to practice speaking with Dour cards; beginners welcome.')
                   }
                   className="w-full p-2.5 rounded-xl bg-[var(--bg)] border border-[var(--line)] text-xs text-[var(--ink)] outline-none focus:border-[var(--lapis)]"
                 />
@@ -1467,9 +1434,7 @@ export const MeetupMapModal: React.FC<MeetupMapModalProps> = ({
                     className="mt-0.5 accent-[var(--turq)]"
                   />
                   <span>
-                    {isRTL
-                      ? 'تأیید می‌کنم این دورهمی در یک مکان عمومی برگزار می‌شود و هیچ نشانی خانه یا مکان خصوصی وارد نکرده‌ام.'
-                      : 'I confirm this meetup is at a public venue and contains no private or home address.'}
+                    {tx(isRTL, 'تأیید می‌کنم این دورهمی در یک مکان عمومی برگزار می‌شود و هیچ نشانی خانه یا مکان خصوصی وارد نکرده‌ام.', 'I confirm this meetup is at a public venue and contains no private or home address.')}
                   </span>
                 </label>
               )}
@@ -1490,12 +1455,8 @@ export const MeetupMapModal: React.FC<MeetupMapModalProps> = ({
                   {formSubmitting ? <Loader2 size={14} className="animate-spin" /> : <Check size={15} />}
                   <span>
                     {editingMeetup
-                      ? isRTL
-                        ? 'ذخیرهٔ تغییرات'
-                        : 'Save Changes'
-                      : isRTL
-                        ? 'انتشار دورهمی عمومی'
-                        : 'Publish Public Meetup'}
+                      ? tx(isRTL, 'ذخیرهٔ تغییرات', 'Save Changes')
+                      : tx(isRTL, 'انتشار دورهمی عمومی', 'Publish Public Meetup')}
                   </span>
                 </button>
                 <button
@@ -1506,7 +1467,7 @@ export const MeetupMapModal: React.FC<MeetupMapModalProps> = ({
                   }}
                   className="h-10 px-4 rounded-xl bg-[var(--panel)] border border-[var(--line)] text-xs font-bold text-[var(--mute)] cursor-pointer"
                 >
-                  {isRTL ? 'انصراف' : 'Cancel'}
+                  {tx(isRTL, 'انصراف', 'Cancel')}
                 </button>
               </div>
             </form>
@@ -1522,9 +1483,7 @@ export const MeetupMapModal: React.FC<MeetupMapModalProps> = ({
                 <h3 className="text-xs sm:text-sm font-black text-rose-700 dark:text-rose-300 flex items-center gap-1.5">
                   <Flag size={15} />
                   <span>
-                    {isRTL
-                      ? `گزارش دورهمی «${reportingMeetup.venueName}»`
-                      : `Report "${reportingMeetup.venueName}"`}
+                    {txt(isRTL, 'گزارش دورهمی «{0}»', 'Report "{0}"', [reportingMeetup.venueName])}
                   </span>
                 </h3>
                 <button
@@ -1549,7 +1508,7 @@ export const MeetupMapModal: React.FC<MeetupMapModalProps> = ({
                       onChange={() => setReportReason(r.id)}
                       className="accent-rose-600"
                     />
-                    <span>{isRTL ? r.labelFa : r.labelEn}</span>
+                    <span>{tx(isRTL, r.labelFa, r.labelEn)}</span>
                   </label>
                 ))}
               </div>
@@ -1559,7 +1518,7 @@ export const MeetupMapModal: React.FC<MeetupMapModalProps> = ({
                 maxLength={500}
                 value={reportDetails}
                 onChange={(e) => setReportDetails(e.target.value)}
-                placeholder={isRTL ? 'توضیح تکمیلی (اختیاری)...' : 'Additional details (optional)...'}
+                placeholder={tx(isRTL, 'توضیح تکمیلی (اختیاری)...', 'Additional details (optional)...')}
                 className="w-full p-2.5 rounded-xl bg-[var(--bg)] border border-[var(--line)] text-xs text-[var(--ink)] outline-none focus:border-rose-500"
               />
 
@@ -1570,14 +1529,14 @@ export const MeetupMapModal: React.FC<MeetupMapModalProps> = ({
                   className="h-9 px-4 rounded-xl bg-rose-600 hover:bg-rose-700 text-white text-xs font-bold flex items-center gap-1.5 cursor-pointer disabled:opacity-60"
                 >
                   {reportSubmitting && <Loader2 size={13} className="animate-spin" />}
-                  <span>{isRTL ? 'ارسال گزارش' : 'Submit Report'}</span>
+                  <span>{tx(isRTL, 'ارسال گزارش', 'Submit Report')}</span>
                 </button>
                 <button
                   type="button"
                   onClick={() => setReportingMeetup(null)}
                   className="h-9 px-3 rounded-xl bg-[var(--panel)] border border-[var(--line)] text-xs font-bold text-[var(--mute)] cursor-pointer"
                 >
-                  {isRTL ? 'انصراف' : 'Cancel'}
+                  {tx(isRTL, 'انصراف', 'Cancel')}
                 </button>
               </div>
             </form>
@@ -1589,14 +1548,12 @@ export const MeetupMapModal: React.FC<MeetupMapModalProps> = ({
               <h3 className="text-xs sm:text-sm font-black text-[var(--ink)] flex items-center gap-1.5">
                 <Users size={15} className="text-[var(--lapis)]" />
                 <span>
-                  {isRTL
-                    ? `دورهمی‌های فعال (${visibleMeetups.length})`
-                    : `Active Meetups (${visibleMeetups.length})`}
+                  {txt(isRTL, 'دورهمی‌های فعال ({0})', 'Active Meetups ({0})', [visibleMeetups.length])}
                 </span>
               </h3>
               {!currentUser && (
                 <span className="text-[11px] text-[var(--mute)] font-semibold">
-                  {isRTL ? 'دیدن آزاد است • پیوستن و ساخت با حساب' : 'Public view • Account needed to join/create'}
+                  {tx(isRTL, 'دیدن آزاد است • پیوستن و ساخت با حساب', 'Public view • Account needed to join/create')}
                 </span>
               )}
             </div>
@@ -1611,20 +1568,16 @@ export const MeetupMapModal: React.FC<MeetupMapModalProps> = ({
               <div className="py-8 flex flex-col items-center justify-center gap-2 text-[var(--mute)]">
                 <Loader2 size={22} className="animate-spin text-[var(--turq)]" />
                 <span className="text-xs font-semibold">
-                  {isRTL ? 'در حال بارگذاری دورهمی‌ها...' : 'Loading meetups...'}
+                  {tx(isRTL, 'در حال بارگذاری دورهمی‌ها...', 'Loading meetups...')}
                 </span>
               </div>
             ) : visibleMeetups.length === 0 ? (
               <div className="p-6 rounded-2xl bg-[var(--bg)] border border-dashed border-[var(--line)] text-center space-y-2">
                 <p className="text-xs font-bold text-[var(--ink)]">
-                  {isRTL
-                    ? 'هنوز دورهمی فعالی در این شهر ثبت نشده است.'
-                    : 'No active meetups found for this search yet.'}
+                  {tx(isRTL, 'هنوز دورهمی فعالی در این شهر ثبت نشده است.', 'No active meetups found for this search yet.')}
                 </p>
                 <p className="text-[11px] text-[var(--mute)]">
-                  {isRTL
-                    ? 'شما می‌توانید نخستین دورهمی زبان در یک کافه، کتابخانه یا پارک را بسازید!'
-                    : 'Be the first to host a language game meetup at a local café, library, or park!'}
+                  {tx(isRTL, 'شما می‌توانید نخستین دورهمی زبان در یک کافه، کتابخانه یا پارک را بسازید!', 'Be the first to host a language game meetup at a local café, library, or park!')}
                 </p>
               </div>
             ) : (
@@ -1645,7 +1598,7 @@ export const MeetupMapModal: React.FC<MeetupMapModalProps> = ({
                       : null;
 
                   const participantList = meetup.participants.map(
-                    (uid) => meetup.participantNames?.[uid] || (isRTL ? 'بازیکن' : 'Player')
+                    (uid) => meetup.participantNames?.[uid] || (tx(isRTL, 'بازیکن', 'Player'))
                   );
 
                   return (
@@ -1704,12 +1657,12 @@ export const MeetupMapModal: React.FC<MeetupMapModalProps> = ({
                           type="button"
                           data-testid={`report-meetup-${meetup.id}`}
                           onClick={() => handleOpenReport(meetup)}
-                          aria-label={isRTL ? 'گزارش دورهمی' : 'Report meetup'}
-                          title={isRTL ? 'گزارش مکان خصوصی یا تخلف' : 'Report private address or issue'}
+                          aria-label={tx(isRTL, 'گزارش دورهمی', 'Report meetup')}
+                          title={tx(isRTL, 'گزارش مکان خصوصی یا تخلف', 'Report private address or issue')}
                           className="px-2 py-1 rounded-lg text-[11px] font-bold text-[var(--mute)] hover:text-rose-600 hover:bg-rose-500/10 flex items-center gap-1 cursor-pointer shrink-0 transition-colors"
                         >
                           <Flag size={12} />
-                          <span>{isRTL ? 'گزارش' : 'Report'}</span>
+                          <span>{tx(isRTL, 'گزارش', 'Report')}</span>
                         </button>
                       </div>
 
@@ -1721,12 +1674,10 @@ export const MeetupMapModal: React.FC<MeetupMapModalProps> = ({
                       <div className="space-y-1.5">
                         <div className="flex items-center justify-between text-[11px] font-bold">
                           <span className="text-[var(--mute)]">
-                            {isRTL ? `میزبان: ${meetup.creatorName}` : `Host: ${meetup.creatorName}`}
+                            {txt(isRTL, 'میزبان: {0}', 'Host: {0}', [meetup.creatorName])}
                           </span>
                           <span className={isFull ? 'text-rose-600' : 'text-[var(--turq)]'}>
-                            {isRTL
-                              ? `ظرفیت: ${meetup.participants.length} از ${meetup.capacity} نفر`
-                              : `${meetup.participants.length} / ${meetup.capacity} spots`}
+                            {txt(isRTL, 'ظرفیت: {0} از {1} نفر', '{0} / {1} spots', [meetup.participants.length, meetup.capacity])}
                           </span>
                         </div>
                         <div className="h-1.5 w-full rounded-full bg-[var(--line)] overflow-hidden">
@@ -1774,16 +1725,10 @@ export const MeetupMapModal: React.FC<MeetupMapModalProps> = ({
                           )}
                           <span>
                             {isJoined
-                              ? isRTL
-                                ? 'خروج از دورهمی'
-                                : 'Leave Meetup'
+                              ? tx(isRTL, 'خروج از دورهمی', 'Leave Meetup')
                               : isFull
-                                ? isRTL
-                                  ? 'ظرفیت تکمیل'
-                                  : 'Full'
-                                : isRTL
-                                  ? 'پیوستن به دورهمی'
-                                  : 'Join Meetup'}
+                                ? tx(isRTL, 'ظرفیت تکمیل', 'Full')
+                                : tx(isRTL, 'پیوستن به دورهمی', 'Join Meetup')}
                           </span>
                         </button>
 
@@ -1795,7 +1740,7 @@ export const MeetupMapModal: React.FC<MeetupMapModalProps> = ({
                               className="h-9 px-2.5 rounded-xl bg-[var(--panel)] border border-[var(--line)] hover:border-[var(--lapis)] text-xs font-bold text-[var(--ink)] flex items-center gap-1 cursor-pointer"
                             >
                               <Pencil size={13} />
-                              <span>{isRTL ? 'ویرایش' : 'Edit'}</span>
+                              <span>{tx(isRTL, 'ویرایش', 'Edit')}</span>
                             </button>
 
                             {confirmDeleteId === meetup.id ? (
@@ -1806,14 +1751,14 @@ export const MeetupMapModal: React.FC<MeetupMapModalProps> = ({
                                   onClick={() => handleDeleteMeetup(meetup.id)}
                                   className="h-9 px-2.5 rounded-xl bg-rose-600 text-white text-xs font-bold cursor-pointer"
                                 >
-                                  {isRTL ? 'تأیید حذف' : 'Confirm'}
+                                  {tx(isRTL, 'تأیید حذف', 'Confirm')}
                                 </button>
                                 <button
                                   type="button"
                                   onClick={() => setConfirmDeleteId(null)}
                                   className="h-9 px-2 rounded-xl bg-[var(--panel)] border border-[var(--line)] text-xs font-bold text-[var(--mute)] cursor-pointer"
                                 >
-                                  {isRTL ? 'لغو' : 'Cancel'}
+                                  {tx(isRTL, 'لغو', 'Cancel')}
                                 </button>
                               </div>
                             ) : (
@@ -1823,7 +1768,7 @@ export const MeetupMapModal: React.FC<MeetupMapModalProps> = ({
                                 className="h-9 px-2.5 rounded-xl bg-[var(--panel)] border border-rose-500/30 text-rose-600 hover:bg-rose-500/10 text-xs font-bold flex items-center gap-1 cursor-pointer"
                               >
                                 <Trash2 size={13} />
-                                <span>{isRTL ? 'حذف' : 'Delete'}</span>
+                                <span>{tx(isRTL, 'حذف', 'Delete')}</span>
                               </button>
                             )}
                           </div>

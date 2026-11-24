@@ -23,6 +23,7 @@ import {
   AlertTriangle,
   Lock
 } from 'lucide-react';
+import { tx, txt } from '../i18n/runtime';
 
 // فایل‌های داده دیگر داخل اپ نیستند (حجم اپ را بالا می‌بردند)؛ از خود مخزن دانلود می‌شوند
 const DATASET_BASE = 'https://raw.githubusercontent.com/MaryamJaberi/Language-Learning-Party-Game-new/main/data/exports/downloads/';
@@ -59,7 +60,7 @@ export const InstallPromptModal: React.FC<Props> = ({
     sound.playClick();
     setDownloadingFile(filename);
     setDownloadError(null);
-    setDownloadStatus(isRTL ? 'در حال دریافت مستقیم و بدون نقص فایل...' : 'Fetching binary file...');
+    setDownloadStatus(tx(isRTL, 'در حال دریافت مستقیم و بدون نقص فایل...', 'Fetching binary file...'));
 
     const res = await downloadFileWithBlob(url, filename, (status, msg) => {
       if (msg) setDownloadStatus(msg);
@@ -67,7 +68,7 @@ export const InstallPromptModal: React.FC<Props> = ({
 
     setDownloadingFile(null);
     if (!res.success) {
-      setDownloadError(res.error || (isRTL ? 'خطا در دریافت فایل' : 'Download failed'));
+      setDownloadError(res.error || (tx(isRTL, 'خطا در دریافت فایل', 'Download failed')));
     }
   };
 
@@ -115,7 +116,7 @@ export const InstallPromptModal: React.FC<Props> = ({
   return (
     <div 
       className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs animate-fade-in select-none font-ui"
-      dir={isRTL ? 'rtl' : 'ltr'}
+      dir={((isRTL ? 'rtl' : 'ltr'))}
       onClick={(e) => {
         if (e.target === e.currentTarget) handleClose();
       }}
@@ -131,13 +132,13 @@ export const InstallPromptModal: React.FC<Props> = ({
             <div className="text-start">
               <h3 className="text-sm font-bold font-display uppercase tracking-wider text-[var(--ink)]">
                 {isAdmin
-                  ? (t.installApp || (isRTL ? 'نصب روی گوشی (PWA) و دانلود APK' : 'Install on Mobile (PWA & APK)'))
-                  : (isRTL ? 'نصب اپلیکیشن روی گوشی (PWA)' : 'Install App on Mobile (PWA)')}
+                  ? (t.installApp || (tx(isRTL, 'نصب روی گوشی (PWA) و دانلود APK', 'Install on Mobile (PWA & APK)')))
+                  : (tx(isRTL, 'نصب اپلیکیشن روی گوشی (PWA)', 'Install App on Mobile (PWA)'))}
               </h3>
               <p className="text-[10px] text-[var(--vermilion)] font-bold">
                 {isAdmin
-                  ? (isRTL ? 'فایل نصبی مستقیم APK + پکیج کامل Google Play Store (پنل مدیریت)' : 'Signed APK + Complete Play Store Submission Bundle (Admin)')
-                  : (isRTL ? 'نصب سریع و آفلاین بدون نیاز به اپ‌استور' : 'Fast & Offline Install (No App Store Needed)')}
+                  ? (tx(isRTL, 'فایل نصبی مستقیم APK + پکیج کامل Google Play Store (پنل مدیریت)', 'Signed APK + Complete Play Store Submission Bundle (Admin)'))
+                  : (tx(isRTL, 'نصب سریع و آفلاین بدون نیاز به اپ‌استور', 'Fast & Offline Install (No App Store Needed)'))}
               </p>
             </div>
           </div>
@@ -165,7 +166,7 @@ export const InstallPromptModal: React.FC<Props> = ({
                     : 'border-transparent text-[var(--mute)] hover:text-[var(--ink)]'
                 }`}
               >
-                <span>📦 {isRTL ? 'فایل APK (مدیر)' : 'APK (Admin)'}</span>
+                <span>📦 {tx(isRTL, 'فایل APK (مدیر)', 'APK (Admin)')}</span>
               </button>
             )}
 
@@ -219,23 +220,21 @@ export const InstallPromptModal: React.FC<Props> = ({
                     </div>
                     <div>
                       <h4 className="text-xs font-black text-[var(--ink)] flex items-center gap-1.5">
-                        <span>{isRTL ? 'دانلود مستقیم فایل AAB (مخصوص گوگل پلی)' : 'Download Google Play AAB (.aab)'}</span>
+                        <span>{tx(isRTL, 'دانلود مستقیم فایل AAB (مخصوص گوگل پلی)', 'Download Google Play AAB (.aab)')}</span>
                         <span className="text-[9px] bg-[var(--lapis-soft)] text-[var(--lapis)] font-black px-1.5 py-0.5 rounded-full">Google Play</span>
                       </h4>
                       <span className="text-[10px] text-[var(--mute)] font-medium">
-                        {isRTL ? 'آخرین نسخه از GitHub Releases • کمتر از ۱ مگابایت' : 'Latest build from GitHub Releases • under 1 MB'}
+                        {tx(isRTL, 'آخرین نسخه از GitHub Releases • کمتر از ۱ مگابایت', 'Latest build from GitHub Releases • under 1 MB')}
                       </span>
                     </div>
                   </div>
                   <span className="text-[9.5px] font-bold text-[var(--lapis)] bg-blue-50 dark:bg-blue-950/40 px-2 py-0.5 rounded-[6px] border border-[var(--lapis)]">
-                    {isRTL ? 'آماده آپلود ✓' : 'Play Store Ready ✓'}
+                    {tx(isRTL, 'آماده آپلود ✓', 'Play Store Ready ✓')}
                   </span>
                 </div>
 
                 <p className="text-[11px] text-[var(--mute)] leading-relaxed font-medium">
-                  {isRTL 
-                    ? 'فایل رسمی باندل اندروید (.aab) جهت بارگذاری مستقیم در پنل Google Play Console (بخش Releases -> Production). دانلود به صورت باینری کامل و بدون خطا انجام می‌شود.'
-                    : 'Official Android App Bundle (.aab) ready for direct upload to Google Play Console under Releases -> Production. Downloads with full binary integrity.'}
+                  {tx(isRTL, 'فایل رسمی باندل اندروید (.aab) جهت بارگذاری مستقیم در پنل Google Play Console (بخش Releases -> Production). دانلود به صورت باینری کامل و بدون خطا انجام می‌شود.', 'Official Android App Bundle (.aab) ready for direct upload to Google Play Console under Releases -> Production. Downloads with full binary integrity.')}
                 </p>
 
                 <div className="text-[10.5px] text-[var(--mute)] space-y-0.5 font-mono bg-[var(--panel)] p-2 rounded-[10px] border border-[var(--line)]">
@@ -252,12 +251,12 @@ export const InstallPromptModal: React.FC<Props> = ({
                   {downloadingFile === 'dor-zaban-v1.0.aab' ? (
                     <>
                       <Loader2 size={16} className="animate-spin" />
-                      <span>{isRTL ? 'در حال دریافت فایل AAB...' : 'Downloading AAB...'}</span>
+                      <span>{tx(isRTL, 'در حال دریافت فایل AAB...', 'Downloading AAB...')}</span>
                     </>
                   ) : (
                     <>
                       <Download size={16} />
-                      <span>{isRTL ? 'دانلود آخرین AAB گوگل پلی' : 'Download latest AAB'}</span>
+                      <span>{tx(isRTL, 'دانلود آخرین AAB گوگل پلی', 'Download latest AAB')}</span>
                     </>
                   )}
                 </button>
@@ -272,22 +271,20 @@ export const InstallPromptModal: React.FC<Props> = ({
                     </div>
                     <div>
                       <h4 className="text-xs font-black text-[var(--ink)]">
-                        {isRTL ? 'دانلود مستقیم فایل نصبی APK (تست روی گوشی)' : 'Download Signed Android APK (.apk)'}
+                        {tx(isRTL, 'دانلود مستقیم فایل نصبی APK (تست روی گوشی)', 'Download Signed Android APK (.apk)')}
                       </h4>
                       <span className="text-[10px] text-[var(--mute)] font-medium">
-                        {isRTL ? 'آخرین نسخه • کمتر از ۱ مگابایت • بار اول اینترنت لازم است' : 'Latest build • under 1 MB • first launch needs internet'}
+                        {tx(isRTL, 'آخرین نسخه • کمتر از ۱ مگابایت • بار اول اینترنت لازم است', 'Latest build • under 1 MB • first launch needs internet')}
                       </span>
                     </div>
                   </div>
                   <span className="text-[9.5px] font-bold text-[var(--turq)] bg-emerald-50 dark:bg-emerald-950/40 px-2 py-0.5 rounded-[6px] border border-[var(--turq)]">
-                    {isRTL ? 'آماده نصب روی گوشی ✓' : 'Direct Install ✓'}
+                    {tx(isRTL, 'آماده نصب روی گوشی ✓', 'Direct Install ✓')}
                   </span>
                 </div>
 
                 <p className="text-[11px] text-[var(--mute)] leading-relaxed font-medium">
-                  {isRTL 
-                    ? 'فایل نصبی مستقیم APK برای نصب روی گوشی‌های واقعی اندروید یا انتشار در کافه‌بازار و مایکت.'
-                    : 'Standard signed APK for direct testing on real Android phones or publishing on local app stores.'}
+                  {tx(isRTL, 'فایل نصبی مستقیم APK برای نصب روی گوشی‌های واقعی اندروید یا انتشار در کافه‌بازار و مایکت.', 'Standard signed APK for direct testing on real Android phones or publishing on local app stores.')}
                 </p>
 
                 <button
@@ -299,12 +296,12 @@ export const InstallPromptModal: React.FC<Props> = ({
                   {downloadingFile === 'dor-zaban-v1.0.apk' ? (
                     <>
                       <Loader2 size={16} className="animate-spin" />
-                      <span>{isRTL ? 'در حال دریافت فایل APK...' : 'Downloading APK...'}</span>
+                      <span>{tx(isRTL, 'در حال دریافت فایل APK...', 'Downloading APK...')}</span>
                     </>
                   ) : (
                     <>
                       <Download size={16} />
-                      <span>{isRTL ? 'دانلود آخرین APK برای تست' : 'Download latest test APK'}</span>
+                      <span>{tx(isRTL, 'دانلود آخرین APK برای تست', 'Download latest test APK')}</span>
                     </>
                   )}
                 </button>
@@ -319,23 +316,21 @@ export const InstallPromptModal: React.FC<Props> = ({
                     </div>
                     <div>
                       <h4 className="text-xs font-black text-[var(--ink)] flex items-center gap-1.5">
-                        <span>{isRTL ? 'پکیج دیتابیس کامل ۲۸ زبان (تمامی سطوح CEFR)' : 'Complete 28 Languages Master Dataset'}</span>
+                        <span>{tx(isRTL, 'پکیج دیتابیس کامل ۲۸ زبان (تمامی سطوح CEFR)', 'Complete 28 Languages Master Dataset')}</span>
                         <span className="text-[10px] bg-indigo-600 text-white font-black px-1.5 py-0.2 rounded-md">۲۸ زبان</span>
                       </h4>
                       <span className="text-[10px] text-[var(--mute)] font-medium">
-                        {isRTL ? 'پوشش سطوح A1 تا C2 • تمامی ۲۸ زبان • فرمت UTF-8 BOM اکسل' : 'CEFR Levels A1-C2 • All 28 Languages • Excel UTF-8 BOM'}
+                        {tx(isRTL, 'پوشش سطوح A1 تا C2 • تمامی ۲۸ زبان • فرمت UTF-8 BOM اکسل', 'CEFR Levels A1-C2 • All 28 Languages • Excel UTF-8 BOM')}
                       </span>
                     </div>
                   </div>
                   <span className="text-[9.5px] font-bold text-indigo-700 dark:text-indigo-300 bg-indigo-50 dark:bg-indigo-950/40 px-2 py-0.5 rounded-[6px] border border-indigo-300">
-                    {isRTL ? 'کامل ۲۸ زبان ✓' : '28 Languages ✓'}
+                    {tx(isRTL, 'کامل ۲۸ زبان ✓', '28 Languages ✓')}
                   </span>
                 </div>
 
                 <p className="text-[11px] text-[var(--mute)] leading-relaxed font-medium">
-                  {isRTL 
-                    ? 'دیتابیس کامل ۲۸ زبان رسمی دنیا در تمامی سطوح A1، A2، B1، B2 و C1/C2 شامل واژگان، عبارات، گرامر، تلفظ‌ها و معادل‌های فارسی و بین‌المللی.'
-                    : 'Complete master dataset for all 28 languages across all CEFR levels (A1-C2) including vocab, sentences, grammar points and translations.'}
+                  {tx(isRTL, 'دیتابیس کامل ۲۸ زبان رسمی دنیا در تمامی سطوح A1، A2، B1، B2 و C1/C2 شامل واژگان، عبارات، گرامر، تلفظ‌ها و معادل‌های فارسی و بین‌المللی.', 'Complete master dataset for all 28 languages across all CEFR levels (A1-C2) including vocab, sentences, grammar points and translations.')}
                 </p>
 
                 <div className="flex gap-2">
@@ -346,7 +341,7 @@ export const InstallPromptModal: React.FC<Props> = ({
                     className="flex-1 py-2 px-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-[12px] font-bold text-xs flex items-center justify-center gap-1.5 shadow-[var(--shadow-sm)] active:translate-y-0.5 transition-all text-center cursor-pointer disabled:opacity-75"
                   >
                     <Download size={14} />
-                    <span>{isRTL ? 'دانلود CSV ۲۸ زبان (اکسل)' : 'Download 28-Lang CSV'}</span>
+                    <span>{tx(isRTL, 'دانلود CSV ۲۸ زبان (اکسل)', 'Download 28-Lang CSV')}</span>
                   </button>
                   <button
                     type="button"
@@ -368,22 +363,20 @@ export const InstallPromptModal: React.FC<Props> = ({
                     </div>
                     <div>
                       <h4 className="text-xs font-black text-[var(--ink)]">
-                        {isRTL ? '📊 دانلود کل داده‌های آموزشی زبان (فایل CSV اکسل)' : 'Language Learning Dataset (CSV / Excel)'}
+                        {tx(isRTL, '📊 دانلود کل داده‌های آموزشی زبان (فایل CSV اکسل)', 'Language Learning Dataset (CSV / Excel)')}
                       </h4>
                       <span className="text-[10px] text-[var(--mute)] font-medium">
-                        {isRTL ? '۳۳۰ ردیف آموزشی • ترجمه ۱۲ زبان • فرمت UTF-8 BOM اکسل' : '330 Educational Rows • 12 Languages • Excel UTF-8 BOM'}
+                        {tx(isRTL, '۳۳۰ ردیف آموزشی • ترجمه ۱۲ زبان • فرمت UTF-8 BOM اکسل', '330 Educational Rows • 12 Languages • Excel UTF-8 BOM')}
                       </span>
                     </div>
                   </div>
                   <span className="text-[9.5px] font-bold text-emerald-700 bg-emerald-50 dark:bg-emerald-950/40 px-2 py-0.5 rounded-[6px] border border-emerald-300">
-                    {isRTL ? 'اکسل و Sheets ✓' : 'Excel Ready ✓'}
+                    {tx(isRTL, 'اکسل و Sheets ✓', 'Excel Ready ✓')}
                   </span>
                 </div>
 
                 <p className="text-[11px] text-[var(--mute)] leading-relaxed font-medium">
-                  {isRTL 
-                    ? 'شامل تمامی کارت‌ها، دایره لغات، جملات پیشرفته C1، تلفظ‌ها و راهنماها به زبان‌های انگلیسی، هلندی، فارسی، آلمانی، فرانسوی، عربی، ترکی و غیره.'
-                    : 'Includes all vocabulary cards, C1 advanced sentences, translations in 12 languages, pronunciations, and grammar notes.'}
+                  {tx(isRTL, 'شامل تمامی کارت‌ها، دایره لغات، جملات پیشرفته C1، تلفظ‌ها و راهنماها به زبان‌های انگلیسی، هلندی، فارسی، آلمانی، فرانسوی، عربی، ترکی و غیره.', 'Includes all vocabulary cards, C1 advanced sentences, translations in 12 languages, pronunciations, and grammar notes.')}
                 </p>
 
                 <div className="flex gap-2">
@@ -394,7 +387,7 @@ export const InstallPromptModal: React.FC<Props> = ({
                     className="flex-1 py-2 px-3 bg-emerald-600 hover:bg-emerald-700 text-white rounded-[12px] font-bold text-xs flex items-center justify-center gap-1.5 shadow-[var(--shadow-sm)] active:translate-y-0.5 transition-all text-center cursor-pointer disabled:opacity-75"
                   >
                     <Download size={14} />
-                    <span>{isRTL ? 'دانلود فایل CSV اکسل' : 'Download CSV'}</span>
+                    <span>{tx(isRTL, 'دانلود فایل CSV اکسل', 'Download CSV')}</span>
                   </button>
                   <button
                     type="button"
@@ -421,7 +414,7 @@ export const InstallPromptModal: React.FC<Props> = ({
                   className="w-full py-2.5 bg-[var(--vermilion)] hover:bg-[#c94b2a] text-white text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-2 rounded-[12px] shadow-[var(--shadow-sm)] active:translate-y-0.5 transition-all"
                 >
                   <Download size={16} />
-                  <span>{t.installDirect || (isRTL ? 'نصب مستقیم PWA با یک کلیک' : 'Instant 1-Click PWA Install')}</span>
+                  <span>{t.installDirect || (tx(isRTL, 'نصب مستقیم PWA با یک کلیک', 'Instant 1-Click PWA Install'))}</span>
                   <Zap size={14} />
                 </button>
               )}
@@ -429,7 +422,7 @@ export const InstallPromptModal: React.FC<Props> = ({
               {isInstalledSuccess && (
                 <div className="p-3 bg-[var(--panel)] border border-[var(--line)] text-[var(--teal)] rounded-[14px] flex items-center gap-2 text-xs font-bold shadow-[var(--shadow-sm)]">
                   <CheckCircle2 size={18} />
-                  <span>{t.appInstalledSuccess || (isRTL ? 'بازی با موفقیت روی گوشی نصب شد!' : 'App successfully installed!')}</span>
+                  <span>{t.appInstalledSuccess || (tx(isRTL, 'بازی با موفقیت روی گوشی نصب شد!', 'App successfully installed!'))}</span>
                 </div>
               )}
 
@@ -437,7 +430,7 @@ export const InstallPromptModal: React.FC<Props> = ({
               <div className="bg-[var(--bg)] p-3 rounded-[16px] border border-[var(--line)] space-y-2.5">
                 <div className="text-[11px] font-bold text-[var(--ink)] flex items-center gap-1.5">
                   <Sparkles size={14} className="text-[var(--vermilion)]" />
-                  <span>{isRTL ? 'نحوه افزودن در مرورگر کروم (Chrome):' : 'How to Add in Google Chrome:'}</span>
+                  <span>{tx(isRTL, 'نحوه افزودن در مرورگر کروم (Chrome):', 'How to Add in Google Chrome:')}</span>
                 </div>
 
                 <div className="space-y-2 text-[11px] text-[var(--mute)] font-medium">
@@ -446,9 +439,7 @@ export const InstallPromptModal: React.FC<Props> = ({
                       ۱
                     </span>
                     <span>
-                      {language === 'fa' 
-                        ? 'در بالای مرورگر، روی منوی سه نقطه (⋮) ضربه بزنید.' 
-                        : 'Tap the 3-dot menu (⋮) in the top corner of Chrome.'}
+                      {tx((language === 'fa'), 'در بالای مرورگر، روی منوی سه نقطه (⋮) ضربه بزنید.', 'Tap the 3-dot menu (⋮) in the top corner of Chrome.')}
                     </span>
                   </div>
 
@@ -457,9 +448,7 @@ export const InstallPromptModal: React.FC<Props> = ({
                       ۲
                     </span>
                     <span>
-                      {language === 'fa' 
-                        ? 'گزینه «افزودن به صفحه اصلی» (Add to Home screen) یا «نصب برنامه» را انتخاب کنید.' 
-                        : 'Choose "Add to Home screen" or "Install App".'}
+                      {tx((language === 'fa'), 'گزینه «افزودن به صفحه اصلی» (Add to Home screen) یا «نصب برنامه» را انتخاب کنید.', 'Choose "Add to Home screen" or "Install App".')}
                     </span>
                   </div>
 
@@ -468,9 +457,7 @@ export const InstallPromptModal: React.FC<Props> = ({
                       ۳
                     </span>
                     <span>
-                      {language === 'fa' 
-                        ? 'نام بازی را تایید کنید تا آیکون بازی به صفحه اصلی گوشی اضافه شود.' 
-                        : 'Confirm to add the icon directly to your phone screen.'}
+                      {tx((language === 'fa'), 'نام بازی را تایید کنید تا آیکون بازی به صفحه اصلی گوشی اضافه شود.', 'Confirm to add the icon directly to your phone screen.')}
                     </span>
                   </div>
                 </div>
@@ -484,7 +471,7 @@ export const InstallPromptModal: React.FC<Props> = ({
               <div className="bg-[var(--bg)] p-3 rounded-[16px] border border-[var(--line)] space-y-2.5">
                 <div className="text-[11px] font-bold text-[var(--ink)] flex items-center gap-1.5">
                   <Apple size={14} />
-                  <span>{language === 'fa' ? 'نحوه افزودن در سافاری آیفون (Safari):' : 'How to Add in iPhone Safari:'}</span>
+                  <span>{tx((language === 'fa'), 'نحوه افزودن در سافاری آیفون (Safari):', 'How to Add in iPhone Safari:')}</span>
                 </div>
 
                 <div className="space-y-2 text-[11px] text-[var(--mute)] font-medium">
@@ -493,9 +480,7 @@ export const InstallPromptModal: React.FC<Props> = ({
                       ۱
                     </span>
                     <span className="flex-1">
-                      {language === 'fa' 
-                        ? 'در نوار پایین مرورگر سافاری روی دکمه Share (اشتراک‌گذاری ⎋) بزنید.' 
-                        : 'Tap the Share icon (⎋) at the bottom toolbar in Safari.'}
+                      {tx((language === 'fa'), 'در نوار پایین مرورگر سافاری روی دکمه Share (اشتراک‌گذاری ⎋) بزنید.', 'Tap the Share icon (⎋) at the bottom toolbar in Safari.')}
                     </span>
                   </div>
 
@@ -504,9 +489,7 @@ export const InstallPromptModal: React.FC<Props> = ({
                       ۲
                     </span>
                     <span className="flex-1">
-                      {language === 'fa' 
-                        ? 'منو را کمی پایین بکشید و گزینه «Add to Home Screen» (افزودن به صفحه اصلی ➕) را انتخاب کنید.' 
-                        : 'Scroll down and tap "Add to Home Screen" (➕).'}
+                      {tx((language === 'fa'), 'منو را کمی پایین بکشید و گزینه «Add to Home Screen» (افزودن به صفحه اصلی ➕) را انتخاب کنید.', 'Scroll down and tap "Add to Home Screen" (➕).')}
                     </span>
                   </div>
 
@@ -515,9 +498,7 @@ export const InstallPromptModal: React.FC<Props> = ({
                       ۳
                     </span>
                     <span className="flex-1">
-                      {language === 'fa' 
-                        ? 'در بالا سمت راست روی «Add» بزنید. حالا بازی تمام‌صفحه و پرسرعت اجرا می‌شود!' 
-                        : 'Tap "Add" in the top-right corner. The app will launch fullscreen!'}
+                      {tx((language === 'fa'), 'در بالا سمت راست روی «Add» بزنید. حالا بازی تمام‌صفحه و پرسرعت اجرا می‌شود!', 'Tap "Add" in the top-right corner. The app will launch fullscreen!')}
                     </span>
                   </div>
                 </div>
@@ -529,12 +510,12 @@ export const InstallPromptModal: React.FC<Props> = ({
           <div className="grid grid-cols-2 gap-2 pt-1 border-t border-[var(--line)]">
             <div className="bg-[var(--bg)] p-2 rounded-[10px] border border-[var(--line)] flex items-center gap-1.5 text-[10px] font-bold text-[var(--ink)]">
               <WifiOff size={13} className="text-[var(--vermilion)]" />
-              <span>{t.worksOffline || (isRTL ? 'آفلاین و بدون مصرف نت' : 'Works 100% Offline')}</span>
+              <span>{t.worksOffline || (tx(isRTL, 'آفلاین و بدون مصرف نت', 'Works 100% Offline'))}</span>
             </div>
 
             <div className="bg-[var(--bg)] p-2 rounded-[10px] border border-[var(--line)] flex items-center gap-1.5 text-[10px] font-bold text-[var(--ink)]">
               <ShieldCheck size={13} className="text-[var(--teal)]" />
-              <span>{t.lightweightSafe || (isRTL ? 'امضا شده و امن' : 'Signed & Verified')}</span>
+              <span>{t.lightweightSafe || (tx(isRTL, 'امضا شده و امن', 'Signed & Verified'))}</span>
             </div>
           </div>
 
@@ -546,7 +527,7 @@ export const InstallPromptModal: React.FC<Props> = ({
             onClick={handleClose}
             className="px-5 py-2 bg-[var(--saffron)] hover:bg-[#e0a634] text-[var(--ink)] border border-[var(--line)] text-xs font-bold rounded-[10px] shadow-[var(--shadow-sm)] active:translate-y-0.5 transition-all"
           >
-            {t.gotItClose || (isRTL ? 'متوجه شدم، بستن' : 'Got it, Close')}
+            {t.gotItClose || (tx(isRTL, 'متوجه شدم، بستن', 'Got it, Close'))}
           </button>
         </div>
 

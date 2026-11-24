@@ -3,6 +3,7 @@ import { PixelAvatar, AVATARS_LIST, AvatarId } from './PixelAvatars';
 import { sound } from '../soundManager';
 import { isRtlLang, tUI } from '../ui';
 import { X, Sparkles, Dices, Check } from 'lucide-react';
+import { tx, txt } from '../i18n/runtime';
 
 interface Props {
   isOpen: boolean;
@@ -42,7 +43,7 @@ export const AvatarPickerModal: React.FC<Props> = ({
   return (
     <div
       className="fixed inset-0 z-[100] flex items-center justify-center p-3 sm:p-4 bg-slate-900/50 backdrop-blur-md animate-fade-in"
-      dir={isRTL ? 'rtl' : 'ltr'}
+      dir={((isRTL ? 'rtl' : 'ltr'))}
       onClick={() => {
         sound.playClick();
         onClose();
@@ -60,10 +61,10 @@ export const AvatarPickerModal: React.FC<Props> = ({
             </div>
             <div>
               <h3 className="text-sm font-black text-[var(--ink)] leading-tight">
-                {(t.chooseCuteAvatar || (isRTL ? 'انتخاب آواتار' : 'Choose Avatar')).replace(/[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}]/gu, '').trim()}
+                {(t.chooseCuteAvatar || (tx(isRTL, 'انتخاب آواتار', 'Choose Avatar'))).replace(/[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}]/gu, '').trim()}
               </h3>
               <span className="text-[11px] text-[var(--muted)] font-bold block mt-0.5">
-                {isRTL ? `برای: ${playerName}` : `For: ${playerName}`}
+                {txt(isRTL, 'برای: {0}', 'For: {0}', [playerName])}
               </span>
             </div>
           </div>
@@ -89,7 +90,7 @@ export const AvatarPickerModal: React.FC<Props> = ({
           >
             <Dices size={16} />
             <span>
-              {(t.randomAvatarBtn || (isRTL ? 'انتخاب تصادفی آواتار' : 'Random Avatar')).replace(/[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}]/gu, '').trim()}
+              {(t.randomAvatarBtn || (tx(isRTL, 'انتخاب تصادفی آواتار', 'Random Avatar'))).replace(/[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}]/gu, '').trim()}
             </span>
           </button>
         </div>
@@ -98,7 +99,7 @@ export const AvatarPickerModal: React.FC<Props> = ({
         <div className="min-h-0 flex-1 overflow-y-auto pr-0.5 grid grid-cols-3 gap-2.5 overscroll-contain pb-1">
           {AVATARS_LIST.map((av) => {
             const isSelected = selectedAvatarId === av.id;
-            const displayName = isRTL ? av.name.fa : av.name.en;
+            const displayName = tx(isRTL, av.name.fa, av.name.en);
 
             return (
               <button

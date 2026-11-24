@@ -8,6 +8,7 @@ import { getAvailablePoolCount, getRealSituationCount } from '../cardsData';
 import { SoundHeaderButton } from '../components/SoundHeaderButton';
 import { MeetupMapModal } from '../components/MeetupMapModal';
 import { ArrowLeft, ArrowRight, ArrowRightLeft, Check, Search, X, ChevronDown, ChevronUp, Settings, Award, AlertTriangle, Smartphone, Globe, Wifi, BookOpen, MapPin } from 'lucide-react';
+import { tx, txt , uiDigits } from '../i18n/runtime';
 
 interface Props {
   settings: GameSettings;
@@ -42,12 +43,8 @@ const PERSIAN_LANG_NAMES: Record<string, string> = {
 };
 
 // Convert numbers to Persian digits if in RTL/Persian
-const toPersian = (n: number | string, isRTL: boolean) => {
-  const str = String(n);
-  if (!isRTL) return str;
-  const persianDigits = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
-  return str.replace(/\d/g, (d) => persianDigits[Number(d)] ?? d);
-};
+// رقم فارسی فقط وقتی زبان برنامه فارسی است (نه برای عربی و دیگر زبان‌های راست‌به‌چپ)
+const toPersian = (n: number | string, isRTL: boolean) => uiDigits(isRTL, n);
 
 // Reusable Luggage Lock Wheel Component
 interface WheelProps {
@@ -544,22 +541,22 @@ const SetupScreen: React.FC<Props> = ({ settings, onSave, onNext, onBack, onOpen
     { 
       id: 'reverse', 
       text: `${nativeShort} → ${targetShort}`,
-      title: isFa ? `${nativeName} به ${targetName}` : `${nativeName} → ${targetName}`
+      title: txt(isFa, '{0} به {1}', '{0} → {1}', [nativeName, targetName])
     },
     { 
       id: 'standard', 
       text: `${targetShort} → ${nativeShort}`,
-      title: isFa ? `${targetName} به ${nativeName}` : `${targetName} → ${nativeName}`
+      title: txt(isFa, '{0} به {1}', '{0} → {1}', [targetName, nativeName])
     },
     { 
       id: 'mixed', 
-      text: t.dirBoth || (isFa ? 'هر دو' : 'Both'),
-      title: t.dirBoth || (isFa ? 'هر دو جهت' : 'Both Directions')
+      text: t.dirBoth || (tx(isFa, 'هر دو', 'Both')),
+      title: t.dirBoth || (tx(isFa, 'هر دو جهت', 'Both Directions'))
     }
   ];
 
   return (
-    <div className="app w-full max-w-md sm:max-w-lg md:max-w-xl mx-auto min-h-full px-3 sm:px-4 pb-28 font-ui relative" dir={isRTL ? 'rtl' : 'ltr'}>
+    <div className="app w-full max-w-md sm:max-w-lg md:max-w-xl mx-auto min-h-full px-3 sm:px-4 pb-28 font-ui relative" dir={((isRTL ? 'rtl' : 'ltr'))}>
       
       {/* HEADER: Back Button, Title & Circular Action Buttons (M3 Top App Bar) */}
       <header className="sticky top-0 z-20 bg-[var(--bg)]/90 backdrop-blur-md flex items-center justify-between py-2.5 px-1 border-b border-[var(--line)]/50 gap-2">
@@ -572,17 +569,17 @@ const SetupScreen: React.FC<Props> = ({ settings, onSave, onNext, onBack, onOpen
               onBack();
             }}
             className="w-11 h-11 shrink-0 rounded-full bg-[var(--panel)] hover:bg-slate-100 dark:hover:bg-slate-800 border border-[var(--line)] flex items-center justify-center text-[var(--ink)] shadow-xs active:scale-95 transition-all cursor-pointer"
-            aria-label={t.back || (isRTL ? 'بازگشت' : 'Back')}
-            title={t.back || (isRTL ? 'بازگشت' : 'Back')}
+            aria-label={t.back || (tx(isRTL, 'بازگشت', 'Back'))}
+            title={t.back || (tx(isRTL, 'بازگشت', 'Back'))}
           >
-            <ArrowRight size={18} className={isRTL ? '' : 'rotate-180'} />
+            <ArrowRight size={18} className={((isRTL ? '' : 'rotate-180'))} />
           </button>
           <div className="flex items-center gap-1.5 min-w-0">
             <h1 className="text-xl sm:text-2xl font-black leading-none tracking-tight text-[var(--ink)] whitespace-nowrap font-display shrink-0">
               {t.title || 'دور'}
             </h1>
             <span className="px-2 py-0.5 rounded-full bg-[var(--lapis-soft)] text-[var(--lapis)] text-[11px] font-bold font-ui truncate">
-              {t.gameSettings || (isRTL ? 'تنظیمات بازی' : 'Game Settings')}
+              {t.gameSettings || (tx(isRTL, 'تنظیمات بازی', 'Game Settings'))}
             </span>
           </div>
         </div>
@@ -593,8 +590,8 @@ const SetupScreen: React.FC<Props> = ({ settings, onSave, onNext, onBack, onOpen
             type="button"
             id="hintBtn" 
             className="w-11 h-11 rounded-full bg-[var(--panel)] hover:bg-slate-100 dark:hover:bg-slate-800 border border-[var(--line)] flex items-center justify-center text-[var(--ink)] shadow-xs active:scale-95 transition-all cursor-pointer" 
-            aria-label={t.guide || (isFa ? 'راهنما' : 'Guide')}
-            title={t.guide || (isFa ? 'راهنما' : 'Guide')}
+            aria-label={t.guide || (tx(isFa, 'راهنما', 'Guide'))}
+            title={t.guide || (tx(isFa, 'راهنما', 'Guide'))}
             onClick={() => {
               sound.playClick();
               setIsSheetOpen(true);
@@ -620,8 +617,8 @@ const SetupScreen: React.FC<Props> = ({ settings, onSave, onNext, onBack, onOpen
             type="button"
             id="uiLangBtn" 
             className="w-11 h-11 rounded-full bg-[var(--panel)] hover:bg-slate-100 dark:hover:bg-slate-800 border border-[var(--line)] flex items-center justify-center text-[var(--ink)] shadow-xs active:scale-95 transition-all cursor-pointer" 
-            aria-label={t.uiLanguageLabel || (isFa ? 'زبان برنامه' : 'App Language')}
-            title={t.uiLanguageLabel || (isFa ? 'زبان برنامه' : 'App Language')}
+            aria-label={t.uiLanguageLabel || (tx(isFa, 'زبان برنامه', 'App Language'))}
+            title={t.uiLanguageLabel || (tx(isFa, 'زبان برنامه', 'App Language'))}
             onClick={() => {
               sound.playClick();
               setIsLangPopOpen(prev => !prev);
@@ -646,7 +643,7 @@ const SetupScreen: React.FC<Props> = ({ settings, onSave, onNext, onBack, onOpen
                   type="text"
                   value={searchUi}
                   onChange={(e) => setSearchUi(e.target.value)}
-                  placeholder={t.searchLanguages || (isRTL ? 'جستجوی زبان...' : 'Search languages...')}
+                  placeholder={t.searchLanguages || (tx(isRTL, 'جستجوی زبان...', 'Search languages...'))}
                   className="w-full h-9 px-2.5 text-xs rounded-lg bg-[var(--bg)] border border-[var(--line)] text-[var(--ink)] placeholder-[var(--mute)] focus:outline-none focus:border-[var(--lapis)] transition-colors pr-7 rtl:pr-7 rtl:pl-2.5 ltr:pl-7 ltr:pr-2.5"
                 />
                 <Search size={13} className="absolute top-1/2 -translate-y-1/2 text-[var(--mute)] pointer-events-none rtl:right-2 ltr:left-2" />
@@ -717,7 +714,7 @@ const SetupScreen: React.FC<Props> = ({ settings, onSave, onNext, onBack, onOpen
           }`}
         >
           <Smartphone size={15} className="shrink-0" />
-          <span className="truncate">{t.localOnePhone || (isFa ? 'حضوری (۱ گوشی)' : 'Local (1 Phone)')}</span>
+          <span className="truncate">{t.localOnePhone || (tx(isFa, 'حضوری (۱ گوشی)', 'Local (1 Phone)'))}</span>
         </button>
 
         <button
@@ -733,7 +730,7 @@ const SetupScreen: React.FC<Props> = ({ settings, onSave, onNext, onBack, onOpen
           }`}
         >
           <Globe size={15} className="shrink-0" />
-          <span className="truncate">{t.onlineMultiPhone || (isFa ? 'اتاق آنلاین' : 'Online Room')}</span>
+          <span className="truncate">{t.onlineMultiPhone || (tx(isFa, 'اتاق آنلاین', 'Online Room'))}</span>
         </button>
 
         <button
@@ -750,7 +747,7 @@ const SetupScreen: React.FC<Props> = ({ settings, onSave, onNext, onBack, onOpen
           }`}
         >
           <MapPin size={15} className="shrink-0" />
-          <span className="truncate">{isFa ? 'دورهمی اطراف' : 'Nearby Meetups'}</span>
+          <span className="truncate">{tx(isFa, 'دورهمی اطراف', 'Nearby Meetups')}</span>
         </button>
       </div>
 
@@ -763,12 +760,10 @@ const SetupScreen: React.FC<Props> = ({ settings, onSave, onNext, onBack, onOpen
             </div>
             <div>
               <h2 className="text-sm sm:text-base font-black text-[var(--ink)]">
-                {t.onlinePartyRoomTitle || (isFa ? 'اتاق دورهمی آنلاین (چند گوشی)' : 'Online Party Room (Multi-Phone)')}
+                {t.onlinePartyRoomTitle || (tx(isFa, 'اتاق دورهمی آنلاین (چند گوشی)', 'Online Party Room (Multi-Phone)'))}
               </h2>
               <p className="text-xs text-[var(--mute)] font-bold">
-                {t.onlinePartyRoomDesc || (isFa
-                  ? 'ساخت اتاق جدید، ورود با کد اتاق یا مچ‌یابی آنلاین با دوستان'
-                  : 'Create a room, join with a code, or matchmake online with friends')}
+                {t.onlinePartyRoomDesc || (tx(isFa, 'ساخت اتاق جدید، ورود با کد اتاق یا مچ‌یابی آنلاین با دوستان', 'Create a room, join with a code, or matchmake online with friends'))}
               </p>
             </div>
           </div>
@@ -782,7 +777,7 @@ const SetupScreen: React.FC<Props> = ({ settings, onSave, onNext, onBack, onOpen
             className="btn-turq w-full !min-h-[48px] text-sm font-black flex items-center justify-center gap-2 shadow-md cursor-pointer"
           >
             <Globe size={18} />
-            <span>{t.enterOnlineLobby || (isFa ? 'ورود به لابی آنلاین دورهمی' : 'Enter Online Party Lobby')}</span>
+            <span>{t.enterOnlineLobby || (tx(isFa, 'ورود به لابی آنلاین دورهمی', 'Enter Online Party Lobby'))}</span>
             {isRTL ? <ArrowLeft size={18} /> : <ArrowRight size={18} />}
           </button>
         </section>
@@ -797,12 +792,10 @@ const SetupScreen: React.FC<Props> = ({ settings, onSave, onNext, onBack, onOpen
             </div>
             <div>
               <h2 className="text-sm sm:text-base font-black text-[var(--ink)]">
-                {isFa ? 'یافتن دورهمی‌های اطراف (نقشه عمومی)' : 'Find Nearby Meetups (Public Map)'}
+                {tx(isFa, 'یافتن دورهمی‌های اطراف (نقشه عمومی)', 'Find Nearby Meetups (Public Map)')}
               </h2>
               <p className="text-xs text-[var(--mute)] font-bold">
-                {isFa
-                  ? 'دورهمی‌های حضوری بازی دور در کافه‌ها، کتابخانه‌ها و پارک‌های عمومی روی Google Maps'
-                  : 'In-person Dour meetups at public cafés, libraries & parks on Google Maps'}
+                {tx(isFa, 'دورهمی‌های حضوری بازی دور در کافه‌ها، کتابخانه‌ها و پارک‌های عمومی روی Google Maps', 'In-person Dour meetups at public cafés, libraries & parks on Google Maps')}
               </p>
             </div>
           </div>
@@ -817,7 +810,7 @@ const SetupScreen: React.FC<Props> = ({ settings, onSave, onNext, onBack, onOpen
             className="btn-turq w-full !min-h-[48px] text-sm font-black flex items-center justify-center gap-2 shadow-md cursor-pointer"
           >
             <MapPin size={18} />
-            <span>{isFa ? 'مشاهده نقشه و دورهمی‌های اطراف' : 'Open Map & Nearby Meetups'}</span>
+            <span>{tx(isFa, 'مشاهده نقشه و دورهمی‌های اطراف', 'Open Map & Nearby Meetups')}</span>
             {isRTL ? <ArrowLeft size={18} /> : <ArrowRight size={18} />}
           </button>
         </section>
@@ -838,11 +831,11 @@ const SetupScreen: React.FC<Props> = ({ settings, onSave, onNext, onBack, onOpen
         {/* 2-Column Side-by-Side Row for Native Language & Learning Language */}
         <div className="grid grid-cols-[1fr_auto_1fr] items-end gap-2" id="targetLangContainer">
           {/* Column 1: My Native Language */}
-          <div className="space-y-1.5 min-w-0" role="radiogroup" aria-label={t.myNativeLanguage || (isRTL ? 'زبان من' : 'My Language')}>
+          <div className="space-y-1.5 min-w-0" role="radiogroup" aria-label={t.myNativeLanguage || (tx(isRTL, 'زبان من', 'My Language'))}>
             <div className="flex items-center justify-between px-0.5">
               <span className="text-[11px] font-bold text-[var(--mute)] truncate">
-                {t.myNativeLanguage || (isRTL ? 'زبان من:' : 'My Language:')}
-                <span className="sr-only">زبان مادری من</span>
+                {t.myNativeLanguage || (tx(isRTL, 'زبان من:', 'My Language:'))}
+                <span className="sr-only">{tx(isRTL, 'زبان مادری من', 'My native language')}</span>
               </span>
             </div>
 
@@ -888,18 +881,18 @@ const SetupScreen: React.FC<Props> = ({ settings, onSave, onNext, onBack, onOpen
                 targetLanguage: prevNative
               });
             }}
-            title={isFa ? 'جابجایی زبان مبدأ و هدف' : 'Swap languages'}
+            title={tx(isFa, 'جابجایی زبان مبدأ و هدف', 'Swap languages')}
             className="w-9 h-11 rounded-xl bg-[var(--bg)] hover:bg-[var(--line)] border border-[var(--line)] text-[var(--mute)] hover:text-[var(--ink)] flex items-center justify-center shrink-0 cursor-pointer active:scale-95 transition-all"
           >
             <ArrowRightLeft size={15} />
           </button>
 
           {/* Column 2: Learning Language */}
-          <div className="space-y-1.5 min-w-0" role="group" aria-label={t.languagesIWantToLearn || (isFa ? 'زبان هدف' : 'Learning Language')}>
+          <div className="space-y-1.5 min-w-0" role="group" aria-label={t.languagesIWantToLearn || (tx(isFa, 'زبان هدف', 'Learning Language'))}>
             <div className="flex items-center justify-between px-0.5">
               <span className="text-[11px] font-bold text-[var(--mute)] truncate">
-                {t.learningLabel || (isFa ? 'زبان یادگیری:' : 'Learning:')}
-                <span className="sr-only">زبان‌هایی که می‌خوام یاد بگیرم</span>
+                {t.learningLabel || (tx(isFa, 'زبان یادگیری:', 'Learning:'))}
+                <span className="sr-only">{tx(isRTL, 'زبان‌هایی که می‌خوام یاد بگیرم', 'Languages I want to learn')}</span>
               </span>
             </div>
 
@@ -943,7 +936,7 @@ const SetupScreen: React.FC<Props> = ({ settings, onSave, onNext, onBack, onOpen
                   </span>
                 ) : (
                   <span className="text-xs font-bold text-[var(--mute)] truncate">
-                    {t.selectLangPlaceholder || (isFa ? 'انتخاب زبان...' : 'Select...')}
+                    {t.selectLangPlaceholder || (tx(isFa, 'انتخاب زبان...', 'Select...'))}
                   </span>
                 )}
               </div>
@@ -958,7 +951,7 @@ const SetupScreen: React.FC<Props> = ({ settings, onSave, onNext, onBack, onOpen
               type="text"
               value={searchTarget}
               onChange={(e) => setSearchTarget(e.target.value)}
-              placeholder={t.searchLanguages || (isFa ? 'جستجوی زبان یادگیری...' : 'Search learning language...')}
+              placeholder={t.searchLanguages || (tx(isFa, 'جستجوی زبان یادگیری...', 'Search learning language...'))}
               className="w-full h-9 px-3 text-xs rounded-lg bg-[var(--bg)] border border-[var(--line)] text-[var(--ink)] placeholder-[var(--mute)] focus:outline-none focus:border-[var(--lapis)] transition-colors pr-8 rtl:pr-8 rtl:pl-3 ltr:pl-8 ltr:pr-3"
             />
             <Search size={14} className="absolute top-1/2 -translate-y-1/2 text-[var(--mute)] pointer-events-none rtl:right-2.5 ltr:left-2.5" />
@@ -1029,7 +1022,7 @@ const SetupScreen: React.FC<Props> = ({ settings, onSave, onNext, onBack, onOpen
               type="text"
               value={searchNative}
               onChange={(e) => setSearchNative(e.target.value)}
-              placeholder={t.searchLanguages || (isFa ? 'جستجوی زبان من...' : 'Search native language...')}
+              placeholder={t.searchLanguages || (tx(isFa, 'جستجوی زبان من...', 'Search native language...'))}
               className="w-full h-9 px-3 text-xs rounded-lg bg-[var(--bg)] border border-[var(--line)] text-[var(--ink)] placeholder-[var(--mute)] focus:outline-none focus:border-[var(--lapis)] transition-colors pr-8 rtl:pr-8 rtl:pl-3 ltr:pl-8 ltr:pr-3"
             />
             <Search size={14} className="absolute top-1/2 -translate-y-1/2 text-[var(--mute)] pointer-events-none rtl:right-2.5 ltr:left-2.5" />
@@ -1088,11 +1081,11 @@ const SetupScreen: React.FC<Props> = ({ settings, onSave, onNext, onBack, onOpen
         </section>
 
       {/* PANEL 2: CEFR LEVEL SELECTION (A1, A2, B1, B2, C1, ALL) */}
-      <section className="panel" aria-label={t.cefrLevel || (isRTL ? 'سطح تسلط و دشواری (CEFR)' : 'Proficiency Level (CEFR)')}>
+      <section className="panel" aria-label={t.cefrLevel || (tx(isRTL, 'سطح تسلط و دشواری (CEFR)', 'Proficiency Level (CEFR)'))}>
         <div className="flex items-center justify-between gap-2 mb-2">
           <div className="lab mb-0 whitespace-nowrap flex items-center gap-1.5">
             <Award size={14} className="text-[var(--lapis)]" />
-            <span>{t.cefrLevel || (isRTL ? 'سطح تسلط و دشواری (CEFR)' : 'Proficiency Level (CEFR)')}</span>
+            <span>{t.cefrLevel || (tx(isRTL, 'سطح تسلط و دشواری (CEFR)', 'Proficiency Level (CEFR)'))}</span>
           </div>
           <span className="text-[11px] font-black px-2 py-0.5 rounded-lg bg-[var(--lapis-soft)] text-[var(--lapis)] border border-[var(--lapis)]/20 shadow-xs whitespace-nowrap">
             {activeCefrInfo?.badge}
@@ -1103,7 +1096,7 @@ const SetupScreen: React.FC<Props> = ({ settings, onSave, onNext, onBack, onOpen
         <div 
           className="grid grid-cols-4 sm:grid-cols-7 gap-1.5"
           role="radiogroup" 
-          aria-label={t.cefrLevel || (isRTL ? 'سطح دشواری' : 'Proficiency Level')}
+          aria-label={t.cefrLevel || (tx(isRTL, 'سطح دشواری', 'Proficiency Level'))}
         >
           {/* ALL Levels Button */}
           <button
@@ -1111,7 +1104,7 @@ const SetupScreen: React.FC<Props> = ({ settings, onSave, onNext, onBack, onOpen
             type="button"
             role="radio"
             aria-checked={settings.cefrLevel === 'all'}
-            aria-label={isRTL ? 'همه سطوح - ALL' : 'ALL - All Levels'}
+            aria-label={tx(isRTL, 'همه سطوح - ALL', 'ALL - All Levels')}
             onClick={() => {
               sound.playToggle();
               updateSettings('cefrLevel', 'all');
@@ -1123,7 +1116,7 @@ const SetupScreen: React.FC<Props> = ({ settings, onSave, onNext, onBack, onOpen
             }`}
           >
             <span className="font-black text-xs leading-none mb-0.5">ALL</span>
-            <span className="text-[9.5px] leading-tight truncate max-w-[95%] opacity-90">{isRTL ? 'همه' : 'All'}</span>
+            <span className="text-[9.5px] leading-tight truncate max-w-[95%] opacity-90">{tx(isRTL, 'همه', 'All')}</span>
           </button>
           {CEFR_LEVELS.map(level => {
             const isSelected = currentCefr === level.id;
@@ -1172,11 +1165,11 @@ const SetupScreen: React.FC<Props> = ({ settings, onSave, onNext, onBack, onOpen
 
       {/* PANEL 3: PLAYER COUNT (4, 6, 8) */}
       <section className="panel">
-        <div className="lab whitespace-nowrap">{t.howManyPlayers || (isFa ? 'تعداد بازیکنان' : 'How many players?')}</div>
+        <div className="lab whitespace-nowrap">{t.howManyPlayers || (tx(isFa, 'تعداد بازیکنان', 'How many players?'))}</div>
         <div className="seg" id="players">
           {[4, 6, 8].map(count => {
             const isChecked = settings.playerCount === count;
-            const countLabel = `${toPersian(count, isFa)} ${t.players || (isFa ? 'نفر' : 'players')}`;
+            const countLabel = `${toPersian(count, isFa)} ${t.players || (tx(isFa, 'نفر', 'players'))}`;
             return (
               <button
                 key={count}
@@ -1201,7 +1194,7 @@ const SetupScreen: React.FC<Props> = ({ settings, onSave, onNext, onBack, onOpen
         <div className="lock">
           {/* Rounds Column */}
           <div className="flex flex-col items-center">
-            <div className="lab whitespace-nowrap truncate w-full text-center">{t.roundsCountLabel || (isRTL ? 'تعداد راند' : 'Number of Rounds')}</div>
+            <div className="lab whitespace-nowrap truncate w-full text-center">{t.roundsCountLabel || (tx(isRTL, 'تعداد راند', 'Number of Rounds'))}</div>
             <div className="w-full flex flex-col">
               {/* Increase Round Stepper */}
               <button
@@ -1209,8 +1202,8 @@ const SetupScreen: React.FC<Props> = ({ settings, onSave, onNext, onBack, onOpen
                 onClick={incrementRound}
                 disabled={settings.roundsCount >= 10}
                 className="w-full min-h-[38px] py-1.5 mb-1 rounded-xl bg-[var(--bg)] hover:bg-[var(--panel)] border border-[var(--line)] flex items-center justify-center text-[var(--ink)] disabled:opacity-25 disabled:pointer-events-none active:scale-95 transition-all"
-                aria-label={isRTL ? 'افزایش راند' : 'Increase round'}
-                title={isRTL ? 'افزایش ۱ راند' : '+1 round'}
+                aria-label={tx(isRTL, 'افزایش راند', 'Increase round')}
+                title={tx(isRTL, 'افزایش ۱ راند', '+1 round')}
               >
                 <ChevronUp size={16} />
               </button>
@@ -1229,20 +1222,20 @@ const SetupScreen: React.FC<Props> = ({ settings, onSave, onNext, onBack, onOpen
                 onClick={decrementRound}
                 disabled={settings.roundsCount <= 3}
                 className="w-full min-h-[38px] py-1.5 mt-1 rounded-xl bg-[var(--bg)] hover:bg-[var(--panel)] border border-[var(--line)] flex items-center justify-center text-[var(--ink)] disabled:opacity-25 disabled:pointer-events-none active:scale-95 transition-all"
-                aria-label={isFa ? 'کاهش راند' : 'Decrease round'}
-                title={isFa ? 'کاهش ۱ راند' : '-1 round'}
+                aria-label={tx(isFa, 'کاهش راند', 'Decrease round')}
+                title={tx(isFa, 'کاهش ۱ راند', '-1 round')}
               >
                 <ChevronDown size={16} />
               </button>
             </div>
             <span className="text-[10px] font-bold text-[var(--mute)] pt-1 whitespace-nowrap">
-              {t.roundsRangeLabel || (isFa ? 'راند (۳ تا ۱۰)' : '3 to 10')}
+              {t.roundsRangeLabel || (tx(isFa, 'راند (۳ تا ۱۰)', '3 to 10'))}
             </span>
           </div>
 
           {/* Time Column: Separated Minutes (1 by 1) & Seconds (5 by 5) with Steppers */}
           <div className="flex flex-col items-center">
-            <div className="lab whitespace-nowrap truncate w-full text-center">{t.turnTimeLabel || (isFa ? 'زمان هر دور' : 'Turn Duration')}</div>
+            <div className="lab whitespace-nowrap truncate w-full text-center">{t.turnTimeLabel || (tx(isFa, 'زمان هر دور', 'Turn Duration'))}</div>
             
             <div className="w-full" dir="ltr">
               {/* Top Increment Steppers */}
@@ -1252,22 +1245,22 @@ const SetupScreen: React.FC<Props> = ({ settings, onSave, onNext, onBack, onOpen
                   onClick={incrementMinute}
                   disabled={currentMin >= 10}
                   className="min-h-[38px] py-1.5 rounded-xl bg-[var(--bg)] hover:bg-[var(--panel)] border border-[var(--line)] flex items-center justify-center gap-1 text-xs font-bold text-[var(--ink)] disabled:opacity-25 disabled:pointer-events-none active:scale-95 transition-all"
-                  aria-label={isFa ? 'افزایش دقیقه' : 'Increase minute'}
-                  title={isFa ? 'افزایش ۱ دقیقه' : '+1 min'}
+                  aria-label={tx(isFa, 'افزایش دقیقه', 'Increase minute')}
+                  title={tx(isFa, 'افزایش ۱ دقیقه', '+1 min')}
                 >
                   <ChevronUp size={14} />
-                  <span className="whitespace-nowrap">{isFa ? '+۱د' : '+1m'}</span>
+                  <span className="whitespace-nowrap">{tx(isFa, '+۱د', '+1m')}</span>
                 </button>
                 <button 
                   type="button" 
                   onClick={incrementSecond}
                   disabled={currentSec >= 55 && currentMin >= 10}
                   className="min-h-[38px] py-1.5 rounded-xl bg-[var(--bg)] hover:bg-[var(--panel)] border border-[var(--line)] flex items-center justify-center gap-1 text-xs font-bold text-[var(--ink)] disabled:opacity-25 disabled:pointer-events-none active:scale-95 transition-all"
-                  aria-label={isFa ? 'افزایش ۵ ثانیه' : 'Increase 5 seconds'}
-                  title={isFa ? 'افزایش ۵ ثانیه' : '+5 sec'}
+                  aria-label={tx(isFa, 'افزایش ۵ ثانیه', 'Increase 5 seconds')}
+                  title={tx(isFa, 'افزایش ۵ ثانیه', '+5 sec')}
                 >
                   <ChevronUp size={14} />
-                  <span className="whitespace-nowrap">{isFa ? '+۵ث' : '+5s'}</span>
+                  <span className="whitespace-nowrap">{tx(isFa, '+۵ث', '+5s')}</span>
                 </button>
               </div>
 
@@ -1280,7 +1273,7 @@ const SetupScreen: React.FC<Props> = ({ settings, onSave, onNext, onBack, onOpen
                     selected={currentMin}
                     onSelect={handleMinuteChange}
                     format={(val) => toPersian(val, isFa)}
-                    ariaLabel={isFa ? 'دقیقه' : 'Minutes'}
+                    ariaLabel={tx(isFa, 'دقیقه', 'Minutes')}
                     showWrapper={false}
                   />
                 </div>
@@ -1295,7 +1288,7 @@ const SetupScreen: React.FC<Props> = ({ settings, onSave, onNext, onBack, onOpen
                     selected={currentSec}
                     onSelect={handleSecondChange}
                     format={(val) => toPersian(String(val).padStart(2, '0'), isFa)}
-                    ariaLabel={isFa ? 'زمان هر نوبت' : 'Turn Duration'}
+                    ariaLabel={tx(isFa, 'زمان هر نوبت', 'Turn Duration')}
                     ariaValueText={formatTime(settings.roundDuration)}
                     showWrapper={false}
                   />
@@ -1309,22 +1302,22 @@ const SetupScreen: React.FC<Props> = ({ settings, onSave, onNext, onBack, onOpen
                   onClick={decrementMinute}
                   disabled={currentMin <= 0 && currentSec <= 5}
                   className="min-h-[38px] py-1.5 rounded-xl bg-[var(--bg)] hover:bg-[var(--panel)] border border-[var(--line)] flex items-center justify-center gap-1 text-xs font-bold text-[var(--ink)] disabled:opacity-25 disabled:pointer-events-none active:scale-95 transition-all"
-                  aria-label={isFa ? 'کاهش دقیقه' : 'Decrease minute'}
-                  title={isFa ? 'کاهش ۱ دقیقه' : '-1 min'}
+                  aria-label={tx(isFa, 'کاهش دقیقه', 'Decrease minute')}
+                  title={tx(isFa, 'کاهش ۱ دقیقه', '-1 min')}
                 >
                   <ChevronDown size={14} />
-                  <span className="whitespace-nowrap">{isFa ? '-۱د' : '-1m'}</span>
+                  <span className="whitespace-nowrap">{tx(isFa, '-۱د', '-1m')}</span>
                 </button>
                 <button 
                   type="button" 
                   onClick={decrementSecond}
                   disabled={currentSec <= 5 && currentMin <= 0}
                   className="min-h-[38px] py-1.5 rounded-xl bg-[var(--bg)] hover:bg-[var(--panel)] border border-[var(--line)] flex items-center justify-center gap-1 text-xs font-bold text-[var(--ink)] disabled:opacity-25 disabled:pointer-events-none active:scale-95 transition-all"
-                  aria-label={isFa ? 'کاهش ۵ ثانیه' : 'Decrease 5 seconds'}
-                  title={isFa ? 'کاهش ۵ ثانیه' : '-5 sec'}
+                  aria-label={tx(isFa, 'کاهش ۵ ثانیه', 'Decrease 5 seconds')}
+                  title={tx(isFa, 'کاهش ۵ ثانیه', '-5 sec')}
                 >
                   <ChevronDown size={14} />
-                  <span className="whitespace-nowrap">{isFa ? '-۵ث' : '-5s'}</span>
+                  <span className="whitespace-nowrap">{tx(isFa, '-۵ث', '-5s')}</span>
                 </button>
               </div>
 
@@ -1332,8 +1325,8 @@ const SetupScreen: React.FC<Props> = ({ settings, onSave, onNext, onBack, onOpen
 
             {/* Sub-label indicators */}
             <div className="flex items-center justify-around w-full text-[10px] font-bold text-[var(--mute)] pt-1 px-1 whitespace-nowrap" dir="ltr">
-              <span>{t.minStepLabel || (isFa ? 'دقیقه (یکی یکی)' : 'Min (1-by-1)')}</span>
-              <span>{t.secStepLabel || (isFa ? 'ثانیه (۵ تا ۵ تا)' : 'Sec (5-by-5)')}</span>
+              <span>{t.minStepLabel || (tx(isFa, 'دقیقه (یکی یکی)', 'Min (1-by-1)'))}</span>
+              <span>{t.secStepLabel || (tx(isFa, 'ثانیه (۵ تا ۵ تا)', 'Sec (5-by-5)'))}</span>
             </div>
           </div>
         </div>
@@ -1344,8 +1337,8 @@ const SetupScreen: React.FC<Props> = ({ settings, onSave, onNext, onBack, onOpen
         {/* Row 1: Auto Pronunciation */}
         <div className="row-ux">
           <div className="min-w-0 pr-2 rtl:pr-0 rtl:pl-2">
-            <b className="whitespace-nowrap">{t.autoPronounce || (isRTL ? 'تلفظ خودکار' : 'Auto Pronunciation')}</b>
-            <small className="block text-xs text-[var(--mute)] leading-tight mt-0.5">{t.autoPronounceDesc || (isRTL ? 'کارت که اومد، کلمه خوانده می‌شه' : 'When card appears, the word is spoken')}</small>
+            <b className="whitespace-nowrap">{t.autoPronounce || (tx(isRTL, 'تلفظ خودکار', 'Auto Pronunciation'))}</b>
+            <small className="block text-xs text-[var(--mute)] leading-tight mt-0.5">{t.autoPronounceDesc || (tx(isRTL, 'کارت که اومد، کلمه خوانده می‌شه', 'When card appears, the word is spoken'))}</small>
           </div>
           <button 
             type="button"
@@ -1365,8 +1358,8 @@ const SetupScreen: React.FC<Props> = ({ settings, onSave, onNext, onBack, onOpen
         {/* Row 2: Hot Seat (Pass Phone) */}
         <div className="row-ux">
           <div className="min-w-0 pr-2 rtl:pr-0 rtl:pl-2">
-            <b className="whitespace-nowrap">{t.hotSeat || (isRTL ? 'صندلی داغ' : 'Hot Seat')}</b>
-            <small className="block text-xs text-[var(--mute)] leading-tight mt-0.5">{t.hotSeatDesc || (isRTL ? 'گوشی سریع دست‌به‌دست می‌شه' : 'Fast handoff between players')}</small>
+            <b className="whitespace-nowrap">{t.hotSeat || (tx(isRTL, 'صندلی داغ', 'Hot Seat'))}</b>
+            <small className="block text-xs text-[var(--mute)] leading-tight mt-0.5">{t.hotSeatDesc || (tx(isRTL, 'گوشی سریع دست‌به‌دست می‌شه', 'Fast handoff between players'))}</small>
           </div>
           <button 
             type="button"
@@ -1386,9 +1379,9 @@ const SetupScreen: React.FC<Props> = ({ settings, onSave, onNext, onBack, onOpen
         {/* Row 3: Card Reveal on Correct/Skip */}
         <div className="row-ux">
           <div className="min-w-0 pr-2 rtl:pr-0 rtl:pl-2">
-            <b className="whitespace-nowrap">{t.cardRevealOnGuess || (isRTL ? 'نمایش کارت بعد از حدس' : 'Card Reveal on Guess')}</b>
+            <b className="whitespace-nowrap">{t.cardRevealOnGuess || (tx(isRTL, 'نمایش کارت بعد از حدس', 'Card Reveal on Guess'))}</b>
             <small className="block text-xs text-[var(--mute)] leading-tight mt-0.5">
-              {t.cardRevealDesc || (isRTL ? 'نمایش معنی و مثال آموزشی پس از هر پاسخ' : 'Show translation & example after each guess')}
+              {t.cardRevealDesc || (tx(isRTL, 'نمایش معنی و مثال آموزشی پس از هر پاسخ', 'Show translation & example after each guess'))}
             </small>
           </div>
           <button 
@@ -1396,7 +1389,7 @@ const SetupScreen: React.FC<Props> = ({ settings, onSave, onNext, onBack, onOpen
             className="sw shrink-0" 
             role="switch" 
             aria-checked={settings.cardRevealEnabled !== false}
-            aria-label={t.cardRevealOnGuess || (isRTL ? 'نمایش کارت بعد از حدس' : 'Card Reveal on Guess')}
+            aria-label={t.cardRevealOnGuess || (tx(isRTL, 'نمایش کارت بعد از حدس', 'Card Reveal on Guess'))}
             onClick={() => {
               sound.playToggle();
               updateSettings('cardRevealEnabled', settings.cardRevealEnabled === false);
@@ -1407,7 +1400,7 @@ const SetupScreen: React.FC<Props> = ({ settings, onSave, onNext, onBack, onOpen
         <hr className="border-0 border-t border-[var(--line)] my-2" />
 
         {/* Direction Segment: Abbreviated Language Codes so labels never truncate */}
-        <div className="lab whitespace-nowrap truncate">{t.cardDirection || (isRTL ? 'جهت ترجمه کارت‌ها' : 'Card Translation Direction')}</div>
+        <div className="lab whitespace-nowrap truncate">{t.cardDirection || (tx(isRTL, 'جهت ترجمه کارت‌ها', 'Card Translation Direction'))}</div>
         <div className="seg sm" id="dir" role="radiogroup" aria-label={t.cardDirection || 'Card Translation Direction'}>
           {dirOptions.map(d => {
             const isChecked = (settings.cardGameMode || 'mixed') === d.id;
@@ -1437,18 +1430,14 @@ const SetupScreen: React.FC<Props> = ({ settings, onSave, onNext, onBack, onOpen
         <div className="mx-4 sm:mx-6 mb-3 p-3 rounded-2xl bg-rose-500/15 border border-rose-500/30 text-rose-700 dark:text-rose-300 text-xs font-bold flex items-center gap-2 animate-fade-in text-start">
           <AlertTriangle size={18} className="shrink-0 text-rose-600" />
           <span>
-            {isRTL
-              ? `ترکیب سطح (${activeCefrInfo?.title || settings.cefrLevel}) و موضوعات انتخابی هیچ کارتی ندارد (۰ کارت). لطفاً دسته‌های موضوعی دیگری را اضافه کنید یا سطح را به «همه سطوح» تغییر دهید.`
-              : `No cards available for this CEFR level and topic selection (0 cards). Please choose more categories or select All levels.`}
+            {txt(isRTL, 'ترکیب سطح ({0}) و موضوعات انتخابی هیچ کارتی ندارد (۰ کارت). لطفاً دسته‌های موضوعی دیگری را اضافه کنید یا سطح را به «همه سطوح» تغییر دهید.', 'No cards available for this CEFR level and topic selection (0 cards). Please choose more categories or select All levels.', [activeCefrInfo?.title || settings.cefrLevel])}
           </span>
         </div>
       ) : isPoolInsufficient ? (
         <div className="mx-4 sm:mx-6 mb-3 p-2.5 rounded-2xl bg-amber-500/15 border border-amber-500/30 text-amber-800 dark:text-amber-300 text-[11px] font-semibold flex items-center gap-2 animate-fade-in text-start">
           <AlertTriangle size={16} className="shrink-0 text-amber-600" />
           <span>
-            {isRTL
-              ? `کارت‌های موجود (${toPersian(availablePoolCount, isRTL)}) از حد نصاب استاندارد (${toPersian(requiredCardCount, isRTL)}) کمتر است و ممکن است در راندهای پایانی تکرار شوند.`
-              : `Available cards (${availablePoolCount}) is below the recommended threshold (${requiredCardCount}). Some cards may repeat.`}
+            {txt(isRTL, 'کارت‌های موجود ({2}) از حد نصاب استاندارد ({3}) کمتر است و ممکن است در راندهای پایانی تکرار شوند.', 'Available cards ({0}) is below the recommended threshold ({1}). Some cards may repeat.', [availablePoolCount, requiredCardCount, toPersian(availablePoolCount, isRTL), toPersian(requiredCardCount, isRTL)])}
           </span>
         </div>
       ) : null}
@@ -1458,7 +1447,7 @@ const SetupScreen: React.FC<Props> = ({ settings, onSave, onNext, onBack, onOpen
         <button 
           type="button"
           className="start-btn disabled:opacity-50 disabled:cursor-not-allowed"
-          aria-label={t.nextStartGame || (isRTL ? 'مرحله بعد: شروع بازی' : 'Next: Start Game')}
+          aria-label={t.nextStartGame || (tx(isRTL, 'مرحله بعد: شروع بازی', 'Next: Start Game'))}
           onClick={() => {
             if (isPoolEmpty) {
               sound.playBuzzer();
@@ -1466,7 +1455,7 @@ const SetupScreen: React.FC<Props> = ({ settings, onSave, onNext, onBack, onOpen
             }
             const hasValidTargets = Array.isArray(settings.targetLanguages) && settings.targetLanguages.length > 0 && settings.targetLanguages[0];
             if (!hasValidTargets) {
-              setLangError(isRTL ? 'لطفاً حداقل یک زبان برای یادگیری انتخاب کنید' : 'Please select at least one learning language');
+              setLangError(tx(isRTL, 'لطفاً حداقل یک زبان برای یادگیری انتخاب کنید', 'Please select at least one learning language'));
               setIsTargetOpen(true);
               sound.playBuzzer();
               return;
@@ -1476,7 +1465,7 @@ const SetupScreen: React.FC<Props> = ({ settings, onSave, onNext, onBack, onOpen
           }}
           disabled={!settings.targetLanguages || settings.targetLanguages.length === 0 || isPoolEmpty}
         >
-          <span className="whitespace-nowrap">{t.nextStartGame || (isRTL ? 'مرحله بعد: شروع بازی' : 'Next: Start Game')}</span>
+          <span className="whitespace-nowrap">{t.nextStartGame || (tx(isRTL, 'مرحله بعد: شروع بازی', 'Next: Start Game'))}</span>
           {isRTL ? <ArrowLeft size={20} className="shrink-0" /> : <ArrowRight size={20} className="shrink-0" />}
         </button>
       </div>
@@ -1495,12 +1484,12 @@ const SetupScreen: React.FC<Props> = ({ settings, onSave, onNext, onBack, onOpen
           <div className="flex items-center justify-between mb-2">
             <h2 id="sheetTitle" className="text-lg font-black text-[var(--ink)] m-0 flex items-center gap-2">
               <BookOpen size={18} className="text-[var(--lapis)] shrink-0" />
-              <span>{t.gameRules || (isFa ? 'راهنمای بازی دور: زبان' : 'Game Rules')}</span>
+              <span>{t.gameRules || (tx(isFa, 'راهنمای بازی دور: زبان', 'Game Rules'))}</span>
             </h2>
             <button
               type="button"
               onClick={() => setIsSheetOpen(false)}
-              aria-label={t.close || (isFa ? 'بستن' : 'Close')}
+              aria-label={t.close || (tx(isFa, 'بستن', 'Close'))}
               className="w-8 h-8 rounded-full bg-[var(--bg)] hover:bg-[var(--line)] text-[var(--mute)] hover:text-[var(--ink)] flex items-center justify-center transition-colors cursor-pointer"
             >
               <X size={16} />
@@ -1508,14 +1497,10 @@ const SetupScreen: React.FC<Props> = ({ settings, onSave, onNext, onBack, onOpen
           </div>
           <div className="text-xs sm:text-sm text-[var(--ink)]/80 space-y-2.5 leading-relaxed overflow-y-auto max-h-[60vh] pr-1">
             <p>
-              {t.guideText1 || (isFa 
-                ? '«دور» یک بازی گروهی هیجان‌انگیز است که دور یک میز یا به‌صورت آنلاین بین اعضای تیم‌ها بازی می‌شود.'
-                : 'Turn is an exciting party game played around the table or online between team members.')}
+              {t.guideText1 || (tx(isFa, '«دور» یک بازی گروهی هیجان‌انگیز است که دور یک میز یا به‌صورت آنلاین بین اعضای تیم‌ها بازی می‌شود.', 'Turn is an exciting party game played around the table or online between team members.'))}
             </p>
             <p>
-              {t.guideText2 || (isFa
-                ? 'هم‌تیمی‌های شما روبه‌روی شما می‌نشینند. شما باید کلمه یا عبارت روی کارت را برای هم‌تیمی خود توضیح دهید یا ترجمه کنید تا حدس بزند.'
-                : 'Teammates sit across from each other. The active player explains, describes, or acts out the card content for their partner.')}
+              {t.guideText2 || (tx(isFa, 'هم‌تیمی‌های شما روبه‌روی شما می‌نشینند. شما باید کلمه یا عبارت روی کارت را برای هم‌تیمی خود توضیح دهید یا ترجمه کنید تا حدس بزند.', 'Teammates sit across from each other. The active player explains, describes, or acts out the card content for their partner.'))}
             </p>
           </div>
           <div className="flex flex-col sm:flex-row gap-2 mt-4">
@@ -1530,16 +1515,16 @@ const SetupScreen: React.FC<Props> = ({ settings, onSave, onNext, onBack, onOpen
                 className="w-full py-2.5 px-3 rounded-xl bg-[var(--bg)] hover:bg-[var(--line)]/60 border border-[var(--line)] text-[var(--ink)] text-xs font-black flex items-center justify-center gap-1.5 cursor-pointer"
               >
                 <BookOpen size={15} className="text-[var(--lapis)]" />
-                <span>{t.gameRules || (isFa ? 'راهنمای کامل برنامه' : 'Full App Guide')}</span>
+                <span>{t.gameRules || (tx(isFa, 'راهنمای کامل برنامه', 'Full App Guide'))}</span>
               </button>
             )}
             <button 
               type="button" 
               className="start-btn w-full" 
               onClick={() => setIsSheetOpen(false)}
-              aria-label={t.gotIt || (isFa ? 'فهمیدم' : 'Got it')}
+              aria-label={t.gotIt || (tx(isFa, 'فهمیدم', 'Got it'))}
             >
-              <span>{t.gotIt || (isFa ? 'فهمیدم' : 'Got it')}</span>
+              <span>{t.gotIt || (tx(isFa, 'فهمیدم', 'Got it'))}</span>
             </button>
           </div>
         </div>

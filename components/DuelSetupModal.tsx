@@ -4,6 +4,7 @@ import { Language, CEFRLevel } from '../types';
 import { SUPPORTED_LANGUAGES, ARCADE_AVATARS, ARCADE_CHARACTERS, CEFR_LEVELS, getCefrText, isPracticeReady } from '../constants';
 import { sound } from '../soundManager';
 import { toPersianDigits } from '../ui';
+import { tx, txt, uiDigits, langName } from '../i18n/runtime';
 
 export interface DuelSettings {
   player1Name: string;
@@ -38,8 +39,8 @@ export const DuelSetupModal: React.FC<Props> = ({
   isRTL = true
 }) => {
   const isEn = uiLanguage === 'en' || uiLanguage === 'en-US' || !isRTL;
-  const defaultP1 = isEn ? 'Player 1 (Blue)' : 'بازیکن ۱ (آبی)';
-  const defaultP2 = isEn ? 'Player 2 (Red)' : 'بازیکن ۲ (قرمز)';
+  const defaultP1 = tx(!isEn, 'بازیکن ۱ (آبی)', 'Player 1 (Blue)');
+  const defaultP2 = tx(!isEn, 'بازیکن ۲ (قرمز)', 'Player 2 (Red)');
 
   // Device Mode: 'single_phone' (Shared Screen) vs 'two_phones' (Online 2 Phones)
   const [deviceMode, setDeviceMode] = useState<'single_phone' | 'two_phones'>('single_phone');
@@ -88,9 +89,9 @@ export const DuelSetupModal: React.FC<Props> = ({
   const handleStart = () => {
     sound.playStartGame();
     onStartDuel({
-      player1Name: player1Name.trim() || (isEn ? 'Player 1' : 'بازیکن ۱'),
+      player1Name: player1Name.trim() || tx(!isEn, 'بازیکن ۱', 'Player 1'),
       player1Avatar: '',
-      player2Name: player2Name.trim() || (isEn ? 'Player 2' : 'بازیکن ۲'),
+      player2Name: player2Name.trim() || tx(!isEn, 'بازیکن ۲', 'Player 2'),
       player2Avatar: '',
       targetLanguage,
       nativeLanguage: isEn ? 'en' : 'fa',
@@ -104,7 +105,7 @@ export const DuelSetupModal: React.FC<Props> = ({
   return (
     <div 
       className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/60 backdrop-blur-xs animate-fade-in font-ui"
-      dir={isRTL ? 'rtl' : 'ltr'}
+      dir={((isRTL ? 'rtl' : 'ltr'))}
       onClick={onClose}
     >
       <div 
@@ -119,17 +120,17 @@ export const DuelSetupModal: React.FC<Props> = ({
             </div>
             <div>
               <h2 className="text-base sm:text-lg font-black text-[var(--ink)]">
-                {isRTL ? 'دوئل سرعتی دونفره ⚔️' : '1v1 Speed Duel'}
+                {tx(isRTL, 'دوئل سرعتی دونفره ⚔️', '1v1 Speed Duel')}
               </h2>
               <span className="text-[11px] font-bold text-[var(--mute)]">
-                {isRTL ? 'مسابقه سرعتی دونفره (حضوری یا آنلاین اینترنتی)' : 'Head-to-head duel (Local or Online Match)'}
+                {tx(isRTL, 'مسابقه سرعتی دونفره (حضوری یا آنلاین اینترنتی)', 'Head-to-head duel (Local or Online Match)')}
               </span>
             </div>
           </div>
           <button
             type="button"
             onClick={onClose}
-            aria-label={isRTL ? 'بستن' : 'Close'}
+            aria-label={tx(isRTL, 'بستن', 'Close')}
             className="w-8 h-8 rounded-full bg-[var(--bg)] hover:bg-[var(--line)] text-[var(--ink)] flex items-center justify-center transition-colors cursor-pointer"
           >
             <X size={16} />
@@ -150,7 +151,7 @@ export const DuelSetupModal: React.FC<Props> = ({
               }`}
             >
               <Smartphone size={15} />
-              <span>{isRTL ? 'حضوری (۱ گوشی)' : 'Local (1 Phone)'}</span>
+              <span>{tx(isRTL, 'حضوری (۱ گوشی)', 'Local (1 Phone)')}</span>
             </button>
             <button
               type="button"
@@ -162,7 +163,7 @@ export const DuelSetupModal: React.FC<Props> = ({
               }`}
             >
               <Globe size={15} />
-              <span>{isRTL ? '🌐 آنلاین (۲ گوشی)' : 'Online (2 Phones)'}</span>
+              <span>{tx(isRTL, '🌐 آنلاین (۲ گوشی)', 'Online (2 Phones)')}</span>
             </button>
           </div>
 
@@ -172,13 +173,11 @@ export const DuelSetupModal: React.FC<Props> = ({
               <div className="flex items-center gap-2">
                 <Globe size={16} className="text-[var(--lapis)]" />
                 <h4 className="text-xs font-black text-[var(--ink)]">
-                  {isRTL ? 'مسابقه زنده دونفره روی دو گوشی جداگانه' : 'Live 1v1 Duel on 2 Separate Phones'}
+                  {tx(isRTL, 'مسابقه زنده دونفره روی دو گوشی جداگانه', 'Live 1v1 Duel on 2 Separate Phones')}
                 </h4>
               </div>
               <p className="text-[11px] text-[var(--mute)] leading-relaxed">
-                {isRTL 
-                  ? 'هر بازیکن روی گوشی خودش بازی می‌کند؛ کارت‌ها و پاسخ‌ها هم‌زمان و زنده در هر دو گوشی همگام می‌شوند!'
-                  : 'Each player plays on their own device. Cards, reflexes, and scores sync in real-time!'}
+                {tx(isRTL, 'هر بازیکن روی گوشی خودش بازی می‌کند؛ کارت‌ها و پاسخ‌ها هم‌زمان و زنده در هر دو گوشی همگام می‌شوند!', 'Each player plays on their own device. Cards, reflexes, and scores sync in real-time!')}
               </p>
 
               <div className="space-y-2 pt-1">
@@ -193,7 +192,7 @@ export const DuelSetupModal: React.FC<Props> = ({
                   className="w-full py-2.5 px-3 bg-gradient-to-r from-[#2347C5] to-[#E0533C] hover:brightness-105 text-white text-xs font-black rounded-xl flex items-center justify-center gap-2 shadow-xs cursor-pointer"
                 >
                   <Swords size={15} />
-                  <span>{isRTL ? 'مچ‌یابی آنلاین دونفره (سریع)' : 'Find 1v1 Online Duel Match'}</span>
+                  <span>{tx(isRTL, 'مچ‌یابی آنلاین دونفره (سریع)', 'Find 1v1 Online Duel Match')}</span>
                 </button>
 
                 <button
@@ -206,7 +205,7 @@ export const DuelSetupModal: React.FC<Props> = ({
                   className="w-full py-2.5 px-3 bg-[var(--lapis)] hover:bg-[#1a38a0] text-white text-xs font-black rounded-xl flex items-center justify-center gap-2 shadow-xs cursor-pointer"
                 >
                   <Wifi size={14} />
-                  <span>{isRTL ? '👑 ایجاد اتاق دوئل آنلاین (میزبان)' : 'Host Online Duel Room'}</span>
+                  <span>{tx(isRTL, '👑 ایجاد اتاق دوئل آنلاین (میزبان)', 'Host Online Duel Room')}</span>
                 </button>
 
                 <div className="flex gap-2">
@@ -214,7 +213,7 @@ export const DuelSetupModal: React.FC<Props> = ({
                     type="text"
                     value={onlineRoomCodeInput}
                     onChange={e => setOnlineRoomCodeInput(e.target.value.toUpperCase())}
-                    placeholder={isRTL ? 'کد اتاق حریف (مثلاً D28)' : 'Room Code (e.g. D28)'}
+                    placeholder={tx(isRTL, 'کد اتاق حریف (مثلاً D28)', 'Room Code (e.g. D28)')}
                     className="flex-1 text-xs font-black px-3 py-2 rounded-xl bg-[var(--panel)] border border-[var(--line)] text-[var(--ink)] outline-none uppercase"
                   />
                   <button
@@ -228,7 +227,7 @@ export const DuelSetupModal: React.FC<Props> = ({
                     className="py-2 px-3 bg-emerald-600 hover:bg-emerald-700 disabled:opacity-50 text-white text-xs font-black rounded-xl flex items-center justify-center gap-1 cursor-pointer"
                   >
                     <KeyRound size={14} />
-                    <span>{isRTL ? 'ورود' : 'Join'}</span>
+                    <span>{tx(isRTL, 'ورود', 'Join')}</span>
                   </button>
                 </div>
               </div>
@@ -241,10 +240,10 @@ export const DuelSetupModal: React.FC<Props> = ({
             <div className="p-3 bg-blue-50/60 dark:bg-blue-950/20 border-2 border-[#2347C5]/40 rounded-2xl space-y-2">
               <div className="flex items-center justify-between">
                 <span className="text-[11px] font-black text-[#2347C5]">
-                  {isRTL ? 'بازیکن ۱ (پایین / آبی)' : 'Player 1 (Bottom / Blue)'}
+                  {tx(isRTL, 'بازیکن ۱ (پایین / آبی)', 'Player 1 (Bottom / Blue)')}
                 </span>
                 <span className="w-5 h-5 rounded-md bg-[#2347C5] text-white text-[10px] font-black flex items-center justify-center">
-                  #{isRTL ? toPersianDigits(1) : 1}
+                  #{uiDigits(isRTL, 1)}
                 </span>
               </div>
               <input
@@ -253,7 +252,7 @@ export const DuelSetupModal: React.FC<Props> = ({
                 onChange={e => setPlayer1Name(e.target.value)}
                 maxLength={16}
                 className="w-full text-xs font-bold px-2.5 py-2 rounded-xl bg-[var(--panel)] border border-[var(--line)] text-[var(--ink)] outline-none focus:border-[#2347C5]"
-                placeholder={isRTL ? 'نام بازیکن ۱' : 'Player 1'}
+                placeholder={tx(isRTL, 'نام بازیکن ۱', 'Player 1')}
               />
             </div>
 
@@ -261,10 +260,10 @@ export const DuelSetupModal: React.FC<Props> = ({
             <div className="p-3 bg-red-50/60 dark:bg-red-950/20 border-2 border-[#E0533C]/40 rounded-2xl space-y-2">
               <div className="flex items-center justify-between">
                 <span className="text-[11px] font-black text-[#E0533C]">
-                  {isRTL ? 'بازیکن ۲ (بالا / قرمز)' : 'Player 2 (Top / Red)'}
+                  {tx(isRTL, 'بازیکن ۲ (بالا / قرمز)', 'Player 2 (Top / Red)')}
                 </span>
                 <span className="w-5 h-5 rounded-md bg-[#E0533C] text-white text-[10px] font-black flex items-center justify-center">
-                  #{isRTL ? toPersianDigits(2) : 2}
+                  #{uiDigits(isRTL, 2)}
                 </span>
               </div>
               <input
@@ -273,7 +272,7 @@ export const DuelSetupModal: React.FC<Props> = ({
                 onChange={e => setPlayer2Name(e.target.value)}
                 maxLength={16}
                 className="w-full text-xs font-bold px-2.5 py-2 rounded-xl bg-[var(--panel)] border border-[var(--line)] text-[var(--ink)] outline-none focus:border-[#E0533C]"
-                placeholder={isRTL ? 'نام بازیکن ۲' : 'Player 2'}
+                placeholder={tx(isRTL, 'نام بازیکن ۲', 'Player 2')}
               />
             </div>
           </div>
@@ -283,7 +282,7 @@ export const DuelSetupModal: React.FC<Props> = ({
             <div className="flex items-center text-xs font-bold">
               <span className="flex items-center gap-1.5 text-[var(--ink)]">
                 <Trophy size={14} className="text-[var(--saffron)]" />
-                <span>{isRTL ? 'شرط پیروزی مسابقه (امتیاز هدف):' : 'Winning Score Target:'}</span>
+                <span>{tx(isRTL, 'شرط پیروزی مسابقه (امتیاز هدف):', 'Winning Score Target:')}</span>
               </span>
             </div>
             <div className="grid grid-cols-4 gap-2">
@@ -298,7 +297,7 @@ export const DuelSetupModal: React.FC<Props> = ({
                       : 'bg-[var(--panel)] text-[var(--ink)] border border-[var(--line)] hover:bg-[var(--bg)]'
                   }`}
                 >
-                  {isRTL ? toPersianDigits(sc) : sc} {isRTL ? 'امتیاز' : 'pts'}
+                  {uiDigits(isRTL, sc)} {tx(isRTL, 'امتیاز', 'pts')}
                 </button>
               ))}
             </div>
@@ -309,10 +308,10 @@ export const DuelSetupModal: React.FC<Props> = ({
             <div className="flex items-center justify-between">
               <span className="text-xs font-bold text-[var(--ink)] flex items-center gap-1.5">
                 <Globe size={14} className="text-[var(--lapis)]" />
-                <span>{isRTL ? 'زبان رقابت دوئل:' : 'Duel Language:'}</span>
+                <span>{tx(isRTL, 'زبان رقابت دوئل:', 'Duel Language:')}</span>
               </span>
               <span className="text-[11px] font-bold text-[var(--lapis)]">
-                {targetLanguage ? (isRTL ? '۱ زبان فعال' : '1 active') : ''}
+                {targetLanguage ? (tx(isRTL, '۱ زبان فعال', '1 active')) : ''}
               </span>
             </div>
 
@@ -334,7 +333,7 @@ export const DuelSetupModal: React.FC<Props> = ({
                       <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-[var(--lapis)] text-white text-xs font-bold shadow-xs max-w-full">
                         <span>{lInfo.flag}</span>
                         <span className="whitespace-nowrap truncate">
-                          {isRTL ? lInfo.persianName : lInfo.name}
+                          {langName(lInfo, isRTL)}
                         </span>
                         {!isRTL && (
                           <span className="text-[10px] opacity-80 whitespace-nowrap truncate font-mono uppercase">
@@ -344,7 +343,7 @@ export const DuelSetupModal: React.FC<Props> = ({
                         <span
                           role="button"
                           tabIndex={0}
-                          aria-label={isRTL ? `حذف ${lInfo.name}` : `Remove ${lInfo.name}`}
+                          aria-label={txt(isRTL, 'حذف {0}', 'Remove {0}', [lInfo.name])}
                           onClick={(e) => {
                             e.stopPropagation();
                             sound.playClick();
@@ -361,7 +360,7 @@ export const DuelSetupModal: React.FC<Props> = ({
                 ) : (
                   <span className="text-xs font-bold text-[var(--mute)] flex items-center gap-1.5">
                     <Plus size={14} className="text-[var(--lapis)]" />
-                    <span>{isRTL ? 'انتخاب زبان رقابت...' : 'Choose language...'}</span>
+                    <span>{tx(isRTL, 'انتخاب زبان رقابت...', 'Choose language...')}</span>
                   </span>
                 )}
               </div>
@@ -376,7 +375,7 @@ export const DuelSetupModal: React.FC<Props> = ({
                     type="text"
                     value={searchLang}
                     onChange={e => setSearchLang(e.target.value)}
-                    placeholder={isRTL ? 'جستجوی زبان...' : 'Search languages...'}
+                    placeholder={tx(isRTL, 'جستجوی زبان...', 'Search languages...')}
                     className="w-full h-9 px-2.5 text-xs rounded-lg bg-[var(--bg)] border border-[var(--line)] text-[var(--ink)] placeholder-[var(--mute)] outline-none focus:border-[var(--lapis)] rtl:pr-7 ltr:pl-7"
                   />
                   <Search size={13} className="absolute top-1/2 -translate-y-1/2 text-[var(--mute)] pointer-events-none rtl:right-2 ltr:left-2" />
@@ -416,7 +415,7 @@ export const DuelSetupModal: React.FC<Props> = ({
                       >
                         <span className="flex items-center gap-2 truncate">
                           <span>{l.flag}</span>
-                          <span>{isRTL ? l.persianName : l.name}</span>
+                          <span>{langName(l, isRTL)}</span>
                           {!isRTL && (
                             <span className={`text-[10px] uppercase font-mono ${isSelected ? 'opacity-80' : 'text-[var(--mute)]'}`}>
                               ({l.code})
@@ -436,14 +435,14 @@ export const DuelSetupModal: React.FC<Props> = ({
           <div className="bg-[var(--bg)] p-3 rounded-2xl border border-[var(--line)] space-y-2">
             <div className="flex items-center justify-between text-xs font-bold">
               <span className="text-[var(--ink)]">
-                {isRTL ? 'سطح تسلط و دشواری (CEFR):' : 'Proficiency Level (CEFR):'}
+                {tx(isRTL, 'سطح تسلط و دشواری (CEFR):', 'Proficiency Level (CEFR):')}
               </span>
               <span className="text-[11px] font-black px-2 py-0.5 rounded-lg bg-[var(--lapis-soft)] text-[var(--lapis)]">
                 {cefrLevel === 'all' ? 'A1' : cefrLevel}
               </span>
             </div>
 
-            <div className="grid grid-cols-4 sm:grid-cols-7 gap-1.5" role="radiogroup" aria-label={isRTL ? 'سطح دشواری' : 'Proficiency Level'}>
+            <div className="grid grid-cols-4 sm:grid-cols-7 gap-1.5" role="radiogroup" aria-label={tx(isRTL, 'سطح دشواری', 'Proficiency Level')}>
               {CEFR_LEVELS.map(lvl => {
                 const isSelected = (cefrLevel === 'all' ? 'A1' : cefrLevel) === lvl.id;
                 const subText = getCefrText(lvl.name, uiLanguage) || lvl.id;
@@ -479,7 +478,7 @@ export const DuelSetupModal: React.FC<Props> = ({
             onClick={onClose}
             className="w-1/3 py-2.5 rounded-xl border border-[var(--line)] text-xs font-bold text-[var(--mute)] hover:text-[var(--ink)] cursor-pointer"
           >
-            {isRTL ? 'انصراف' : 'Cancel'}
+            {tx(isRTL, 'انصراف', 'Cancel')}
           </button>
           <button
             type="button"
@@ -497,12 +496,12 @@ export const DuelSetupModal: React.FC<Props> = ({
             {deviceMode === 'two_phones' ? (
               <>
                 <Globe size={18} />
-                <span>{isRTL ? 'شروع دوئل آنلاین' : 'Start Online Duel'}</span>
+                <span>{tx(isRTL, 'شروع دوئل آنلاین', 'Start Online Duel')}</span>
               </>
             ) : (
               <>
                 <Play size={18} fill="currentColor" />
-                <span>{isRTL ? 'شروع مسابقه دوئل' : 'Start Duel Match'}</span>
+                <span>{tx(isRTL, 'شروع مسابقه دوئل', 'Start Duel Match')}</span>
               </>
             )}
           </button>
