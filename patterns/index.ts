@@ -8,14 +8,25 @@
 import type { LanguageCard, Language } from '../types';
 import type { PatternCategory, PatternDeck, PatternMode } from './types';
 import { EN_PATTERNS } from './en';
+import { NL_PATTERNS } from './nl';
 import { tx } from '../i18n/runtime';
 
-const DECKS: Record<string, PatternDeck> = { en: EN_PATTERNS };
+const DECKS: Record<string, PatternDeck> = { en: EN_PATTERNS, nl: NL_PATTERNS };
+
+/** همهٔ دسته‌های آماده (برای تست‌ها و ابزارها) */
+export function getAllPatternDecks(): PatternDeck[] {
+  return Object.values(DECKS);
+}
 /** زبان‌های مادری‌ای که معنی/موقعیتِ کارت‌ها برایشان نوشته شده */
 const NATIVE_READY = new Set(['fa']);
 const PREF_KEY = 'dor_pattern_games_v1';
 
-const deckLang = (target: string) => (target === 'en-US' || target === 'en-GB' ? 'en' : target);
+const deckLang = (target: string) => (target.startsWith('en-') ? 'en' : target.startsWith('nl-') ? 'nl' : target);
+
+/** اولین زبان هدفی که برای این زبان مادری بازی الگو دارد */
+export function firstPatternTarget(targets: Array<string | undefined>, native: string): string | undefined {
+  return targets.find((t): t is string => !!t && hasPatternDeck(t, native));
+}
 
 export function hasPatternDeck(target: string, native: string): boolean {
   return !!DECKS[deckLang(target)] && NATIVE_READY.has(native);

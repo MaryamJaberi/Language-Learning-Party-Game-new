@@ -44,6 +44,7 @@ import {
 import { OnlineDuelRoom } from '../types';
 import { tx, txt } from '../i18n/runtime';
 import PatternGamePicker from '../components/PatternGamePicker';
+import { firstPatternTarget } from '../patterns';
 
 interface Props {
   language: Language;
@@ -591,7 +592,7 @@ export const OnlineLobbyScreen: React.FC<Props> = ({
             />
           </div>
 
-          <PatternGamePicker mode="group" targetLanguage={(initialSettings.targetLanguages || []).find((l) => l === 'en' || l === 'en-US') || initialSettings.targetLanguages?.[0] || 'en'} nativeLanguage={initialSettings.nativeLanguage || initialSettings.language || 'fa'} isRTL={isRTL} />
+          <PatternGamePicker mode="group" targetLanguage={firstPatternTarget(initialSettings.targetLanguages || [], initialSettings.nativeLanguage || initialSettings.language || 'fa') || initialSettings.targetLanguages?.[0] || 'en'} nativeLanguage={initialSettings.nativeLanguage || initialSettings.language || 'fa'} isRTL={isRTL} />
 
           {/* Voice Platform Selection */}
           <div>

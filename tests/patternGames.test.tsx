@@ -2,7 +2,7 @@ import { describe, it, expect, beforeEach } from 'vitest';
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { EN_PATTERNS } from '../patterns/en';
-import { getPatternCards, applyPatternDeck, setPatternPrefs, getPatternPrefs, hasPatternDeck, getPatternCategories } from '../patterns';
+import { getAllPatternDecks, firstPatternTarget, getPatternCards, applyPatternDeck, setPatternPrefs, getPatternPrefs, hasPatternDeck, getPatternCategories } from '../patterns';
 import { generateChallengingReflexOptions } from '../utils/testQuestionEngine';
 import { chunkSentence } from '../src/engine/longSentence/chunker';
 import PatternGamePicker from '../components/PatternGamePicker';
@@ -11,8 +11,9 @@ const allIds = EN_PATTERNS.categories.map((c) => c.id);
 
 describe('بازی‌های الگو: داده', () => {
   it('هر ردیف کامل است و گزینه‌های غلط با جواب درست یکی نیستند', () => {
+    for (const deck of getAllPatternDecks()) {
     const seen = new Set<string>();
-    for (const cat of EN_PATTERNS.categories) {
+    for (const cat of deck.categories) {
       expect(cat.id.startsWith('PAT_')).toBe(true);
       expect(cat.items.length).toBeGreaterThanOrEqual(8);
       for (const [text, fa, wrong, noteFa, noteEn] of cat.items) {
@@ -27,10 +28,12 @@ describe('بازی‌های الگو: داده', () => {
         seen.add(correct);
       }
     }
+    }
   });
 
-  it('کارت‌ها شناسهٔ یکتا و تکه‌هایی دارند که کنار هم همان جمله می‌شوند', () => {
-    const cards = getPatternCards('en', 'fa', allIds);
+  it.each(['en', 'nl'])('کارت‌های %s شناسهٔ یکتا و تکه‌هایی دارند که کنار هم همان جمله می‌شوند', (lang) => {
+    const ids = getPatternCategories(lang).map((c) => c.id);
+    const cards = getPatternCards(lang, 'fa', ids);
     expect(cards.length).toBeGreaterThan(100);
     expect(new Set(cards.map((c) => c.id)).size).toBe(cards.length);
     for (const c of cards) {
@@ -41,8 +44,10 @@ describe('بازی‌های الگو: داده', () => {
 
   it('برای جفت‌زبانی که محتوا ندارد چیزی برنمی‌گرداند', () => {
     expect(hasPatternDeck('en-US', 'fa')).toBe(true);
-    expect(hasPatternDeck('nl', 'fa')).toBe(false);
-    expect(getPatternCards('nl', 'fa', allIds)).toEqual([]);
+    expect(hasPatternDeck('nl', 'fa')).toBe(true);
+    expect(hasPatternDeck('de', 'fa')).toBe(false);
+    expect(getPatternCards('de', 'fa', allIds)).toEqual([]);
+    expect(firstPatternTarget(['de', 'nl', 'en-US'], 'fa')).toBe('nl');
   });
 });
 
@@ -66,17 +71,21 @@ describe('بازی‌های الگو: انتخاب در هر حالت بازی',
 
   it('اگر زبان هدف محتوا نداشته باشد به کارت‌های معمول برمی‌گردد', () => {
     setPatternPrefs('group', ['PAT_FRAMES']);
-    const fallback = [{ id: 'nl1' } as any];
-    expect(applyPatternDeck('group', ['nl'], 'fa', () => fallback)).toBe(fallback);
-    expect(applyPatternDeck('group', ['nl', 'en-US'], 'fa', () => fallback)[0].topic).toBe('PAT_FRAMES');
+    const fallback = [{ id: 'de1' } as any];
+    expect(applyPatternDeck('group', ['de'], 'fa', () => fallback)).toBe(fallback);
+    expect(applyPatternDeck('group', ['de', 'en-US'], 'fa', () => fallback)[0].topic).toBe('PAT_FRAMES');
+    setPatternPrefs('group', ['PAT_SEPARABLE']);
+    const nl = applyPatternDeck('group', ['nl'], 'fa', () => fallback);
+    expect(nl[0].targetLanguage).toBe('nl');
+    expect(nl.every((c) => c.topic === 'PAT_SEPARABLE')).toBe(true);
   });
 });
 
 describe('بازی دونفره: کدام درست است؟', () => {
-  it('چهار گزینه = جواب درست + سه اشتباه رایج، و روی هر دو گوشی یک ترتیب', () => {
-    for (const card of getPatternCards('en', 'fa', allIds)) {
-      const a = generateChallengingReflexOptions(card, [], 'en' as any);
-      const b = generateChallengingReflexOptions(JSON.parse(JSON.stringify(card)), [card], 'en' as any);
+  it.each(['en', 'nl'])('%s: چهار گزینه = جواب درست + سه اشتباه رایج، و روی هر دو گوشی یک ترتیب', (lang) => {
+    for (const card of getPatternCards(lang, 'fa', getPatternCategories(lang).map((c) => c.id))) {
+      const a = generateChallengingReflexOptions(card, [], lang as any);
+      const b = generateChallengingReflexOptions(JSON.parse(JSON.stringify(card)), [card], lang as any);
       expect(a).toEqual(b);
       expect([...a].sort()).toEqual([card.targetText, ...card.fixedOptions!].sort());
     }
@@ -96,6 +105,10 @@ describe('تکه‌بندی خودکار: قالب آغازین یک تکه می
     expect(parts.join(' ')).toBe('It would be great if we could meet on Friday morning');
     expect(parts).toHaveLength(5);
   });
+  it('Zou je / Het zou fijn zijn als (هلندی)', () => {
+    expect(chunkSentence('Zou je morgen even langs kunnen komen bij mijn moeder thuis', 'nl', 3)[0]).toBe('Zou je');
+    expect(chunkSentence('Het zou fijn zijn als we volgende week samen konden eten', 'nl', 5)[0]).toBe('Het zou fijn zijn als');
+  });
 });
 
 describe('انتخابگر بازی الگو', () => {
@@ -111,7 +124,7 @@ describe('انتخابگر بازی الگو', () => {
   });
 
   it('برای زبانی که هنوز آماده نیست دکمه‌ای نشان نمی‌دهد', () => {
-    render(<PatternGamePicker mode="solo" targetLanguage="nl" nativeLanguage="fa" isRTL />);
+    render(<PatternGamePicker mode="solo" targetLanguage="de" nativeLanguage="fa" isRTL />);
     expect(screen.queryAllByRole('button')).toHaveLength(0);
   });
 });

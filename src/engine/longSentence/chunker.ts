@@ -65,11 +65,20 @@ const EN_FRAME_OPENERS = [
   'why should i', 'i have been', "i've been", 'let me', 'could you', 'would you',
 ].map((f) => f.split(' '));
 
+/** قالب‌های آغازین پرکاربرد هلندی */
+const NL_FRAME_OPENERS = [
+  'het zou fijn zijn als', 'kun je even kijken of', 'mag ik vragen', 'in vergelijking met', 'afgezien van',
+  'het hangt af van', 'volgens mij', 'zou je', 'kun je', 'kunt u', 'heb je zin om', 'ik wil graag',
+].map((f) => f.split(' '));
+
 function frameOpenerLength(toks: string[], lang: string): number {
-  if (lang !== 'en' && !lang.startsWith('en-')) return 0;
+  const isEn = lang === 'en' || lang.startsWith('en-');
+  const isNl = lang === 'nl' || lang.startsWith('nl-');
+  if (!isEn && !isNl) return 0;
+  const openers = isEn ? EN_FRAME_OPENERS : NL_FRAME_OPENERS;
   const norm = toks.map((t) => t.toLowerCase().replace(/[’`]/g, "'").replace(/[.,!?;:]+$/, ''));
   let best = 0;
-  for (const f of EN_FRAME_OPENERS) {
+  for (const f of openers) {
     if (f.length > best && f.length < toks.length && f.every((w, i) => norm[i] === w)) best = f.length;
   }
   return best;
