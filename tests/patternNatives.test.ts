@@ -39,6 +39,9 @@ describe('بازی‌های الگو با زبان مادری غیر از فار
   it('زبان هدف و مادری یکی نیستند؛ زبان مادری بی‌بسته هم چیزی نمی‌گیرد', () => {
     expect(hasPatternDeck('nl', 'nl')).toBe(false);
     expect(hasPatternDeck('nl', 'tr')).toBe(false);
-    expect(patternNativeLanguages()).toContain('fa');
+    expect(patternNativeLanguages()).toEqual(expect.arrayContaining(['fa', 'en', 'nl', 'de']));
+    // «en-US» مثل «en» حساب می‌شود
+    expect(hasPatternDeck('nl', 'en-US')).toBe(true);
+    expect(getPatternCards('de', 'en-US', ['PAT_CASES'])[0].translation).toBe('I see the man over there.');
   });
 });

@@ -9,6 +9,7 @@ import type { LanguageCard, Language } from '../types';
 import type { NativePack, PatternCategory, PatternDeck, PatternMode } from './types';
 import { NATIVE_EN } from './natives/en';
 import { NATIVE_NL } from './natives/nl';
+import { NATIVE_DE } from './natives/de';
 import { EN_PATTERNS } from './en';
 import { NL_PATTERNS } from './nl';
 import { DE_PATTERNS } from './de';
@@ -24,7 +25,7 @@ export function getAllPatternDecks(): PatternDeck[] {
   return Object.values(DECKS);
 }
 /** زبان‌های مادری غیر از فارسی (فارسی داخل خود دسته‌هاست) */
-const NATIVES: Record<string, NativePack> = { en: NATIVE_EN, nl: NATIVE_NL };
+const NATIVES: Record<string, NativePack> = { en: NATIVE_EN, nl: NATIVE_NL, de: NATIVE_DE };
 
 /** زبان‌های مادری که بازی الگو برایشان آماده است */
 export function patternNativeLanguages(): string[] {
@@ -47,7 +48,11 @@ export function firstPatternTarget(targets: Array<string | undefined>, native: s
   return targets.find((t): t is string => !!t && hasPatternDeck(t, native));
 }
 
+/** «en-US» ← «en»؛ زبان مادری بدون گونهٔ منطقه‌ای */
+const nativeKey = (native: string) => (native || '').split('-')[0];
+
 export function hasPatternDeck(target: string, native: string): boolean {
+  native = nativeKey(native);
   const lang = deckLang(target);
   if (!DECKS[lang]) return false;
   if (native === 'fa') return true;
@@ -69,15 +74,16 @@ const POINTS: Record<string, [LanguageCard['difficulty'], number]> = {
 
 export function getPatternCards(target: Language | string, native: Language | string, categoryIds: string[]): LanguageCard[] {
   if (!hasPatternDeck(target, native)) return [];
+  const nk = nativeKey(String(native));
   const out: LanguageCard[] = [];
   for (const cat of getPatternCategories(target)) {
     if (!categoryIds.includes(cat.id)) continue;
     const [difficulty, points] = POINTS[cat.level] || ['medium', 2];
-    const pack = native === 'fa' ? undefined : NATIVES[native]?.decks[deckLang(target)]?.[cat.id];
+    const pack = nk === 'fa' ? undefined : NATIVES[nk]?.decks[deckLang(target)]?.[cat.id];
     cat.items.forEach(([text, fa, wrong, noteFa, noteEn], i) => {
       let meaning = fa;
       let note = noteFa;
-      if (native !== 'fa') {
+      if (nk !== 'fa') {
         const entry = pack?.[i];
         if (!entry) return; // ترجمهٔ این ردیف هنوز نیست
         meaning = Array.isArray(entry) ? entry[0] : entry;
@@ -92,7 +98,7 @@ export function getPatternCards(target: Language | string, native: Language | st
         topic: cat.id,
         contentType: 'Sentence',
         learningMode: 'Translate',
-        prompt: GROUP_PROMPT[native] || GROUP_PROMPT.en,
+        prompt: GROUP_PROMPT[nk] || GROUP_PROMPT.en,
         targetText: chunks.join(' '),
         translation: meaning,
         grammarPoint: note,
