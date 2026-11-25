@@ -3,6 +3,8 @@ import { loadManifest } from '../components/CardImage';
 import { getContentBaseUrl } from '../contentStore';
 import { ArrowLeft, ArrowRight, Volume2, BookOpenText } from 'lucide-react';
 import LexThumb from '../src/visual/LexThumb';
+import ArtThumb, { artHasVisual } from '../src/visual/ArtThumb';
+import { useArt } from '../src/visual/ArtScene';
 import { LEXICON, type LexEntry } from '../src/visual/lexicon';
 import { tx, txt, uiDigits } from '../i18n/runtime';
 import { sound } from '../soundManager';
@@ -58,6 +60,7 @@ export default function PictureDictionaryScreen({ language, isRTL, targetLanguag
   const [catId, setCatId] = useState(LEXICON[0].id);
   // تصویرهای Canva دیکشنری (d_<id>)؛ تا ساخته نشده‌اند، طرح موقت با کد نشان داده می‌شود
   const [images, setImages] = useState<Record<string, string>>({});
+  const art = useArt();
   useEffect(() => {
     let alive = true;
     loadManifest().then((m) => {
@@ -141,6 +144,8 @@ export default function PictureDictionaryScreen({ language, isRTL, targetLanguag
             >
               {images[`d_${entry.id}`] ? (
                 <img src={images[`d_${entry.id}`]} alt={entry[target]} loading="lazy" decoding="async" className="block w-full h-auto rounded-xl object-cover" style={{ aspectRatio: '1 / 1', objectPosition: '50% 35%' }} />
+              ) : art && artHasVisual(art, entry.visual) ? (
+                <ArtThumb visual={entry.visual} art={art} title={entry[target]} className="block w-full h-auto rounded-xl" />
               ) : (
                 <LexThumb visual={entry.visual} title={entry[target]} className="block w-full h-auto" />
               )}

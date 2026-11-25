@@ -61,6 +61,16 @@ export default defineConfig(() => {
             globIgnores: ['**/downloads/**', '**/assets/aistudio/**', '**/data/decks/*.json', '**/data/scenes/*.json'],
             maximumFileSizeToCacheInBytes: 3 * 1024 * 1024,
             runtimeCaching: [
+              // تکه‌های Canva صحنه‌ها (data/art): هر کدام یک بار دانلود و بعد از حافظه خوانده می‌شود
+              {
+                urlPattern: /\/data\/art\/.*\.webp$/i,
+                handler: 'CacheFirst',
+                options: {
+                  cacheName: 'dour-art',
+                  expiration: { maxEntries: 400, maxAgeSeconds: 60 * 60 * 24 * 180 },
+                  cacheableResponse: { statuses: [0, 200] },
+                },
+              },
               // کارت‌های زبان (data/decks) را خود اپ با contentStore.ts ذخیره می‌کند،
               // فقط اگر کاربر در تنظیمات اجازه داده باشد؛ Service Worker آن‌ها را ذخیره نمی‌کند.
               {
