@@ -1,4 +1,5 @@
 import type { NativePack } from '../types';
+import { NL_EN_CORE } from './nl-en-core';
 
 /**
  * زبان مادری هلندی: [معنی، نکته] به هلندی، به همان ترتیبِ دسته‌ها و ردیف‌ها.
@@ -8,6 +9,8 @@ export const NATIVE_NL: NativePack = {
   native: 'nl',
   decks: {
     en: {
+      // دسته‌های english-core
+      ...NL_EN_CORE,
       PAT_FRAMES: [
         ['Kijk of je het naar volgende week kunt verzetten.', 'See if you can… = zacht, indirect verzoek'],
         ['Kijk of je dit voor me kunt repareren.', 'Na “can” het kale werkwoord, zonder “to”'],

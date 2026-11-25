@@ -1,4 +1,5 @@
 import type { NativePack } from '../types';
+import { DE_EN_CORE } from './de-en-core';
 
 /**
  * زبان مادری آلمانی: [معنی، نکته] به آلمانی، به همان ترتیبِ دسته‌ها و ردیف‌ها.
@@ -8,6 +9,8 @@ export const NATIVE_DE: NativePack = {
   native: 'de',
   decks: {
     en: {
+      // دسته‌های english-core
+      ...DE_EN_CORE,
       PAT_FRAMES: [
         ['Schau mal, ob du es auf nächste Woche verschieben kannst.', 'See if you can… = weiche, indirekte Bitte'],
         ['Schau mal, ob du das für mich reparieren kannst.', 'Nach “can” der reine Infinitiv, ohne “to”'],
