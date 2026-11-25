@@ -34,6 +34,7 @@ import SinglePlayerReportScreen from './screens/SinglePlayerReportScreen';
 import DuelScreen from './screens/DuelScreen';
 import OnlineDuelScreen from './screens/OnlineDuelScreen';
 import { LeitnerScreen } from './screens/LeitnerScreen';
+import PictureDictionaryScreen from './screens/PictureDictionaryScreen';
 import ArcadeBackground from './components/ArcadeBackground';
 import SinglePlayerSetupModal from './components/SinglePlayerSetupModal';
 import { DuelSetupModal, DuelSettings } from './components/DuelSetupModal';
@@ -54,7 +55,7 @@ import { PLAYER_AVATARS, DEFAULT_SETTINGS } from './constants';
 import { tx, txt } from './i18n/runtime';
 import { applyPatternDeck } from './patterns';
 
-type ScreenType = 'INTRO' | 'LANGUAGE_SELECT' | 'CATEGORIES' | 'SETUP' | 'PLAYERS' | 'SEATING_CONFIRM' | 'GAME' | 'HISTORY' | 'HELP' | 'ONLINE_LOBBY' | 'ONLINE_GAME' | 'SINGLE_PLAYER' | 'SINGLE_REPORT' | 'DUEL_GAME' | 'ONLINE_DUEL' | 'LEITNER';
+type ScreenType = 'INTRO' | 'LANGUAGE_SELECT' | 'CATEGORIES' | 'SETUP' | 'PLAYERS' | 'SEATING_CONFIRM' | 'GAME' | 'HISTORY' | 'HELP' | 'ONLINE_LOBBY' | 'ONLINE_GAME' | 'SINGLE_PLAYER' | 'SINGLE_REPORT' | 'DUEL_GAME' | 'ONLINE_DUEL' | 'LEITNER' | 'DICTIONARY';
 
 const App: React.FC = () => {
   const [currentScreen, setCurrentScreen] = useState<ScreenType>('INTRO');
@@ -932,6 +933,7 @@ const App: React.FC = () => {
           onOpenHistory={() => setCurrentScreen('HISTORY')}
           onOpenHelp={() => openHelp('intro')}
           onOpenLeitner={() => setCurrentScreen('LEITNER')}
+          onOpenDictionary={() => setCurrentScreen('DICTIONARY')}
           onResumeSession={handleResumeActiveSession}
           onDiscardSession={handleDiscardActiveSession}
         />
@@ -1155,6 +1157,17 @@ const App: React.FC = () => {
           }}
           onOpenHelp={() => openHelp('rules')}
           isRTL={isRtlLang(settings.language)}
+        />
+      )}
+
+      {/* دیکشنری تصویری */}
+      {currentScreen === 'DICTIONARY' && (
+        <PictureDictionaryScreen
+          language={settings.language}
+          isRTL={isRtlLang(settings.language)}
+          targetLanguage={settings.targetLanguages?.[0]}
+          nativeLanguage={settings.nativeLanguage}
+          onExit={() => setCurrentScreen('INTRO')}
         />
       )}
 

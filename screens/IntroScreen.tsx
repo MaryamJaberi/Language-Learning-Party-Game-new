@@ -12,7 +12,7 @@ import { LanguagePickerModal } from '../components/LanguagePickerModal';
 import { UserProfileModal } from '../components/UserProfileModal';
 import { SoundHeaderButton } from '../components/SoundHeaderButton';
 import ArcadeBackground from '../components/ArcadeBackground';
-import { 
+import { BookOpenText, 
   Gamepad2, 
   Trophy, 
   BookOpen, 
@@ -61,6 +61,7 @@ interface Props {
   onOpenHistory: () => void;
   onOpenLeaderboard?: () => void;
   onOpenHelp?: () => void;
+  onOpenDictionary?: () => void;
   onResumeSession?: () => void;
   onDiscardSession?: () => void;
 }
@@ -77,6 +78,7 @@ const IntroScreen: React.FC<Props> = ({
   onOpenLeitner,
   onOpenHistory, 
   onOpenHelp,
+  onOpenDictionary,
   onResumeSession,
   onDiscardSession
 }) => {
@@ -521,6 +523,30 @@ const IntroScreen: React.FC<Props> = ({
             {isRTL ? <ChevronLeft size={20} /> : <ChevronRight size={20} />}
           </div>
         </div>
+
+        {/* دیکشنری تصویری */}
+        {onOpenDictionary && (
+          <button
+            type="button"
+            id="intro-dictionary-btn"
+            onClick={() => {
+              sound.playClick();
+              onOpenDictionary();
+            }}
+            className="group w-full min-h-[52px] px-3.5 py-2.5 rounded-2xl bg-[var(--panel)] hover:bg-[var(--bg)] border border-dashed border-[var(--line)] hover:border-[var(--lapis)] transition-all cursor-pointer flex items-center justify-between gap-2.5 text-start"
+          >
+            <span className="flex items-center gap-3 min-w-0">
+              <span className="w-9 h-9 rounded-xl bg-[var(--lapis-soft)] text-[var(--lapis)] flex items-center justify-center shrink-0">
+                <BookOpenText size={18} />
+              </span>
+              <span className="min-w-0">
+                <span className="block text-sm font-black text-[var(--ink)] leading-tight truncate">{tx(isRTL, 'دیکشنری تصویری', 'Picture dictionary')}</span>
+                <span className="block text-[11px] text-[var(--mute)] font-medium leading-tight truncate">{tx(isRTL, 'فامیل، حیوان‌ها، مکان‌ها، شغل‌ها و …', 'Family, animals, places, jobs and more')}</span>
+              </span>
+            </span>
+            <span className="text-[var(--mute)] group-hover:text-[var(--lapis)] shrink-0">{isRTL ? <ChevronLeft size={18} /> : <ChevronRight size={18} />}</span>
+          </button>
+        )}
 
         {/* Legal, Privacy Policy & Styled Version Badge */}
         <div className="flex items-center justify-center gap-2.5 pt-1.5 text-xs text-[var(--mute)] font-medium">

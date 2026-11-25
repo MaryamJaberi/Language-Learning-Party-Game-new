@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { fetchContentJSON, getContentBaseUrl } from '../contentStore';
+import CardScene from './CardScene';
 
 /**
  * تصویر کارت. تصویرها بر اساس conceptId نام‌گذاری شده‌اند، پس یک تصویر برای همهٔ زبان‌های یک کارت کار می‌کند.
@@ -36,6 +37,7 @@ export function normalizeCardText(t?: string): string {
 }
 
 interface CardLike {
+  id?: string;
   conceptId?: string;
   targetText?: string;
   targetLanguage?: string;
@@ -57,6 +59,7 @@ async function resolveConceptId(card: CardLike, manifest: Manifest): Promise<str
 
 export default function CardImage({ card, className = '' }: { card?: CardLike | null; className?: string }) {
   const [src, setSrc] = useState<string | null>(null);
+  const [checked, setChecked] = useState(false);
   const [failed, setFailed] = useState(false);
   const key = card ? `${card.conceptId}|${card.targetLanguage}|${card.targetText}` : '';
 
@@ -64,20 +67,27 @@ export default function CardImage({ card, className = '' }: { card?: CardLike | 
     let alive = true;
     setSrc(null);
     setFailed(false);
+    setChecked(false);
     if (!card) return;
     loadManifest()
       .then(async (m) => {
         const cid = await resolveConceptId(card, m);
         if (alive && cid) setSrc(getContentBaseUrl() + 'data/card-images/' + m[cid].file);
+        if (alive) setChecked(true);
       })
-      .catch(() => {});
+      .catch(() => { if (alive) setChecked(true); });
     return () => {
       alive = false;
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [key]);
 
-  if (!src || failed) return null;
+  // تصویر Canva نیست → صحنه از دنیای تصویری (کارت‌های الگو با id، بقیه با conceptId)
+  if (!src || failed) {
+    if (!checked && !failed) return null; // اول ببین تصویر Canva هست یا نه، تا صحنه چشمک نزند
+    const sceneKey = card?.id?.startsWith('pat_') ? card.id : card?.conceptId;
+    return <CardScene sceneKey={sceneKey} className={className} />;
+  }
   return (
     <img
       src={src}

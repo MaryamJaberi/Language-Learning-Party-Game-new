@@ -58,7 +58,7 @@ export default defineConfig(() => {
           },
           workbox: {
             globPatterns: ['**/*.{js,css,html,ico,png,svg,woff,woff2,json}'],
-            globIgnores: ['**/downloads/**', '**/assets/aistudio/**', '**/data/decks/*.json'],
+            globIgnores: ['**/downloads/**', '**/assets/aistudio/**', '**/data/decks/*.json', '**/data/scenes/*.json'],
             maximumFileSizeToCacheInBytes: 3 * 1024 * 1024,
             runtimeCaching: [
               // کارت‌های زبان (data/decks) را خود اپ با contentStore.ts ذخیره می‌کند،
