@@ -7,10 +7,11 @@ import { loadScene } from '../src/visual/sceneStore';
  * تصویر کارت. تصویرها بر اساس conceptId نام‌گذاری شده‌اند، پس یک تصویر برای همهٔ زبان‌های یک کارت کار می‌کند.
  * فهرست تصویرهای آماده در public/data/card-images/manifest.json است و نقشهٔ کامل (چه تصویری، کدام شخصیت، کدام پرامپت)
  * در data/card-images/plan.json.
+ * تصویرهای تازه از اسکچ کدی ساخته می‌شوند: صحنه‌ها ۷۲۰×۴۸۰، واژه‌ها ۴۸۰×۴۸۰؛ نسبت از manifest می‌آید.
  * ترتیب: اول تصویر Canva؛ تا وقتی تصویر Canva کارت ساخته نشده، صحنهٔ موقت دنیای تصویری با کد (src/visual).
  * اگر هیچ‌کدام نبود، چیزی نشان داده نمی‌شود و خطایی هم پیش نمی‌آید.
  */
-type Manifest = Record<string, { file: string; character?: string }>;
+type Manifest = Record<string, { file: string; character?: string; w?: number; h?: number }>;
 
 let manifestPromise: Promise<Manifest> | null = null;
 function loadManifest(): Promise<Manifest> {
@@ -64,6 +65,7 @@ async function resolveConceptId(card: CardLike, manifest: Manifest): Promise<str
 
 export default function CardImage({ card, className = '' }: { card?: CardLike | null; className?: string }) {
   const [src, setSrc] = useState<string | null>(null);
+  const [ratio, setRatio] = useState('3 / 4');
   const [hasScene, setHasScene] = useState<boolean | null>(null);
   const [failed, setFailed] = useState(false);
   const key = card ? `${card.id}|${card.conceptId}|${card.targetLanguage}|${card.targetText}` : '';
@@ -80,7 +82,7 @@ export default function CardImage({ card, className = '' }: { card?: CardLike | 
       .then(async (m) => {
         const cid = sceneKey && m[sceneKey] ? sceneKey : await resolveConceptId(card, m);
         if (!alive) return;
-        if (cid) { setSrc(getContentBaseUrl() + 'data/card-images/' + m[cid].file); setHasScene(false); return; }
+        if (cid) { const e = m[cid]; setRatio(e.w && e.h ? `${e.w} / ${e.h}` : '3 / 4'); setSrc(getContentBaseUrl() + 'data/card-images/' + e.file); setHasScene(false); return; }
         const ok = sceneKey ? await loadScene(sceneKey).then((x) => !!x).catch(() => false) : false;
         if (alive) setHasScene(ok);
       })
@@ -103,7 +105,7 @@ export default function CardImage({ card, className = '' }: { card?: CardLike | 
       decoding="async"
       onError={() => setFailed(true)}
       className={`card-image block mx-auto rounded-2xl border border-[var(--line)] object-cover shadow-xs ${className}`}
-      style={{ aspectRatio: '3 / 4', maxHeight: '28vh', width: 'auto' }}
+      style={{ aspectRatio: ratio, maxHeight: '28vh', width: 'auto', maxWidth: '100%' }}
     />
   );
 }

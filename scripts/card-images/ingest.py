@@ -18,12 +18,15 @@ def main(batch_path):
     for b in batch:
         data = urllib.request.urlopen(b["url"], timeout=60).read()
         im = Image.open(io.BytesIO(data)).convert("RGB")
-        w = 600
+        # Optimal size for a phone card: landscape scenes 720 wide, squares (dictionary) 480, portrait 600.
+        w = 720 if im.width > im.height * 1.1 else 480 if abs(im.width - im.height) <= im.width * 0.1 else 600
         im = im.resize((w, round(im.height * w / im.width)), Image.LANCZOS)
         dest = os.path.join(OUT, f'{b["conceptId"]}.webp')
         im.save(dest, "WEBP", quality=78, method=6)
         row = by[b["conceptId"]]
         row["status"] = "done"
+        row["size"] = [im.width, im.height]
+        if b.get("fromSketch"): row["fromSketch"] = True
         if b.get("canvaMediaId"): row["canvaMediaId"] = b["canvaMediaId"]
         print(b["conceptId"], os.path.getsize(dest) // 1024, "KB")
     json.dump(plan, open(PLAN, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
@@ -39,7 +42,11 @@ def write_manifest(plan):
     """manifest.json: conceptId -> image. text/<lang>.json: card text in that language -> conceptId,
     so cards that come from other sources (hand-written cards, word bank) also find their image."""
     done = {p["conceptId"]: p for p in plan if p["status"] == "done"}
-    manifest = {cid: {"file": p["file"], "character": p["character"]} for cid, p in done.items()}
+    manifest = {}
+    for cid, p in done.items():
+        m = {"file": p["file"], "character": p["character"]}
+        if p.get("size"): m["w"], m["h"] = p["size"]
+        manifest[cid] = m
     json.dump(manifest, open(os.path.join(OUT, "manifest.json"), "w", encoding="utf-8"), ensure_ascii=False)
     db = json.load(open(os.path.join(ROOT, "data/curatedDeckDatabase.json"), encoding="utf-8"))
     by_lang = {}

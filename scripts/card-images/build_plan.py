@@ -103,6 +103,31 @@ def situation_prompt(row, sit):
     style = STYLE_THING if thing else STYLE
     return " ".join(x for x in [head, sit["situation"], who, tail, style] if x)
 
+def sketch_prompt(row, shape):
+    """Prompt for Canva image-to-image: the code-drawn sketch (renderSketch.tsx) is the reference,
+    Canva redraws it beautifully and keeps who-stands-where, poses and expressions."""
+    names = {k: k.capitalize() for k in CHAR}
+    names.update({"pepper": "Pepper the cat", "biscuit": "Biscuit the dog", "coco": "Coco the parrot"})
+    cast = row.get("cast") or ([row["character"]] if row.get("character") else [])
+    who = " ".join(f"{names[c]} is {CHAR[c]}." for c in cast if c in CHAR)
+    word = row["conceptId"].startswith("d_") or row.get("type") in ("vocabulary", "word", "dictionary")
+    what = f'the word "{row["en"]}"' if word else f'the phrase "{row["en"]}"'
+    sit = row.get("situation") or ""
+    thing = sit.startswith(("A single ", "A wide view")) and not cast
+    keep = ("Keep the sketch's composition: the same people in the same places, the same poses, facial expressions and objects. "
+            "Make faces, hands and body language clearer and more expressive."
+            if not thing else "Keep the sketch's subject and layout, but draw it properly and beautifully.")
+    if row["conceptId"].startswith("d_") and row.get("topic") == "family":
+        keep = "Use the sketch for how the main character looks, but draw the scene described here, which shows the family relation."
+    goal = ("The meaning must be obvious at a glance, even to a child." if word else
+            "The meaning of the phrase must be obvious from faces and body language alone. "
+            "If the sketch contradicts the meaning of the phrase, follow the phrase.")
+    style = STYLE_THING if thing else STYLE
+    style = style.replace("no speech bubbles.", "no speech bubbles, no sound marks.")
+    return " ".join(x for x in [
+        f"Redraw this rough sketch as a polished, beautiful illustration for a language-learning card for {what}.",
+        keep, sit, who, goal, style] if x)
+
 LEVEL_ORDER = {"easy":0,"medium":1,"hard":2,"A1":3,"A2":4,"B1":5,"B2":6,"C1":7,"C2":8}
 
 def main():
@@ -157,6 +182,7 @@ def main():
         st = sits.get(row["conceptId"])
         if st:
             row["situation"] = st["situation"]
+            row["cast"] = st.get("cast", [])
             row["genericSituation"] = st.get("generic", False)
             # Generic situations (no rule matched) keep the old open prompt: Canva invents a better scene than an empty living room.
             if row["status"] != "done" and not st.get("generic"):

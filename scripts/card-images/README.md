@@ -20,16 +20,31 @@ python3 scripts/card-images/build_plan.py         # → data/card-images/plan.js
 
 ## ۲. ساختن یک دسته (حدود ۱۰ تصویر)
 
-1. ده ردیف `todo` اول `plan.json` را بردار. برای هر کدام `generate-image` با همان `prompt` و `PORTRAIT_3_4` بزن.
-2. با `get-generate-image-job` نتیجه را بگیر و شناسهٔ media را نگه دار.
-3. تصویر را نگاه کن. اگر نوشته دارد یا معنی را نمی‌رساند، دوباره بساز.
+روش اصلی «اسکچ → Canva» است. طرح کدی هر کارت اسکچ می‌شود و Canva آن را زیبا بازکشی می‌کند. چیدمان، حالت چهره‌ها و ژست‌ها از اسکچ می‌آید.
+
+1. اجرا کن: `python3 scripts/card-images/next_batch.py 10`
+   - اسکچ PNG ردیف‌های بعدی را در `/tmp/dour-sketches` می‌کشد.
+   - برای هر ردیف یک خط JSON چاپ می‌کند: `sketch`، `aspectRatio`، `page` و `prompt`.
+2. برای هر ردیفی که اسکچ دارد:
+   - `create-upload-url` بزن.
+   - PNG را با `curl -X POST -H "Content-Type: application/octet-stream" --data-binary @file URL` بفرست. پاسخ `mediaId` است.
+   - `generate-image` بزن با `prompt` و `aspectRatio` همان خط، و `imageReferences: [{type: MEDIA, id: mediaId}]`.
+   - ردیفی که اسکچ ندارد، فقط با `prompt` ساخته می‌شود.
+3. با `get-generate-image-job` نتیجه را بگیر و تصویر را نگاه کن. اگر یکی از این‌ها درست نیست، دوباره بساز:
+   - نوشته، عدد یا نشانهٔ صدا دارد.
+   - معنی کارت را نمی‌رساند.
+   - چهره‌ها عکس‌گونه‌اند.
+   - رنگ شیء غیرواقعی است.
 4. طرح کمکی «Plain image sheet» (`DAHbdxZmOzo`) را با `open_transaction` باز کن.
-   - برای هر تصویر یک صفحهٔ ۹۰۰×۱۲۰۰ با زمینهٔ `#FBF5EA` و عنوانِ شناسه اضافه کن.
+   - برای هر تصویر یک صفحه به اندازهٔ `page` همان ردیف بساز: ۱۲۰۰×۸۰۰ برای صحنه، ۹۰۰×۹۰۰ برای واژه. زمینه `#FBF5EA` و عنوان صفحه شناسهٔ ردیف باشد.
    - `insert_fill` تمام‌صفحه بزن، commit کن و آن صفحه‌ها را `jpg` با کیفیت ۹۲ export کن.
-5. فایل `ids.txt` بساز (`شناسه mediaId` به ترتیب صفحه) و `urls.txt` (آدرس‌های export). بعد اجرا کن:
+5. فایل `ids.txt` بساز، هر خط `شناسه mediaId sketch` به ترتیب صفحه، و `urls.txt` با آدرس‌های export. بعد:
    `python3 scripts/card-images/ingest_sheet.py ids.txt urls.txt`
-6. بعد `npm test` و `npm run build`. سپس commit و push روی شاخهٔ PR.
+   - اندازهٔ ذخیره: صحنه ۷۲۰×۴۸۰ و واژه ۴۸۰×۴۸۰، WebP، هر کدام حدود ۱۰ تا ۲۵ کیلوبایت.
+   - اندازهٔ هر تصویر در manifest ثبت می‌شود تا اپ نسبت درست را نشان دهد.
+6. اجرا کن: `npm test` و `npm run build`. بعد commit و push روی شاخهٔ PR.
 
 اپ تصویر را خودش پیدا می‌کند:
 - کارت‌ها از `manifest.json` با conceptId یا id کارت الگو.
 - دیکشنری با `d_<id>`.
+- تا تصویر Canva نیامده، همان طرح کدی نشان داده می‌شود.
