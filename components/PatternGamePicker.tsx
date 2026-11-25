@@ -48,7 +48,7 @@ export default function PatternGamePicker({ mode, targetLanguage, nativeLanguage
 
       {!ready || cats.length === 0 ? (
         <div className="text-[11px] text-[var(--mute)] font-medium">
-          {tx(isRTL, 'بازی‌های الگو برای این جفت‌زبان هنوز آماده نیست. فعلاً: یادگیری انگلیسی، هلندی و آلمانی.', 'Pattern games aren’t ready for this language pair yet. Available now: learning English, Dutch and German.')}
+          {tx(isRTL, 'بازی‌های الگو برای این جفت‌زبان هنوز آماده نیست. فعلاً: فارسی، انگلیسی، هلندی و آلمانی، هر کدام از روی دیگری.', 'Pattern games aren’t ready for this language pair yet. Available now: Persian, English, Dutch and German, each from any of the others.')}
         </div>
       ) : (
         <>

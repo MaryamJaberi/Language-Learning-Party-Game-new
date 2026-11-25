@@ -30,7 +30,9 @@ describe('بازی‌های الگو با زبان مادری غیر از فار
         for (const c of cards) {
           expect(c.nativeLanguage).toBe(pack.native);
           expect(c.translation).not.toMatch(/[؀-ۿ]/); // هیچ متن فارسی
-          expect(c.grammarPoint).not.toMatch(/[؀-ۿ]/);
+          // نکتهٔ کارت‌های فارسی مثال فارسی دارد؛ برای بقیه هیچ متن فارسی نباید باشد
+          if (lang !== 'fa') expect(c.grammarPoint).not.toMatch(/[؀-ۿ]/);
+          else expect(c.grammarPoint).toMatch(/[A-Za-z]/);
         }
       });
     }
@@ -38,6 +40,9 @@ describe('بازی‌های الگو با زبان مادری غیر از فار
 
   it('زبان هدف و مادری یکی نیستند؛ زبان مادری بی‌بسته هم چیزی نمی‌گیرد', () => {
     expect(hasPatternDeck('nl', 'nl')).toBe(false);
+    expect(hasPatternDeck('fa', 'fa')).toBe(false);
+    // همهٔ ۱۲ جفت بین چهار زبان
+    for (const t of ['fa', 'en', 'nl', 'de']) for (const n of ['fa', 'en', 'nl', 'de']) expect(hasPatternDeck(t, n), `${t}←${n}`).toBe(t !== n);
     expect(hasPatternDeck('nl', 'tr')).toBe(false);
     expect(patternNativeLanguages()).toEqual(expect.arrayContaining(['fa', 'en', 'nl', 'de']));
     // «en-US» مثل «en» حساب می‌شود

@@ -36,3 +36,21 @@ describe('بازی‌های الگو در تمرین تک‌نفره', () => {
     for (const o of [c.targetText, ...c.fixedOptions!]) expect(screen.getByText(o)).toBeInTheDocument();
   });
 });
+
+describe('یادگیری فارسی با بازی الگو (زبان برنامه انگلیسی)', () => {
+  beforeEach(() => { localStorage.clear(); vi.useFakeTimers(); });
+  afterEach(() => { vi.useRealTimers(); });
+
+  test('پازل جملهٔ فارسی راست‌به‌چپ است و با چیدن درست «درست» حساب می‌شود', () => {
+    const ok = vi.spyOn(sound, 'playCorrect');
+    const c = getPatternCards('fa', 'en', ['PAT_SUBJUNCTIVE'])[3]; // «قبل از اینکه | بری، | بهم بگو.»
+    expect(c.translation).toBe('Tell me before you go.');
+    render(<SinglePlayerScreen initialCards={[c]} initialSettings={{ ...settings, targetLanguage: 'fa', nativeLanguage: 'en' } as any} uiLanguage="en" onFinish={vi.fn()} onExit={vi.fn()} />);
+    const puzzle = screen.getByTestId('sentence-puzzle');
+    expect(puzzle.querySelector('[dir="rtl"]')).not.toBeNull();
+    const pieces = screen.getAllByTestId('sentence-puzzle-piece');
+    for (let i = 0; i < pieces.length; i++) fireEvent.click(pieces.find((b) => b.getAttribute('data-piece') === String(i))!);
+    act(() => { vi.advanceTimersByTime(600); });
+    expect(ok).toHaveBeenCalled();
+  });
+});

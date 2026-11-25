@@ -13,8 +13,9 @@ import { NATIVE_DE } from './natives/de';
 import { EN_PATTERNS } from './en';
 import { NL_PATTERNS } from './nl';
 import { DE_PATTERNS } from './de';
+import { FA_PATTERNS } from './fa';
 
-const DECKS: Record<string, PatternDeck> = { en: EN_PATTERNS, nl: NL_PATTERNS, de: DE_PATTERNS };
+const DECKS: Record<string, PatternDeck> = { en: EN_PATTERNS, nl: NL_PATTERNS, de: DE_PATTERNS, fa: FA_PATTERNS };
 
 /** همهٔ دسته‌های آماده (برای تست‌ها و ابزارها) */
 export function getAllNativePacks(): NativePack[] {
@@ -55,8 +56,8 @@ export function hasPatternDeck(target: string, native: string): boolean {
   native = nativeKey(native);
   const lang = deckLang(target);
   if (!DECKS[lang]) return false;
+  if (deckLang(native) === lang) return false; // زبان هدف و مادری یکی نیستند
   if (native === 'fa') return true;
-  if (deckLang(native) === lang) return false;
   return !!NATIVES[native]?.decks[lang];
 }
 
