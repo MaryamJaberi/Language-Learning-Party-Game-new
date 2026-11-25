@@ -6,7 +6,7 @@ import type { SceneResult } from '../src/visual/autoScene';
 import { allEntries } from '../src/visual/lexicon';
 
 /**
- * صحنهٔ کارت از دنیای تصویری «دور» (src/visual). وقتی کارت تصویر Canva ندارد، این نشان داده می‌شود.
+ * صحنهٔ کارت از دنیای تصویری «دور» (src/visual). تصویر اصلی هر کارت همین است (Canva فقط وقتی کارت صحنه ندارد).
  * کلید: conceptId برای کارت‌های معمول، id برای کارت‌های بازی الگو.
  */
 export default function CardScene({ sceneKey, className = '' }: { sceneKey?: string; className?: string }) {

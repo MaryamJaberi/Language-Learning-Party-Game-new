@@ -245,7 +245,9 @@ export function buildScene(card: CardInfo): SceneResult {
     const aboutMe = has(t, /\b(i|i'm|i've|my|me)\b/);
     if (aboutMe && !goToDoctor) { sExpr = 'sick'; lExpr = 'worried'; } else { sExpr = 'worried'; lExpr = 'sick'; }
   }
-  if (goToDoctor) { sExpr = 'worried'; lExpr = 'sick'; }
+  // «من باید برم دکتر» → خود گوینده مریض است؛ «تو/بیا بریم» → شنونده
+  const iNeedDoctor = goToDoctor && has(t, /^\s*i\b|\bi need\b|\bi have to\b|\bi should\b/) && !has(t, /\b(you|let's)\b/);
+  if (goToDoctor) { sExpr = iNeedDoctor ? 'sick' : 'worried'; lExpr = iNeedDoctor ? 'worried' : 'sick'; }
   if (sExpr === 'neutral' && raw.endsWith('?')) lExpr = 'thinking';
   if (sExpr === 'neutral') sExpr = h % 2 ? 'happy' : 'neutral';
 
@@ -266,6 +268,7 @@ export function buildScene(card: CardInfo): SceneResult {
   if (sExpr === 'angry' && sPose === 'stand') sPose = 'point';
   if (lExpr === 'angry' || (sExpr === 'angry' && h % 2)) lPose = 'cross';
   if (sExpr === 'worried' && lExpr === 'sick') sPose = 'comfort';
+  if (iNeedDoctor) { lPose = 'comfort'; }
   if (sExpr === 'thinking' && sPose === 'stand') sPose = 'think';
   if (sExpr === 'sick' && sPose === 'stand') sPose = has(t, /\bhead/) ? 'facepalm' : 'cough';
 

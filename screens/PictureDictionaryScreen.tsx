@@ -1,4 +1,6 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
+import { loadManifest } from '../components/CardImage';
+import { getContentBaseUrl } from '../contentStore';
 import { ArrowLeft, ArrowRight, Volume2, BookOpenText } from 'lucide-react';
 import LexThumb from '../src/visual/LexThumb';
 import { LEXICON, type LexEntry } from '../src/visual/lexicon';
@@ -54,6 +56,18 @@ export default function PictureDictionaryScreen({ language, isRTL, targetLanguag
     return n === toDictLang(targetLanguage, 'en') ? (n === 'fa' ? 'en' : 'fa') : n;
   });
   const [catId, setCatId] = useState(LEXICON[0].id);
+  // تصویرهای Canva دیکشنری (d_<id>)؛ تا ساخته نشده‌اند، طرح موقت با کد نشان داده می‌شود
+  const [images, setImages] = useState<Record<string, string>>({});
+  useEffect(() => {
+    let alive = true;
+    loadManifest().then((m) => {
+      if (!alive) return;
+      const out: Record<string, string> = {};
+      for (const [k, v] of Object.entries(m)) if (k.startsWith('d_')) out[k] = getContentBaseUrl() + 'data/card-images/' + v.file;
+      setImages(out);
+    }).catch(() => {});
+    return () => { alive = false; };
+  }, []);
   const cat = useMemo(() => LEXICON.find((c) => c.id === catId) || LEXICON[0], [catId]);
   const titleKey = (['fa', 'en', 'nl', 'de'].includes(language.split('-')[0]) ? language.split('-')[0] : 'en') as 'fa' | 'en' | 'nl' | 'de';
 
@@ -125,7 +139,11 @@ export default function PictureDictionaryScreen({ language, isRTL, targetLanguag
               className="group rounded-2xl border border-[var(--line)] bg-[var(--panel)] p-1.5 text-center cursor-pointer active:scale-[0.97] transition-transform"
               data-testid={`dict-${entry.id}`}
             >
-              <LexThumb visual={entry.visual} title={entry[target]} className="block w-full h-auto" />
+              {images[`d_${entry.id}`] ? (
+                <img src={images[`d_${entry.id}`]} alt={entry[target]} loading="lazy" decoding="async" className="block w-full h-auto rounded-xl object-cover" style={{ aspectRatio: '1 / 1', objectPosition: '50% 35%' }} />
+              ) : (
+                <LexThumb visual={entry.visual} title={entry[target]} className="block w-full h-auto" />
+              )}
               <div className="mt-1 text-sm font-black leading-tight" dir={target === 'fa' ? 'rtl' : 'ltr'} lang={target}>
                 <Word entry={entry} lang={target} uiLanguage={language} />
               </div>
