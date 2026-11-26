@@ -1,4 +1,5 @@
 import type { PatternDeck } from './types';
+import { EN_CORE_CATEGORIES } from './en-core';
 
 /**
  * الگوها و عبارت‌های کاربردی انگلیسی، با همان دسته‌بندی جزوه.
@@ -199,5 +200,7 @@ export const EN_PATTERNS: PatternDeck = {
         ['Interestingly enough, | nobody | complained.', 'جالب اینجاست که هیچ‌کس شکایت نکرد.', ['Interesting enough, nobody complained.', 'Interestingly enough, nobody didn’t complain.', 'Enough interestingly, nobody complained.'], 'interestingly enough', 'interestingly enough'],
       ],
     },
+    // دسته‌های تازه از مخزن english-core
+    ...EN_CORE_CATEGORIES,
   ],
 };
