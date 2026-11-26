@@ -82,19 +82,66 @@ def prompt_for(c, en, char):
     return (f'Card illustration for the {kind} "{en}": {who}, in an everyday situation where someone would say '
             f'this, with a facial expression and body language that make the meaning clear.{extra} {STYLE}')
 
+# Objects, food, animals and places keep their real colours (a blue apple teaches the wrong thing) and get no cartoon face.
+STYLE_THING = ("Simple flat vector illustration for a picture dictionary, clean rounded shapes, natural true-to-life colours "
+               "for the subject, warm cream background, minimal background. Objects, food and plants have no faces. "
+               "No text, no letters, no numbers written anywhere, no signs with writing, no speech bubbles.")
+
+def situation_prompt(row, sit):
+    """Prompt built from the written situation (scripts/card-images/buildSituations.ts)."""
+    names = {k: k.capitalize() for k in CHAR}
+    names.update({"pepper": "Pepper the cat", "biscuit": "Biscuit the dog", "coco": "Coco the parrot"})
+    who = " ".join(f"{names[c]} is {CHAR[c]}." for c in sit.get("cast", []) if c in CHAR)
+    if sit["kind"] == "dictionary" or sit["kind"] == "word":
+        head = f'Picture-dictionary illustration for the word "{row["en"]}".'
+        tail = "The meaning of the word must be obvious at a glance, even to a child."
+    else:
+        head = f'Card illustration for the phrase "{row["en"]}".'
+        tail = ("The situation must make the meaning of the phrase obvious from faces and body language alone. "
+                "If any detail above contradicts the meaning of the phrase, follow the phrase.")
+    thing = sit["situation"].startswith(("A single ", "A wide view")) and not sit.get("cast")
+    style = STYLE_THING if thing else STYLE
+    return " ".join(x for x in [head, sit["situation"], who, tail, style] if x)
+
+def sketch_prompt(row, shape):
+    """Prompt for Canva image-to-image: the code-drawn sketch (renderSketch.tsx) is the reference,
+    Canva redraws it beautifully and keeps who-stands-where, poses and expressions."""
+    names = {k: k.capitalize() for k in CHAR}
+    names.update({"pepper": "Pepper the cat", "biscuit": "Biscuit the dog", "coco": "Coco the parrot"})
+    cast = row.get("cast") or ([row["character"]] if row.get("character") else [])
+    who = " ".join(f"{names[c]} is {CHAR[c]}." for c in cast if c in CHAR)
+    word = row["conceptId"].startswith("d_") or row.get("type") in ("vocabulary", "word", "dictionary")
+    what = f'the word "{row["en"]}"' if word else f'the phrase "{row["en"]}"'
+    sit = row.get("situation") or ""
+    thing = sit.startswith(("A single ", "A wide view")) and not cast
+    keep = ("Keep the sketch's composition: the same people in the same places, the same poses, facial expressions and objects. "
+            "Make faces, hands and body language clearer and more expressive."
+            if not thing else "Keep the sketch's subject and layout, but draw it properly and beautifully.")
+    if row["conceptId"].startswith("d_") and row.get("topic") == "family":
+        keep = "Use the sketch for how the main character looks, but draw the scene described here, which shows the family relation."
+    goal = ("The meaning must be obvious at a glance, even to a child." if word else
+            "The meaning of the phrase must be obvious from faces and body language alone. "
+            "If the sketch contradicts the meaning of the phrase, follow the phrase.")
+    style = STYLE_THING if thing else STYLE
+    style = style.replace("no speech bubbles.", "no speech bubbles, no sound marks.")
+    return " ".join(x for x in [
+        f"Redraw this rough sketch as a polished, beautiful illustration for a language-learning card for {what}.",
+        keep, sit, who, goal, style] if x)
+
 LEVEL_ORDER = {"easy":0,"medium":1,"hard":2,"A1":3,"A2":4,"B1":5,"B2":6,"C1":7,"C2":8}
 
 def main():
     root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
     db = [x for x in json.load(open(os.path.join(root, "data/curatedDeckDatabase.json"), encoding="utf-8")) if not x.get("excluded")]
     db.sort(key=lambda x: (LEVEL_ORDER.get(x.get("level"), 9), x["id"]))
-    old = {}
+    old = {}  # keeps status / media ids of rows already made
     plan_path = os.path.join(root, "data/card-images/plan.json")
     if os.path.exists(plan_path):
         old = {p["conceptId"]: p for p in json.load(open(plan_path, encoding="utf-8"))}
     seen, plan = {}, []
     for c in db:
         cid = c["conceptId"]
+        if cid.startswith("d_") or cid.startswith("pat_"): continue
         if cid in seen:
             seen[cid]["cardIds"].append(c["id"]); continue
         en = (c["translations"].get("en") or c["translations"].get("en-US") or {}).get("text", "").strip()
@@ -116,6 +163,32 @@ def main():
             "canvaMediaId": prev.get("canvaMediaId"),
         }
         seen[cid] = row; plan.append(row)
+    # Rows that do not come from the card database: picture dictionary (d_…) first, pattern cards (pat_…) last.
+    sit_path = os.path.join(root, "data/card-images/situations.json")
+    sits = json.load(open(sit_path, encoding="utf-8")) if os.path.exists(sit_path) else {}
+    extra_d, extra_p = [], []
+    for key, st in sits.items():
+        if not (key.startswith("d_") or key.startswith("pat_")): continue
+        prev = old.get(key, {})
+        row = {"conceptId": key, "cardIds": [] if key.startswith("d_") else [key],
+               "level": "dictionary" if key.startswith("d_") else "pattern",
+               "topic": st.get("category") or "pattern", "type": st["kind"], "en": st["en"],
+               "character": (st.get("cast") or [None])[0], "file": f"{key}.webp",
+               "status": prev.get("status", "todo"), "canvaMediaId": prev.get("canvaMediaId")}
+        (extra_d if key.startswith("d_") else extra_p).append(row)
+    plan = extra_d + plan + extra_p
+    for i, row in enumerate(plan):
+        row["order"] = i + 1
+        st = sits.get(row["conceptId"])
+        if st:
+            row["situation"] = st["situation"]
+            row["cast"] = st.get("cast", [])
+            row["genericSituation"] = st.get("generic", False)
+            # Generic situations (no rule matched) keep the old open prompt: Canva invents a better scene than an empty living room.
+            if row["status"] != "done" and not st.get("generic"):
+                row["prompt"] = situation_prompt(row, st)
+        if not row.get("prompt"):
+            row["prompt"] = prompt_for({"type": row["type"], "topic": row["topic"]}, row["en"], row["character"] or "sam")
     os.makedirs(os.path.dirname(plan_path), exist_ok=True)
     json.dump(plan, open(plan_path, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
     print(len(plan), "concepts planned")
