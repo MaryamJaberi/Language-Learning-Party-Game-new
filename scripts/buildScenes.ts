@@ -21,7 +21,7 @@ const OUT = path.join(ROOT, 'public/data/scenes');
 
 /** حذف مقدارهای پیش‌فرض تا فایل‌ها سبک بمانند */
 function compact(s: SceneResult): SceneResult {
-  if ('lex' in s) return s;
+  if ('lex' in s || 'none' in s) return s;
   const out: SceneSpec = { place: s.place, actors: s.actors.map((a) => {
     const c: any = { who: a.who, x: a.x };
     if (a.facing === 'left') c.facing = 'left';
@@ -78,5 +78,12 @@ if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.me
   shards.forEach((s, n) => fs.writeFileSync(path.join(OUT, `${n}.json`), JSON.stringify(s)));
   const total = Object.keys(all).length;
   const lex = Object.values(all).filter((v) => 'lex' in v).length;
-  console.log(`scenes: ${total} (dictionary images: ${lex}) → public/data/scenes/0..${SCENE_SHARDS - 1}.json`);
+  const none = Object.values(all).filter((v) => 'none' in v) as Array<{ none: string; want?: string }>;
+  // اسم‌هایی که نقاشی ندارند، به ترتیب تعداد کارت: فهرست کار برای برگهٔ بعدی Canva
+  const want: Record<string, number> = {};
+  for (const v of none) if (v.want) want[v.want] = (want[v.want] || 0) + 1;
+  const wanted = Object.entries(want).sort((a, b) => b[1] - a[1]).map(([word, cards]) => ({ word, cards }));
+  fs.writeFileSync(path.join(ROOT, 'data/card-images/missing-art.json'), JSON.stringify(wanted, null, 1));
+  console.log(`scenes: ${total} (dictionary images: ${lex}, scenes: ${total - lex - none.length}, no image: ${none.length} = no-art ${none.filter((v) => v.none === 'no-art').length} + no-anchor ${none.filter((v) => v.none === 'no-anchor').length}) → public/data/scenes/0..${SCENE_SHARDS - 1}.json`);
+  console.log(`missing art: ${wanted.length} words → data/card-images/missing-art.json`);
 }

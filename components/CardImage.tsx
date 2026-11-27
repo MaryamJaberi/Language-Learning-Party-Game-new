@@ -83,7 +83,7 @@ export default function CardImage({ card, className = '' }: { card?: CardLike | 
         const cid = sceneKey && m[sceneKey] ? sceneKey : await resolveConceptId(card, m);
         if (!alive) return;
         if (cid) { const e = m[cid]; setRatio(e.w && e.h ? `${e.w} / ${e.h}` : '3 / 4'); setSrc(getContentBaseUrl() + 'data/card-images/' + e.file); setHasScene(false); return; }
-        const ok = sceneKey ? await loadScene(sceneKey).then((x) => !!x).catch(() => false) : false;
+        const ok = sceneKey ? await loadScene(sceneKey).then((x) => !!x && !('none' in x)).catch(() => false) : false;
         if (alive) setHasScene(ok);
       })
       .catch(() => {});

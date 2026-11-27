@@ -58,6 +58,10 @@ export interface PropPlacement {
   x: number;
   y: number;
   scale?: number;
+  /** موضوع کارت است: بزرگ‌تر و جلوی آدم‌ها کشیده می‌شود */
+  hero?: boolean;
+  /** جلوی آدم‌ها (مثل میزی که پشتش ایستاده‌اند) */
+  front?: boolean;
 }
 
 export type Effect =

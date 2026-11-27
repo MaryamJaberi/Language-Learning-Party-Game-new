@@ -7,9 +7,9 @@ OUT = sys.argv[1]
 POSES = ['neutral', 'wave', 'worried', 'sick', 'point', 'phone', 'sad', 'laugh']
 JOBS = [['doctor', 'nurse', 'teacher', 'police', 'chef', 'waiter'], ['driver', 'firefighter', 'farmer', 'builder', 'pilot', 'mechanic'], ['cashier', 'student', 'postman', 'engineer', 'lawyer', 'baby']]
 PROPS = json.load(open('prop_groups.json'))
-ANIMALS = [['cat', 'dog', 'parrot', 'bird', 'fish', 'horse', 'cow', 'sheep', 'chicken', 'rabbit', 'mouse', 'lion'], ['elephant', 'bear', 'monkey', 'duck', 'butterfly', 'turtle', 'frog', 'cat-sit']]
+ANIMALS = [['cat', 'dog', 'parrot', 'bird', 'fish', 'horse', 'cow', 'sheep', 'chicken', 'rabbit', 'mouse', 'lion'], ['elephant', 'bear', 'monkey', 'duck', 'butterfly', 'turtle', 'frog', 'cat-sit'], ['whale', 'eagle', 'fox', 'camel', 'wolf', 'tiger', 'giraffe', 'crocodile', 'snake', 'shark', 'dolphin', 'bee']]
 
-def cells(path, cols, rows, tol=14):
+def cells(path, cols, rows, tol=14, holes=False):
     im = np.asarray(Image.open(path).convert('RGB')).astype(int)
     H, W, _ = im.shape
     for r in range(rows):
@@ -21,6 +21,20 @@ def cells(path, cols, rows, tol=14):
             lab, n = nd.label(near)
             border = set(np.unique(np.concatenate([lab[0], lab[-1], lab[:, 0], lab[:, -1]]))) - {0}
             fg = ~np.isin(lab, list(border))
+            if holes:
+                # زمینهٔ بسته‌مانده درون شکل (بین دو پا، بین دست و تن) باید شفاف شود، ولی لباس کرم‌رنگ نه.
+                # رنگ به‌تنهایی کافی نیست (Canva گاهی بلوز را هم‌رنگ زمینه می‌کشد)، پس جا هم مهم است:
+                # لکهٔ هم‌رنگ زمینه فقط وقتی سوراخ است که پایین‌تنه باشد (بین پاها) یا بیرون از ستون تن (کنار دست).
+                ys0, xs0 = np.where(fg)
+                top, bot, left, right = ys0.min(), ys0.max(), xs0.min(), xs0.max()
+                cx = np.median(xs0)
+                for i in range(1, n + 1):
+                    if i in border: continue
+                    m = lab == i
+                    if m.sum() < 150 or np.abs(cell[m] - bg).max(axis=1).mean() > 6.5: continue
+                    my, mx = np.where(m)
+                    yc = (my.mean() - top) / max(bot - top, 1)
+                    if yc > 0.55 or abs(mx.mean() - cx) > 0.2 * (right - left): fg &= ~m
             fg = nd.binary_opening(fg, iterations=1)
             lab2, n2 = nd.label(nd.binary_dilation(fg, iterations=8))
             if n2 == 0: yield None; continue
@@ -50,13 +64,13 @@ for f in sorted(os.listdir('sheets')):
     name = f[:-4]; p = 'sheets/' + f
     if name.startswith('char_'):
         who = name[5:]
-        for i, res in enumerate(cells(p, 4, 2)):
+        for i, res in enumerate(cells(p, 4, 2, holes=True)):
             if not res: continue
             fig, reach = res
             w, h = save(fig, f'{OUT}/char/{who}_{POSES[i]}.webp', max_h=420)
             art['char'].setdefault(who, {})[POSES[i]] = {'w': w, 'h': h, **({'reach': reach} if reach else {})}
     elif name.startswith('jobs_'):
-        for i, res in enumerate(cells(p, 6, 1)):
+        for i, res in enumerate(cells(p, 6, 1, holes=True)):
             if res: w, h = save(res[0], f'{OUT}/jobs/{JOBS[int(name[5:])-1][i]}.webp', max_h=420); art['jobs'][JOBS[int(name[5:])-1][i]] = {'w': w, 'h': h}
     elif name.startswith('props_'):
         g = PROPS[int(name[6:])-1]; cols, rows = (4, 3) if len(g) == 12 else (3, 2)
