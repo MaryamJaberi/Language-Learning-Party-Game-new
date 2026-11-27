@@ -346,3 +346,165 @@ describe('Training Wheels - Visual & Audio Learning Aids System', () => {
     });
   });
 });
+
+// ------------------------------------------------------------------
+// قواعد سندهای «تصویرسازی و رنگ» (هلندی، آلمانی، انگلیسی، فارسی)
+// ------------------------------------------------------------------
+import { analyzeLanguageAids, limitAids, getAidsForLanguage } from '../src/engine/trainingWheels/languages';
+import { analyzeEnglishAids } from '../src/engine/trainingWheels/languages/en';
+import { analyzePersianAids } from '../src/engine/trainingWheels/languages/fa';
+import { getDefaultTrainingWheelsSettings } from '../src/engine/trainingWheels/trainingWheelsService';
+
+const mkCard = (lang: string, targetText: string, article?: string): LanguageCard => ({
+  id: `t_${lang}_${targetText}`, targetLanguage: lang, cefrLevel: 'A1', topic: 'T', contentType: 'Sentence',
+  learningMode: 'Speak', prompt: '', targetText, translation: '', article, difficulty: 'easy', points: 1,
+} as unknown as LanguageCard);
+
+describe('6. قاعده: حدس نزن (نشانهٔ غلط بدتر از بی‌نشانگی است)', () => {
+  it('هلندی: اسمی که به t ختم می‌شود فعل حساب نمی‌شود', () => {
+    // قبلاً «kat» چون به t ختم می‌شد فعل حساب می‌شد
+    expect(analyzeDutchAids(mkCard('nl', 'De kat is ziek'), {}).v2Verb?.verbText).toBe('is');
+    expect(analyzeDutchAids(mkCard('nl', 'Het feest begint laat'), {}).v2Verb?.verbText).toBe('begint');
+    expect(analyzeDutchAids(mkCard('nl', 'Goed idee'), {}).v2Verb).toBeUndefined();
+  });
+
+  it('هلندی: در سؤال بله/خیر فعل اول است', () => {
+    const a = analyzeDutchAids(mkCard('nl', 'Hebben jullie dit in blauw?'), {});
+    expect(a.v2Verb?.position).toBe(0);
+  });
+
+  it('هلندی: صفتِ آخر جمله جزء فعل نیست، و «er … mee» فعل جداشدنی نیست', () => {
+    expect(analyzeDutchAids(mkCard('nl', 'Het is op zondag dicht'), {}).separableVerb).toBeUndefined();
+    expect(analyzeDutchAids(mkCard('nl', 'Ik laat je er dan mee'), {}).separableVerb).toBeUndefined();
+    expect(analyzeDutchAids(mkCard('nl', 'De bedenktijd loopt vrijdag af'), {}).separableVerb).toMatchObject({ verbPart: 'loopt', particlePart: 'af' });
+    expect(analyzeDutchAids(mkCard('nl', 'Ik pak dit apart met je op'), {}).separableVerb?.particlePart).toBe('op');
+  });
+
+  it('هلندی: «om een muur» عبارت زمان نیست، «om acht uur» هست', () => {
+    expect(analyzeDutchAids(mkCard('nl', 'We lopen om een muur'), {}).timePhrase).toBeUndefined();
+    const a = analyzeDutchAids(mkCard('nl', 'Ik kom om acht uur'), {});
+    expect(a.timePhrase).toEqual({ start: 2, end: 4 });
+    expect(analyzeDutchAids(mkCard('nl', 'Het is op zondag dicht'), {}).timePhrase).toEqual({ start: 2, end: 3 });
+  });
+
+  it('هلندی: جملهٔ وابسته و نفی', () => {
+    const a = analyzeDutchAids(mkCard('nl', 'Ik blijf thuis omdat ik ziek ben'), {});
+    expect(a.clause?.subordinator).toBe('omdat');
+    expect(a.subordinateVerbFinal?.endVerb).toBe('ben');
+    expect(analyzeDutchAids(mkCard('nl', 'Ik heb geen tijd'), {}).negation?.indices).toEqual([2]);
+    // «Wanneer kom je?» سؤال است، نه جملهٔ وابسته
+    expect(analyzeDutchAids(mkCard('nl', 'Wanneer kom je morgen?'), {}).clause).toBeUndefined();
+  });
+
+  it('آلمانی: «der» معمولی حالت «به/برای» نیست', () => {
+    // قبلاً هر «der» به‌عنوان Dativ علامت می‌خورد
+    expect(analyzeGermanAids(mkCard('de', 'Der Mann ist nett'), {}).caseEnding).toBeUndefined();
+    const dat = analyzeGermanAids(mkCard('de', 'Nach der Schule gehe ich nach Hause'), {});
+    expect(dat.caseEnding).toMatchObject({ caseType: 'dative', index: 1 });
+    const acc = analyzeGermanAids(mkCard('de', 'Ich nehme den Bus'), {});
+    expect(acc.caseEnding).toMatchObject({ caseType: 'accusative', index: 2, endingText: 'en' });
+    // «den Dingen» و «den Garten» از روی شکل جدا نمی‌شوند: نوع را نمی‌گوییم
+    expect(analyzeGermanAids(mkCard('de', 'Ich gebe den Dingen Zeit'), {}).caseEnding?.caseType).toBeUndefined();
+  });
+
+  it('آلمانی: اسم (با حرف بزرگ) فعل حساب نمی‌شود؛ فعل جداشدنی و جای فعل', () => {
+    expect(analyzeGermanAids(mkCard('de', 'Ich Arbeit'), {}).v2Verb).toBeUndefined();
+    const a = analyzeGermanAids(mkCard('de', 'Ich hole es nächste Woche ab'), {});
+    expect(a.v2Verb?.verbText).toBe('hole');
+    expect(a.separableVerb).toMatchObject({ verbPart: 'hole', particlePart: 'ab' });
+    // جزءِ فعلِ دوم («lege … ab») به فعل اول نسبت داده نمی‌شود
+    expect(analyzeGermanAids(mkCard('de', 'Ich schreibe es auf und lege es ab'), {}).separableVerb).toBeUndefined();
+  });
+
+  it('انگلیسی: رنگ جنس ندارد؛ فعل کمکی، نفی، زمان، جملهٔ وابسته', () => {
+    const q = analyzeEnglishAids(mkCard('en', 'Do you work at six?'), {});
+    expect(q.gender).toBeUndefined();
+    expect(q.v2Verb).toMatchObject({ verbText: 'do', position: 0 });
+    expect(q.timePhrase).toEqual({ start: 3, end: 4 });
+    expect(analyzeEnglishAids(mkCard('en', "I don't know"), {}).negation?.indices).toEqual([1]);
+    expect(analyzeEnglishAids(mkCard('en', 'No, thanks a lot'), {}).negation).toBeUndefined();
+    expect(analyzeEnglishAids(mkCard('en', 'We have no time'), {}).negation?.indices).toEqual([2]);
+    expect(analyzeEnglishAids(mkCard('en', 'I stay home because it rains'), {}).clause?.subordinator).toBe('because');
+    // en-US و en-GB همان انگلیسی‌اند
+    expect(analyzeLanguageAids(mkCard('en-US', 'She is not here'), {}).negation?.indices).toEqual([2]);
+  });
+
+  it('فارسی: «را»، نفی، جملهٔ وابسته؛ واژه‌هایی مثل «نان» نفی نیستند', () => {
+    const a = analyzePersianAids(mkCard('fa', 'من کتاب را نمی‌خوانم'), {});
+    expect(a.gender).toBeUndefined();
+    expect(a.objectMarker?.index).toBe(2);
+    expect(a.negation?.indices).toEqual([3]);
+    expect(analyzePersianAids(mkCard('fa', 'من نان و نمک دارم'), {}).negation).toBeUndefined();
+    expect(analyzePersianAids(mkCard('fa', 'اگر وقت داشتم می‌آیم'), {}).clause?.subordinator).toBe('اگر');
+  });
+});
+
+describe('7. قاعده: هر کارت حداکثر دو کمک، و فقط رنگ‌های معنادار', () => {
+  it('limitAids بیش از دو کمک نگه نمی‌دارد و اولویت را رعایت می‌کند', () => {
+    const all = analyzeGermanAids(mkCard('de', 'Ich nehme den Bus nicht, weil es am Montag regnet'), {});
+    expect(Object.keys(all).length).toBeGreaterThan(3);
+    const two = limitAids(all, 2);
+    expect(two.caseEnding).toBeDefined();
+    expect(two.clause).toBeDefined();
+    expect(two.v2Verb).toBeUndefined();
+    expect(two.negation).toBeUndefined();
+    expect(two.timePhrase).toBeUndefined();
+  });
+
+  it('روی صفحه بیش از دو نوع نشانه نمی‌آید', () => {
+    render(<TrainingWheelText card={mkCard('de', 'Ich nehme den Bus nicht, weil es am Montag regnet')} stage={0} uiLanguage="en" />);
+    expect(screen.getByTestId('german-case-ending')).toBeDefined();
+    expect(screen.getByTestId('clause-start')).toBeDefined();
+    expect(screen.queryByTestId('negation-mark')).toBeNull();
+    expect(screen.queryByTestId('time-frame')).toBeNull();
+  });
+
+  it('حرف تعریف در همهٔ مرحله‌ها همراه اسم دیده می‌شود', () => {
+    for (const stage of [0, 1, 2, 3] as const) {
+      const { container, unmount } = render(<TrainingWheelText card={mkCard('nl', 'huis', 'het')} stage={stage} uiLanguage="en" />);
+      expect(container.textContent).toContain('het');
+      expect(container.textContent).toContain('huis');
+      unmount();
+    }
+  });
+
+  it('فعل قرص نیلی دارد، نه رنگ زعفرانی (زعفرانی یعنی مؤنث)', () => {
+    render(<TrainingWheelText card={mkCard('nl', 'Ik leer Nederlands')} stage={0} uiLanguage="en" />);
+    const verb = screen.getByTestId('v2-verb-highlight');
+    expect(verb.className).toContain('indigo');
+    expect(verb.className).not.toContain('amber');
+    expect(verb.className).toContain('rounded-full');
+  });
+
+  it('فقط واژهٔ حالت‌دار زیرخط می‌گیرد، نه هر واژه‌ای که «en» دارد', () => {
+    render(<TrainingWheelText card={mkCard('de', 'Wir kennen den Mann')} stage={0} uiLanguage="en" />);
+    expect(screen.getAllByTestId('german-case-ending').length).toBe(1);
+    expect(screen.getByTestId('german-case-ending').textContent).toContain('den');
+  });
+
+  it('نفی و قاب زمان و «را» رسم می‌شوند؛ در مرحلهٔ ۳ هیچ نشانه‌ای نیست', () => {
+    const { unmount } = render(<TrainingWheelText card={mkCard('en', 'We do not work on Monday')} stage={0} uiLanguage="en" />);
+    expect(screen.getByTestId('v2-verb-highlight').textContent).toBe('do');
+    expect(screen.getByTestId('negation-mark').textContent).toContain('not');
+    unmount();
+    const t = render(<TrainingWheelText card={mkCard('en', 'See you on Monday')} stage={0} uiLanguage="en" />);
+    expect(screen.getByTestId('time-frame').textContent).toBe('onMonday');
+    t.unmount();
+    const f = render(<TrainingWheelText card={mkCard('fa', 'من کتاب را می‌خوانم')} stage={0} uiLanguage="fa" />);
+    expect(screen.getByTestId('object-marker').textContent).toContain('را');
+    f.unmount();
+    render(<TrainingWheelText card={mkCard('en', 'We do not work on Monday')} stage={3} uiLanguage="en" />);
+    expect(screen.queryByTestId('negation-mark')).toBeNull();
+    expect(screen.queryByTestId('v2-verb-highlight')).toBeNull();
+  });
+
+  it('هر چهار زبان کمک دارند و همه در تنظیمات پیش‌فرض روشن‌اند', () => {
+    const defaults = getDefaultTrainingWheelsSettings().enabledAids;
+    for (const lang of ['nl', 'de', 'en', 'fa']) {
+      const aids = getAidsForLanguage(lang);
+      expect(aids.length).toBeGreaterThanOrEqual(3);
+      for (const a of aids) expect(defaults[a.id], a.id).toBe(true);
+    }
+    expect(getAidsForLanguage('en-GB').length).toBe(getAidsForLanguage('en').length);
+  });
+});

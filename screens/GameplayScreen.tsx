@@ -813,16 +813,12 @@ const GameplayScreen: React.FC<Props> = ({
                   
                   {/* Hero Target Word / Phrase */}
                   <div className="flex items-center justify-center gap-2 max-w-full">
-                    {currentCard?.article && (
-                      <span className="text-xs sm:text-sm font-black px-2 py-0.5 rounded-lg bg-[var(--bg)] border border-[var(--line)] text-[var(--turq)] shrink-0">
-                        {currentCard.article}
-                      </span>
-                    )}
                     <h2 
                       dir={isRtlLang(currentCard?.targetLanguage || 'en-US') ? 'rtl' : 'ltr'} lang={(currentCard?.targetLanguage || 'en-US') as string} 
                       className="card-target-word text-xl sm:text-3xl font-extrabold font-card-word tracking-tight leading-snug text-[var(--ink)] break-words"
                     >
-                      {currentCard?.targetText || '---'}
+                      {/* چرخ‌های کمکی: رنگ و شکل جنس روی حرف تعریف + اسم، قرص نیلی فعل، نفی، قاب زمان (حداکثر دو کمک) */}
+                      {currentCard?.targetText ? <TrainingWheelText card={currentCard} uiLanguage={language} /> : '---'}
                     </h2>
                     
                     {currentCard?.targetText && sound.isVoiceSupportedSync(currentCard?.targetLanguage) && (

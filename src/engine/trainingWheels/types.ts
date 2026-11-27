@@ -58,6 +58,8 @@ export interface WordAidsAnnotation {
     isSeparable: boolean;
     verbPart: string;
     particlePart: string;
+    verbIndex?: number;
+    particleIndex?: number;
   };
   v2Verb?: {
     isV2: boolean;
@@ -68,10 +70,21 @@ export interface WordAidsAnnotation {
     hasEnding: boolean;
     endingText: string;
     caseType?: 'accusative' | 'dative' | 'genitive';
+    /** جای واژه‌ای که حرفش عوض شده (den, dem, …) */
+    index?: number;
   };
   subordinateVerbFinal?: {
     isSubordinate: boolean;
     subordinator: string;
     endVerb: string;
+    endIndex?: number;
   };
+  /** جمله‌وارهٔ وابسته: از حرف ربط (start) تا آخر جمله‌واره (end) */
+  clause?: { start: number; end: number; subordinator: string };
+  /** واژه‌های نفی (niet, kein, not, نمی‌…) */
+  negation?: { indices: number[] };
+  /** عبارت زمان، با حرف اضافه‌اش (om acht uur, am Montag, on Monday) */
+  timePhrase?: { start: number; end: number };
+  /** «را»ی فارسی: به مفعولِ پیش از خودش اشاره می‌کند */
+  objectMarker?: { index: number };
 }
