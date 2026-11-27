@@ -2,6 +2,7 @@ import type { Actor, EffectPlacement, Expression, Pose, PropPlacement, SceneSpec
 import { allEntries } from './lexicon';
 import { GROUND } from './places';
 import { propMeta, OUTDOOR } from './propMeta';
+import { symbolsFor, topicSymbol } from './symbols';
 
 /**
  * ساختن خودکار صحنه برای یک کارت از روی متن انگلیسی‌اش و موضوعش.
@@ -252,13 +253,17 @@ export function buildScene(card: CardInfo): SceneResult {
     const head = words[words.length - 1];
     const lex = lexForWord(raw) || lexForWord(head);
     if (lex) return { lex };
-    return { none: 'no-art', want: head.replace(/^(the|a|an)$/, '') || raw.toLowerCase() };
+    // نقاشیِ خودِ چیز را نداریم. اگر واژه نشانه‌ای دارد (دوشنبه → تقویم) صحنه با حباب موضوع ساخته می‌شود؛ وگرنه بدون تصویر
+    if (!symbolsFor(raw, 1).length) return { none: 'no-art', want: head.replace(/^(the|a|an)$/, '') || raw.toLowerCase() };
   }
   if (raw.split(/\s+/).length <= 2) {
     const lex = lexForWord(raw);
     if (lex) return { lex };
   }
-  if (raw.split(/\s+/).length > MAX_WORDS_FOR_SCENE) return { none: 'no-anchor' };
+  /** اصطلاح معنی لفظی ندارد («a piece of cake» کیک نیست): نه شیء می‌گذاریم نه ژستِ لفظی؛ فقط حس و حباب «گفتن» */
+  const idiom = card.type === 'idiom' || /idiom|phrasal/i.test(card.topic || '');
+  /** جملهٔ بلند چند فکر دارد: شیء وسط صحنه نمی‌گذاریم و فقط حباب موضوع می‌گوید درباره‌ی چیست */
+  const longSentence = raw.split(/\s+/).length > MAX_WORDS_FOR_SCENE;
 
   let place = pickPlace(t, card.topic);
   if (PLACE_WORDS.some(([re]) => has(t, re))) anchors.push('place');
@@ -313,7 +318,7 @@ export function buildScene(card: CardInfo): SceneResult {
   // ژست
   let sPose: Pose = 'stand';
   let sHolds: string | undefined;
-  for (const [re, pose, holds] of POSES) {
+  for (const [re, pose, holds] of idiom ? [] : POSES) {
     if (has(t, re)) {
       sPose = pose;
       sHolds = holds;
@@ -342,7 +347,7 @@ export function buildScene(card: CardInfo): SceneResult {
   }
 
   // شیء: همان که در جمله نام برده شده. جایش را نوع وسیله تعیین می‌کند (propMeta)
-  for (const id of objectsIn(t)) {
+  for (const id of longSentence || idiom ? [] : objectsIn(t)) {
     if (id === sHolds) continue;
     const meta = propMeta(id);
     // وسیلهٔ نقلیه وسط اتاق معنی ندارد: صحنه بیرون می‌رود
@@ -383,8 +388,19 @@ export function buildScene(card: CardInfo): SceneResult {
   }
 
   if (night) anchors.push('time');
-  // ب) بدون هیچ لنگری از خود جمله، صحنه فقط دو آدمِ ایستاده است: بی‌ربط. پس بدون تصویر.
-  if (!anchors.length) return { none: 'no-anchor' };
 
-  return { place, time: night ? 'night' : 'day', actors, props, effects };
+  // حباب موضوع: نشانهٔ چیزی که جمله درباره‌اش است، بالای سر گوینده.
+  // اگر هیچ واژه‌ای نشانه نداشت و صحنه هم لنگری از جمله ندارد، نشانهٔ موضوع کارت می‌آید؛ پس هیچ صحنه‌ای «دو آدمِ بی‌دلیل» نیست.
+  const shown = new Set<string>([...props.map((p) => p.id), ...(sHolds ? [sHolds] : [])]);
+  const hasHero = props.some((p) => p.hero);
+  let items = idiom ? ['speech'] : symbolsFor(raw, 3).filter((id) => !shown.has(id)).slice(0, hasHero ? 1 : 2);
+  if (!items.length && !anchors.length) items = [topicSymbol(card.topic)];
+  const speakerIsPerson = !['biscuit', 'pepper', 'coco'].includes(speaker);
+  const bubble = items.length && speakerIsPerson ? { on: 0, items } : undefined;
+  // حباب همان حرفِ این نشانه‌های کوچک را می‌زند؛ دوتایی شلوغ می‌شود
+  const SAID_BY_BUBBLE = ['idea', 'question', 'clock', 'money', 'phone-ring', 'hungry'];
+  const fx = bubble ? effects.filter((e) => !(e.on === 0 && SAID_BY_BUBBLE.includes(e.id))) : effects;
+
+  return { place, time: night ? 'night' : 'day', actors, props, effects: fx, ...(bubble ? { bubble } : {}) };
+
 }

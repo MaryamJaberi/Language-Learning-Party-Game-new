@@ -138,6 +138,33 @@ export function ArtSceneContent({ spec, art }: { spec: SceneSpec; art: ArtIndex 
       </g>
     );
   });
+  /** حباب موضوع: نشانهٔ چیزی که جمله درباره‌اش است، بالای سر گوینده و رو به شنونده */
+  const bubble = () => {
+    const b = spec.bubble;
+    const pl = b ? placed[b.on] : null;
+    if (!b || !pl) return null;
+    const items = b.items.filter((id) => art.props[id]);
+    if (!items.length) return null;
+    const cell = 40, pad = 9, bh = 50;
+    const bw = items.length * cell + pad * 2;
+    const headY = pl.foot - pl.h;
+    const by = Math.max(5, Math.min(headY - bh - 12, 16));
+    const bx = Math.max(6, Math.min(W - bw - 6, pl.x + 34 * pl.f - bw / 2));
+    const tx = Math.max(bx + 14, Math.min(bx + bw - 14, pl.x + 16 * pl.f));
+    return (
+      <g>
+        <path d={`M${tx - 8},${by + bh - 1} L${pl.x + 8 * pl.f},${Math.max(by + bh + 4, headY - 3)} L${tx + 8},${by + bh - 1} Z`} fill="#FFFFFF" stroke="#16224A" strokeOpacity={0.22} strokeWidth={1.4} />
+        <rect x={bx} y={by} width={bw} height={bh} rx={16} fill="#FFFFFF" stroke="#16224A" strokeOpacity={0.22} strokeWidth={1.4} />
+        <rect x={tx - 7} y={by + bh - 3} width={14} height={3} fill="#FFFFFF" />
+        {items.map((id, i) => {
+          const pc = art.props[id];
+          const k = Math.min(34 / pc.w, 34 / pc.h);
+          const w = pc.w * k, h = pc.h * k;
+          return <image key={id} href={url('props/' + id)} x={bx + pad + i * cell + (cell - w) / 2} y={by + (bh - h) / 2} width={w} height={h} />;
+        })}
+      </g>
+    );
+  };
   return (
     <g>
       {bg ? (
@@ -171,6 +198,7 @@ export function ArtSceneContent({ spec, art }: { spec: SceneSpec; art: ArtIndex 
         );
       })}
       {drawProps(true)}
+      {bubble()}
       {(spec.effects || []).filter((e) => !SCENE_WIDE.includes(e.id)).map((e, k) => {
         const pl = e.on !== undefined ? placed[e.on] : undefined;
         const [x, y] = pl ? effectAt(pl, e.id) : [e.x ?? 200, e.y ?? 60];

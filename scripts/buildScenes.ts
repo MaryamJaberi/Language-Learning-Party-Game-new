@@ -35,6 +35,7 @@ function compact(s: SceneResult): SceneResult {
   if (s.time === 'night') out.time = 'night';
   if (s.props?.length) out.props = s.props;
   if (s.effects?.length) out.effects = s.effects;
+  if (s.bubble) out.bubble = s.bubble;
   if (s.caption) out.caption = s.caption;
   return out;
 }

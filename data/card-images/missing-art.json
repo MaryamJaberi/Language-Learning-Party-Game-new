@@ -1,9 +1,5 @@
 [
  {
-  "word": "room",
-  "cards": 3
- },
- {
   "word": "cinema",
   "cards": 2
  },
@@ -24,36 +20,12 @@
   "cards": 2
  },
  {
-  "word": "watch",
-  "cards": 2
- },
- {
-  "word": "hotel",
-  "cards": 2
- },
- {
-  "word": "bike",
-  "cards": 2
- },
- {
   "word": "two",
-  "cards": 2
- },
- {
-  "word": "stop",
-  "cards": 2
- },
- {
-  "word": "weather",
   "cards": 2
  },
  {
   "word": "gap",
   "cards": 2
- },
- {
-  "word": "library",
-  "cards": 1
  },
  {
   "word": "forest",
@@ -72,15 +44,7 @@
   "cards": 1
  },
  {
-  "word": "movie",
-  "cards": 1
- },
- {
   "word": "animation",
-  "cards": 1
- },
- {
-  "word": "maker",
   "cards": 1
  },
  {
@@ -108,15 +72,7 @@
   "cards": 1
  },
  {
-  "word": "lock",
-  "cards": 1
- },
- {
   "word": "bulb",
-  "cards": 1
- },
- {
-  "word": "television",
   "cards": 1
  },
  {
@@ -133,10 +89,6 @@
  },
  {
   "word": "dishwasher",
-  "cards": 1
- },
- {
-  "word": "remote",
   "cards": 1
  },
  {
@@ -208,15 +160,7 @@
   "cards": 1
  },
  {
-  "word": "film",
-  "cards": 1
- },
- {
   "word": "concert",
-  "cards": 1
- },
- {
-  "word": "game",
   "cards": 1
  },
  {
@@ -228,15 +172,7 @@
   "cards": 1
  },
  {
-  "word": "problems",
-  "cards": 1
- },
- {
   "word": "impossible",
-  "cards": 1
- },
- {
-  "word": "light",
   "cards": 1
  },
  {
@@ -268,47 +204,7 @@
   "cards": 1
  },
  {
-  "word": "monday",
-  "cards": 1
- },
- {
-  "word": "tuesday",
-  "cards": 1
- },
- {
-  "word": "wednesday",
-  "cards": 1
- },
- {
-  "word": "thursday",
-  "cards": 1
- },
- {
-  "word": "friday",
-  "cards": 1
- },
- {
-  "word": "saturday",
-  "cards": 1
- },
- {
-  "word": "sunday",
-  "cards": 1
- },
- {
-  "word": "supermarket",
-  "cards": 1
- },
- {
-  "word": "hungry",
-  "cards": 1
- },
- {
   "word": "thirsty",
-  "cards": 1
- },
- {
-  "word": "wait",
   "cards": 1
  },
  {
@@ -329,10 +225,6 @@
  },
  {
   "word": "want",
-  "cards": 1
- },
- {
-  "word": "like",
   "cards": 1
  },
  {
@@ -373,18 +265,6 @@
  },
  {
   "word": "evening",
-  "cards": 1
- },
- {
-  "word": "week",
-  "cards": 1
- },
- {
-  "word": "month",
-  "cards": 1
- },
- {
-  "word": "year",
   "cards": 1
  },
  {
@@ -440,23 +320,7 @@
   "cards": 1
  },
  {
-  "word": "left",
-  "cards": 1
- },
- {
   "word": "work",
-  "cards": 1
- },
- {
-  "word": "right",
-  "cards": 1
- },
- {
-  "word": "study",
-  "cards": 1
- },
- {
-  "word": "play",
   "cards": 1
  },
  {
@@ -465,34 +329,6 @@
  },
  {
   "word": "old",
-  "cards": 1
- },
- {
-  "word": "good",
-  "cards": 1
- },
- {
-  "word": "bad",
-  "cards": 1
- },
- {
-  "word": "straight",
-  "cards": 1
- },
- {
-  "word": "breakfast",
-  "cards": 1
- },
- {
-  "word": "lunch",
-  "cards": 1
- },
- {
-  "word": "dinner",
-  "cards": 1
- },
- {
-  "word": "taxi",
   "cards": 1
  },
  {
@@ -564,10 +400,6 @@
   "cards": 1
  },
  {
-  "word": "sunny",
-  "cards": 1
- },
- {
   "word": "september",
   "cards": 1
  },
@@ -584,15 +416,7 @@
   "cards": 1
  },
  {
-  "word": "rainy",
-  "cards": 1
- },
- {
   "word": "classroom",
-  "cards": 1
- },
- {
-  "word": "homework",
   "cards": 1
  },
  {
@@ -604,51 +428,11 @@
   "cards": 1
  },
  {
-  "word": "house",
-  "cards": 1
- },
- {
-  "word": "flat",
-  "cards": 1
- },
- {
   "word": "bathroom",
   "cards": 1
  },
  {
-  "word": "garden",
-  "cards": 1
- },
- {
-  "word": "market",
-  "cards": 1
- },
- {
-  "word": "price",
-  "cards": 1
- },
- {
-  "word": "cheap",
-  "cards": 1
- },
- {
-  "word": "expensive",
-  "cards": 1
- },
- {
-  "word": "buy",
-  "cards": 1
- },
- {
   "word": "sell",
-  "cards": 1
- },
- {
-  "word": "card",
-  "cards": 1
- },
- {
-  "word": "cash",
   "cards": 1
  },
  {
@@ -660,39 +444,11 @@
   "cards": 1
  },
  {
-  "word": "sport",
-  "cards": 1
- },
- {
-  "word": "reading",
-  "cards": 1
- },
- {
   "word": "dancing",
   "cards": 1
  },
  {
   "word": "cooking",
-  "cards": 1
- },
- {
-  "word": "computer",
-  "cards": 1
- },
- {
-  "word": "internet",
-  "cards": 1
- },
- {
-  "word": "email",
-  "cards": 1
- },
- {
-  "word": "password",
-  "cards": 1
- },
- {
-  "word": "message",
   "cards": 1
  },
  {
@@ -709,22 +465,6 @@
  },
  {
   "word": "sometimes",
-  "cards": 1
- },
- {
-  "word": "never",
-  "cards": 1
- },
- {
-  "word": "early",
-  "cards": 1
- },
- {
-  "word": "late",
-  "cards": 1
- },
- {
-  "word": "country",
   "cards": 1
  },
  {
@@ -760,10 +500,6 @@
   "cards": 1
  },
  {
-  "word": "language",
-  "cards": 1
- },
- {
   "word": "english",
   "cards": 1
  },
@@ -773,10 +509,6 @@
  },
  {
   "word": "persian",
-  "cards": 1
- },
- {
-  "word": "neighbour",
   "cards": 1
  },
  {
@@ -848,23 +580,11 @@
   "cards": 1
  },
  {
-  "word": "fast",
-  "cards": 1
- },
- {
   "word": "slow",
   "cards": 1
  },
  {
-  "word": "look",
-  "cards": 1
- },
- {
   "word": "listen",
-  "cards": 1
- },
- {
-  "word": "passport",
   "cards": 1
  },
  {
@@ -884,10 +604,6 @@
   "cards": 1
  },
  {
-  "word": "hot",
-  "cards": 1
- },
- {
   "word": "cold",
   "cards": 1
  },
@@ -896,23 +612,11 @@
   "cards": 1
  },
  {
-  "word": "tomorrow",
-  "cards": 1
- },
- {
-  "word": "yesterday",
-  "cards": 1
- },
- {
   "word": "red",
   "cards": 1
  },
  {
   "word": "blue",
-  "cards": 1
- },
- {
-  "word": "green",
   "cards": 1
  },
  {
@@ -936,14 +640,6 @@
   "cards": 1
  },
  {
-  "word": "hospital",
-  "cards": 1
- },
- {
-  "word": "university",
-  "cards": 1
- },
- {
   "word": "mountain",
   "cards": 1
  },
@@ -952,15 +648,7 @@
   "cards": 1
  },
  {
-  "word": "football",
-  "cards": 1
- },
- {
   "word": "swimming",
-  "cards": 1
- },
- {
-  "word": "menu",
   "cards": 1
  },
  {
@@ -976,31 +664,7 @@
   "cards": 1
  },
  {
-  "word": "tip",
-  "cards": 1
- },
- {
-  "word": "change",
-  "cards": 1
- },
- {
-  "word": "discount",
-  "cards": 1
- },
- {
   "word": "conviviality",
-  "cards": 1
- },
- {
-  "word": "meeting",
-  "cards": 1
- },
- {
-  "word": "chat",
-  "cards": 1
- },
- {
-  "word": "deadline",
   "cards": 1
  },
  {
@@ -1009,10 +673,6 @@
  },
  {
   "word": "bullet",
-  "cards": 1
- },
- {
-  "word": "box",
   "cards": 1
  },
  {
@@ -1028,35 +688,7 @@
   "cards": 1
  },
  {
-  "word": "advocate",
-  "cards": 1
- },
- {
   "word": "findings",
-  "cards": 1
- },
- {
-  "word": "overhaul",
-  "cards": 1
- },
- {
-  "word": "narrative",
-  "cards": 1
- },
- {
-  "word": "consequences",
-  "cards": 1
- },
- {
-  "word": "viability",
-  "cards": 1
- },
- {
-  "word": "disclaimer",
-  "cards": 1
- },
- {
-  "word": "base",
   "cards": 1
  }
 ]

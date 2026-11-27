@@ -4,15 +4,17 @@
  *   sky     → در آسمان (خورشید، ماه، ابر)
  *   floor   → روی زمین، با سایه (مبل، دوچرخه، چمدان…)
  *   vehicle → روی زمین و فقط در فضای باز
+ *   symbol  → نشانهٔ یک فکر (قرارداد، صبر، قیمت…): فقط در حباب موضوع می‌آید، نه وسط صحنه
  *   table   → روی میز (خوراکی، فنجان، کلید…): کوچک است، پس وقتی موضوع کارت است بزرگ‌تر و جلوی صحنه می‌آید
  */
-export type PropWhere = 'sky' | 'floor' | 'vehicle' | 'table';
+export type PropWhere = 'sky' | 'floor' | 'vehicle' | 'table' | 'symbol';
 export interface PropMeta { where: PropWhere; h: number }
 
 const M = (where: PropWhere, h: number, ids: string): Array<[string, PropMeta]> => ids.split(' ').map((id) => [id, { where, h }]);
 
 export const PROP_META: Record<string, PropMeta> = Object.fromEntries([
   ...M('sky', 44, 'sun moon cloud'),
+  ...M('symbol', 30, 'document contract folder checklist stamp magnifier megaphone speech question-mark bulb hourglass envelope handshake thumbs-up thumbs-down scale padlock wifi chart price-tag house newspaper recycle trophy stopwatch bell warning battery printer headset box tools heart check cross calendar-day signpost globe grad-cap books microphone passport traffic-light rain-cloud hotel whistle groceries plant'),
   ...M('vehicle', 150, 'bus train'), ...M('vehicle', 120, 'plane'), ...M('vehicle', 96, 'car'),
   ...M('floor', 168, 'tree door'), ...M('floor', 132, 'fridge'), ...M('floor', 96, 'bicycle'),
   ...M('floor', 84, 'sofa bed washing-machine stove window oven'), ...M('floor', 100, 'broom mirror'), ...M('floor', 40, 'bucket carpet'), ...M('floor', 78, 'chair cart lamp'), ...M('floor', 70, 'table tv'),

@@ -41,6 +41,7 @@ describe('صحنه از تکه‌های Canva', () => {
 // ---------- منطق تصویر کارت (docs/card-image-logic.md)
 import { buildScene, isThingCard, MAX_WORDS_FOR_SCENE } from '../src/visual/autoScene';
 import { propMeta, PROP_META } from '../src/visual/propMeta';
+import { symbolsFor, SYMBOL_IDS } from '../src/visual/symbols';
 import * as fsx from 'fs';
 import * as pathx from 'path';
 
@@ -58,10 +59,33 @@ describe('منطق تصویر کارت', () => {
     expect(s.actors).toBeUndefined();
   });
 
-  it('جملهٔ بدون لنگر دیدنی و جملهٔ بلند تصویر نمی‌گیرند', () => {
-    expect((buildScene({ key: 'k', en: 'That depends on the context.', topic: 'Food', type: 'sentence' }) as any).none).toBe('no-anchor');
-    const long = Array.from({ length: MAX_WORDS_FOR_SCENE + 1 }, () => 'bread').join(' ') + '.';
-    expect((buildScene({ key: 'k', en: long, topic: 'Food', type: 'sentence' }) as any).none).toBe('no-anchor');
+  it('جمله‌ای که چیزی برای وسط صحنه ندارد حباب موضوع می‌گیرد، نه دو آدمِ بی‌دلیل', () => {
+    const s: any = buildScene({ key: 'k', en: 'I will sign the contract on Friday.', topic: 'Work', type: 'sentence' });
+    expect(s.bubble.on).toBe(0);
+    expect(s.bubble.items).toEqual(['contract', 'calendar-day']);
+    // هیچ واژه‌ای نشانه ندارد → نشانهٔ موضوع کارت
+    const t: any = buildScene({ key: 'k', en: 'That depends.', topic: 'Legal', type: 'sentence' });
+    expect(t.bubble.items).toEqual(['scale']);
+  });
+
+  it('جملهٔ بلند شیء وسط صحنه نمی‌گیرد، فقط حباب', () => {
+    const long = 'I would rather keep the bread on the shelf until the delivery arrives and the invoice is checked twice.';
+    expect(long.split(' ').length).toBeGreaterThan(MAX_WORDS_FOR_SCENE);
+    const s: any = buildScene({ key: 'k', en: long, topic: 'Food', type: 'sentence' });
+    expect((s.props || []).length).toBe(0);
+    expect(s.bubble.items.length).toBeGreaterThan(0);
+  });
+
+  it('اصطلاح لفظی کشیده نمی‌شود', () => {
+    const s: any = buildScene({ key: 'k', en: "It's a piece of cake.", topic: 'Idiom', type: 'idiom' });
+    expect((s.props || []).length).toBe(0);
+    expect(s.bubble.items).toEqual(['speech']);
+  });
+
+  it('هر نشانهٔ حباب تکهٔ Canva دارد', () => {
+    const art = JSON.parse(fsx.readFileSync(pathx.resolve(__dirname, '../public/data/art/art.json'), 'utf8'));
+    for (const id of SYMBOL_IDS) expect(art.props[id], id).toBeTruthy();
+    expect(symbolsFor('The train is delayed')).toEqual(['train', 'hourglass']);
   });
 
   it('شیءِ نام‌برده روی میز و جلوی آدم‌هاست', () => {

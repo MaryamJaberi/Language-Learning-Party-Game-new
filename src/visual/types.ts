@@ -83,6 +83,8 @@ export interface SceneSpec {
   actors: Actor[];
   props?: PropPlacement[];
   effects?: EffectPlacement[];
+  /** حباب موضوع بالای سر یک بازیگر: نشانهٔ چیزی که جمله درباره‌اش است (شناسهٔ تکه‌ها) */
+  bubble?: { on: number; items: string[] };
   /** توضیح کوتاه به فارسی، برای بازبینی و دسترس‌پذیری (alt) */
   caption?: string;
 }
