@@ -13,6 +13,9 @@ class SoundManager {
   private bgmStep: number = 0;
   private bgmDucked: boolean = false;
   private bgmVolumeMultiplier: number = 1.0;
+  private bgmAllowed: boolean = true;
+  private isBackgrounded: boolean = false;
+  private bgmModeBeforeBackground: 'none' | 'menu' | 'game' = 'none';
 
   // Speech synthesis and Web Audio TTS state
   private activeUtterance: SpeechSynthesisUtterance | null = null;
@@ -23,6 +26,9 @@ class SoundManager {
   private ttsRawCache: Map<string, ArrayBuffer> = new Map();
   private ttsSpeakSeq: number = 0;
   private cachedVoices: SpeechSynthesisVoice[] = [];
+  private serverTtsUnavailable: boolean = false;
+  private activeAndroidTtsOnEnd: (() => void) | null = null;
+  private activeAndroidTtsTimer: number | null = null;
 
   // Tracking last played variant to ensure consecutive sounds are never identical
   private lastCorrectVariant: number = -1;
@@ -46,6 +52,85 @@ class SoundManager {
     } catch {}
     this.initAutoUnlock();
     this.initVoices();
+    this.initLifecycleListeners();
+  }
+
+  private initLifecycleListeners() {
+    if (typeof window === 'undefined') return;
+    try {
+      // Static hosts (GitHub Pages / file://) do not serve /api/tts
+      const host = (window.location?.hostname || '').toLowerCase();
+      if (host.endsWith('.github.io') || window.location?.protocol === 'file:') {
+        this.serverTtsUnavailable = true;
+      }
+
+      const handleVisibility = () => {
+        if (typeof document !== 'undefined' && document.hidden) {
+          this.pauseForBackground();
+        } else {
+          this.resumeFromBackground();
+        }
+      };
+
+      if (typeof document !== 'undefined') {
+        document.addEventListener('visibilitychange', handleVisibility);
+      }
+      window.addEventListener('pagehide', () => this.pauseForBackground());
+      window.addEventListener('pageshow', () => {
+        if (typeof document === 'undefined' || !document.hidden) {
+          this.resumeFromBackground();
+        }
+      });
+
+      // Hooks for Android MainActivity lifecycle & native TTS completion
+      (window as any).__dourOnAppPause = () => this.pauseForBackground();
+      (window as any).__dourOnAppResume = () => this.resumeFromBackground();
+      (window as any).__dourOnAndroidTtsDone = () => {
+        if (this.activeAndroidTtsTimer !== null) {
+          window.clearTimeout(this.activeAndroidTtsTimer);
+          this.activeAndroidTtsTimer = null;
+        }
+        const cb = this.activeAndroidTtsOnEnd;
+        this.activeAndroidTtsOnEnd = null;
+        cb?.();
+      };
+    } catch {}
+  }
+
+  public setBgmAllowed(allowed: boolean) {
+    this.bgmAllowed = allowed;
+    if (!allowed) {
+      this.bgmModeBeforeBackground = 'none';
+      this.stopBGM();
+    }
+  }
+
+  public isBgmAllowed(): boolean {
+    return this.bgmAllowed;
+  }
+
+  public pauseForBackground() {
+    this.isBackgrounded = true;
+    if (this.currentBgmMode !== 'none') {
+      this.bgmModeBeforeBackground = this.currentBgmMode;
+    }
+    this.stopBGM();
+    this.stopSpeech();
+    if (this.ctx && this.ctx.state === 'running' && typeof this.ctx.suspend === 'function') {
+      this.ctx.suspend().catch(() => {});
+    }
+  }
+
+  public resumeFromBackground() {
+    this.isBackgrounded = false;
+    if (this.ctx && this.ctx.state === 'suspended' && !this.isMuted && typeof this.ctx.resume === 'function') {
+      this.ctx.resume().catch(() => {});
+    }
+    const modeToRestore = this.bgmModeBeforeBackground;
+    this.bgmModeBeforeBackground = 'none';
+    if (!this.isMuted && this.bgmAllowed && modeToRestore === 'menu') {
+      this.startMenuBGM();
+    }
   }
 
   private initVoices() {
@@ -117,10 +202,11 @@ class SoundManager {
       }
       this.stopBGM();
     } else {
-      // Restore background music when unmuting - ensure AudioContext is active
+      // Restore background music when unmuting ONLY if BGM is allowed on this screen and app is in foreground
       const ctx = this.getAudioContext();
       const resumeBgm = () => {
-        if (this.isMuted) return;
+        if (this.isMuted || !this.bgmAllowed || this.isBackgrounded) return;
+        if (typeof document !== 'undefined' && document.hidden) return;
         if (this.lastBgmMode === 'game') {
           this.startGameplayBGM(60);
         } else {
@@ -782,7 +868,8 @@ class SoundManager {
   // 1. Menu & Ambient BGM (Warm, relaxing 32-step progression: Cmaj7 - Am7 - Dm7 - G7)
   public startMenuBGM() {
     this.lastBgmMode = 'menu';
-    if (this.isMuted) return;
+    if (this.isMuted || !this.bgmAllowed || this.isBackgrounded) return;
+    if (typeof document !== 'undefined' && document.hidden) return;
     if (this.currentBgmMode === 'menu' && this.bgmTimeout !== null) return;
 
     this.stopBGM();
@@ -792,7 +879,11 @@ class SoundManager {
   }
 
   private scheduleNextMenuBeat() {
-    if (this.currentBgmMode !== 'menu' || this.isMuted) return;
+    if (this.currentBgmMode !== 'menu' || this.isMuted || !this.bgmAllowed || this.isBackgrounded) return;
+    if (typeof document !== 'undefined' && document.hidden) {
+      this.pauseForBackground();
+      return;
+    }
     const ctx = this.getAudioContext();
     if (!ctx) return;
     if (ctx.state === 'suspended') {
@@ -867,7 +958,8 @@ class SoundManager {
   // 2. Gameplay Dynamic Rhythm BGM
   public startGameplayBGM(secondsRemaining: number) {
     this.lastBgmMode = 'game';
-    if (this.isMuted) return;
+    if (this.isMuted || !this.bgmAllowed || this.isBackgrounded) return;
+    if (typeof document !== 'undefined' && document.hidden) return;
     if (this.currentBgmMode === 'game') return;
 
     this.stopBGM();
@@ -877,7 +969,11 @@ class SoundManager {
   }
 
   private scheduleNextGameBeat(secondsRemaining: number) {
-    if (this.currentBgmMode !== 'game' || this.isMuted) return;
+    if (this.currentBgmMode !== 'game' || this.isMuted || !this.bgmAllowed || this.isBackgrounded) return;
+    if (typeof document !== 'undefined' && document.hidden) {
+      this.pauseForBackground();
+      return;
+    }
     const ctx = this.getAudioContext();
     if (!ctx) return;
 
@@ -1027,6 +1123,17 @@ class SoundManager {
       this.fallbackBlobUrl = null;
     }
 
+    if (this.activeAndroidTtsTimer !== null) {
+      window.clearTimeout(this.activeAndroidTtsTimer);
+      this.activeAndroidTtsTimer = null;
+    }
+    this.activeAndroidTtsOnEnd = null;
+    try {
+      if (typeof window !== 'undefined' && (window as any).AndroidTTS?.stop) {
+        (window as any).AndroidTTS.stop();
+      }
+    } catch {}
+
     if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
       try {
         if (window.speechSynthesis.speaking || window.speechSynthesis.pending) {
@@ -1044,6 +1151,8 @@ class SoundManager {
    */
   public preloadTTS(text: string, lang: string = 'en-US'): void {
     if (typeof window === 'undefined' || typeof fetch === 'undefined') return;
+    if (this.serverTtsUnavailable) return;
+    if ((window as any).AndroidTTS?.speak) return;
     if (typeof navigator !== 'undefined' && /jsdom/i.test(navigator.userAgent || '')) return;
     if (!text || !text.trim()) return;
     const cleanText = text.replace(/[\(\)\[\]"'«»]/g, '').trim();
@@ -1151,11 +1260,17 @@ class SoundManager {
       }
 
       // 2. Fetch raw audio bytes from /api/tts (or use preloaded raw bytes)
+      if (this.serverTtsUnavailable) return false;
       let rawBuffer = this.ttsRawCache.get(cacheKey) || null;
       if (!rawBuffer) {
         const url = `/api/tts?tl=${encodeURIComponent(langShort)}&q=${encodeURIComponent(cleanText)}`;
         const response = await fetch(url);
-        if (!response.ok) return false;
+        if (!response.ok) {
+          if (response.status === 404 || response.status === 405 || response.status === 501) {
+            this.serverTtsUnavailable = true;
+          }
+          return false;
+        }
         const arr = await response.arrayBuffer();
         if (!arr || arr.byteLength === 0) return false;
         rawBuffer = arr;
@@ -1354,6 +1469,9 @@ class SoundManager {
   }
 
   public async isVoiceSupportedFor(lang: string = 'en-US'): Promise<boolean> {
+    if (typeof window !== 'undefined' && (window as any).AndroidTTS?.isAvailable?.()) {
+      return true;
+    }
     if (typeof window === 'undefined' || !('speechSynthesis' in window)) {
       return false;
     }
@@ -1373,6 +1491,9 @@ class SoundManager {
   }
 
   public isVoiceSupportedSync(lang: string = 'en-US'): boolean {
+    if (typeof window !== 'undefined' && (window as any).AndroidTTS?.isAvailable?.()) {
+      return true;
+    }
     if (typeof window === 'undefined' || !('speechSynthesis' in window)) {
       // Keep audio buttons visible for fallback TTS / environments without Web Speech
       return true;
@@ -1418,14 +1539,49 @@ class SoundManager {
       } catch {}
     }
 
-    // In unit test environments (jsdom), use Web Speech synthesis directly
+    // Priority 1: Native Android TextToSpeech bridge (works reliably offline & in WebView)
+    const androidTts = typeof window !== 'undefined' ? (window as any).AndroidTTS : null;
+    if (androidTts && typeof androidTts.speak === 'function') {
+      const available = typeof androidTts.isAvailable === 'function' ? androidTts.isAvailable() : true;
+      if (available) {
+        try {
+          const rate = options?.rate ?? 0.9;
+          const started = androidTts.speak(cleanText, targetBCP, rate);
+          if (started) {
+            options?.onStart?.();
+            if (options?.onEnd) {
+              this.activeAndroidTtsOnEnd = options.onEnd;
+              const estMs = Math.max(1500, Math.min(12000, Math.round((cleanText.length * 110) / Math.max(0.5, rate))));
+              this.activeAndroidTtsTimer = window.setTimeout(() => {
+                if (this.activeAndroidTtsOnEnd) {
+                  const cb = this.activeAndroidTtsOnEnd;
+                  this.activeAndroidTtsOnEnd = null;
+                  this.activeAndroidTtsTimer = null;
+                  cb();
+                }
+              }, estMs);
+            }
+            return;
+          }
+        } catch {
+          // Fall through to browser synthesis
+        }
+      }
+    }
+
+    // Priority 2: On static hosts (GitHub Pages / file://), unit tests (jsdom), or when /api/tts is unavailable,
+    // call browser Web Speech Synthesis SYNCHRONOUSLY inside the user gesture so mobile browsers never block it.
     const isJsdom = typeof navigator !== 'undefined' && /jsdom/i.test(navigator.userAgent || '');
-    if (isJsdom || typeof fetch === 'undefined') {
+    const isStaticHost = typeof window !== 'undefined' && (
+      (window.location?.hostname || '').toLowerCase().endsWith('.github.io') ||
+      window.location?.protocol === 'file:'
+    );
+    if (isJsdom || isStaticHost || this.serverTtsUnavailable || typeof fetch === 'undefined') {
       this.speakWithBrowserSynthesis(cleanText, targetBCP, options);
       return;
     }
 
-    // Primary: Play crystal-clear audio via /api/tts + Web Audio API AudioContext, fallback to Web Speech if offline
+    // Priority 3: Local/Express server TTS via /api/tts + Web Audio API AudioContext, fallback to Web Speech
     this.playFallbackTTS(cleanText, targetBCP, options, seqId).then((played) => {
       if (!played && seqId === this.ttsSpeakSeq) {
         this.speakWithBrowserSynthesis(cleanText, targetBCP, options);
@@ -1438,7 +1594,7 @@ class SoundManager {
     lang: string = 'en-US',
     options?: { onStart?: () => void; onEnd?: () => void }
   ): void {
-    this.speak(text, lang, options);
+    this.speak(text, lang, { force: true, ...options });
   }
 
   public speakNative(
