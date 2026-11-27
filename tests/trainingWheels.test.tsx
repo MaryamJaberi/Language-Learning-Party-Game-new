@@ -4,6 +4,7 @@ import { render, screen } from '@testing-library/react';
 import { GENDER_VISUAL_MAP, resolveGenderFromArticle } from '../src/engine/trainingWheels/genderColors';
 import { DUTCH_AIDS, isDutchDiminutive, analyzeDutchAids } from '../src/engine/trainingWheels/languages/nl';
 import { GERMAN_AIDS, analyzeGermanAids } from '../src/engine/trainingWheels/languages/de';
+import { analyzeEnglishAids } from '../src/engine/trainingWheels/languages/en';
 import {
   getStartingStageForCefr,
   getFadingStageForCard,
@@ -557,8 +558,9 @@ describe('9. سنجش: با کمک در برابر بدون کمک', () => {
     expect(readAidLog().length).toBe(3);
     const neg = summarizeAidLog().find((r) => r.aid === 'negation')!;
     expect(neg.withAid).toEqual({ n: 2, correct: 1 });
-    expect(neg.withoutAid).toEqual({ n: 1, correct: 1 });
-    expect(neg.delayed7).toEqual({ n: 1, correct: 1 });
+    // مرحلهٔ ۳ بدون گروه مقایسه «بدون کمک» حساب نمی‌شود (کارتِ یادگرفته‌شده با کارت تازه مقایسه‌پذیر نیست)
+    expect(neg.withoutAid).toEqual({ n: 0, correct: 0 });
+    expect(neg.delayed7).toEqual({ n: 0, correct: 0 });
     expect(summarizeAidLog(undefined, 'de').length).toBe(0);
     clearAidLog();
     expect(readAidLog().length).toBe(0);
@@ -582,5 +584,77 @@ describe('9. سنجش: با کمک در برابر بدون کمک', () => {
     render(<TrainingWheelText card={card} uiLanguage="en" />);
     expect(screen.queryByTestId('negation-mark')).toBeNull();
     setHoldoutEnabled(false);
+  });
+});
+
+describe('10. اصلاح‌های ممیزی', () => {
+  beforeEach(() => { localStorage.clear(); });
+
+  it('گروه مقایسه بر مرحلهٔ صریح مقدم است و در لاگ «بدون کمک» ثبت می‌شود', () => {
+    setHoldoutEnabled(true);
+    const ids = Array.from({ length: 200 }, (_, i) => `c_${i}`);
+    const id = ids.find(isHoldoutCard)!;
+    const card = { ...mkCard('nl', 'Ik heb geen tijd'), id } as LanguageCard;
+    render(<TrainingWheelText card={card} stage={0} uiLanguage="en" />);
+    expect(screen.queryByTestId('negation-mark')).toBeNull();
+    logAidAnswer(card, 3, true, 8);
+    const row = summarizeAidLog().find((r) => r.aid === 'negation')!;
+    expect(row.withoutAid.n).toBe(1);
+    expect(row.delayed7Holdout.n).toBe(1);
+  });
+
+  it('کمکِ خاموش‌شده در لاگ نمی‌آید', () => {
+    const card = mkCard('nl', 'Ik heb geen tijd');
+    const s = JSON.parse(localStorage.getItem('dor_training_wheels_config_v1') || '{}');
+    localStorage.setItem('dor_training_wheels_config_v1', JSON.stringify({ ...s, enabledAids: { nl_negation: false } }));
+    expect(aidKindsForCard(card)).not.toContain('negation');
+  });
+
+  it('لاگ خراب یا ورودی null صفحه را خراب نمی‌کند و سقف ۲۰۰۰ رعایت می‌شود', () => {
+    localStorage.setItem('dor_aid_log_v1', JSON.stringify([null, 5, { id: 'x' }]));
+    expect(readAidLog()).toEqual([]);
+    localStorage.setItem('dor_aid_measure_v1', '{broken');
+    const card = mkCard('nl', 'Ik heb geen tijd');
+    for (let i = 0; i < 2005; i++) logAidAnswer(card, 0, true, 1);
+    expect(readAidLog().length).toBe(2000);
+    expect(localStorage.getItem('dor_aid_measure_v1')).toBe('{broken');
+  });
+
+  it('حرف تعریف با آپوستروف یا «ال» به اسم می‌چسبد و فاصلهٔ اضافه نمی‌گیرد', () => {
+    const fr = { ...mkCard('fr', 'assiette'), article: "l'" } as LanguageCard;
+    const a = render(<TrainingWheelText card={fr} stage={3} uiLanguage="en" />);
+    expect(a.container.textContent).toBe("l'assiette");
+    a.unmount();
+    const nl = { ...mkCard('nl', 'huis'), article: 'het' } as LanguageCard;
+    const b = render(<TrainingWheelText card={nl} stage={3} uiLanguage="en" />);
+    expect(b.container.textContent).toBe('het huis');
+  });
+
+  it('متن خالی یا بدون targetText رندر را خراب نمی‌کند', () => {
+    const bad = { ...mkCard('nl', 'x'), targetText: undefined } as unknown as LanguageCard;
+    expect(() => render(<TrainingWheelText card={bad} stage={0} uiLanguage="en" />)).not.toThrow();
+  });
+
+  it('انگلیسی: have فعل اصلی علامت نمی‌گیرد، فعل کمکی می‌گیرد', () => {
+    const verb = (t: string) => analyzeEnglishAids(mkCard('en', t), {}).v2Verb?.verbText;
+    expect(verb('I have a cat')).toBeUndefined();
+    expect(verb('I want to have it')).not.toBe('have');
+    expect(verb('I have finished my work')).toBe('have');
+  });
+
+  it('انگلیسی: cannot نفی است', () => {
+    expect(analyzeEnglishAids(mkCard('en', 'I cannot go'), {}).negation).toBeDefined();
+  });
+
+  it('آلمانی: ضمیر «keines» جمله‌واره‌آخر مالکیت نیست', () => {
+    expect(analyzeGermanAids(mkCard('de', 'Ich habe keines von ihnen'), {}).caseEnding).toBeUndefined();
+    expect(analyzeGermanAids(mkCard('de', 'Das Auto eines Freundes'), {}).caseEnding?.caseType).toBe('genitive');
+  });
+
+  it('هلندی: Spanje مصغر نیست؛ toen بدون فاعل حرف ربط نیست', () => {
+    expect(analyzeDutchAids(mkCard('nl', 'Spanje'), {}).diminutive).toBeUndefined();
+    expect(analyzeDutchAids(mkCard('nl', 'het huisje'), {}).diminutive).toBeDefined();
+    expect(analyzeDutchAids(mkCard('nl', 'Toen ging ik naar huis'), {}).clause).toBeUndefined();
+    expect(analyzeDutchAids(mkCard('nl', 'Toen ik thuis kwam, sliep hij'), {}).clause).toBeDefined();
   });
 });

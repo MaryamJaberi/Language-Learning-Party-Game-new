@@ -77,7 +77,26 @@ const EN_TIME: TimeRules = {
   ],
 };
 
-const EN_SUBORDINATORS = S('because although though unless while if when until whereas');
+const EN_SUBORDINATORS = S('because although though unless while if when whereas');
+
+const HAVE_FORMS = new Set(['have', 'has', 'had']);
+const IRREGULAR_PARTICIPLES = S('been done gone made seen taken got gotten eaten given known written spoken broken chosen begun come run found told said thought bought brought left met paid sent sat stood won lost kept felt heard held read put set cut let hit');
+
+/** have/has/had فقط وقتی فعل کمکی است که بعدش اسم‌مفعول بیاید؛ «I have a cat» یا «to have it» فعل اصلی است و علامت نمی‌گیرد. */
+function isMainVerbHave(words: string[], v: number): boolean {
+  const c = clean(words[v]);
+  if (!HAVE_FORMS.has(c)) return false;
+  const prev = v > 0 ? clean(words[v - 1]) : '';
+  if (prev === 'to' || prev === "let's" || prev === 'lets') return true;
+  if (v > 0 && /['’](ll|ve|d)$/i.test(words[v - 1])) return true;
+  const next = v + 1 < words.length ? clean(words[v + 1]) : '';
+  const nn = v + 2 < words.length ? clean(words[v + 2]) : '';
+  const isPart = (w: string) => !!w && (IRREGULAR_PARTICIPLES.has(w) || /(ed|en)$/.test(w));
+  // «have you been…»: در سؤال، بعد از فاعل می‌آید
+  if (isPart(next)) return false;
+  if (S('i you he she we they it').has(next) && isPart(nn)) return false;
+  return true;
+}
 
 export function analyzeEnglishAids(card: LanguageCard, enabledAids: Record<string, boolean>): WordAidsAnnotation {
   const annotation: WordAidsAnnotation = {};
@@ -87,12 +106,12 @@ export function analyzeEnglishAids(card: LanguageCard, enabledAids: Record<strin
 
   if (enabledAids.en_aux_verb_highlight !== false) {
     const v = findFiniteVerb(words, text, EN_VERBS);
-    if (v >= 0) annotation.v2Verb = { isV2: true, verbText: clean(words[v]), position: v };
+    if (v >= 0 && !isMainVerbHave(words, v)) annotation.v2Verb = { isV2: true, verbText: clean(words[v]), position: v };
   }
 
   if (enabledAids.en_negation !== false) {
     const neg = findNegation(words, (c, i, raw) => {
-      if (c === 'not' || c === 'never' || /n't$/.test(c)) return true;
+      if (c === 'not' || c === 'never' || c === 'cannot' || /n't$/.test(c)) return true;
       // «No, thanks» جواب است، نه نفیِ اسم؛ «no time» نفی است
       return c === 'no' && i < words.length - 1 && !/[,.!?]$/.test(raw);
     });

@@ -132,6 +132,18 @@ const DE_TIME: TimeRules = {
   ],
 };
 
+/** «eines/keines/meines…» فقط وقتی «مالِ» است که اسمِ بعدی (با حرف بزرگ) یا صفت پشتش بیاید و واژه آخرِ جمله‌واره نباشد؛ وگرنه ضمیر است («keines von ihnen»). */
+function isGenitiveUse(words: string[], w: string[], i: number): boolean {
+  if (w[i] === 'des') return true;
+  if (/[,;:.!?]$/.test(words[i])) return false;
+  const next = words[i + 1];
+  if (!next) return false;
+  const nx = next.replace(/^[^\p{L}]+/u, '');
+  if (!nx) return false;
+  if (w[i + 1] === 'von') return false;
+  return nx[0] === nx[0].toUpperCase() && nx[0] !== nx[0].toLowerCase();
+}
+
 /** واژه‌ای که حرفش به‌خاطر حالت عوض شده. «der» فقط بعد از حرف اضافهٔ Dativ حساب می‌شود، وگرنه همان «der» معمولی است. */
 function findCaseWord(words: string[]): { index: number; ending: string; caseType?: 'accusative' | 'dative' | 'genitive' } | null {
   const w = words.map(clean);
@@ -139,14 +151,14 @@ function findCaseWord(words: string[]): { index: number; ending: string; caseTyp
     const afterDativePrep = i > 0 && DATIVE_PREPS.has(w[i - 1]) && !/[,;:.!?]$/.test(words[i - 1]);
     if (ACC.has(w[i])) {
       // «den Dingen» (جمع، «به/برای») و «den Garten» (مفرد، گیرندهٔ کار) از روی شکل جدا نمی‌شوند: نوع را حدس نمی‌زنیم
-      const ambiguous = w[i] === 'den' && !afterDativePrep && /n$/.test(w[i + 1] || '');
+      const ambiguous = !afterDativePrep && /n$/.test(w[i + 1] || '');
       return { index: i, ending: 'en', caseType: ambiguous ? undefined : afterDativePrep ? 'dative' : 'accusative' };
     }
     if (DAT_M.has(w[i])) return { index: i, ending: 'em', caseType: 'dative' };
     if (DAT_CONTRACTED_M.has(w[i])) return { index: i, ending: 'm', caseType: 'dative' };
     if (w[i] === 'zur') return { index: i, ending: 'r', caseType: 'dative' };
     if (DER_FORMS.has(w[i]) && afterDativePrep) return { index: i, ending: 'er', caseType: 'dative' };
-    if (GEN.has(w[i]) && i > 0) return { index: i, ending: 'es', caseType: 'genitive' };
+    if (GEN.has(w[i]) && i > 0 && isGenitiveUse(words, w, i)) return { index: i, ending: 'es', caseType: 'genitive' };
   }
   return null;
 }

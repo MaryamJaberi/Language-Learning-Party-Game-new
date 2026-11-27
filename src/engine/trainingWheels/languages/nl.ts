@@ -119,6 +119,8 @@ const NL_TIME: TimeRules = {
 };
 
 const NL_SUBORDINATORS = S('omdat terwijl zodat hoewel voordat nadat totdat wanneer toen doordat zodra');
+const NL_SUBJECTS = S('ik je jij u hij zij ze wij we jullie men het er die dat');
+const NL_DIM_NOT = S('spanje oranje franje');
 const NL_NEGATION = S('niet geen nooit');
 const NL_COPULA = S('ben bent is zijn was waren heb hebt heeft hebben had hadden word wordt worden werd');
 const NL_PRONOMINAL = S('er daar hier waar');
@@ -130,7 +132,8 @@ export function isDutchDiminutive(word: string): { isDiminutive: boolean; suffix
   const clean = word.toLowerCase().replace(/[.,!?;:]/g, '').trim();
   if (clean.length < 4) return { isDiminutive: false, suffix: '' };
 
-  const suffixes = ['tjes', 'pjes', 'kjes', 'etjes', 'jes', 'tje', 'pje', 'kje', 'etje', 'je'];
+  const suffixes = ['etje', 'tje', 'pje', 'kje', 'je'];
+  if (NL_DIM_NOT.has(clean)) return { isDiminutive: false, suffix: '' };
   for (const sfx of suffixes) {
     if (clean.endsWith(sfx)) {
       return { isDiminutive: true, suffix: sfx };
@@ -165,7 +168,9 @@ export function analyzeDutchAids(
   // 2. Diminutive -je is always "het" hint
   if (enabledAids.nl_diminutive_het_hint !== false) {
     // Check main word or single-word vocab
-    const candidate = words.length === 1 ? words[0] : (words[1] || words[0]);
+    const first = clean(words[0] || '');
+    const hasArticle = first === 'het' || first === 'een';
+    const candidate = words.length === 1 ? words[0] : (hasArticle && words.length === 2 ? words[1] : '');
     const dim = isDutchDiminutive(candidate || '');
     if (dim.isDiminutive) {
       annotation.diminutive = {
@@ -199,7 +204,12 @@ export function analyzeDutchAids(
 
   // 5. جملهٔ وابسته: فعل به آخر می‌رود
   if (enabledAids.nl_subordinate_clause !== false) {
-    const cl = findClause(words, NL_SUBORDINATORS, { notFirstInQuestion: new Set(['wanneer']), text });
+    const cl = findClause(words, NL_SUBORDINATORS, {
+      notFirstInQuestion: new Set(['wanneer']),
+      text,
+      // «toen» بدون فاعل بعدش قید است («Toen ging ik naar huis»)، نه حرف ربط
+      accept: (i, c) => c !== 'toen' || NL_SUBJECTS.has(clean(words[i + 1] || '')),
+    });
     if (cl) {
       annotation.clause = cl;
       annotation.subordinateVerbFinal = { isSubordinate: true, subordinator: cl.subordinator, endVerb: clean(words[cl.end]), endIndex: cl.end };

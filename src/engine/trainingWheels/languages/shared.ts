@@ -108,11 +108,12 @@ export function findTimePhrase(words: string[], r: TimeRules): { start: number; 
 }
 
 /** جمله‌وارهٔ وابسته: از حرف ربط تا اولین ویرگول یا آخر جمله */
-export function findClause(words: string[], subordinators: Set<string>, opts: { notFirstInQuestion?: Set<string>; text?: string } = {}): { start: number; end: number; subordinator: string } | null {
+export function findClause(words: string[], subordinators: Set<string>, opts: { notFirstInQuestion?: Set<string>; text?: string; accept?: (i: number, c: string) => boolean } = {}): { start: number; end: number; subordinator: string } | null {
   for (let i = 0; i < words.length - 1; i++) {
     const c = clean(words[i]);
     if (!subordinators.has(c)) continue;
     if (i === 0 && opts.notFirstInQuestion?.has(c) && isQuestion(opts.text || '')) continue;
+    if (opts.accept && !opts.accept(i, c)) continue;
     let end = words.length - 1;
     for (let j = i + 1; j < words.length; j++) if (endsClause(words[j])) { end = j; break; }
     if (end - i < 2) continue;
