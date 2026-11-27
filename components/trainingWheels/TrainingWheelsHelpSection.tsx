@@ -10,6 +10,7 @@ import {
 } from '../../src/engine/trainingWheels/trainingWheelsService';
 import { getAidsForLanguage } from '../../src/engine/trainingWheels/languages';
 import { tx, txt } from '../../i18n/runtime';
+import { summarizeAidLog, isHoldoutEnabled, setHoldoutEnabled, MIN_ANSWERS_TO_JUDGE } from '../../src/engine/trainingWheels/measurement';
 
 interface TrainingWheelsHelpSectionProps {
   currentLanguage?: Language;
@@ -57,6 +58,16 @@ export const TrainingWheelsHelpSection: React.FC<TrainingWheelsHelpSectionProps>
     { code: 'fa' as Language, label: '🇮🇷 فارسی', fa: 'فارسی', en: 'Persian' },
   ];
   const langName = LANG_TABS.find((x) => x.code === selectedLang) || LANG_TABS[0];
+
+  // سنجش: آیا کمک‌ها واقعاً کمک می‌کنند؟ (فقط روی همین دستگاه)
+  const [holdoutOn, setHoldoutOn] = useState(isHoldoutEnabled());
+  const measureRows = summarizeAidLog(undefined, selectedLang as string);
+  const AID_NAMES: Record<string, [string, string]> = {
+    gender: ['رنگ و شکل جنس', 'Gender colour & shape'], caseEnding: ['حرف عوض‌شده', 'Changed ending'],
+    separableVerb: ['فعل دوتکه', 'Separable verb'], clause: ['جملهٔ وابسته', 'Clause'], v2Verb: ['جای فعل', 'Verb position'],
+    objectMarker: ['«را»', '«را»'], negation: ['نفی', 'Negation'], timePhrase: ['قاب زمان', 'Time frame'],
+  };
+  const pct = (x: { n: number; correct: number }) => (x.n ? `${Math.round((100 * x.correct) / x.n)}٪ (${x.n})` : '—');
 
   const aids = getAidsForLanguage(selectedLang);
   const stats = getBicycleTrainingStats(selectedLang, currentCefr as CEFRLevel);
@@ -182,9 +193,63 @@ export const TrainingWheelsHelpSection: React.FC<TrainingWheelsHelpSectionProps>
           {tx(isRtl, 'نمونهٔ جمله: هر کارت حداکثر دو نشانه دارد', 'Sentence sample: at most two marks per card')}
         </span>
         <span className="text-lg font-black">
-          <TrainingWheelText card={sampleSentenceCard} stage={0} uiLanguage={uiLanguage} />
+          <TrainingWheelText card={sampleSentenceCard} stage={0} uiLanguage={uiLanguage} showWhy />
         </span>
         <span className="text-xs text-neutral-500 dark:text-neutral-400">{sampleSentenceCard.translation}</span>
+      </div>
+
+      {/* سنجش: درستیِ جواب با کمک و بدون کمک */}
+      <div data-testid="training-wheels-measurement" className="rounded-xl border border-neutral-200 dark:border-neutral-700 p-3 flex flex-col gap-2">
+        <h3 className="text-sm font-black">{tx(isRtl, 'آیا این کمک‌ها واقعاً کمک می‌کنند؟', 'Do these aids really help?')}</h3>
+        <p className="text-xs text-neutral-600 dark:text-neutral-400 leading-relaxed">
+          {tx(isRtl,
+            'جواب‌های مرور لایتنر فقط روی همین دستگاه ثبت می‌شوند. عدد اول درصد جواب درست است و عدد داخل پرانتز تعداد جواب‌ها.',
+            'Your Leitner review answers are recorded on this device only. The first number is the share of correct answers; the number in brackets is how many answers.')}
+        </p>
+        {measureRows.length === 0 ? (
+          <p className="text-xs font-bold text-neutral-500">{tx(isRtl, 'هنوز جوابی ثبت نشده.', 'No answers recorded yet.')}</p>
+        ) : (
+          <table className="w-full text-xs">
+            <thead>
+              <tr className="text-neutral-500">
+                <th className="text-start font-bold py-1">{tx(isRtl, 'کمک', 'Aid')}</th>
+                <th className="text-start font-bold py-1">{tx(isRtl, 'با کمک', 'With aid')}</th>
+                <th className="text-start font-bold py-1">{tx(isRtl, 'بدون کمک', 'Without aid')}</th>
+                <th className="text-start font-bold py-1">{tx(isRtl, 'بعد از ۷ روز', 'After 7 days')}</th>
+              </tr>
+            </thead>
+            <tbody>
+              {measureRows.map((r) => (
+                <tr key={r.aid} data-testid={`measure-row-${r.aid}`} className="border-t border-neutral-200 dark:border-neutral-700">
+                  <td className="py-1 font-bold">{tx(isRtl, (AID_NAMES[r.aid] || [r.aid, r.aid])[0], (AID_NAMES[r.aid] || [r.aid, r.aid])[1])}</td>
+                  <td className="py-1">{pct(r.withAid)}</td>
+                  <td className="py-1">{pct(r.withoutAid)}</td>
+                  <td className="py-1">{pct(r.delayed7)}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        )}
+        <p className="text-[11px] text-neutral-500 leading-relaxed">
+          {txt(isRtl,
+            'تا وقتی هر طرف کمتر از {0} جواب دارد، این عددها چیزی را ثابت نمی‌کنند.',
+            'Until each side has at least {0} answers, these numbers prove nothing.', [String(MIN_ANSWERS_TO_JUDGE)])}
+        </p>
+        <label className="flex items-start gap-2 text-xs cursor-pointer">
+          <input
+            type="checkbox"
+            data-testid="holdout-toggle"
+            checked={holdoutOn}
+            onChange={(e) => { setHoldoutEnabled(e.target.checked); setHoldoutOn(e.target.checked); }}
+            className="mt-0.5"
+          />
+          <span className="leading-relaxed">
+            <b>{tx(isRtl, 'گروه مقایسه', 'Comparison group')}</b>{' '}
+            {tx(isRtl,
+              '— از هر ده کارت، یکی به‌تصادف هیچ کمکی نمی‌گیرد، تا بشود کارتِ با کمک را با کارتِ بی‌کمک مقایسه کرد.',
+              '— one card in ten, picked at random, gets no aids, so cards with aids can be compared with cards without.')}
+          </span>
+        </label>
       </div>
 
       {/* List of Individual Training Wheels (Aids) with Toggles and Progress Bars */}

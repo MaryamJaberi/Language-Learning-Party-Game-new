@@ -508,3 +508,79 @@ describe('7. قاعده: هر کارت حداکثر دو کمک، و فقط رن
     expect(getAidsForLanguage('en-GB').length).toBe(getAidsForLanguage('en').length);
   });
 });
+
+// ------------------------------------------------------------------
+// «چرا؟» و سنجش
+// ------------------------------------------------------------------
+import { fireEvent } from '@testing-library/react';
+import { explainAids } from '../src/engine/trainingWheels/why';
+import {
+  logAidAnswer, readAidLog, clearAidLog, summarizeAidLog, setHoldoutEnabled, isHoldoutCard, aidKindsForCard,
+} from '../src/engine/trainingWheels/measurement';
+
+describe('8. دکمهٔ «چرا؟»: قاعدهٔ کوتاه، فقط وقتی خواسته شود', () => {
+  it('توضیح‌ها اصطلاح دستوری ندارند و بیش از دو تا نیستند', () => {
+    const a = limitAids(analyzeGermanAids(mkCard('de', 'Ich nehme den Bus nicht, weil es am Montag regnet'), {}), 2);
+    const ex = explainAids(a, 'de');
+    expect(ex.length).toBe(2);
+    for (const x of ex) {
+      expect(x.fa).not.toMatch(/آکوزاتیو|داتیو|مفعول|فاعل|Akkusativ|Dativ/);
+      expect(x.en).not.toMatch(/accusative|dative|subordinate|finite/i);
+    }
+  });
+
+  it('توضیح تا وقتی دکمه زده نشده دیده نمی‌شود', () => {
+    render(<TrainingWheelText card={mkCard('nl', 'Ik bel je morgen op')} stage={0} uiLanguage="en" showWhy />);
+    expect(screen.queryByTestId('aid-why-text')).toBeNull();
+    fireEvent.click(screen.getByTestId('aid-why-button'));
+    expect(screen.getByTestId('aid-why-text').textContent).toContain('one verb');
+  });
+
+  it('بدون showWhy یا بدون نشانه، دکمه‌ای نیست', () => {
+    const a = render(<TrainingWheelText card={mkCard('nl', 'Ik bel je morgen op')} stage={0} uiLanguage="en" />);
+    expect(screen.queryByTestId('aid-why-button')).toBeNull();
+    a.unmount();
+    render(<TrainingWheelText card={mkCard('nl', 'Goed idee')} stage={0} uiLanguage="en" showWhy />);
+    expect(screen.queryByTestId('aid-why-button')).toBeNull();
+  });
+});
+
+describe('9. سنجش: با کمک در برابر بدون کمک', () => {
+  beforeEach(() => { localStorage.clear(); });
+
+  it('جواب‌ها ثبت می‌شوند و خلاصه با کمک و بدون کمک را جدا می‌کند', () => {
+    const card = mkCard('nl', 'Ik heb geen tijd');
+    expect(aidKindsForCard(card)).toEqual(['v2Verb', 'negation']);
+    logAidAnswer(card, 0, true, -1);
+    logAidAnswer(card, 1, false, 1);
+    logAidAnswer(card, 3, true, 8);
+    expect(readAidLog().length).toBe(3);
+    const neg = summarizeAidLog().find((r) => r.aid === 'negation')!;
+    expect(neg.withAid).toEqual({ n: 2, correct: 1 });
+    expect(neg.withoutAid).toEqual({ n: 1, correct: 1 });
+    expect(neg.delayed7).toEqual({ n: 1, correct: 1 });
+    expect(summarizeAidLog(undefined, 'de').length).toBe(0);
+    clearAidLog();
+    expect(readAidLog().length).toBe(0);
+  });
+
+  it('کارتی که هیچ کمکی نمی‌گیرد ثبت نمی‌شود', () => {
+    logAidAnswer(mkCard('nl', 'Goed idee'), 0, true, -1);
+    expect(readAidLog().length).toBe(0);
+  });
+
+  it('گروه مقایسه پیش‌فرض خاموش است؛ روشن که شود حدود یک‌دهم کارت‌ها بی‌کمک می‌مانند و ثابت‌اند', () => {
+    const ids = Array.from({ length: 1000 }, (_, i) => `card_${i}`);
+    expect(ids.filter(isHoldoutCard).length).toBe(0);
+    setHoldoutEnabled(true);
+    const first = ids.filter(isHoldoutCard);
+    expect(first.length).toBeGreaterThan(60);
+    expect(first.length).toBeLessThan(140);
+    expect(ids.filter(isHoldoutCard)).toEqual(first);
+    // کارت گروه مقایسه روی صفحه هیچ نشانه‌ای ندارد
+    const card = { ...mkCard('nl', 'Ik heb geen tijd'), id: first[0] } as LanguageCard;
+    render(<TrainingWheelText card={card} uiLanguage="en" />);
+    expect(screen.queryByTestId('negation-mark')).toBeNull();
+    setHoldoutEnabled(false);
+  });
+});
