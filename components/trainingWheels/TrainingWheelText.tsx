@@ -44,23 +44,34 @@ export const TrainingWheelText: React.FC<TrainingWheelTextProps> = ({
   const targetRtl = isRtlLang(card.targetLanguage);
 
   // کارتِ «گروه مقایسه» هیچ کمکی نمی‌گیرد (فقط وقتی کاربر سنجش مقایسه‌ای را روشن کرده باشد)
-  const effectiveStage: FadingStage =
-    explicitStage !== undefined
+  // گروه مقایسه بر مرحلهٔ صریح هم مقدم است، وگرنه لایتنر هرگز «بدون کمک» را نشان نمی‌دهد
+  const effectiveStage: FadingStage = isHoldoutCard(card.id)
+    ? 3
+    : explicitStage !== undefined
       ? explicitStage
-      : isHoldoutCard(card.id)
-        ? 3
-        : getFadingStageForCard(card.id, cefrLevel || card.cefrLevel);
+      : getFadingStageForCard(card.id, cefrLevel || card.cefrLevel);
 
-  const text = (card.targetText || '').trim();
+  const text = String(card?.targetText ?? '').trim();
   // حرف تعریف همیشه همراه اسم دیده می‌شود: واحد یادگیری «het huis» است، نه «huis»
-  const needsArticle = !!card.article && !text.toLowerCase().startsWith(card.article.toLowerCase() + ' ');
-  const displayText = needsArticle ? `${card.article} ${text}` : text;
+  // l' / ال (فرانسوی، ایتالیایی، عربی) بدون فاصله به اسم می‌چسبند؛ برای این زبان‌ها اصلاً چیزی اضافه نمی‌کنیم
+  const art = card.article ? String(card.article).trim() : '';
+  const elided = /['’]$/.test(art) || art === 'ال';
+  const lowerText = text.toLowerCase();
+  const alreadyHas = !art || lowerText.startsWith(art.toLowerCase() + ' ') || (elided && lowerText.startsWith(art.toLowerCase()));
+  const displayText = alreadyHas ? text : `${art}${elided ? '' : ' '}${text}`;
+  const needsArticle = !alreadyHas;
 
   if (effectiveStage === 3) {
     return <span className={className} dir={targetRtl ? 'rtl' : 'ltr'} lang={card.targetLanguage as string}>{displayText}</span>;
   }
 
-  const aids: WordAidsAnnotation = limitAids(analyzeLanguageAids(card, settings.enabledAids), maxAids);
+  let aids: WordAidsAnnotation = {};
+  try {
+    aids = limitAids(analyzeLanguageAids(card, settings.enabledAids), maxAids);
+  } catch {
+    // تحلیل هرگز نباید صفحه را خراب کند
+    return <span className={className} dir={targetRtl ? 'rtl' : 'ltr'} lang={card.targetLanguage as string}>{displayText}</span>;
+  }
   const words = text.split(/\s+/).filter(Boolean);
   const explanations = showWhy ? explainAids(aids, card.targetLanguage as string) : [];
   const full = effectiveStage <= 1;
@@ -210,7 +221,8 @@ export const TrainingWheelText: React.FC<TrainingWheelTextProps> = ({
 
   const rendered: React.ReactNode[] = [];
   if (needsArticle) {
-    rendered.push(<span key="article" className="relative inline-flex items-center py-0.5">{card.article}</span>);
+    // l' و ال به اسم می‌چسبند: فاصلهٔ بین دو تکه را با حاشیهٔ منفی برمی‌داریم
+    rendered.push(<span key="article" className={`relative inline-flex items-center py-0.5 ${elided ? '-me-1.5' : ''}`}>{art}</span>);
   }
   for (let i = 0; i < words.length; i++) {
     if (tp && i === tp.start) {

@@ -8,6 +8,7 @@
  */
 import { LanguageCard } from '../../../types';
 import { analyzeLanguageAids, limitAids, baseLang } from './languages';
+import { getTrainingWheelsSettings } from './trainingWheelsService';
 
 const STORAGE_LOG = 'dor_aid_log_v1';
 const STORAGE_MEASURE = 'dor_aid_measure_v1';
@@ -32,13 +33,16 @@ export interface AidLogEntry {
 interface MeasureSettings { holdoutEnabled: boolean; seed: string }
 
 function readMeasure(): MeasureSettings {
-  try {
-    const raw = localStorage.getItem(STORAGE_MEASURE);
-    if (raw) {
+  let raw: string | null = null;
+  try { raw = localStorage.getItem(STORAGE_MEASURE); } catch { /* ignore */ }
+  if (raw) {
+    try {
       const p = JSON.parse(raw);
       if (p && typeof p.seed === 'string') return { holdoutEnabled: !!p.holdoutEnabled, seed: p.seed };
-    }
-  } catch { /* ignore */ }
+    } catch { /* خراب است؛ دانه را عوض نکن، فقط در حافظه بماند */ }
+    // محتوای خراب: دانهٔ ثابت از همان متن، تا گروه مقایسه جابه‌جا نشود و چیزی روی آن نوشته نشود
+    return { holdoutEnabled: false, seed: 'x' + hash(raw).toString(36) };
+  }
   const fresh = { holdoutEnabled: false, seed: Math.random().toString(36).slice(2, 10) };
   try { localStorage.setItem(STORAGE_MEASURE, JSON.stringify(fresh)); } catch { /* ignore */ }
   return fresh;
@@ -66,7 +70,7 @@ export function isHoldoutCard(cardId: string): boolean {
 
 export function aidKindsForCard(card: LanguageCard): string[] {
   try {
-    const a = limitAids(analyzeLanguageAids(card, {}), 2);
+    const a = limitAids(analyzeLanguageAids(card, getTrainingWheelsSettings().enabledAids), 2);
     return Object.keys(a).filter((k) => (a as Record<string, unknown>)[k] && k !== 'subordinateVerbFinal' && k !== 'diminutive');
   } catch {
     return [];
@@ -77,7 +81,7 @@ export function readAidLog(): AidLogEntry[] {
   try {
     const raw = localStorage.getItem(STORAGE_LOG);
     const arr = raw ? JSON.parse(raw) : [];
-    return Array.isArray(arr) ? arr : [];
+    return Array.isArray(arr) ? arr.filter((e) => e && Array.isArray(e.aids) && typeof e.id === 'string') : [];
   } catch {
     return [];
   }
@@ -107,7 +111,7 @@ export interface AidSummaryRow {
   aid: string;
   /** جواب‌هایی که کمک روی صفحه بود (مرحلهٔ ۰ تا ۲، نه گروه مقایسه) */
   withAid: { n: number; correct: number };
-  /** جواب‌هایی که کمک نبود (مرحلهٔ ۳ یا گروه مقایسه) */
+  /** جواب‌های گروه مقایسه (کمکی نبود) */
   withoutAid: { n: number; correct: number };
   /** یادآوری با فاصلهٔ دست‌کم ۷ روز، برای کارت‌هایی که کمک گرفته بودند */
   delayed7: { n: number; correct: number };
@@ -128,8 +132,10 @@ export function summarizeAidLog(log: AidLogEntry[] = readAidLog(), lang?: string
     if (lang && e.lang !== lang) continue;
     for (const aid of e.aids) {
       const r = row(aid);
-      const visible = !e.holdout && e.stage < 3;
-      const bucket = visible ? r.withAid : r.withoutAid;
+      // «بدون کمک» فقط از گروه مقایسه می‌آید: کارتی که با موفقیت به مرحلهٔ ۳ رسیده دیگر مرور نمی‌شود
+      // و مقایسهٔ آن با کارت‌های تازه نادرست است. مرحلهٔ ۳ بدون گروه مقایسه شمرده نمی‌شود.
+      if (!e.holdout && e.stage >= 3) continue;
+      const bucket = e.holdout ? r.withoutAid : r.withAid;
       bucket.n++; if (e.ok) bucket.correct++;
       if (e.gap >= 7) {
         const d = e.holdout ? r.delayed7Holdout : r.delayed7;

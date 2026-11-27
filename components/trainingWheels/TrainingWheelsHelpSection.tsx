@@ -206,15 +206,19 @@ export const TrainingWheelsHelpSection: React.FC<TrainingWheelsHelpSectionProps>
             'جواب‌های مرور لایتنر فقط روی همین دستگاه ثبت می‌شوند. عدد اول درصد جواب درست است و عدد داخل پرانتز تعداد جواب‌ها.',
             'Your Leitner review answers are recorded on this device only. The first number is the share of correct answers; the number in brackets is how many answers.')}
         </p>
-        {measureRows.length === 0 ? (
-          <p className="text-xs font-bold text-neutral-500">{tx(isRtl, 'هنوز جوابی ثبت نشده.', 'No answers recorded yet.')}</p>
+        {measureRows.length === 0 || !measureRows.some((r) => r.withoutAid.n > 0) ? (
+          <p data-testid="measure-no-comparison" className="text-xs font-bold text-neutral-500">
+            {measureRows.length === 0
+              ? tx(isRtl, 'هنوز جوابی ثبت نشده.', 'No answers recorded yet.')
+              : tx(isRtl, 'مقایسهٔ درست فقط با «گروه مقایسه» ممکن است. آن را روشن کن و کمی مرور کن؛ بعد از چند جواب، اینجا مقایسه می‌آید.', 'A fair comparison needs the comparison group. Turn it on and review for a while; the comparison will appear here.')}
+          </p>
         ) : (
           <table className="w-full text-xs">
             <thead>
               <tr className="text-neutral-500">
                 <th className="text-start font-bold py-1">{tx(isRtl, 'کمک', 'Aid')}</th>
                 <th className="text-start font-bold py-1">{tx(isRtl, 'با کمک', 'With aid')}</th>
-                <th className="text-start font-bold py-1">{tx(isRtl, 'بدون کمک', 'Without aid')}</th>
+                <th className="text-start font-bold py-1">{tx(isRtl, 'گروه مقایسه (بدون کمک)', 'Comparison group (no aids)')}</th>
                 <th className="text-start font-bold py-1">{tx(isRtl, 'بعد از ۷ روز', 'After 7 days')}</th>
               </tr>
             </thead>

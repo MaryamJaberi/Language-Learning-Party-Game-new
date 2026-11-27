@@ -2,7 +2,7 @@ import { Language, CEFRLevel, LanguageCard, LeitnerCardItem, LeitnerState } from
 import { CURATED_LANGUAGE_CARDS } from './cardsData';
 import { buildSessionCardPool } from './cardsData';
 import { getUniqueCardsForSession } from './contentEngine';
-import { logAidAnswer } from './src/engine/trainingWheels/measurement';
+import { logAidAnswer, isHoldoutCard } from './src/engine/trainingWheels/measurement';
 
 const STORAGE_LEITNER = 'dor_leitner_box_state';
 
@@ -279,7 +279,7 @@ export function recordLeitnerCardReview(
   // سنجش چرخ‌های کمکی: مرحلهٔ محو شدن و فاصله از مرور قبلی، پیش از اینکه جعبه عوض شود
   try {
     const gapDays = item.lastReviewedDate ? calculateDaysDifference(item.lastReviewedDate, today) : -1;
-    logAidAnswer(item.card, Math.min(item.boxIndex, 3), isCorrect, gapDays);
+    logAidAnswer(item.card, isHoldoutCard(item.cardId || item.id) ? 3 : Math.min(item.boxIndex, 3), isCorrect, gapDays);
   } catch { /* سنجش هیچ‌وقت نباید مرور را خراب کند */ }
 
   item.lastReviewedDate = today;
