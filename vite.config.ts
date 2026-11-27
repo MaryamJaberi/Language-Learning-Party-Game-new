@@ -26,9 +26,9 @@ export default defineConfig(() => {
           includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'icon.svg'],
           manifest: {
             id: '/',
-            name: 'Language app Dour - بازی دورهمی یادگیری زبان',
-            short_name: 'دور - Turn',
-            description: 'بازی دورهمی آموزش و یادگیری زبان به صورت چندزبانه، جذاب و تعاملی برای گروه‌های ۴، ۶ و ۸ نفره',
+            name: 'Dour: Language Party Game',
+            short_name: 'Dour',
+            description: 'A party game for learning languages together: one phone, picture cards, duels and group play.',
             theme_color: '#241442',
             background_color: '#170B2C',
             display: 'standalone',
