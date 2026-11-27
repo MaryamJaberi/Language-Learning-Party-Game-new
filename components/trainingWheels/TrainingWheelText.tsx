@@ -6,6 +6,8 @@ import { getTrainingWheelsSettings } from '../../src/engine/trainingWheels/train
 import { analyzeLanguageAids, limitAids } from '../../src/engine/trainingWheels/languages';
 import { isRtlLang } from '../../ui';
 import { tx } from '../../i18n/runtime';
+import { isHoldoutCard } from '../../src/engine/trainingWheels/measurement';
+import { explainAids } from '../../src/engine/trainingWheels/why';
 
 interface TrainingWheelTextProps {
   card: LanguageCard;
@@ -15,6 +17,8 @@ interface TrainingWheelTextProps {
   uiLanguage?: string;
   /** سقف کمک‌های هم‌زمان روی یک کارت (قاعده: دو) */
   maxAids?: number;
+  /** دکمهٔ «چرا؟»: توضیح یک‌جمله‌ای نشانه‌ها، فقط وقتی زبان‌آموز خودش بخواهد */
+  showWhy?: boolean;
 }
 
 /**
@@ -32,15 +36,20 @@ export const TrainingWheelText: React.FC<TrainingWheelTextProps> = ({
   className = '',
   uiLanguage = 'fa',
   maxAids = 2,
+  showWhy = false,
 }) => {
+  const [whyOpen, setWhyOpen] = React.useState(false);
   const isRtl = uiLanguage === 'fa' || uiLanguage === 'ar';
   const settings = getTrainingWheelsSettings();
   const targetRtl = isRtlLang(card.targetLanguage);
 
+  // کارتِ «گروه مقایسه» هیچ کمکی نمی‌گیرد (فقط وقتی کاربر سنجش مقایسه‌ای را روشن کرده باشد)
   const effectiveStage: FadingStage =
     explicitStage !== undefined
       ? explicitStage
-      : getFadingStageForCard(card.id, cefrLevel || card.cefrLevel);
+      : isHoldoutCard(card.id)
+        ? 3
+        : getFadingStageForCard(card.id, cefrLevel || card.cefrLevel);
 
   const text = (card.targetText || '').trim();
   // حرف تعریف همیشه همراه اسم دیده می‌شود: واحد یادگیری «het huis» است، نه «huis»
@@ -53,6 +62,7 @@ export const TrainingWheelText: React.FC<TrainingWheelTextProps> = ({
 
   const aids: WordAidsAnnotation = limitAids(analyzeLanguageAids(card, settings.enabledAids), maxAids);
   const words = text.split(/\s+/).filter(Boolean);
+  const explanations = showWhy ? explainAids(aids, card.targetLanguage as string) : [];
   const full = effectiveStage <= 1;
   const subtle = effectiveStage === 2;
 
@@ -236,6 +246,28 @@ export const TrainingWheelText: React.FC<TrainingWheelTextProps> = ({
       >
         {rendered}
       </span>
+      {showWhy && full && explanations.length > 0 && (
+        <span className="flex flex-col items-center mt-1.5">
+          <button
+            type="button"
+            data-testid="aid-why-button"
+            aria-expanded={whyOpen}
+            onClick={(e) => { e.stopPropagation(); setWhyOpen((v) => !v); }}
+            className="text-[11px] font-bold px-2 py-0.5 rounded-full border border-indigo-400/50 text-indigo-600 dark:text-indigo-300 bg-indigo-500/10 cursor-pointer select-none"
+          >
+            {tx(isRtl, 'چرا؟', 'Why?')}
+          </button>
+          {whyOpen && (
+            <span
+              data-testid="aid-why-text"
+              dir={isRtl ? 'rtl' : 'ltr'}
+              className="mt-1 max-w-xs text-xs font-medium leading-relaxed text-[var(--ink)] opacity-80 text-center flex flex-col gap-0.5"
+            >
+              {explanations.map((x) => <span key={x.kind}>{tx(isRtl, x.fa, x.en)}</span>)}
+            </span>
+          )}
+        </span>
+      )}
     </span>
   );
 };

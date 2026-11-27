@@ -1429,7 +1429,7 @@ const SinglePlayerScreen: React.FC<Props> = ({
               >
                 {/* کمک بعد از جواب می‌آید، نه پیش از آن */}
                 {skippedCardInfo.targetText === skippedCardInfo.card.targetText
-                  ? <TrainingWheelText card={skippedCardInfo.card} uiLanguage={uiLanguage} />
+                  ? <TrainingWheelText card={skippedCardInfo.card} uiLanguage={uiLanguage} showWhy />
                   : skippedCardInfo.targetText}
               </div>
 
@@ -1551,7 +1551,7 @@ const SinglePlayerScreen: React.FC<Props> = ({
                   className="mt-2 text-base sm:text-lg font-black text-[var(--ink)] bg-[var(--bg)] px-3.5 py-1 rounded-xl border border-[var(--line)]"
                 >
                   {/* جواب آشکار شده: حالا نشانه‌ها می‌آیند (رنگ فیروزه‌ای کل جمله برداشته شد، چون فیروزه‌ای یعنی «de») */}
-                  <TrainingWheelText card={currentCard} uiLanguage={uiLanguage} />
+                  <TrainingWheelText card={currentCard} uiLanguage={uiLanguage} showWhy />
                 </div>
               )}
 

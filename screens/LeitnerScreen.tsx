@@ -357,6 +357,7 @@ export const LeitnerScreen: React.FC<Props> = ({
                           : (currentDueItem.item.boxIndex as any)
                       }
                       uiLanguage={language}
+                      showWhy
                     />
                   ) : (
                     currentDueItem.item.card.prompt || currentDueItem.item.card.translation
