@@ -58,6 +58,10 @@ export interface PropPlacement {
   x: number;
   y: number;
   scale?: number;
+  /** موضوع کارت است: بزرگ‌تر و جلوی آدم‌ها کشیده می‌شود */
+  hero?: boolean;
+  /** جلوی آدم‌ها (مثل میزی که پشتش ایستاده‌اند) */
+  front?: boolean;
 }
 
 export type Effect =
@@ -79,6 +83,8 @@ export interface SceneSpec {
   actors: Actor[];
   props?: PropPlacement[];
   effects?: EffectPlacement[];
+  /** حباب موضوع بالای سر یک بازیگر: نشانهٔ چیزی که جمله درباره‌اش است (شناسهٔ تکه‌ها) */
+  bubble?: { on: number; items: string[] };
   /** توضیح کوتاه به فارسی، برای بازبینی و دسترس‌پذیری (alt) */
   caption?: string;
 }

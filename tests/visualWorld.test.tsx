@@ -15,13 +15,16 @@ import { curatedFor, CURATED } from '../src/visual/curatedScenes';
 import { SCENE_SHARDS, sceneShard } from '../src/visual/sceneStore';
 import type { SceneSpec } from '../src/visual/types';
 
-const isWho = (w: string) => !!lookFor(w) || !!FAMILY_PETS[w] || !!ANIMALS[w];
+// تکه‌های تازه فقط در برگه‌های Canva هستند (طرح کدی ندارند)؛ هر کدام کافی است
+const ART = JSON.parse(fs.readFileSync(path.resolve(__dirname, '../public/data/art/art.json'), 'utf8'));
+const hasProp = (id: string) => !!PROPS[id] || !!ART.props[id];
+const isWho = (w: string) => !!lookFor(w) || !!FAMILY_PETS[w] || !!ANIMALS[w] || !!ART.animals[w];
 
 function checkSpec(s: SceneSpec, where: string) {
   expect(PLACES[s.place], `${where}: place ${s.place}`).toBeTruthy();
   for (const a of s.actors) expect(isWho(a.who), `${where}: who ${a.who}`).toBe(true);
-  for (const a of s.actors) if (a.holds) expect(PROPS[a.holds], `${where}: holds ${a.holds}`).toBeTruthy();
-  for (const p of s.props || []) expect(PROPS[p.id], `${where}: prop ${p.id}`).toBeTruthy();
+  for (const a of s.actors) if (a.holds) expect(hasProp(a.holds), `${where}: holds ${a.holds}`).toBe(true);
+  for (const p of s.props || []) expect(hasProp(p.id), `${where}: prop ${p.id}`).toBe(true);
 }
 
 describe('دیکشنری تصویری: داده', () => {
@@ -46,7 +49,7 @@ describe('دیکشنری تصویری: داده', () => {
     for (const e of allEntries()) {
       const v = e.visual;
       if (v.kind === 'person') expect(isWho(v.who), e.id).toBe(true);
-      if (v.kind === 'prop') expect(PROPS[v.id], e.id).toBeTruthy();
+      if (v.kind === 'prop') expect(hasProp(v.id), e.id).toBe(true);
       if (v.kind === 'animal') expect(isWho(v.id), e.id).toBe(true);
       if (v.kind === 'place') expect(PLACES[v.id], e.id).toBeTruthy();
       if (v.kind === 'scene') checkSpec(v.spec, e.id);
@@ -103,7 +106,8 @@ describe('صحنهٔ کارت‌ها', () => {
       const shard = JSON.parse(fs.readFileSync(path.join(dir, `${n}.json`), 'utf8'));
       for (const [k, v] of Object.entries<any>(shard)) {
         expect(sceneShard(k)).toBe(n);
-        if (v.lex) expect(allEntries().some((e) => e.id === v.lex)).toBe(true);
+        if (v.none) expect(['no-art', 'no-anchor']).toContain(v.none);
+        else if (v.lex) expect(allEntries().some((e) => e.id === v.lex)).toBe(true);
         else checkSpec(v, k);
         total++;
       }

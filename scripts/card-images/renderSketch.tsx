@@ -31,7 +31,7 @@ function svgFor(key: string): { svg: string; shape: 'scene' | 'square' } | null 
   if (key.startsWith('d_')) visual = lex.get(key.slice(2))?.visual;
   else {
     const s = scene(key);
-    if (!s) return null;
+    if (!s || s.none) return null;
     if (s.lex) visual = lex.get(s.lex)?.visual;
     else visual = { kind: 'scene', spec: s as SceneSpec };
   }

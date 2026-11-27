@@ -132,6 +132,11 @@ const plan: any[] = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/card-images
 const addCard = (key: string, en: string, topic?: string, type?: string) => {
   const cur = curatedFor(en);
   const s = cur || buildScene({ key, en, topic, type });
+  if ('none' in s) {
+    // عمداً بدون صحنه: یا نقاشی آن چیز را نداریم، یا جمله لنگر دیدنی ندارد
+    out[key] = { en, kind: type || 'phrase', situation: '', cast: [], generic: true };
+    return;
+  }
   if ('lex' in s) {
     const d = out[`d_${s.lex}`];
     out[key] = { en, kind: 'word', situation: d.situation, cast: d.cast, generic: false };

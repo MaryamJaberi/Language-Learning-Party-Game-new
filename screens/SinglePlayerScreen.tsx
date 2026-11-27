@@ -1427,7 +1427,10 @@ const SinglePlayerScreen: React.FC<Props> = ({
                 dir={isRtlLang(skippedCardInfo.card.targetLanguage) ? 'rtl' : 'ltr'} lang={(skippedCardInfo.card.targetLanguage) as string}
                 className="text-xl sm:text-2xl font-black text-[var(--ink)] tracking-tight leading-snug py-0.5 select-text"
               >
-                {skippedCardInfo.targetText}
+                {/* کمک بعد از جواب می‌آید، نه پیش از آن */}
+                {skippedCardInfo.targetText === skippedCardInfo.card.targetText
+                  ? <TrainingWheelText card={skippedCardInfo.card} uiLanguage={uiLanguage} />
+                  : skippedCardInfo.targetText}
               </div>
 
               {skippedCardInfo.pronunciation && (
@@ -1545,9 +1548,10 @@ const SinglePlayerScreen: React.FC<Props> = ({
               {(isRevealed || evaluation?.isCorrect) && (
                 <div 
                   dir={isRtlLang(currentCard.targetLanguage) ? 'rtl' : 'ltr'} lang={(currentCard.targetLanguage) as string}
-                  className="mt-2 text-base sm:text-lg font-black text-[var(--turq)] bg-[var(--bg)] px-3.5 py-1 rounded-xl border border-[var(--line)]"
+                  className="mt-2 text-base sm:text-lg font-black text-[var(--ink)] bg-[var(--bg)] px-3.5 py-1 rounded-xl border border-[var(--line)]"
                 >
-                  {currentCard.targetText}
+                  {/* جواب آشکار شده: حالا نشانه‌ها می‌آیند (رنگ فیروزه‌ای کل جمله برداشته شد، چون فیروزه‌ای یعنی «de») */}
+                  <TrainingWheelText card={currentCard} uiLanguage={uiLanguage} />
                 </div>
               )}
 

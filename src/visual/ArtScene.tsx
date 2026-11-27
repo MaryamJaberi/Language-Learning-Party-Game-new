@@ -12,6 +12,7 @@ import { FAMILY_PETS } from './animals';
 import { EffectMark } from './effects';
 import { W, H } from './places';
 import { fetchContentJSON, getContentBaseUrl } from '../../contentStore';
+import { propMeta } from './propMeta';
 
 type Piece = { w: number; h: number; reach?: 'left' | 'right' };
 export interface ArtIndex {
@@ -116,6 +117,54 @@ export function ArtSceneContent({ spec, art }: { spec: SceneSpec; art: ArtIndex 
   const bg = art.places[placeId];
   const placed = spec.actors.map((a) => placeActor(art, a));
   const night = spec.time === 'night';
+  /** وسیله‌ها: اندازه از propMeta (نسبت به قد آدم)، سایهٔ تماس برای هر چه روی زمین است، و دو لایه (پشت و جلوی آدم‌ها) */
+  const drawProps = (front: boolean) => (spec.props || []).map((p, k) => {
+    if (!!p.front !== front) return null;
+    const pc = art.props[p.id];
+    if (!pc) return null;
+    // پس‌زمینهٔ Canva خودش این‌ها را دارد
+    if ((placeId === 'station' && p.id === 'train') || (placeId === 'airport' && p.id === 'plane')) return null;
+    const meta = propMeta(p.id);
+    const onTable = meta.where === 'table';
+    const h = meta.h * (onTable ? (p.scale ?? 1.2) / 1.2 * (p.hero ? 1.5 : 1) : 1);
+    const w = (pc.w / pc.h) * h;
+    const bottom = Math.min(p.y + 14, ART_FOOT);
+    const grounded = meta.where !== 'sky' && bottom >= ART_FOOT - 1;
+    return (
+      <g key={`p${front ? 'f' : 'b'}${k}`}>
+        {grounded && <ellipse cx={p.x} cy={bottom - 2} rx={w * 0.46} ry={Math.max(3, Math.min(7, w * 0.05))} fill="#5A3C1E" opacity={0.16} />}
+        {onTable && !grounded && <ellipse cx={p.x} cy={bottom - 1} rx={w * 0.4} ry={2.2} fill="#5A3C1E" opacity={0.18} />}
+        <image href={url('props/' + p.id)} x={p.x - w / 2} y={bottom - h} width={w} height={h} />
+      </g>
+    );
+  });
+  /** حباب موضوع: نشانهٔ چیزی که جمله درباره‌اش است، بالای سر گوینده و رو به شنونده */
+  const bubble = () => {
+    const b = spec.bubble;
+    const pl = b ? placed[b.on] : null;
+    if (!b || !pl) return null;
+    const items = b.items.filter((id) => art.props[id]);
+    if (!items.length) return null;
+    const cell = 40, pad = 9, bh = 50;
+    const bw = items.length * cell + pad * 2;
+    const headY = pl.foot - pl.h;
+    const by = Math.max(5, Math.min(headY - bh - 12, 16));
+    const bx = Math.max(6, Math.min(W - bw - 6, pl.x + 34 * pl.f - bw / 2));
+    const tx = Math.max(bx + 14, Math.min(bx + bw - 14, pl.x + 16 * pl.f));
+    return (
+      <g>
+        <path d={`M${tx - 8},${by + bh - 1} L${pl.x + 8 * pl.f},${Math.max(by + bh + 4, headY - 3)} L${tx + 8},${by + bh - 1} Z`} fill="#FFFFFF" stroke="#16224A" strokeOpacity={0.22} strokeWidth={1.4} />
+        <rect x={bx} y={by} width={bw} height={bh} rx={16} fill="#FFFFFF" stroke="#16224A" strokeOpacity={0.22} strokeWidth={1.4} />
+        <rect x={tx - 7} y={by + bh - 3} width={14} height={3} fill="#FFFFFF" />
+        {items.map((id, i) => {
+          const pc = art.props[id];
+          const k = Math.min(34 / pc.w, 34 / pc.h);
+          const w = pc.w * k, h = pc.h * k;
+          return <image key={id} href={url('props/' + id)} x={bx + pad + i * cell + (cell - w) / 2} y={by + (bh - h) / 2} width={w} height={h} />;
+        })}
+      </g>
+    );
+  };
   return (
     <g>
       {bg ? (
@@ -125,16 +174,7 @@ export function ArtSceneContent({ spec, art }: { spec: SceneSpec; art: ArtIndex 
       )}
       {night && <rect width={W} height={H} fill="#15204A" opacity={0.35} />}
       {(spec.effects || []).filter((e) => SCENE_WIDE.includes(e.id)).map((e, k) => <g key={`w${k}`}><EffectMark id={e.id} x={0} y={0} /></g>)}
-      {(spec.props || []).map((p, k) => {
-        const pc = art.props[p.id];
-        if (!pc) return null;
-        // پس‌زمینهٔ Canva خودش این‌ها را دارد
-        if ((placeId === 'station' && p.id === 'train') || (placeId === 'airport' && p.id === 'plane')) return null;
-        const big = ['bus', 'train', 'car', 'plane', 'washing-machine', 'fridge', 'bicycle'].includes(p.id);
-        const h = (big ? 70 : 34) * (p.scale ?? 1.2) / 1.2;
-        const w = (pc.w / pc.h) * h;
-        return <image key={`p${k}`} href={url('props/' + p.id)} x={p.x - w / 2} y={Math.min(p.y + 14, ART_FOOT) - h} width={w} height={h} />;
-      })}
+      {drawProps(false)}
       {placed.map((pl, i) => {
         if (!pl) return null;
         const a = spec.actors[i];
@@ -157,6 +197,8 @@ export function ArtSceneContent({ spec, art }: { spec: SceneSpec; art: ArtIndex 
           </g>
         );
       })}
+      {drawProps(true)}
+      {bubble()}
       {(spec.effects || []).filter((e) => !SCENE_WIDE.includes(e.id)).map((e, k) => {
         const pl = e.on !== undefined ? placed[e.on] : undefined;
         const [x, y] = pl ? effectAt(pl, e.id) : [e.x ?? 200, e.y ?? 60];

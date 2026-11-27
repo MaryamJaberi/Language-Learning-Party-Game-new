@@ -23,69 +23,40 @@ export const TrainingWheelsHelpSection: React.FC<TrainingWheelsHelpSectionProps>
   uiLanguage = 'fa'
 }) => {
   const isRtl = uiLanguage === 'fa' || uiLanguage === 'ar';
+  const startLang = String(currentLanguage || 'nl').split('-')[0];
   const [selectedLang, setSelectedLang] = useState<Language>(
-    currentLanguage === 'de' ? 'de' : 'nl'
+    (['nl', 'de', 'en', 'fa'].includes(startLang) ? startLang : 'nl') as Language
   );
   const [settings, setSettings] = useState(getTrainingWheelsSettings());
 
-  // Interactive sample card for previewing visual aids
-  const sampleCard: LanguageCard = selectedLang === 'nl'
-    ? {
-        id: 'sample_nl_diminutive',
-        targetLanguage: 'nl',
-        cefrLevel: 'A1',
-        topic: 'CAT_EVERYDAY',
-        contentType: 'Vocabulary',
-        learningMode: 'Explain',
-        prompt: 'کلمهٔ هلندی به همراه حرف تعریف و پسوند مصغر',
-        targetText: 'het meisje',
-        translation: 'دختربچه',
-        article: 'het',
-        difficulty: 'easy',
-        points: 1
-      }
-    : {
-        id: 'sample_de_neuter',
-        targetLanguage: 'de',
-        cefrLevel: 'A1',
-        topic: 'CAT_EVERYDAY',
-        contentType: 'Vocabulary',
-        learningMode: 'Explain',
-        prompt: 'کلمهٔ آلمانی با حرف تعریف خنثی',
-        targetText: 'das Mädchen',
-        translation: 'دختربچه',
-        article: 'das',
-        difficulty: 'easy',
-        points: 1
-      };
+  const mk = (id: string, lang: string, contentType: string, targetText: string, translation: string, article?: string): LanguageCard => ({
+    id, targetLanguage: lang, cefrLevel: 'A1', topic: 'CAT_EVERYDAY', contentType, learningMode: 'Explain',
+    prompt: '', targetText, translation, article, difficulty: 'easy', points: 1,
+  } as unknown as LanguageCard);
 
-  const sampleSentenceCard: LanguageCard = selectedLang === 'nl'
-    ? {
-        id: 'sample_nl_sep',
-        targetLanguage: 'nl',
-        cefrLevel: 'A1',
-        topic: 'CAT_EVERYDAY',
-        contentType: 'Sentence',
-        learningMode: 'Speak',
-        prompt: 'فعل دوتکه هلندی opbellen (زنگ زدن)',
-        targetText: 'Ik bel je morgen op',
-        translation: 'فردا بهت زنگ می‌زنم',
-        difficulty: 'easy',
-        points: 1
-      }
-    : {
-        id: 'sample_de_nebensatz',
-        targetLanguage: 'de',
-        cefrLevel: 'A1',
-        topic: 'CAT_EVERYDAY',
-        contentType: 'Sentence',
-        learningMode: 'Speak',
-        prompt: 'جملهٔ پیرو آلمانی با weil و انتقال فعل به انتها',
-        targetText: 'Ich lerne Deutsch, weil ich in Berlin wohne',
-        translation: 'من آلمانی یاد می‌گیرم چون در برلین زندگی می‌کنم',
-        difficulty: 'easy',
-        points: 1
-      };
+  // نمونهٔ واژه (رنگ و شکل جنس). انگلیسی و فارسی جنس دستوری ندارند، پس نمونهٔ واژه‌شان بی‌رنگ است.
+  const SAMPLE_WORD: Record<string, LanguageCard> = {
+    nl: mk('sample_nl_diminutive', 'nl', 'Vocabulary', 'het meisje', 'دختربچه', 'het'),
+    de: mk('sample_de_neuter', 'de', 'Vocabulary', 'das Mädchen', 'دختربچه', 'das'),
+    en: mk('sample_en_time', 'en', 'Sentence', 'We do not work on Monday', 'ما دوشنبه کار نمی‌کنیم'),
+    fa: mk('sample_fa_ra', 'fa', 'Sentence', 'من کتاب را نمی‌خوانم', 'I am not reading the book'),
+  };
+  // نمونهٔ جمله (جای فعل، فعل دوتکه، جملهٔ وابسته)
+  const SAMPLE_SENTENCE: Record<string, LanguageCard> = {
+    nl: mk('sample_nl_sep', 'nl', 'Sentence', 'Ik bel je morgen op', 'فردا بهت زنگ می‌زنم'),
+    de: mk('sample_de_nebensatz', 'de', 'Sentence', 'Ich lerne Deutsch, weil ich in Berlin wohne', 'من آلمانی یاد می‌گیرم چون در برلین زندگی می‌کنم'),
+    en: mk('sample_en_question', 'en', 'Sentence', 'Do you work at six?', 'ساعت شش کار می‌کنی؟'),
+    fa: mk('sample_fa_clause', 'fa', 'Sentence', 'اگر وقت داشته باشم می‌آیم', 'If I have time, I will come'),
+  };
+  const sampleCard = SAMPLE_WORD[selectedLang] || SAMPLE_WORD.nl;
+  const sampleSentenceCard = SAMPLE_SENTENCE[selectedLang] || SAMPLE_SENTENCE.nl;
+  const LANG_TABS: Array<{ code: Language; label: string; fa: string; en: string }> = [
+    { code: 'nl' as Language, label: '🇳🇱 Nederlands', fa: 'هلندی', en: 'Dutch' },
+    { code: 'de' as Language, label: '🇩🇪 Deutsch', fa: 'آلمانی', en: 'German' },
+    { code: 'en' as Language, label: '🇬🇧 English', fa: 'انگلیسی', en: 'English' },
+    { code: 'fa' as Language, label: '🇮🇷 فارسی', fa: 'فارسی', en: 'Persian' },
+  ];
+  const langName = LANG_TABS.find((x) => x.code === selectedLang) || LANG_TABS[0];
 
   const aids = getAidsForLanguage(selectedLang);
   const stats = getBicycleTrainingStats(selectedLang, currentCefr as CEFRLevel);
@@ -117,28 +88,21 @@ export const TrainingWheelsHelpSection: React.FC<TrainingWheelsHelpSectionProps>
 
         {/* Language switch between Dutch and German */}
         <div className="flex items-center gap-1.5 bg-neutral-200 dark:bg-neutral-800 p-1 rounded-lg">
-          <button
-            type="button"
-            onClick={() => setSelectedLang('nl')}
-            className={`px-3 py-1 rounded text-xs font-bold transition-all ${
-              selectedLang === 'nl'
-                ? 'bg-white dark:bg-neutral-700 shadow text-indigo-600 dark:text-indigo-300'
-                : 'text-neutral-600 dark:text-neutral-400'
-            }`}
-          >
-            🇳🇱 Nederlands
-          </button>
-          <button
-            type="button"
-            onClick={() => setSelectedLang('de')}
-            className={`px-3 py-1 rounded text-xs font-bold transition-all ${
-              selectedLang === 'de'
-                ? 'bg-white dark:bg-neutral-700 shadow text-indigo-600 dark:text-indigo-300'
-                : 'text-neutral-600 dark:text-neutral-400'
-            }`}
-          >
-            🇩🇪 Deutsch
-          </button>
+          {LANG_TABS.map((tab) => (
+            <button
+              key={tab.code}
+              type="button"
+              data-testid={`training-wheels-lang-${tab.code}`}
+              onClick={() => setSelectedLang(tab.code)}
+              className={`px-3 py-1 rounded text-xs font-bold transition-all ${
+                selectedLang === tab.code
+                  ? 'bg-white dark:bg-neutral-700 shadow text-indigo-600 dark:text-indigo-300'
+                  : 'text-neutral-600 dark:text-neutral-400'
+              }`}
+            >
+              {tab.label}
+            </button>
+          ))}
         </div>
       </div>
 
@@ -212,12 +176,23 @@ export const TrainingWheelsHelpSection: React.FC<TrainingWheelsHelpSectionProps>
         </div>
       </div>
 
+      {/* نمونهٔ جمله: نشانه‌های دستوری (هر کارت حداکثر دو کمک) */}
+      <div data-testid="training-wheels-sentence-sample" className="rounded-xl border border-neutral-200 dark:border-neutral-700 p-3 flex flex-col items-center gap-2 text-center">
+        <span className="text-xs font-bold text-neutral-500 dark:text-neutral-400">
+          {tx(isRtl, 'نمونهٔ جمله: هر کارت حداکثر دو نشانه دارد', 'Sentence sample: at most two marks per card')}
+        </span>
+        <span className="text-lg font-black">
+          <TrainingWheelText card={sampleSentenceCard} stage={0} uiLanguage={uiLanguage} />
+        </span>
+        <span className="text-xs text-neutral-500 dark:text-neutral-400">{sampleSentenceCard.translation}</span>
+      </div>
+
       {/* List of Individual Training Wheels (Aids) with Toggles and Progress Bars */}
       <div className="flex flex-col gap-3">
         <h3 className="text-base font-black flex items-center gap-2">
           <span>⚙️</span>
           <span>
-            {txt(isRtl, 'تنظیمات چرخ‌های کمکی برای زبان {1}:', 'Training Wheels Configuration for {0}:', [selectedLang === 'nl' ? 'Dutch' : 'German', selectedLang === 'nl' ? 'هلندی' : 'آلمانی'])}
+            {txt(isRtl, 'تنظیمات چرخ‌های کمکی برای زبان {1}:', 'Training Wheels Configuration for {0}:', [langName.en, langName.fa])}
           </span>
         </h3>
 

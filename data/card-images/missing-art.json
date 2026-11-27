@@ -1,0 +1,694 @@
+[
+ {
+  "word": "cinema",
+  "cards": 2
+ },
+ {
+  "word": "ship",
+  "cards": 2
+ },
+ {
+  "word": "volleyball",
+  "cards": 2
+ },
+ {
+  "word": "chess",
+  "cards": 2
+ },
+ {
+  "word": "cream",
+  "cards": 2
+ },
+ {
+  "word": "two",
+  "cards": 2
+ },
+ {
+  "word": "gap",
+  "cards": 2
+ },
+ {
+  "word": "forest",
+  "cards": 1
+ },
+ {
+  "word": "airplane",
+  "cards": 1
+ },
+ {
+  "word": "basketball",
+  "cards": 1
+ },
+ {
+  "word": "samovar",
+  "cards": 1
+ },
+ {
+  "word": "animation",
+  "cards": 1
+ },
+ {
+  "word": "flask",
+  "cards": 1
+ },
+ {
+  "word": "shampoo",
+  "cards": 1
+ },
+ {
+  "word": "hairdryer",
+  "cards": 1
+ },
+ {
+  "word": "closet",
+  "cards": 1
+ },
+ {
+  "word": "fork",
+  "cards": 1
+ },
+ {
+  "word": "telephone",
+  "cards": 1
+ },
+ {
+  "word": "bulb",
+  "cards": 1
+ },
+ {
+  "word": "eraser",
+  "cards": 1
+ },
+ {
+  "word": "freezer",
+  "cards": 1
+ },
+ {
+  "word": "leopard",
+  "cards": 1
+ },
+ {
+  "word": "dishwasher",
+  "cards": 1
+ },
+ {
+  "word": "vacuum",
+  "cards": 1
+ },
+ {
+  "word": "pad",
+  "cards": 1
+ },
+ {
+  "word": "fan",
+  "cards": 1
+ },
+ {
+  "word": "heater",
+  "cards": 1
+ },
+ {
+  "word": "iron",
+  "cards": 1
+ },
+ {
+  "word": "skewer",
+  "cards": 1
+ },
+ {
+  "word": "flatbread",
+  "cards": 1
+ },
+ {
+  "word": "alfredo",
+  "cards": 1
+ },
+ {
+  "word": "chips",
+  "cards": 1
+ },
+ {
+  "word": "king",
+  "cards": 1
+ },
+ {
+  "word": "goldfish",
+  "cards": 1
+ },
+ {
+  "word": "rattlesnake",
+  "cards": 1
+ },
+ {
+  "word": "dentist",
+  "cards": 1
+ },
+ {
+  "word": "pool",
+  "cards": 1
+ },
+ {
+  "word": "motorboat",
+  "cards": 1
+ },
+ {
+  "word": "tennis",
+  "cards": 1
+ },
+ {
+  "word": "wrestling",
+  "cards": 1
+ },
+ {
+  "word": "concert",
+  "cards": 1
+ },
+ {
+  "word": "clothing",
+  "cards": 1
+ },
+ {
+  "word": "shy",
+  "cards": 1
+ },
+ {
+  "word": "impossible",
+  "cards": 1
+ },
+ {
+  "word": "mission",
+  "cards": 1
+ },
+ {
+  "word": "head",
+  "cards": 1
+ },
+ {
+  "word": "hand",
+  "cards": 1
+ },
+ {
+  "word": "eye",
+  "cards": 1
+ },
+ {
+  "word": "foot",
+  "cards": 1
+ },
+ {
+  "word": "fruit",
+  "cards": 1
+ },
+ {
+  "word": "vegetable",
+  "cards": 1
+ },
+ {
+  "word": "thirsty",
+  "cards": 1
+ },
+ {
+  "word": "come",
+  "cards": 1
+ },
+ {
+  "word": "go",
+  "cards": 1
+ },
+ {
+  "word": "see",
+  "cards": 1
+ },
+ {
+  "word": "know",
+  "cards": 1
+ },
+ {
+  "word": "want",
+  "cards": 1
+ },
+ {
+  "word": "need",
+  "cards": 1
+ },
+ {
+  "word": "help",
+  "cards": 1
+ },
+ {
+  "word": "one",
+  "cards": 1
+ },
+ {
+  "word": "three",
+  "cards": 1
+ },
+ {
+  "word": "ten",
+  "cards": 1
+ },
+ {
+  "word": "twenty",
+  "cards": 1
+ },
+ {
+  "word": "hundred",
+  "cards": 1
+ },
+ {
+  "word": "morning",
+  "cards": 1
+ },
+ {
+  "word": "afternoon",
+  "cards": 1
+ },
+ {
+  "word": "evening",
+  "cards": 1
+ },
+ {
+  "word": "burger",
+  "cards": 1
+ },
+ {
+  "word": "socks",
+  "cards": 1
+ },
+ {
+  "word": "coat",
+  "cards": 1
+ },
+ {
+  "word": "skirt",
+  "cards": 1
+ },
+ {
+  "word": "jeans",
+  "cards": 1
+ },
+ {
+  "word": "hair",
+  "cards": 1
+ },
+ {
+  "word": "face",
+  "cards": 1
+ },
+ {
+  "word": "arm",
+  "cards": 1
+ },
+ {
+  "word": "leg",
+  "cards": 1
+ },
+ {
+  "word": "mouth",
+  "cards": 1
+ },
+ {
+  "word": "city",
+  "cards": 1
+ },
+ {
+  "word": "village",
+  "cards": 1
+ },
+ {
+  "word": "bridge",
+  "cards": 1
+ },
+ {
+  "word": "work",
+  "cards": 1
+ },
+ {
+  "word": "new",
+  "cards": 1
+ },
+ {
+  "word": "old",
+  "cards": 1
+ },
+ {
+  "word": "four",
+  "cards": 1
+ },
+ {
+  "word": "five",
+  "cards": 1
+ },
+ {
+  "word": "six",
+  "cards": 1
+ },
+ {
+  "word": "seven",
+  "cards": 1
+ },
+ {
+  "word": "eight",
+  "cards": 1
+ },
+ {
+  "word": "nine",
+  "cards": 1
+ },
+ {
+  "word": "thirty",
+  "cards": 1
+ },
+ {
+  "word": "fifty",
+  "cards": 1
+ },
+ {
+  "word": "thousand",
+  "cards": 1
+ },
+ {
+  "word": "january",
+  "cards": 1
+ },
+ {
+  "word": "february",
+  "cards": 1
+ },
+ {
+  "word": "march",
+  "cards": 1
+ },
+ {
+  "word": "april",
+  "cards": 1
+ },
+ {
+  "word": "may",
+  "cards": 1
+ },
+ {
+  "word": "june",
+  "cards": 1
+ },
+ {
+  "word": "july",
+  "cards": 1
+ },
+ {
+  "word": "august",
+  "cards": 1
+ },
+ {
+  "word": "september",
+  "cards": 1
+ },
+ {
+  "word": "october",
+  "cards": 1
+ },
+ {
+  "word": "november",
+  "cards": 1
+ },
+ {
+  "word": "december",
+  "cards": 1
+ },
+ {
+  "word": "classroom",
+  "cards": 1
+ },
+ {
+  "word": "wind",
+  "cards": 1
+ },
+ {
+  "word": "river",
+  "cards": 1
+ },
+ {
+  "word": "bathroom",
+  "cards": 1
+ },
+ {
+  "word": "sell",
+  "cards": 1
+ },
+ {
+  "word": "medium",
+  "cards": 1
+ },
+ {
+  "word": "music",
+  "cards": 1
+ },
+ {
+  "word": "dancing",
+  "cards": 1
+ },
+ {
+  "word": "cooking",
+  "cards": 1
+ },
+ {
+  "word": "now",
+  "cards": 1
+ },
+ {
+  "word": "later",
+  "cards": 1
+ },
+ {
+  "word": "always",
+  "cards": 1
+ },
+ {
+  "word": "sometimes",
+  "cards": 1
+ },
+ {
+  "word": "capital",
+  "cards": 1
+ },
+ {
+  "word": "netherlands",
+  "cards": 1
+ },
+ {
+  "word": "germany",
+  "cards": 1
+ },
+ {
+  "word": "france",
+  "cards": 1
+ },
+ {
+  "word": "spain",
+  "cards": 1
+ },
+ {
+  "word": "italy",
+  "cards": 1
+ },
+ {
+  "word": "england",
+  "cards": 1
+ },
+ {
+  "word": "iran",
+  "cards": 1
+ },
+ {
+  "word": "english",
+  "cards": 1
+ },
+ {
+  "word": "dutch",
+  "cards": 1
+ },
+ {
+  "word": "persian",
+  "cards": 1
+ },
+ {
+  "word": "child",
+  "cards": 1
+ },
+ {
+  "word": "man",
+  "cards": 1
+ },
+ {
+  "word": "woman",
+  "cards": 1
+ },
+ {
+  "word": "people",
+  "cards": 1
+ },
+ {
+  "word": "ok",
+  "cards": 1
+ },
+ {
+  "word": "maybe",
+  "cards": 1
+ },
+ {
+  "word": "and",
+  "cards": 1
+ },
+ {
+  "word": "or",
+  "cards": 1
+ },
+ {
+  "word": "but",
+  "cards": 1
+ },
+ {
+  "word": "because",
+  "cards": 1
+ },
+ {
+  "word": "near",
+  "cards": 1
+ },
+ {
+  "word": "far",
+  "cards": 1
+ },
+ {
+  "word": "closed",
+  "cards": 1
+ },
+ {
+  "word": "free",
+  "cards": 1
+ },
+ {
+  "word": "busy",
+  "cards": 1
+ },
+ {
+  "word": "easy",
+  "cards": 1
+ },
+ {
+  "word": "difficult",
+  "cards": 1
+ },
+ {
+  "word": "slow",
+  "cards": 1
+ },
+ {
+  "word": "listen",
+  "cards": 1
+ },
+ {
+  "word": "open",
+  "cards": 1
+ },
+ {
+  "word": "close",
+  "cards": 1
+ },
+ {
+  "word": "big",
+  "cards": 1
+ },
+ {
+  "word": "small",
+  "cards": 1
+ },
+ {
+  "word": "cold",
+  "cards": 1
+ },
+ {
+  "word": "today",
+  "cards": 1
+ },
+ {
+  "word": "red",
+  "cards": 1
+ },
+ {
+  "word": "blue",
+  "cards": 1
+ },
+ {
+  "word": "yellow",
+  "cards": 1
+ },
+ {
+  "word": "black",
+  "cards": 1
+ },
+ {
+  "word": "white",
+  "cards": 1
+ },
+ {
+  "word": "trousers",
+  "cards": 1
+ },
+ {
+  "word": "cookie",
+  "cards": 1
+ },
+ {
+  "word": "mountain",
+  "cards": 1
+ },
+ {
+  "word": "sea",
+  "cards": 1
+ },
+ {
+  "word": "swimming",
+  "cards": 1
+ },
+ {
+  "word": "notebook",
+  "cards": 1
+ },
+ {
+  "word": "chocolate",
+  "cards": 1
+ },
+ {
+  "word": "sandwich",
+  "cards": 1
+ },
+ {
+  "word": "conviviality",
+  "cards": 1
+ },
+ {
+  "word": "running",
+  "cards": 1
+ },
+ {
+  "word": "bullet",
+  "cards": 1
+ },
+ {
+  "word": "beans",
+  "cards": 1
+ },
+ {
+  "word": "collaboration",
+  "cards": 1
+ },
+ {
+  "word": "breeze",
+  "cards": 1
+ },
+ {
+  "word": "findings",
+  "cards": 1
+ }
+]

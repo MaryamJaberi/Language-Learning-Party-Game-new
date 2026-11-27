@@ -23,7 +23,8 @@ export default function CardScene({ sceneKey, className = '' }: { sceneKey?: str
     return () => { alive = false; };
   }, [sceneKey]);
 
-  if (!scene) return null;
+  // none = عمداً بدون تصویر (تصویر بی‌ربط بدتر از بی‌تصویری است)
+  if (!scene || 'none' in scene) return null;
   if ('lex' in scene) {
     const entry = allEntries().find((e) => e.id === scene.lex);
     if (!entry) return null;

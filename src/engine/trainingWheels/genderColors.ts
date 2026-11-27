@@ -34,7 +34,7 @@ export const GENDER_VISUAL_MAP: Record<GrammaticalGender, GenderVisualConfig> = 
   feminine: {
     gender: 'feminine',
     color: '#F59E0B', // Saffron
-    textColor: 'text-amber-600 dark:text-amber-400',
+    textColor: 'text-amber-700 dark:text-amber-400', // روی زمینهٔ روشن تیره‌تر، تا خوانا باشد
     bgColor: 'bg-amber-500/15 text-amber-700 dark:text-amber-300',
     borderColor: 'border-amber-500',
     shape: 'circle',
