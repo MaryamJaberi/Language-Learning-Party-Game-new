@@ -9,11 +9,14 @@ import android.os.Build;
 import android.Manifest;
 import android.content.pm.PackageManager;
 import android.annotation.TargetApi;
+import android.speech.tts.TextToSpeech;
+import android.speech.tts.UtteranceProgressListener;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowInsets;
 import android.webkit.DownloadListener;
+import android.webkit.JavascriptInterface;
 import android.webkit.PermissionRequest;
 import android.webkit.WebChromeClient;
 import android.webkit.WebResourceError;
@@ -24,10 +27,13 @@ import android.webkit.WebViewClient;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class MainActivity extends Activity {
     private WebView webView;
     private PermissionRequest pendingWebPermissionRequest;
+    private TextToSpeech textToSpeech;
+    private volatile boolean ttsReady = false;
     private static final int PERMISSION_REQUEST_CODE = 101;
     private static final String APP_URL = BuildConfig.APP_URL;
 
@@ -67,11 +73,109 @@ public class MainActivity extends Activity {
         }
     }
 
+    private class AndroidTTSBridge {
+        @JavascriptInterface
+        public boolean isAvailable() {
+            return textToSpeech != null && ttsReady;
+        }
+
+        @JavascriptInterface
+        public boolean speak(final String text, final String bcp47, final float rate) {
+            if (textToSpeech == null || !ttsReady || text == null || text.trim().isEmpty()) {
+                return false;
+            }
+            try {
+                String tag = (bcp47 != null && !bcp47.trim().isEmpty()) ? bcp47.trim() : "en-US";
+                Locale locale = Locale.forLanguageTag(tag);
+                int langResult = textToSpeech.setLanguage(locale);
+                if (langResult == TextToSpeech.LANG_MISSING_DATA || langResult == TextToSpeech.LANG_NOT_SUPPORTED) {
+                    String langOnly = tag.split("[-_]")[0];
+                    textToSpeech.setLanguage(new Locale(langOnly));
+                }
+                float clampedRate = Math.max(0.5f, Math.min(1.5f, rate > 0 ? rate : 0.9f));
+                textToSpeech.setSpeechRate(clampedRate);
+                String utteranceId = "dour_tts_" + System.currentTimeMillis();
+                int res = textToSpeech.speak(text.trim(), TextToSpeech.QUEUE_FLUSH, null, utteranceId);
+                return res == TextToSpeech.SUCCESS;
+            } catch (Exception e) {
+                return false;
+            }
+        }
+
+        @JavascriptInterface
+        public void stop() {
+            try {
+                if (textToSpeech != null) {
+                    textToSpeech.stop();
+                }
+            } catch (Exception ignored) {}
+        }
+    }
+
+    private void initNativeTts() {
+        try {
+            textToSpeech = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
+                @Override
+                public void onInit(int status) {
+                    ttsReady = (status == TextToSpeech.SUCCESS);
+                    if (ttsReady && textToSpeech != null) {
+                        textToSpeech.setOnUtteranceProgressListener(new UtteranceProgressListener() {
+                            @Override
+                            public void onStart(String utteranceId) {}
+
+                            @Override
+                            public void onDone(String utteranceId) {
+                                notifyJsTtsDone();
+                            }
+
+                            @Override
+                            public void onError(String utteranceId) {
+                                notifyJsTtsDone();
+                            }
+                        });
+                    }
+                }
+            });
+        } catch (Exception ignored) {
+            ttsReady = false;
+        }
+    }
+
+    private void notifyJsTtsDone() {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if (webView != null) {
+                    try {
+                        webView.evaluateJavascript("window.__dourOnAndroidTtsDone && window.__dourOnAndroidTtsDone()", null);
+                    } catch (Exception ignored) {}
+                }
+            }
+        });
+    }
+
+    private void pauseAudioAndWebView() {
+        try {
+            if (textToSpeech != null) {
+                textToSpeech.stop();
+            }
+        } catch (Exception ignored) {}
+        if (webView != null) {
+            try {
+                webView.evaluateJavascript("window.__dourOnAppPause && window.__dourOnAppPause()", null);
+            } catch (Exception ignored) {}
+            webView.onPause();
+            webView.pauseTimers();
+        }
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         requestWindowFeature(Window.FEATURE_NO_TITLE);
+
+        initNativeTts();
 
         webView = new WebView(this);
         setContentView(webView);
@@ -109,6 +213,9 @@ public class MainActivity extends Activity {
         settings.setBuiltInZoomControls(false);
         settings.setSupportMultipleWindows(true);
         settings.setCacheMode(WebSettings.LOAD_DEFAULT);
+
+        // Expose native Android TextToSpeech bridge to the web app
+        webView.addJavascriptInterface(new AndroidTTSBridge(), "AndroidTTS");
 
         // On-demand microphone permission for pronunciation practice (origin-validated)
         webView.setWebChromeClient(new WebChromeClient() {
@@ -295,16 +402,24 @@ public class MainActivity extends Activity {
     protected void onResume() {
         super.onResume();
         if (webView != null) {
+            webView.resumeTimers();
             webView.onResume();
+            try {
+                webView.evaluateJavascript("window.__dourOnAppResume && window.__dourOnAppResume()", null);
+            } catch (Exception ignored) {}
         }
     }
 
     @Override
     protected void onPause() {
-        if (webView != null) {
-            webView.onPause();
-        }
+        pauseAudioAndWebView();
         super.onPause();
+    }
+
+    @Override
+    protected void onStop() {
+        pauseAudioAndWebView();
+        super.onStop();
     }
 
     @Override
@@ -312,6 +427,14 @@ public class MainActivity extends Activity {
         if (pendingWebPermissionRequest != null) {
             pendingWebPermissionRequest.deny();
             pendingWebPermissionRequest = null;
+        }
+        if (textToSpeech != null) {
+            try {
+                textToSpeech.stop();
+                textToSpeech.shutdown();
+            } catch (Exception ignored) {}
+            textToSpeech = null;
+            ttsReady = false;
         }
         if (webView != null) {
             webView.destroy();

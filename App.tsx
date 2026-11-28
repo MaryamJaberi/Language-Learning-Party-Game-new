@@ -261,13 +261,14 @@ const App: React.FC = () => {
 
   useEffect(() => {
     const isSoundOn = settings.soundEnabled ?? true;
-    sound.setSoundEnabled(isSoundOn);
-    const isGameScreen = ['GAME', 'SINGLE_PLAYER', 'DUEL_GAME', 'ONLINE_GAME', 'ONLINE_DUEL'].includes(currentScreen);
-    
-    // Automatically lower/duck background music volume when entering game screen
-    sound.setBgmDucking(isGameScreen);
+    const isIntroScreen = currentScreen === 'INTRO';
 
-    if (isSoundOn) {
+    // Background music plays ONLY on the first screen (Intro)
+    sound.setBgmAllowed(isIntroScreen);
+    sound.setSoundEnabled(isSoundOn);
+    sound.setBgmDucking(false);
+
+    if (isSoundOn && isIntroScreen && !(typeof document !== 'undefined' && document.hidden)) {
       sound.startMenuBGM();
     } else {
       sound.stopBGM();

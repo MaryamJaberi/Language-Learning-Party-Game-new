@@ -8,7 +8,7 @@ import { Place, W, H } from './places';
 import { SceneContent } from './Scene';
 
 /** تصویر مربعی یک واژهٔ دیکشنری (۱۲۰×۱۲۰). */
-export default function LexThumb({ visual, className = '', title }: { visual: Visual; className?: string; title?: string }) {
+const LexThumb: React.FC<{ visual: Visual; className?: string; title?: string }> = ({ visual, className = '', title }) => {
   let body: React.ReactNode = null;
   switch (visual.kind) {
     case 'person': {
@@ -80,4 +80,6 @@ export default function LexThumb({ visual, className = '', title }: { visual: Vi
       </g>
     </svg>
   );
-}
+};
+
+export default LexThumb;

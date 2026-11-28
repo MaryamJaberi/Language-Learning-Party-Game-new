@@ -8,7 +8,10 @@ describe('Sound System and Audio Synthesizer Verification', () => {
   });
 
   afterEach(() => {
+    sound.setBgmAllowed(true);
+    sound.resumeFromBackground();
     sound.stopBGM();
+    delete (window as any).AndroidTTS;
   });
 
   test('AudioContext initializes correctly and provides valid context', () => {
@@ -151,5 +154,70 @@ describe('Sound System and Audio Synthesizer Verification', () => {
     } finally {
       (window as any).speechSynthesis = originalSpeech;
     }
+  });
+
+  test('BGM only plays when bgmAllowed is true (Intro screen) and stays off on other screens', () => {
+    sound.setBgmAllowed(true);
+    sound.startMenuBGM();
+    expect((sound as any).currentBgmMode).toBe('menu');
+
+    // Leaving Intro screen immediately stops BGM
+    sound.setBgmAllowed(false);
+    expect((sound as any).currentBgmMode).toBe('none');
+
+    // Trying to start BGM or unmuting on a non-Intro screen does NOT restart BGM
+    sound.startMenuBGM();
+    expect((sound as any).currentBgmMode).toBe('none');
+    sound.setMuted(true);
+    sound.setMuted(false);
+    expect((sound as any).currentBgmMode).toBe('none');
+  });
+
+  test('App going to background immediately pauses BGM and stops speech, resuming only on Intro', () => {
+    sound.setBgmAllowed(true);
+    sound.startMenuBGM();
+    expect((sound as any).currentBgmMode).toBe('menu');
+
+    // App goes to background
+    sound.pauseForBackground();
+    expect((sound as any).currentBgmMode).toBe('none');
+
+    // App returns to foreground while on Intro -> resumes menu BGM
+    sound.resumeFromBackground();
+    expect((sound as any).currentBgmMode).toBe('menu');
+
+    // App goes to background, screen changes away from Intro, app returns -> stays silent
+    sound.pauseForBackground();
+    sound.setBgmAllowed(false);
+    sound.resumeFromBackground();
+    expect((sound as any).currentBgmMode).toBe('none');
+  });
+
+  test('Native AndroidTTS bridge is used for pronunciation when available and fires callbacks', () => {
+    const mockSpeak = vi.fn(() => true);
+    const mockStop = vi.fn();
+    (window as any).AndroidTTS = {
+      isAvailable: vi.fn(() => true),
+      speak: mockSpeak,
+      stop: mockStop
+    };
+
+    const onStart = vi.fn();
+    const onEnd = vi.fn();
+
+    // Works even if BGM/SFX is muted
+    sound.setMuted(true);
+    sound.speakTargetPhrase('Goedemorgen', 'nl', { onStart, onEnd });
+
+    expect(mockSpeak).toHaveBeenCalledWith('Goedemorgen', 'nl-NL', 0.9);
+    expect(onStart).toHaveBeenCalledTimes(1);
+
+    // Native Android callback signals speech completion
+    (window as any).__dourOnAndroidTtsDone();
+    expect(onEnd).toHaveBeenCalledTimes(1);
+
+    // Slow speech uses 0.68 rate
+    sound.speakSlow('Guten Morgen', 'de');
+    expect(mockSpeak).toHaveBeenCalledWith('Guten Morgen', 'de-DE', 0.68);
   });
 });
